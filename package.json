@@ -1,0 +1,41 @@
+{
+  "name": "@dikotech/basic",
+  "version": "0.0.1",
+  "description": "Basic Javascript helpers",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup --config"
+  },
+  "files": [
+    "dist/esm/*",
+    "dist/umd/*",
+    "dist/cjs/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diko316/dikotech-basic.git"
+  },
+  "keywords": [
+    "NodeJS",
+    "core",
+    "basic",
+    "Javascript"
+  ],
+  "author": "Diko Tech Slave",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diko316/dikotech-basic/issues"
+  },
+  "homepage": "https://github.com/diko316/dikotech-basic#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-terser": "^5.2.0"
+  }
+}
