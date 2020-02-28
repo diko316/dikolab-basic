@@ -1,8 +1,8 @@
 export {
-  isObject,
   isString,
   isNumber,
   isBoolean,
+  isNumeric,
   isScalar,
   isDate,
   isRegExp,
@@ -10,4 +10,4 @@ export {
   isArray,
   isFunction,
   isPromise
-} from './object';
+} from "./object";

@@ -1,18 +1,7 @@
-import pluginNodeResolve from './node-resolve.plugin';
-import pluginCommonjs from './commonjs.plugin';
-import pluginBabel from './babel.plugin';
-import pluginTerser from './terser.plugin';
-
-
-const PLUGIN_REFERENCE = {
-  'node-resolve': pluginNodeResolve,
-  'commonjs': pluginCommonjs,
-  'babel': pluginBabel,
-  'terser': pluginTerser
-};
+import pluginReference from "./plugin/index";
 
 export default function applyPlugin(config, plugins) {
-  const pluginReference = PLUGIN_REFERENCE;
+  const reference = pluginReference;
 
   let setupPlugins = config.plugins;
 
@@ -26,12 +15,12 @@ export default function applyPlugin(config, plugins) {
       let pluginName = config;
       let options = null;
 
-      if (typeof config !== 'string') {
+      if (typeof config !== "string") {
         pluginName = config.name;
         options = config.options || null;
       }
 
-      setupPlugins[c] = pluginReference[pluginName](
+      setupPlugins[c] = reference[pluginName](
         options,
         config
       );

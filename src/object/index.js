@@ -2,6 +2,7 @@ export {
   isString,
   isNumber,
   isBoolean,
+  isNumeric,
   isScalar,
   isDate,
   isRegExp,
@@ -9,4 +10,4 @@ export {
   isArray,
   isFunction,
   isPromise
-} from './type';
+} from "./type";

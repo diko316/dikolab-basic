@@ -1,54 +1,72 @@
 const TO_STRING = Object.prototype.toString;
-const OBJECT_SIGNATURE = '[object Object]';
+const OBJECT_SIGNATURE = "[object Object]";
+const TYPE_NUMBER = "number";
+const TYPE_STRING = "string";
+const TYPE_BOOLEAN = "boolean";
 
 export function isString(subject) {
-  return typeof subject === 'string';
+  return typeof subject === TYPE_STRING;
 }
 
 export function isNumber(subject) {
-  return typeof subject === 'number' && isFinite(subject);
+  return typeof subject === TYPE_NUMBER && isFinite(subject);
 }
 
 export function isBoolean(subject) {
-  return typeof subject === 'boolean';
+  return typeof subject === TYPE_BOOLEAN;
+}
+
+export function isNumeric(subject) {
+  let result = subject;
+
+  switch (typeof result) {
+  case TYPE_STRING:
+    result = parseInt(result, 10);
+
+  // falls through
+  case TYPE_NUMBER:
+    return isFinite(result);
+  }
+
+  return false;
 }
 
 export function isScalar(subject) {
   switch (typeof subject) {
-    case 'string':
-    case 'boolean': return true;
+  case TYPE_STRING:
+  case TYPE_BOOLEAN: return true;
 
-    case 'number': return isFinite(subject);
+  case TYPE_NUMBER: return isFinite(subject);
   }
 
   return false;
 }
 
 export function isDate(subject) {
-  return TO_STRING.call(subject) === '[object Date]';
+  return TO_STRING.call(subject) === "[object Date]";
 }
 
 export function isRegExp(subject) {
-  return TO_STRING.call(subject) === '[object RegExp]';
+  return TO_STRING.call(subject) === "[object RegExp]";
 }
 
 export function isObject(subject) {
-  return TO_STRING.call(subject) === OBJECT_SIGNATURE;
+  return subject !== null && TO_STRING.call(subject) === OBJECT_SIGNATURE;
 }
 
 export function isFunction(subject) {
-  return TO_STRING.call(subject) === '[object Function]';
+  return TO_STRING.call(subject) === "[object Function]";
 }
 
 export function isArray(subject) {
-  return TO_STRING.call(subject) === '[object Array]';
+  return TO_STRING.call(subject) === "[object Array]";
 }
 
 export function isPromise(subject) {
   switch (TO_STRING.call(subject)) {
-    case OBJECT_SIGNATURE: return isFunction(subject.then);
+  case OBJECT_SIGNATURE: return subject !== null && isFunction(subject.then);
 
-    case '[object Promise]': return true;
+  case "[object Promise]": return true;
   }
 
   return false;

@@ -1,9 +1,9 @@
-import settings from './package.json';
-import applyPlugin from './rollup/apply-plugin';
+import settings from "./package.json";
+import applyPlugin from "./rollup/apply-plugin";
 
-const OUTPUT_DIR = 'dist';
-const ENTRY_FILE = 'src/index.js';
-const MODULE_NAME = settings.name.replace(/\@[^\/]+\//, '');
+const OUTPUT_DIR = "dist";
+const ENTRY_FILE = "src/index.js";
+const MODULE_NAME = settings.name.replace(/@[^/]+\//, "");
 
 export default [
   applyPlugin(
@@ -13,14 +13,22 @@ export default [
         file: `${OUTPUT_DIR}/umd/${MODULE_NAME}.js`,
         format: "umd",
         name: "basic",
-        esModule: false
+        esModule: false,
+        sourcemap: true
       }
     },
     [
-      'node-resolve',
-      'commonjs',
-      'babel',
-      'terser'
+      "eslint",
+      {
+        name: "delete",
+        options: {
+          targets: "dist/umd/*"
+        }
+      },
+      "node-resolve",
+      "commonjs",
+      "buble",
+      "terser"
     ]
   ),
   applyPlugin(
@@ -28,13 +36,21 @@ export default [
       input: ENTRY_FILE,
       output: {
         dir: `${OUTPUT_DIR}/esm`,
-        format: "esm"
+        format: "esm",
+        sourcemap: true
       }
     },
     [
-      'node-resolve',
-      'commonjs',
-      'babel'
+      "eslint",
+      {
+        name: "delete",
+        options: {
+          targets: "dist/esm/*"
+        }
+      },
+      "node-resolve",
+      "commonjs",
+      "buble"
     ]
   ),
   applyPlugin(
@@ -42,26 +58,43 @@ export default [
       input: ENTRY_FILE,
       output: {
         dir: `${OUTPUT_DIR}/cjs`,
-        format: "cjs"
+        format: "cjs",
+        sourcemap: true
       }
     },
     [
-      'node-resolve',
-      'commonjs',
-      'babel'
+      "eslint",
+      {
+        name: "delete",
+        options: {
+          targets: "dist/cjs/*"
+        }
+      },
+      "node-resolve",
+      "commonjs",
+      "buble"
     ]
   ),
-  applyPlugin({
+  applyPlugin(
+    {
       input: ENTRY_FILE,
       output: {
         dir: `${OUTPUT_DIR}/system`,
-        format: "system"
+        format: "system",
+        sourcemap: true
       }
     },
     [
-      'node-resolve',
-      'commonjs',
-      'babel'
+      "eslint",
+      {
+        name: "delete",
+        options: {
+          targets: "dist/system/*"
+        }
+      },
+      "node-resolve",
+      "commonjs",
+      "buble"
     ]
   )
 ];

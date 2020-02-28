@@ -1,0 +1,7 @@
+node_modules/**/*.js
+
+dist/**/*.js
+rollup/**/*.js
+src/**/*.test.js
+
+rollup.config.js

@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel';
+import babel from "rollup-plugin-babel";
 
 export default function apply(options) {
   let newOptions = options;
@@ -8,7 +8,7 @@ export default function apply(options) {
   }
 
   if (!newOptions.exclude) {
-    newOptions.exclude = 'node_modules/**'; // only transpile our source code
+    newOptions.exclude = "node_modules/**"; // only transpile our source code
   }
 
   return babel(newOptions);
