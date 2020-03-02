@@ -1,19 +1,24 @@
+import {
+  TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BOOLEAN
+} from "../object";
 
 export function numberify(subject, defaultValue = 0) {
   let value = subject;
 
   switch (typeof value) {
-  case "string":
+  case TYPE_STRING:
     value = parseFloat(value);
 
   // falls through
-  case "number":
+  case TYPE_NUMBER:
     if (isFinite(value)) {
       return value;
     }
     break;
 
-  case "boolean":
+  case TYPE_BOOLEAN:
     return value ? 1 : 0;
   }
 
