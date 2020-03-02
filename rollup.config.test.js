@@ -1,13 +1,11 @@
 import applyPlugin from "./rollup/apply-plugin";
 
-const OUTPUT_DIR = "dist";
-
 export default [
   applyPlugin(
     {
       input: "src/**/*.test.js",
       output: {
-        file: `${OUTPUT_DIR}/test/mocha-feed.js`,
+        file: `test/mocha-feed.js`,
         format: "cjs",
         sourcemap: true,
         globals: {
@@ -23,7 +21,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "dist/cjs/*"
+          targets: "test/*"
         }
       },
       "node-resolve",

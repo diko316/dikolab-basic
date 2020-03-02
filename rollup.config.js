@@ -1,7 +1,6 @@
 import settings from "./package.json";
 import applyPlugin from "./rollup/apply-plugin";
 
-const OUTPUT_DIR = "dist";
 const ENTRY_FILE = "src/index.js";
 const MODULE_NAME = settings.name.replace(/@[^/]+\//, "");
 
@@ -10,7 +9,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        file: `${OUTPUT_DIR}/umd/${MODULE_NAME}.js`,
+        file: `umd/${MODULE_NAME}.js`,
         format: "umd",
         name: "basic",
         esModule: false,
@@ -22,7 +21,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "dist/umd/*"
+          targets: "umd/*"
         }
       },
       "node-resolve",
@@ -35,7 +34,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        dir: `${OUTPUT_DIR}/esm`,
+        dir: `esm`,
         format: "esm",
         sourcemap: true
       }
@@ -45,7 +44,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "dist/esm/*"
+          targets: "esm/*"
         }
       },
       "node-resolve",
@@ -57,7 +56,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        dir: `${OUTPUT_DIR}/cjs`,
+        dir: `cjs`,
         format: "cjs",
         sourcemap: true
       }
@@ -67,7 +66,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "dist/cjs/*"
+          targets: "cjs/*"
         }
       },
       "node-resolve",
@@ -79,7 +78,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        dir: `${OUTPUT_DIR}/system`,
+        dir: `system`,
         format: "system",
         sourcemap: true
       }
@@ -89,7 +88,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "dist/system/*"
+          targets: "system/*"
         }
       },
       "node-resolve",

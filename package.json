@@ -7,17 +7,17 @@
   "scripts": {
     "test:rollup": "rollup --config rollup.config.test.js",
     "test:mocha": "mocha dist/test/mocha-feed.js",
-    "test": "npm-run-all clear test:rollup test:mocha",
+    "pretest": "clear",
+    "test": "npm-run-all test:rollup test:mocha",
     "prepare": "rollup --config",
     "lint": "eslint 'src/**/*.js'",
-    "tdd": "nodemon --watch src --exec 'npm run test'",
-    "clear": "clear"
+    "tdd": "nodemon --watch src --exec 'npm run test'"
   },
   "files": [
-    "dist/esm/*",
-    "dist/umd/*",
-    "dist/cjs/*",
-    "dist/system/*"
+    "cjs/*",
+    "esm/*",
+    "umd/*",
+    "system/*"
   ],
   "repository": {
     "type": "git",
