@@ -11,3 +11,11 @@ export {
   isFunction,
   isPromise
 } from "./object";
+
+export {
+  numberify
+} from "./number";
+
+export {
+  destructor
+} from "./lifecycle";

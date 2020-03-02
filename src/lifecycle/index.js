@@ -1,0 +1,3 @@
+export {
+  destructor
+} from "./destructor";
