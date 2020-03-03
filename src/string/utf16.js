@@ -1,26 +1,88 @@
-import { stringify } from "./type-cast";
+import { isString } from "../object/type";
+import {
+  ARRAY_SLICE,
+  ARRAY_PUSH,
+  ARRAY_JOIN
+} from "../array/native-method";
 
-import { U16StringIterator } from "./utf16-helper";
+import { eachU16Chars } from "./utf16-helper";
 
-export class U16String {
+export class Utf16 {
   constructor(subject) {
-    const value = stringify(subject);
-    const iterator = new U16StringIterator(value);
+    const isTypeUtf16 = subject instanceof Utf16;
     let length = 0;
-    let definition = iterator.next();
 
-    for (; definition; definition = iterator.next()) {
-      console.log("definition:", definition, " length ", length);
+    if (!isString(subject) && !isTypeUtf16) {
+      throw new TypeError(`subject parameter is not string: ${subject}`);
     }
 
-    // Object.defineProperty(
-    //   this,
-    //   "$definition",
-    //   {
-    //     value,
-    //     writable: false
-    //   }
-    // );
+    // clone instance
+    if (isTypeUtf16) {
+      length = subject.length;
+      ARRAY_PUSH.apply(this, subject);
+
+    }
+    else {
+      length = eachU16Chars(
+        subject,
+        (point, char, index) => {
+          this[index] = char;
+        }
+      );
+    }
+
+    Object.defineProperty(
+      this,
+      "length",
+      {
+        writable: false,
+        enumerable: false,
+        configurable: true,
+        value: length
+      }
+    );
   }
-  another() {}
+
+  slice(begin, end) {
+    return new Utf16(
+      ARRAY_SLICE.call(this, begin, end).join("")
+    );
+  }
+
+  concat(subject) {
+    const isUtf16 = subject instanceof Utf16;
+
+    if (!isUtf16 && !isString(subject)) {
+      return this.clone();
+    }
+
+    return new Utf16(
+      this.toString() + (isUtf16 ? subject.toString() : subject)
+    );
+  }
+
+  clone() {
+    return new Utf16(this);
+  }
+
+  toPoints() {
+    const list = [];
+
+    eachU16Chars(
+      this.toString(),
+      (point, char, index) => {
+        list[index] = point;
+      }
+    );
+
+    return list;
+  }
+
+  toArray() {
+    return ARRAY_SLICE.call(this, 0);
+  }
+
+  toString() {
+    return ARRAY_JOIN.call(this, "");
+  }
 }

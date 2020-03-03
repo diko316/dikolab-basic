@@ -25,7 +25,17 @@ export default [
         }
       },
       "node-resolve",
-      "commonjs",
+      {
+        name: "commonjs",
+        options: {
+          namedExports: {
+            chai: [
+              "assert",
+              "expect"
+            ]
+          },
+        }
+      },
       "buble"
     ]
   )

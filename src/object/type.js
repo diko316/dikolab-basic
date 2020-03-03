@@ -1,4 +1,4 @@
-const TO_STRING = Object.prototype.toString;
+import { OBJECT_TO_STRING } from "./native-method";
 
 export const TYPE_NUMBER = "number";
 export const TYPE_STRING = "string";
@@ -52,27 +52,27 @@ export function isScalar(subject) {
 }
 
 export function isDate(subject) {
-  return TO_STRING.call(subject) === DATE_SIGNATURE;
+  return OBJECT_TO_STRING.call(subject) === DATE_SIGNATURE;
 }
 
 export function isRegExp(subject) {
-  return TO_STRING.call(subject) === REGEXP_SIGNATURE;
+  return OBJECT_TO_STRING.call(subject) === REGEXP_SIGNATURE;
 }
 
 export function isObject(subject) {
-  return subject !== null && TO_STRING.call(subject) === OBJECT_SIGNATURE;
+  return subject !== null && OBJECT_TO_STRING.call(subject) === OBJECT_SIGNATURE;
 }
 
 export function isFunction(subject) {
-  return TO_STRING.call(subject) === FUNCTION_SIGNATURE;
+  return OBJECT_TO_STRING.call(subject) === FUNCTION_SIGNATURE;
 }
 
 export function isArray(subject) {
-  return TO_STRING.call(subject) === ARRAY_SIGNATURE;
+  return OBJECT_TO_STRING.call(subject) === ARRAY_SIGNATURE;
 }
 
 export function isPromise(subject) {
-  switch (TO_STRING.call(subject)) {
+  switch (OBJECT_TO_STRING.call(subject)) {
   case OBJECT_SIGNATURE: return subject !== null && isFunction(subject.then);
 
   case PROMISE_SIGNATURE: return true;
@@ -94,5 +94,5 @@ export function signature(subject) {
     return PROMISE_SIGNATURE;
   }
 
-  return TO_STRING.call(subject);
+  return OBJECT_TO_STRING.call(subject);
 }

@@ -1,4 +1,4 @@
-import { numberify } from "../number";
+import { numberify } from "../number/type-cast";
 
 import {
   stringify

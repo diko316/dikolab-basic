@@ -2,7 +2,7 @@ import {
   TYPE_STRING,
   TYPE_NUMBER,
   TYPE_BOOLEAN
-} from "../object";
+} from "../object/type";
 
 export function numberify(subject, defaultValue = 0) {
   let value = subject;

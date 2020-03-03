@@ -3,7 +3,7 @@ import {
   TYPE_STRING,
   TYPE_BOOLEAN,
   isRegExp
-} from "../object";
+} from "../object/type";
 
 export function stringify(subject, defaultValue = "") {
   if (isRegExp(subject)) {

@@ -1,4 +1,4 @@
-import { isFunction } from "../object";
+import { isFunction } from "../object/type";
 
 const DESTRUCTORS = [];
 let INITIALIZED = false;

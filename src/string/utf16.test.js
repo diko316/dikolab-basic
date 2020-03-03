@@ -1,9 +1,13 @@
-import { U16String } from "./utf16";
+import { Utf16 } from "./utf16";
 
 describe("utf16", () => {
-  it("Should create Utf16 string", () => {
+  it.only("Should create Utf16 string", () => {
+    const sample = '\uD83D\uDCA9';
+    const instance = new Utf16(`buang${sample}`);
+
     console.log(
-      new U16String("buang")
+      instance,
+      instance.length
     );
   });
 });
