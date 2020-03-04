@@ -3,7 +3,7 @@ import {
   isString
 } from "../object/type";
 
-import { STRING_FROM_CHARCODE } from "./native-method";
+import { STRING_FROM_CHARCODE } from "../native";
 
 export function eachU16Chars(subject, callback) {
   const fromCharCode = STRING_FROM_CHARCODE;
@@ -12,6 +12,7 @@ export function eachU16Chars(subject, callback) {
   for (let c = 0, length = subject.length; length--; c++) {
     let first = 0;
     let second = 0;
+    let code = "";
 
     first = subject.charCodeAt(c);
     if (first < 0xD800 || first > 0xDBFF || c === length) {
@@ -28,8 +29,9 @@ export function eachU16Chars(subject, callback) {
     // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
     c++;
     length--;
+    code = (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
     callback(
-      (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000,
+      code,
       fromCharCode(first) + fromCharCode(second),
       index++
     );
@@ -37,7 +39,6 @@ export function eachU16Chars(subject, callback) {
 
   return index;
 }
-
 
 export function points2string(codes) {
   const number = isFinite;

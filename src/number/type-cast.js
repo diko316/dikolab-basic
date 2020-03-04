@@ -24,4 +24,3 @@ export function numberify(subject, defaultValue = 0) {
 
   return defaultValue;
 }
-

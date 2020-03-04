@@ -1,9 +1,10 @@
-import { isString } from "../object/type";
 import {
   ARRAY_SLICE,
   ARRAY_PUSH,
-  ARRAY_JOIN
-} from "../array/native-method";
+  OBJECT_DEFINE_PROPERTY
+} from "../native";
+
+import { isString } from "../object/type";
 
 import { eachU16Chars } from "./utf16-helper";
 
@@ -11,6 +12,7 @@ export class Utf16 {
   constructor(subject) {
     const isTypeUtf16 = subject instanceof Utf16;
     let length = 0;
+    let text = subject;
 
     if (!isString(subject) && !isTypeUtf16) {
       throw new TypeError(`subject parameter is not string: ${subject}`);
@@ -19,8 +21,8 @@ export class Utf16 {
     // clone instance
     if (isTypeUtf16) {
       length = subject.length;
+      text = subject.text;
       ARRAY_PUSH.apply(this, subject);
-
     }
     else {
       length = eachU16Chars(
@@ -31,7 +33,18 @@ export class Utf16 {
       );
     }
 
-    Object.defineProperty(
+    OBJECT_DEFINE_PROPERTY(
+      this,
+      "text",
+      {
+        writable: false,
+        enumerable: false,
+        configurable: true,
+        value: text
+      }
+    );
+
+    OBJECT_DEFINE_PROPERTY(
       this,
       "length",
       {
@@ -57,7 +70,7 @@ export class Utf16 {
     }
 
     return new Utf16(
-      this.toString() + (isUtf16 ? subject.toString() : subject)
+      this.text + (isUtf16 ? subject.text : subject)
     );
   }
 
@@ -83,6 +96,6 @@ export class Utf16 {
   }
 
   toString() {
-    return ARRAY_JOIN.call(this, "");
+    return this.text;
   }
 }

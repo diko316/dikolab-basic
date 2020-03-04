@@ -1,5 +1,3 @@
-export { OBJECT_TO_STRING } from "./native-method";
-
 export {
   TYPE_BOOLEAN,
   TYPE_NUMBER,

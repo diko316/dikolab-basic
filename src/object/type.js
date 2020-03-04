@@ -1,4 +1,4 @@
-import { OBJECT_TO_STRING } from "./native-method";
+import { OBJECT_TO_STRING } from "../native";
 
 export const TYPE_NUMBER = "number";
 export const TYPE_STRING = "string";
