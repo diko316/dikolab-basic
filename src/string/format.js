@@ -1,3 +1,4 @@
+import { EMPTY_STRING } from "../native";
 import { numberify } from "../number/type-cast";
 
 import {
@@ -6,23 +7,27 @@ import {
 
 export function repeat(subject, count) {
   const value = stringify(subject);
-  let length = numberify(count);
+  let length = numberify(count, null);
   let list = null;
 
-  if (!value || length < 1) {
+  if (!value || length === null || length < 1) {
     return value;
   }
-  
+
   list = [];
 
   for (let c = 0; length--; c++) {
     list[c] = value;
   }
 
-  return list.join("");
+  return list.join(EMPTY_STRING);
 }
 
-// export function pad(subject, count, padString) {
-//   const value = stringify(subject);
-//   const padStr = repeat(padString, count);
-// }
+export function trim() {
+}
+
+export function trimBefore() {
+}
+
+export function trimAfter() {
+}

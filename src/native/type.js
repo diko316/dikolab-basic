@@ -1,17 +1,20 @@
-import { OBJECT_TO_STRING } from "../native";
+import {
+  TYPE_NUMBER,
+  TYPE_STRING,
+  TYPE_BOOLEAN,
+  TYPE_UNDEFINED,
 
-export const TYPE_NUMBER = "number";
-export const TYPE_STRING = "string";
-export const TYPE_BOOLEAN = "boolean";
+  OBJECT_SIGNATURE,
+  FUNCTION_SIGNATURE,
+  ARRAY_SIGNATURE,
+  DATE_SIGNATURE,
+  REGEXP_SIGNATURE,
+  PROMISE_SIGNATURE,
+  UNDEFINED_SIGNATURE,
+  NULL_SIGNATURE
+} from "./constants";
 
-export const OBJECT_SIGNATURE = "[object Object]";
-export const FUNCTION_SIGNATURE = "[object Function]";
-export const ARRAY_SIGNATURE = "[object Array]";
-export const DATE_SIGNATURE = "[object Date]";
-export const REGEXP_SIGNATURE = "[object RegExp]";
-export const PROMISE_SIGNATURE = "[object Promise]";
-export const UNDEFINED_SIGNATURE = "[object Undefined]";
-export const NULL_SIGNATURE = "[object Null]";
+import { OBJECT_TO_STRING } from "./object";
 
 export function isString(subject) {
   return typeof subject === TYPE_STRING;
@@ -82,7 +85,7 @@ export function isPromise(subject) {
 }
 
 export function signature(subject) {
-  if (typeof subject === "undefined") {
+  if (typeof subject === TYPE_UNDEFINED) {
     return UNDEFINED_SIGNATURE;
   }
 

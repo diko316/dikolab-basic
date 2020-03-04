@@ -1,18 +1,27 @@
 import {
+  TYPE_OBJECT,
+  TYPE_NUMBER,
+  STRING_FROM_CHARCODE,
+  EMPTY_FUNCTION,
+  EMPTY_STRING,
   isArray,
   isString
-} from "../object/type";
+} from "../native";
 
-import { STRING_FROM_CHARCODE } from "../native";
-
-export function eachU16Chars(subject, callback) {
+export function eachU16(subject, callback) {
+  const empty = EMPTY_STRING;
   const fromCharCode = STRING_FROM_CHARCODE;
+  const lengthProperty = subject && typeof subject === TYPE_OBJECT;
   let index = 0;
+
+  if (typeof lengthProperty !== TYPE_NUMBER || !isFinite(lengthProperty) || lengthProperty < 0) {
+    return 0;
+  }
 
   for (let c = 0, length = subject.length; length--; c++) {
     let first = 0;
     let second = 0;
-    let code = "";
+    let code = empty;
 
     first = subject.charCodeAt(c);
     if (first < 0xD800 || first > 0xDBFF || c === length) {
@@ -40,10 +49,11 @@ export function eachU16Chars(subject, callback) {
   return index;
 }
 
-export function points2string(codes) {
-  const number = isFinite;
+export function fromCodePoint(codes) {
+  const finite = isFinite;
+  const empty = EMPTY_STRING;
   const fromCharCode = STRING_FROM_CHARCODE;
-  let result = "";
+  let result = empty;
 
   if (!isArray(codes)) {
     return result;
@@ -55,9 +65,9 @@ export function points2string(codes) {
     const code = codes[c];
     let value = 1 * code;
 
-    if (!number(value) || value < 0 || value > 0x10FFFF) {
+    if (!finite(value) || value < 0 || value > 0x10FFFF) {
       console.warn(RangeError(`Invalid code point: ${code}`));
-      return "";
+      return empty;
     }
 
     if (value > 0xFFFF) {
@@ -72,21 +82,21 @@ export function points2string(codes) {
     }
   }
 
-  return result.join("");
+  return result.join(empty);
 }
 
-export function string2points(subject, target) {
+export function toCodePoints(subject, target) {
   let result = target;
 
   if (!isString(subject)) {
     return result;
   }
 
-  if (!result || typeof result !== "object") {
+  if (!result || typeof result !== TYPE_OBJECT) {
     result = [];
   }
 
-  result.length = eachU16Chars(
+  result.length = eachU16(
     subject,
     function (point, char, index) {
       result[index] = point;
@@ -96,18 +106,18 @@ export function string2points(subject, target) {
   return result;
 }
 
-export function string2chars(subject, target) {
+export function toUtfChars(subject, target) {
   let result = target;
 
   if (!isString(subject)) {
     return result;
   }
 
-  if (!result || typeof result !== "object") {
+  if (!result || typeof result !== TYPE_OBJECT) {
     result = [];
   }
 
-  result.length = eachU16Chars(
+  result.length = eachU16(
     subject,
     function (point, char, index) {
       result[index] = char;
@@ -115,4 +125,8 @@ export function string2chars(subject, target) {
   );
 
   return result;
+}
+
+export function utfCount(subject) {
+  return eachU16(subject, EMPTY_FUNCTION);
 }

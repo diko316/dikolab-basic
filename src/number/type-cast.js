@@ -2,7 +2,7 @@ import {
   TYPE_STRING,
   TYPE_NUMBER,
   TYPE_BOOLEAN
-} from "../object/type";
+} from "../native";
 
 export function numberify(subject, defaultValue = 0) {
   let value = subject;
@@ -12,14 +12,9 @@ export function numberify(subject, defaultValue = 0) {
     value = parseFloat(value);
 
   // falls through
-  case TYPE_NUMBER:
-    if (isFinite(value)) {
-      return value;
-    }
-    break;
+  case TYPE_NUMBER: return isFinite(value) ? value : defaultValue;
 
-  case TYPE_BOOLEAN:
-    return value ? 1 : 0;
+  case TYPE_BOOLEAN: return value ? 1 : 0;
   }
 
   return defaultValue;

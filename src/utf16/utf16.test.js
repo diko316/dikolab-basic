@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   points2string,
   string2points
-} from "./utf16-helper";
+} from "./utf16";
 
 describe("points2string(codes)", () => {
   const sample = '\uD83D\uDCA9';
