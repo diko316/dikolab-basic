@@ -1,4 +1,4 @@
-import { isFunction } from "../native";
+import { method } from "../native";
 
 const DESTRUCTORS = [];
 let INITIALIZED = false;
@@ -55,7 +55,7 @@ function initialize() {
 export function destructor(callback) {
   const list = DESTRUCTORS;
 
-  if (isFunction(callback)) {
+  if (method(callback)) {
     initialize();
     list[list.length] = callback;
   }

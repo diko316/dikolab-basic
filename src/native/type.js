@@ -3,6 +3,8 @@ import {
   TYPE_STRING,
   TYPE_BOOLEAN,
   TYPE_UNDEFINED,
+  TYPE_BIGINT,
+  TYPE_SYMBOL,
 
   OBJECT_SIGNATURE,
   FUNCTION_SIGNATURE,
@@ -16,19 +18,69 @@ import {
 
 import { OBJECT_TO_STRING } from "./object";
 
-export function isString(subject) {
+/**
+ * Returns true. if "subject" parameter is String.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function string(subject) {
   return typeof subject === TYPE_STRING;
 }
 
-export function isNumber(subject) {
+/**
+ * Returns true. if "subject" parameter is Number.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function number(subject) {
   return typeof subject === TYPE_NUMBER && isFinite(subject);
 }
 
-export function isBoolean(subject) {
+/**
+ * Returns true. if "subject" parameter is BigInt.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function bigint(subject) {
+  return typeof subject === TYPE_BIGINT;
+}
+
+/**
+ * Returns true. if "subject" parameter is Boolean.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function boolean(subject) {
   return typeof subject === TYPE_BOOLEAN;
 }
 
-export function isNumeric(subject) {
+/**
+ * Returns true. if "subject" parameter is Symbol.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function symbol(subject) {
+  return typeof subject === TYPE_SYMBOL;
+}
+
+/**
+ * Returns true. if "subject" parameter is Numeric string, number, or bigint.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function numeric(subject) {
   let result = subject;
 
   switch (typeof result) {
@@ -38,13 +90,24 @@ export function isNumeric(subject) {
   // falls through
   case TYPE_NUMBER:
     return isFinite(result);
+
+  case TYPE_BIGINT: return true;
   }
 
   return false;
 }
 
-export function isScalar(subject) {
+/**
+ * Returns true. if "subject" parameter is Scalar string, number, boolean, symbol, or bigint.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function scalar(subject) {
   switch (typeof subject) {
+  case TYPE_BIGINT:
+  case TYPE_SYMBOL:
   case TYPE_STRING:
   case TYPE_BOOLEAN: return true;
 
@@ -54,29 +117,71 @@ export function isScalar(subject) {
   return false;
 }
 
-export function isDate(subject) {
+/**
+ * Returns true. if "subject" parameter is an instance of Date.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function date(subject) {
   return OBJECT_TO_STRING.call(subject) === DATE_SIGNATURE;
 }
 
-export function isRegExp(subject) {
+/**
+ * Returns true. if "subject" parameter is an instance of RegExp.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function regexp(subject) {
   return OBJECT_TO_STRING.call(subject) === REGEXP_SIGNATURE;
 }
 
-export function isObject(subject) {
+/**
+ * Returns true. if "subject" parameter is an instance of User defined Object.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function object(subject) {
   return subject !== null && OBJECT_TO_STRING.call(subject) === OBJECT_SIGNATURE;
 }
 
-export function isFunction(subject) {
+/**
+ * Returns true. if "subject" parameter is a Function.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function method(subject) {
   return OBJECT_TO_STRING.call(subject) === FUNCTION_SIGNATURE;
 }
 
-export function isArray(subject) {
+/**
+ * Returns true. if "subject" parameter is an Array.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function array(subject) {
   return OBJECT_TO_STRING.call(subject) === ARRAY_SIGNATURE;
 }
 
-export function isPromise(subject) {
+/**
+ * Returns true. if "subject" parameter is a thenable Object or Promise.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {boolean}
+ */
+export function promise(subject) {
   switch (OBJECT_TO_STRING.call(subject)) {
-  case OBJECT_SIGNATURE: return subject !== null && isFunction(subject.then);
+  case OBJECT_SIGNATURE: return subject !== null && method(subject.then);
 
   case PROMISE_SIGNATURE: return true;
   }
@@ -84,6 +189,15 @@ export function isPromise(subject) {
   return false;
 }
 
+/**
+ * Returns Object signature of "subject" parameter.
+ * The Object signature in `[object ${ObjectName}]` syntax.
+ * The value is extracted by using the value from Object.prototype.toString.call(subject) call.
+ *
+ * @export
+ * @param {*} subject
+ * @returns {string}
+ */
 export function signature(subject) {
   if (typeof subject === TYPE_UNDEFINED) {
     return UNDEFINED_SIGNATURE;
@@ -93,7 +207,7 @@ export function signature(subject) {
     return NULL_SIGNATURE;
   }
 
-  if (subject && isFunction(subject.then)) {
+  if (subject && method(subject.then)) {
     return PROMISE_SIGNATURE;
   }
 

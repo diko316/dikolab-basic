@@ -6,6 +6,7 @@ import pluginTerser from "./terser";
 import pluginDelete from "./delete";
 import pluginEslint from "./eslint";
 import pluginMultiEntry from "./multi-entry";
+import pluginJsdoc from "./jsdoc";
 
 
 export default {
@@ -16,5 +17,6 @@ export default {
   "terser": pluginTerser,
   "delete": pluginDelete,
   "eslint": pluginEslint,
-  "multi-entry": pluginMultiEntry
+  "multi-entry": pluginMultiEntry,
+  "jsdoc": pluginJsdoc
 };

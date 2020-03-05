@@ -10,7 +10,7 @@ import {
 
   MATH_MAX,
   MATH_MIN,
-  isString
+  string
 } from "../native";
 
 import { eachU16 } from "./utf16";
@@ -22,14 +22,14 @@ export class Utf16 {
 
     // clone instance
     if (text instanceof Utf16) {
-      length = subject.length;
-      text = subject.text;
+      length = text.length;
+      text = text.text;
       ARRAY_PUSH.apply(this, subject);
     }
     else {
       // finalize string subject
       if (typeof text !== TYPE_STRING) {
-        text = String(subject);
+        text = String(text);
       }
 
       // finalize length
@@ -143,7 +143,7 @@ export class Utf16 {
   concat(subject) {
     const isUtf16 = subject instanceof Utf16;
 
-    if (!isUtf16 && !isString(subject)) {
+    if (!isUtf16 && !string(subject)) {
       return this.clone();
     }
 

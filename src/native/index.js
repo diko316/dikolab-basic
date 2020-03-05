@@ -1,8 +1,10 @@
 export {
+  TYPE_BIGINT,
   TYPE_NUMBER,
   TYPE_STRING,
   TYPE_BOOLEAN,
   TYPE_UNDEFINED,
+  TYPE_SYMBOL,
   TYPE_FUNCTION,
   TYPE_OBJECT,
 
@@ -23,17 +25,19 @@ export {
 } from "./constants";
 
 export {
-  isString,
-  isNumber,
-  isBoolean,
-  isNumeric,
-  isScalar,
-  isDate,
-  isRegExp,
-  isObject,
-  isArray,
-  isFunction,
-  isPromise,
+  string,
+  number,
+  boolean,
+  numeric,
+  bigint,
+  symbol,
+  scalar,
+  date,
+  regexp,
+  object,
+  array,
+  method,
+  promise,
   signature
 } from "./type";
 

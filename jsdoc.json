@@ -1,0 +1,23 @@
+{
+  "plugins": ["plugins/markdown"],
+  "source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "test\\.\\.js$"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc", "closure"]
+  },
+  "opts": {
+    "template": "templates/default",
+    "encoding": "utf8",
+    "destination": "./docs/jsdoc",
+    "recurse": true,
+    "tutorials": "./docs/tutorials"
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}

@@ -1,26 +1,26 @@
 import { expect } from 'chai';
 import {
-  points2string,
-  string2points
+  fromCodePoint,
+  toCodePoints
 } from "./utf16";
 
-describe("points2string(codes)", () => {
+describe("fromCodePoint(codes)", () => {
   const sample = '\uD83D\uDCA9';
   const sampleCode = 128169;
 
   it("should create character from code points.", () => {
-    const result = points2string([sampleCode]);
+    const result = fromCodePoint([sampleCode]);
 
     expect(result).to.equal(sample);
   });
 });
 
-describe("string2points(subject)", () => {
+describe("toCodePoints(subject)", () => {
   const sample = '\uD83D\uDCA9';
   const sampleCode = 128169;
 
   it("should generate code points from string.", () => {
-    const result = string2points(sample);
+    const result = toCodePoints(sample);
 
     expect(result).to.be.an("Array");
     expect(result[0]).to.equal(sampleCode);

@@ -1,17 +1,19 @@
 import {
   TYPE_OBJECT,
   TYPE_NUMBER,
+  TYPE_STRING,
   STRING_FROM_CHARCODE,
   EMPTY_FUNCTION,
   EMPTY_STRING,
-  isArray,
-  isString
+  array,
+  string
 } from "../native";
 
 export function eachU16(subject, callback) {
   const empty = EMPTY_STRING;
   const fromCharCode = STRING_FROM_CHARCODE;
-  const lengthProperty = subject && typeof subject === TYPE_OBJECT;
+  const type = typeof subject;
+  const lengthProperty = subject !== null && (type === TYPE_OBJECT || type === TYPE_STRING) ? subject.length : null;
   let index = 0;
 
   if (typeof lengthProperty !== TYPE_NUMBER || !isFinite(lengthProperty) || lengthProperty < 0) {
@@ -55,7 +57,7 @@ export function fromCodePoint(codes) {
   const fromCharCode = STRING_FROM_CHARCODE;
   let result = empty;
 
-  if (!isArray(codes)) {
+  if (!array(codes)) {
     return result;
   }
 
@@ -88,7 +90,7 @@ export function fromCodePoint(codes) {
 export function toCodePoints(subject, target) {
   let result = target;
 
-  if (!isString(subject)) {
+  if (!string(subject)) {
     return result;
   }
 
@@ -109,7 +111,7 @@ export function toCodePoints(subject, target) {
 export function toUtfChars(subject, target) {
   let result = target;
 
-  if (!isString(subject)) {
+  if (!string(subject)) {
     return result;
   }
 
