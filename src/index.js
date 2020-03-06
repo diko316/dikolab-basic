@@ -1,16 +1,20 @@
+/** @module basic */
 export {
-  isString,
-  isNumber,
-  isBoolean,
-  isNumeric,
-  isScalar,
-  isDate,
-  isRegExp,
-  isObject,
-  isArray,
-  isFunction,
-  isPromise
-} from "./object";
+  string,
+  number,
+  boolean,
+  numeric,
+  bigint,
+  symbol,
+  scalar,
+  date,
+  regexp,
+  object,
+  array,
+  method,
+  promise,
+  signature
+} from "./native";
 
 export {
   numberify

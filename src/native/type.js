@@ -1,3 +1,4 @@
+/** @module natives */
 import {
   TYPE_NUMBER,
   TYPE_STRING,
@@ -21,9 +22,8 @@ import { OBJECT_TO_STRING } from "./object";
 /**
  * Returns true. if "subject" parameter is String.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function string(subject) {
   return typeof subject === TYPE_STRING;
@@ -32,9 +32,8 @@ export function string(subject) {
 /**
  * Returns true. if "subject" parameter is Number.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function number(subject) {
   return typeof subject === TYPE_NUMBER && isFinite(subject);
@@ -43,9 +42,8 @@ export function number(subject) {
 /**
  * Returns true. if "subject" parameter is BigInt.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function bigint(subject) {
   return typeof subject === TYPE_BIGINT;
@@ -54,9 +52,8 @@ export function bigint(subject) {
 /**
  * Returns true. if "subject" parameter is Boolean.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function boolean(subject) {
   return typeof subject === TYPE_BOOLEAN;
@@ -65,9 +62,8 @@ export function boolean(subject) {
 /**
  * Returns true. if "subject" parameter is Symbol.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function symbol(subject) {
   return typeof subject === TYPE_SYMBOL;
@@ -76,9 +72,8 @@ export function symbol(subject) {
 /**
  * Returns true. if "subject" parameter is Numeric string, number, or bigint.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function numeric(subject) {
   let result = subject;
@@ -100,9 +95,8 @@ export function numeric(subject) {
 /**
  * Returns true. if "subject" parameter is Scalar string, number, boolean, symbol, or bigint.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function scalar(subject) {
   switch (typeof subject) {
@@ -120,9 +114,8 @@ export function scalar(subject) {
 /**
  * Returns true. if "subject" parameter is an instance of Date.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function date(subject) {
   return OBJECT_TO_STRING.call(subject) === DATE_SIGNATURE;
@@ -131,9 +124,8 @@ export function date(subject) {
 /**
  * Returns true. if "subject" parameter is an instance of RegExp.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function regexp(subject) {
   return OBJECT_TO_STRING.call(subject) === REGEXP_SIGNATURE;
@@ -142,9 +134,8 @@ export function regexp(subject) {
 /**
  * Returns true. if "subject" parameter is an instance of User defined Object.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function object(subject) {
   return subject !== null && OBJECT_TO_STRING.call(subject) === OBJECT_SIGNATURE;
@@ -153,9 +144,8 @@ export function object(subject) {
 /**
  * Returns true. if "subject" parameter is a Function.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function method(subject) {
   return OBJECT_TO_STRING.call(subject) === FUNCTION_SIGNATURE;
@@ -164,9 +154,8 @@ export function method(subject) {
 /**
  * Returns true. if "subject" parameter is an Array.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function array(subject) {
   return OBJECT_TO_STRING.call(subject) === ARRAY_SIGNATURE;
@@ -175,9 +164,8 @@ export function array(subject) {
 /**
  * Returns true. if "subject" parameter is a thenable Object or Promise.
  *
- * @export
- * @param {*} subject
- * @returns {boolean}
+ * @param {*} subject value to test
+ * @returns {boolean} result
  */
 export function promise(subject) {
   switch (OBJECT_TO_STRING.call(subject)) {
@@ -194,9 +182,8 @@ export function promise(subject) {
  * The Object signature in `[object ${ObjectName}]` syntax.
  * The value is extracted by using the value from Object.prototype.toString.call(subject) call.
  *
- * @export
- * @param {*} subject
- * @returns {string}
+ * @param {*} subject value to test
+ * @returns {string} resolved Object signature `[object ${ObjectName}]`
  */
 export function signature(subject) {
   if (typeof subject === TYPE_UNDEFINED) {
