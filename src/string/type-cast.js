@@ -9,6 +9,14 @@ import {
   EMPTY_STRING
 } from "../native";
 
+/**
+ * Convert Any value to string. Or return "defaultValue" parameter.
+ *
+ * @alias module:string.stringify
+ * @param {*} subject data to convert to string.
+ * @param {*} [defaultValue=""] fallback value to return if conversion fails.
+ * @returns {string|*} returns defaultValue if unable to convert to string.
+ */
 export function stringify(subject, defaultValue = EMPTY_STRING) {
   const empty = EMPTY_STRING;
 

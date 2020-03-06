@@ -4,6 +4,9 @@ const DESTRUCTORS = [];
 let INITIALIZED = false;
 let DESTROYED = false;
 
+/**
+ * @private
+ */
 function onDestroy() {
   let list = null;
 
@@ -24,15 +27,24 @@ function onDestroy() {
   }
 }
 
+/**
+ * @private
+ */
 function onBrowserDestroy() {
   window.removeEventListener("beforeunload", onDestroy);
   window.removeEventListener("unload", onDestroy);
 }
 
+/**
+ * @private
+ */
 function onProcessDestroy() {
   process.removeListener("beforeExit", onDestroy);
 }
 
+/**
+ * @private
+ */
 function initialize() {
   const list = DESTRUCTORS;
 
@@ -52,6 +64,12 @@ function initialize() {
   }
 }
 
+/**
+ * Registers a destructor handler. Very useful for NodeJS and browser.
+ *
+ * @alias module:lifecycle.destructor
+ * @param {Function} callback Function to call when app shutsdown or browser document is unloaded.
+ */
 export function destructor(callback) {
   const list = DESTRUCTORS;
 

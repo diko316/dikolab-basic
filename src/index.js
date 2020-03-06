@@ -1,4 +1,3 @@
-/** @module basic */
 export {
   string,
   number,
@@ -19,6 +18,19 @@ export {
 export {
   numberify
 } from "./number";
+
+export {
+  repeat
+} from "./string";
+
+export {
+  eachU16,
+  fromCodePoint,
+  toCodePoints,
+  toUtfChars,
+  utfCount,
+  Utf16
+} from "./utf16";
 
 export {
   destructor

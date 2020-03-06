@@ -1,10 +1,17 @@
 export const TYPE_NUMBER = "number";
+
 export const TYPE_BIGINT = "bigint";
+
 export const TYPE_STRING = "string";
+
 export const TYPE_BOOLEAN = "boolean";
+
 export const TYPE_UNDEFINED = "undefined";
+
 export const TYPE_FUNCTION = "function";
+
 export const TYPE_OBJECT = "object";
+
 export const TYPE_SYMBOL = "symbol";
 
 export const BIGINT_SIGNATURE = "[object BigInt]";
@@ -23,5 +30,8 @@ export const EMPTY_STRING = "";
 export const BOOLEAN_TRUE = "true";
 export const BOOLEAN_FALSE = "false";
 
+/**
+ * @ignore
+ */
 export function EMPTY_FUNCTION() {
 }

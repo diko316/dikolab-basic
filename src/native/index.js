@@ -1,3 +1,6 @@
+/**
+ * @module native
+ */
 export {
   TYPE_BIGINT,
   TYPE_NUMBER,
