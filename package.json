@@ -11,7 +11,8 @@
     "test": "npm-run-all test:rollup test:mocha",
     "prepare": "rollup --config",
     "lint": "eslint 'src/**/*.js'",
-    "tdd": "nodemon --watch src --exec 'npm run test'"
+    "tdd": "nodemon --watch src --exec 'npm run test'",
+    "doc": "jsdoc src -c jsdoc.json "
   },
   "files": [
     "cjs/*",
@@ -39,6 +40,7 @@
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
+    "browser-sync": "^2.26.7",
     "chai": "^4.2.0",
     "clear-cli": "^1.0.1",
     "eslint": "^6.8.0",
@@ -48,6 +50,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "jsdoc": "^3.6.3",
     "marked": "^0.8.0",
     "mocha": "^7.1.0",
     "nodemon": "^2.0.2",
@@ -56,7 +59,6 @@
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-delete": "^1.2.0",
     "rollup-plugin-eslint": "^7.0.0",
-    "rollup-plugin-jsdoc": "^0.1.2",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-terser": "^5.2.0"
   }

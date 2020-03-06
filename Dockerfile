@@ -11,6 +11,8 @@ RUN cd $APP_CWD && \
     setup/container-provision.sh && \
     rm -Rf $APP_CWD/setup
 
+VOLUME ${APP_CWD}/source
+
 WORKDIR ${APP_CWD}/source
 
 ENTRYPOINT ["entrypoint.sh"]

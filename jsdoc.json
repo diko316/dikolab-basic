@@ -12,7 +12,7 @@
   "opts": {
     "template": "templates/default",
     "encoding": "utf8",
-    "destination": "./docs/jsdoc",
+    "destination": "./docs/api",
     "recurse": true,
     "tutorials": "./docs/tutorials"
   },
