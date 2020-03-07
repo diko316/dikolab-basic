@@ -21,6 +21,7 @@ image-cleanup: container-cleanup
 image: image-cleanup
 	@docker build --force-rm -f Dockerfile -t '$(DOCKER_IMAGE_NAME)' .
 
+
 console: container-cleanup
 	@docker run \
 			--name '$(DOCKER_CONSOLE_NAME)' \
@@ -35,3 +36,11 @@ tdd: container-cleanup
 			-v '$(PWD):$(DOCKER_MOUNT)' \
 			'$(DOCKER_IMAGE_NAME)' \
 			tdd
+
+doc: container-cleanup
+	@docker run \
+			--name '$(DOCKER_CONSOLE_NAME)' \
+			-ti \
+			-v '$(PWD):$(DOCKER_MOUNT)' \
+			'$(DOCKER_IMAGE_NAME)' \
+			doc
