@@ -14,6 +14,10 @@ case $1 in
     npm run doc && \
       chown -R $(stat -c '%u:%g' ${PROJECT_ROOT}) ${PROJECT_ROOT}
     ;;
+  ddd)
+    chown -R $(stat -c '%u:%g' ${PROJECT_ROOT}) ${PROJECT_ROOT} && \
+      npm run doc-dev
+    ;;
   *)
     echo "No matching command found: $1"
     ;;
