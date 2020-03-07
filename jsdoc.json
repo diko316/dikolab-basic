@@ -1,8 +1,11 @@
 {
-  "plugins": [],
+  "plugins": [
+    "plugins/markdown",
+    "node_modules/better-docs/category"
+  ],
   "source": {
     "includePattern": ".+\\.js(doc|x)?$",
-    "excludePattern": "test\\.\\.js$"
+    "excludePattern": "test\\.js$"
   },
   "sourceType": "module",
   "tags": {
@@ -10,11 +13,12 @@
     "dictionaries": ["jsdoc", "closure"]
   },
   "opts": {
-    "template": "./node_modules/ink-docstrap/template",
+    "template": "node_modules/better-docs",
     "encoding": "utf8",
-    "destination": "./docs/api",
+    "destination": "./docs",
+    "readme": "./README.md",
     "recurse": true,
-    "tutorials": "./docs/tutorials"
+    "verbose": true
   },
   "templates": {
     "cleverLinks": false,

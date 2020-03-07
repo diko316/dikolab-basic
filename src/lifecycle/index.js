@@ -1,4 +1,6 @@
-/** @module lifecycle */
+/**
+ * @module lifecycle
+ */
 export {
   destructor
 } from "./destructor";

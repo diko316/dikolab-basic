@@ -42,7 +42,10 @@ rules:
   # jsdoc/check-indentation: 1,
   jsdoc/check-param-names: 1
   jsdoc/check-syntax: 1
-  jsdoc/check-tag-names: 1
+  jsdoc/check-tag-names:
+    - error
+    - definedTags:
+      - category
   jsdoc/check-types: 1
   jsdoc/implements-on-classes: 1
   jsdoc/match-description: 1
@@ -53,7 +56,7 @@ rules:
   # jsdoc/require-description-complete-sentence: 1,
   # jsdoc/require-example: 1,
   # jsdoc/require-hyphen-before-param-description: 1,
-  jsdoc/require-jsdoc: 1
+  # jsdoc/require-jsdoc: 1
   jsdoc/require-param: 1
   jsdoc/require-param-description: 1
   jsdoc/require-param-name: 1

@@ -1,4 +1,6 @@
-/** @module utf16 */
+/**
+ * @module utf16
+ */
 export {
   eachU16,
   fromCodePoint,

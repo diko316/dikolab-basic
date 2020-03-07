@@ -4,7 +4,6 @@
  * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}
  * documentation
  *
- * @alias module:native.STRING_FROM_CHARCODE
  * @function
  * @constant
  * @ignore
