@@ -11,6 +11,12 @@ import {
 
 import { numberify } from "../number/format";
 
+import {
+  STRING_TRIM_LEFT_REGEXP,
+  STRING_TRIM_RIGHT_REGEXP,
+  TRIM_ERROR_NOT_STRING
+} from "./constants";
+
 /**
  * Convert Any value to string. Or return "defaultValue" parameter.
  *
@@ -47,11 +53,12 @@ export function repeat(subject, count) {
   let length = numberify(count, 0);
   let list = null;
 
-  if (!value || length < 2) {
+  if (!value || length < 1) {
     return value;
   }
 
   list = [];
+  length++;
 
   for (let c = 0; length--; c++) {
     list[c] = value;
@@ -60,11 +67,51 @@ export function repeat(subject, count) {
   return list.join(empty);
 }
 
-// export function trim() {
-// }
+/**
+ * Removes starting and ending white spaces.
+ *
+ * @function module:string.trim
+ * @param {string} subject The string to trim.
+ * @returns {string} Whitespace trimmed string.
+ */
+export function trim(subject) {
+  const empty = EMPTY_STRING;
 
-// export function trimBefore() {
-// }
+  if (typeof subject !== TYPE_STRING) {
+    throw new TypeError(TRIM_ERROR_NOT_STRING);
+  }
 
-// export function trimAfter() {
-// }
+  return subject && subject
+    .replace(STRING_TRIM_LEFT_REGEXP, empty)
+    .replace(STRING_TRIM_RIGHT_REGEXP, empty);
+}
+
+/**
+ * Removes starting white spaces.
+ *
+ * @function module:string.trimBefore
+ * @param {string} subject The string to trim.
+ * @returns {string} Whitespace trimmed string.
+ */
+export function trimBefore(subject) {
+  if (typeof subject !== TYPE_STRING) {
+    throw new TypeError(TRIM_ERROR_NOT_STRING);
+  }
+
+  return subject && subject.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING);
+}
+
+/**
+ * Removes ending whitespace.
+ *
+ * @function module:string.trimAfter
+ * @param {string} subject The string to trim.
+ * @returns {string} Whitespace trimmed string.
+ */
+export function trimAfter(subject) {
+  if (typeof subject !== TYPE_STRING) {
+    throw new TypeError(TRIM_ERROR_NOT_STRING);
+  }
+
+  return subject && subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);
+}
