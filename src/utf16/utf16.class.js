@@ -15,7 +15,17 @@ import {
 
 import { eachU16 } from "./utf16";
 
+/**
+ * Utf16 type
+ *
+ * @alias module:utf16.Utf16
+ */
 export class Utf16 {
+  /**
+   * Accepts string "subject".
+   *
+   * @param {string} subject The string to create from.
+   */
   constructor(subject) {
     let length = 0;
     let text = subject;

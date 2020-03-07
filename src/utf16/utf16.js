@@ -20,7 +20,8 @@ import {
 /**
  * Iterates Utf-16 codePoints of string and execute callback on each codePoint found.
  *
- * @alias module:utf16.eachU16
+ * @category Types
+ * @function module:utf16.eachU16
  * @param {string} subject string to iterate.
  * @param {eachCodePointCallback} callback The callback to execute on each codePoint.
  * @returns {number} number of codePoints found
@@ -70,7 +71,7 @@ export function eachU16(subject, callback) {
 /**
  * Creates string with given list of codePoints.
  *
- * @alias module:utf16.fromCodePoint
+ * @function module:utf16.fromCodePoint
  * @param {number[]} codes list of codePoints.
  * @returns {string} the string created based from codePoints list.
  */
@@ -113,7 +114,7 @@ export function fromCodePoint(codes) {
 /**
  * Creates an Array of codePoints based from string "subject" parameter.
  *
- * @alias module:utf16.toCodePoints
+ * @function module:utf16.toCodePoints
  * @param {string} subject string to iterate.
  * @param {*} target iteratable object to populate.
  * @returns {number[]} list of codePoints.
@@ -142,7 +143,7 @@ export function toCodePoints(subject, target) {
 /**
  * Creates an array of [string] Utf-16 characters from string.
  *
- * @alias module:utf16.toUtfChars
+ * @function module:utf16.toUtfChars
  * @param {string} subject The string to generate Utf-16 characters list.
  * @param {*} target iteratable object to populate.
  * @returns {string[]} list of Utf-16 characters.
@@ -171,7 +172,7 @@ export function toUtfChars(subject, target) {
 /**
  * Returns the length of characters resolving Utf-16 codePoints.
  *
- * @alias module:utf16.utfCount
+ * @function module:utf16.utfCount
  * @param {string} subject string to count.
  * @returns {number} number of Utf-16 characters found.
  */

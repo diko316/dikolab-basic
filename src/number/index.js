@@ -3,4 +3,4 @@
  */
 export {
   numberify
-} from "./type-cast";
+} from "./format";

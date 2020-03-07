@@ -1,8 +1,7 @@
-/** @module string */
+/**
+ * @module string
+ */
 export {
-  repeat
-} from "./format";
-
-export {
+  repeat,
   stringify
-} from "./type-cast";
+} from "./format";

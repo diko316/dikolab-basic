@@ -21,8 +21,7 @@ import { OBJECT_TO_STRING } from "./object";
 /**
  * Returns true. if "subject" parameter is String.
  *
- * @alias module:native.string
- * @borrows module:native.string as module:basic.string
+ * @function module:native.string
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -33,7 +32,7 @@ export function string(subject) {
 /**
  * Returns true. if "subject" parameter is Number.
  *
- * @alias module:native.number
+ * @function module:native.number
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -44,7 +43,7 @@ export function number(subject) {
 /**
  * Returns true. if "subject" parameter is BigInt.
  *
- * @alias module:native.bigint
+ * @function module:native.bigint
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -55,7 +54,7 @@ export function bigint(subject) {
 /**
  * Returns true. if "subject" parameter is Boolean.
  *
- * @alias module:native.boolean
+ * @function module:native.boolean
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -66,7 +65,7 @@ export function boolean(subject) {
 /**
  * Returns true. if "subject" parameter is Symbol.
  *
- * @alias module:native.symbol
+ * @function module:native.symbol
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -77,7 +76,7 @@ export function symbol(subject) {
 /**
  * Returns true. if "subject" parameter is Numeric string, number, or bigint.
  *
- * @alias module:native.numeric
+ * @function module:native.numeric
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -101,7 +100,7 @@ export function numeric(subject) {
 /**
  * Returns true. if "subject" parameter is Scalar string, number, boolean, symbol, or bigint.
  *
- * @alias module:native.scalar
+ * @function module:native.scalar
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -121,7 +120,7 @@ export function scalar(subject) {
 /**
  * Returns true. if "subject" parameter is an instance of Date.
  *
- * @alias module:native.date
+ * @function module:native.date
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -132,7 +131,7 @@ export function date(subject) {
 /**
  * Returns true. if "subject" parameter is an instance of RegExp.
  *
- * @alias module:native.regexp
+ * @function module:native.regexp
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -143,7 +142,7 @@ export function regexp(subject) {
 /**
  * Returns true. if "subject" parameter is an instance of User defined Object.
  *
- * @alias module:native.object
+ * @function module:native.object
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -154,7 +153,7 @@ export function object(subject) {
 /**
  * Returns true. if "subject" parameter is a Function.
  *
- * @alias module:native.method
+ * @function module:native.method
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -165,7 +164,7 @@ export function method(subject) {
 /**
  * Returns true. if "subject" parameter is an Array.
  *
- * @alias module:native.array
+ * @function module:native.array
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -176,7 +175,7 @@ export function array(subject) {
 /**
  * Returns true. if "subject" parameter is a thenable Object or Promise.
  *
- * @alias module:native.promise
+ * @function module:native.promise
  * @param {*} subject value to test
  * @returns {boolean} result
  */
@@ -195,7 +194,7 @@ export function promise(subject) {
  * The Object signature in `[object ${ObjectName}]` syntax.
  * The value is extracted by using the value from Object.prototype.toString.call(subject) call.
  *
- * @alias module:native.signature
+ * @function module:native.signature
  * @param {*} subject value to test
  * @returns {string} resolved Object signature `[object ${ObjectName}]`
  */

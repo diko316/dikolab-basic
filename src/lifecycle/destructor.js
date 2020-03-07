@@ -67,7 +67,7 @@ function initialize() {
 /**
  * Registers a destructor handler. Very useful for NodeJS and browser.
  *
- * @alias module:lifecycle.destructor
+ * @function module:lifecycle.destructor
  * @param {Function} callback Function to call when app shutsdown or browser document is unloaded.
  */
 export function destructor(callback) {
