@@ -1,4 +1,4 @@
-import { Utf16 } from "./utf16.class";
+import { Utf16 } from "./Utf16";
 
 describe("utf16", () => {
   it("Should create Utf16 string", () => {

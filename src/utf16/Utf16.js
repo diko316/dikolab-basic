@@ -13,7 +13,7 @@ import {
   string
 } from "../native";
 
-import { eachU16 } from "./utf16";
+import { eachU16 } from "./service";
 
 /**
  * Utf16 type
@@ -191,3 +191,5 @@ export class Utf16 {
     return this.text;
   }
 }
+
+export const EMPTY_UTF16 = new Utf16(EMPTY_STRING);

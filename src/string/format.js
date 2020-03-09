@@ -2,7 +2,7 @@ import {
   TYPE_NUMBER,
   TYPE_STRING,
   TYPE_BOOLEAN,
-  TYPE_FUNCTION,
+  TYPE_SYMBOL,
 
   BOOLEAN_TRUE,
   BOOLEAN_FALSE,
@@ -33,10 +33,10 @@ export function stringify(subject, defaultValue = EMPTY_STRING) {
   case TYPE_NUMBER:
     return isFinite(subject) ? empty + subject : defaultValue;
   case TYPE_STRING: return subject;
-  case TYPE_FUNCTION: return defaultValue;
+  case TYPE_SYMBOL: return String(subject);
   }
 
-  return String(subject);
+  return defaultValue;
 }
 
 /**
@@ -89,11 +89,11 @@ export function trim(subject) {
 /**
  * Removes starting white spaces.
  *
- * @function module:string.trimBefore
+ * @function module:string.trimStart
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
-export function trimBefore(subject) {
+export function trimStart(subject) {
   if (typeof subject !== TYPE_STRING) {
     throw new TypeError(TRIM_ERROR_NOT_STRING);
   }
@@ -104,11 +104,11 @@ export function trimBefore(subject) {
 /**
  * Removes ending whitespace.
  *
- * @function module:string.trimAfter
+ * @function module:string.trimEnd
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
-export function trimAfter(subject) {
+export function trimEnd(subject) {
   if (typeof subject !== TYPE_STRING) {
     throw new TypeError(TRIM_ERROR_NOT_STRING);
   }
