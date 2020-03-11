@@ -16,7 +16,7 @@
     "doc": "run-s clean:doc doc:build",
     "doc-dev:build": "nodemon -V --watch src --exec 'npm run doc:build'",
     "doc-dev:serve": "browser-sync start --config browsersync.doc.js",
-    "doc-dev": "run-p doc doc-dev:serve",
+    "doc-dev": "run-p doc-dev:build doc-dev:serve",
     "clean:doc": "del 'docs/*'",
     "clean:output": "del umd system cjs esm 'test/*'",
     "clean": "run-p clean:doc clean:output"

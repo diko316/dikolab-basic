@@ -3,5 +3,7 @@ module.exports = {
   port: 9000,
   open: false,
   ui: false,
-  watch: true
+  files: [
+    "docs/**/*.html"
+  ]
 };
