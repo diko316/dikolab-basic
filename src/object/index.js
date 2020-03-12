@@ -1,8 +1,12 @@
 /**
  * @module object
- * @requires module:object/validate
  */
 
 export {
   contains
 } from "./validate";
+
+export {
+  each,
+  assign
+} from "./properties";
