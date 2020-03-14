@@ -1,4 +1,70 @@
-import {
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: unicode/Utf.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-basic.html">basic</a></li><li><a href="module-lifecycle.html">lifecycle</a></li><li><a href="module-native.html">native</a></li><li><a href="module-number.html">number</a></li><li><a href="module-object.html">object</a></li><li><a href="module-string.html">string</a></li></ul><h3>Global</h3><ul><li><a href="global.html#assign">assign</a></li></ul></div><div class="category"><h2>Unicode</h2><h3>Classes</h3><ul><li><a href="module-basic.Utf.html">Utf</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>unicode/Utf.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
   TYPE_NUMBER,
   TYPE_UNDEFINED,
   EMPTY_STRING,
@@ -123,7 +189,7 @@ export class Utf {
    * @returns {number} The extracted Unicode code point.
    */
   codePointAt(index) {
-    if (typeof index === TYPE_NUMBER && index > -1 && index < this.length) {
+    if (typeof index === TYPE_NUMBER &amp;&amp; index > -1 &amp;&amp; index &lt; this.length) {
       return this.points[index];
     }
 
@@ -138,7 +204,7 @@ export class Utf {
    * @returns {string} The extracted string
    */
   charAt(index) {
-    if (typeof index === TYPE_NUMBER && index > -1 && index < this.length) {
+    if (typeof index === TYPE_NUMBER &amp;&amp; index > -1 &amp;&amp; index &lt; this.length) {
       return this[index];
     }
 
@@ -162,11 +228,11 @@ export class Utf {
     let start = min(begin, length) || 0;
     let limit = typeof end === TYPE_UNDEFINED ? length : min(end, length) || 0;
 
-    if (start < 0) {
+    if (start &lt; 0) {
       start = max(length + start, 0);
     }
 
-    if (limit < 0) {
+    if (limit &lt; 0) {
       limit = max(length + limit, 0);
     }
 
@@ -275,7 +341,7 @@ export class Utf {
       return -1;
     }
     // finalize iteration anchor
-    else if (anchor < 0) {
+    else if (anchor &lt; 0) {
       anchor = 0;
     }
     else if (anchor > 0) {
@@ -337,7 +403,7 @@ export class Utf {
     }
 
     anchor = min(anchor, subjectLength - searchLength);
-    if (anchor < 0) {
+    if (anchor &lt; 0) {
       return -1;
     }
 
@@ -398,7 +464,7 @@ export class Utf {
    * @param {string} [options.usage="sort"] Possible values: "sort" and "search"
    * @param {string} [options.sensitivity="variant"] Possible values: "variant", "case", "accent", and "base"
    * @param {boolean} [options.ignorePunctuation=false] Should ignore punctation or not.
-   * @param {boolean} [options.numeric=false] Whether numeric collation should be used, such that "1" < "2" < "10".
+   * @param {boolean} [options.numeric=false] Whether numeric collation should be used, such that "1" &lt; "2" &lt; "10".
    * @param {string} [options.caseFirst="false"] Whether upper case or lower case should sort first.
    *                    Possible values are "upper", "lower", or "false" (use the locale's default).
    * @returns {number} Returns negative number if Utf occurs before [compareString].
@@ -410,8 +476,8 @@ export class Utf {
     const length = arguments.length;
     const string = this.text;
 
-    return length < 2 ? string.localeCompare(subject)
-      : length < 3 ? string.localeCompare(subject, locales)
+    return length &lt; 2 ? string.localeCompare(subject)
+      : length &lt; 3 ? string.localeCompare(subject, locales)
         : string.localeCompare(subject, locales, options);
   }
 
@@ -484,3 +550,31 @@ export class Utf {
 }
 
 export const EMPTY_UNICODE = new Utf(EMPTY_STRING);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Mar 14 2020 21:43:15 GMT+0000 (Coordinated Universal Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
