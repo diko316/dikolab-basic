@@ -52,3 +52,11 @@ ddd: container-cleanup
 			-v '$(PWD):$(DOCKER_MOUNT)' \
 			'$(DOCKER_IMAGE_NAME)' \
 			ddd
+
+clean-source: container-cleanup
+	@docker run \
+			--name '$(DOCKER_CONSOLE_NAME)' \
+			-ti \
+			-v '$(PWD):$(DOCKER_MOUNT)' \
+			'$(DOCKER_IMAGE_NAME)' \
+			clean-source

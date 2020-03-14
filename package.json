@@ -18,7 +18,7 @@
     "doc-dev:serve": "browser-sync start --config browsersync.doc.js",
     "doc-dev": "run-p doc doc-dev:serve",
     "clean:doc": "del 'docs/*'",
-    "clean:output": "del umd system cjs esm 'test/*'",
+    "clean:output": "del umd system cjs esm 'test'",
     "clean": "run-p clean:doc clean:output"
   },
   "files": [

@@ -1,3 +1,6 @@
+/**
+ * @module basic
+ */
 export {
   string,
   number,
@@ -24,13 +27,17 @@ export {
 } from "./string";
 
 export {
-  eachU16,
-  fromCodePoint,
-  toCodePoints,
-  toUtfChars,
-  utfCount,
-  Utf16
-} from "./utf16";
+  Utf,
+
+  eachUnicode,
+  string2unicodes,
+  string2codePoints,
+  codePoint2string,
+
+  unicodify,
+  unicodeCount,
+  codepoints2Utf
+} from "./unicode";
 
 export {
   destructor

@@ -7,7 +7,16 @@ import {
   BOOLEAN_TRUE,
   BOOLEAN_FALSE,
   EMPTY_STRING
-} from "../native";
+} from "../native/constants";
+
+import {
+  MATH_RANDOM,
+  MATH_ROUND
+} from "../native/math";
+
+import {
+  STRING
+} from "../native/string";
 
 import { numberify } from "../number/format";
 
@@ -20,7 +29,8 @@ import {
 /**
  * Convert Any value to string. Or return "defaultValue" parameter.
  *
- * @function module:string.stringify
+ * @category String
+ * @function module:basic.stringify
  * @param {*} subject data to convert to string.
  * @param {*} [defaultValue=""] fallback value to return if conversion fails.
  * @returns {string|*} returns defaultValue if unable to convert to string.
@@ -32,8 +42,16 @@ export function stringify(subject, defaultValue = EMPTY_STRING) {
   case TYPE_BOOLEAN: return subject ? BOOLEAN_TRUE : BOOLEAN_FALSE;
   case TYPE_NUMBER:
     return isFinite(subject) ? empty + subject : defaultValue;
+
   case TYPE_STRING: return subject;
-  case TYPE_SYMBOL: return String(subject);
+  case TYPE_SYMBOL:
+    return [
+      STRING(subject),
+      "[",
+      (new Date()).getTime().toString(16),
+      MATH_ROUND(MATH_RANDOM() * 1000).toString(16),
+      "]"
+    ].join(empty);
   }
 
   return defaultValue;
@@ -42,7 +60,7 @@ export function stringify(subject, defaultValue = EMPTY_STRING) {
 /**
  * Returns repeated string "subject" in "count" number of times.
  *
- * @function module:string.repeat
+ * @function module:basic.repeat
  * @param {string} subject any data convertible to string.
  * @param {number} count number of times to repeat.
  * @returns {string} Returns empty string if unable to repeat.
@@ -70,7 +88,7 @@ export function repeat(subject, count) {
 /**
  * Removes starting and ending white spaces.
  *
- * @function module:string.trim
+ * @function module:basic.trim
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
@@ -89,7 +107,7 @@ export function trim(subject) {
 /**
  * Removes starting white spaces.
  *
- * @function module:string.trimStart
+ * @function module:basic.trimStart
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
@@ -104,7 +122,7 @@ export function trimStart(subject) {
 /**
  * Removes ending whitespace.
  *
- * @function module:string.trimEnd
+ * @function module:basic.trimEnd
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
