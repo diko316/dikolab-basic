@@ -10,7 +10,7 @@ describe("string()", () => {
     expect(string(typeof 6)).to.be.equal(true);
   });
 
-  it.only("should return false to non-string parameter.", () => {
+  it("should return false to non-string parameter.", () => {
     expect(string(6)).to.be.equal(false);
     expect(string(null)).to.be.equal(false);
     expect(string()).to.be.equal(false);

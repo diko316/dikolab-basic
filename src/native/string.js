@@ -1,3 +1,5 @@
+export const STRING = String;
+
 /**
  * Localized native String.fromCharCode(num1, [...numN]).
  * For more info, check out
@@ -11,4 +13,4 @@
  * @param {...number} [numN] utf-8 character code
  * @returns {string}
  */
-export const STRING_FROM_CHARCODE = String.fromCharCode;
+export const STRING_FROM_CHARCODE = STRING.fromCharCode;

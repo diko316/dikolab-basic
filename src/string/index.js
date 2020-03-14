@@ -3,5 +3,8 @@
  */
 export {
   repeat,
-  stringify
+  stringify,
+  trim,
+  trimStart,
+  trimEnd
 } from "./format";
