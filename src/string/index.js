@@ -2,8 +2,11 @@
  * @module string
  */
 export {
+  stringify
+} from "./type";
+
+export {
   repeat,
-  stringify,
   trim,
   trimStart,
   trimEnd

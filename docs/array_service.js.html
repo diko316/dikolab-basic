@@ -5,7 +5,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: unicode/service.js</title>
+    <title>JSDoc: array/service.js</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -54,7 +54,7 @@
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
                         <p>Source</p>
-                        <h1>unicode/service.js</h1>
+                        <h1>array/service.js</h1>
                     </header>
                     
                     
@@ -64,160 +64,141 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { method } from "../native/type";
+            <pre class="prettyprint source linenums"><code>import {
+  iteratable
+} from "../native/type";
+
+import {
+  TYPE_STRING,
+  TYPE_NUMBER
+} from "../native/constants";
 
 import { IS_FINITE } from "../native/number";
 
-import { EMPTY_STRING } from "../native/constants";
+import { MATH_MAX } from "../native/math";
 
 import {
-  STRING_FROM_CHARCODE
-} from "../native/string";
-
-import { stringify } from "../string/type";
+  ARRAY_SLICE
+} from "../native/array";
 
 import {
-  UNICODE_CODEPOINT_MATCH_REGEXP
-} from "./constants";
+  ARRAY_PAD_ERROR
+} from "./contants";
 
 /**
- * Splits string into collection of Unicode characters.
- *
- * @function module:unicode.string2unicodes
- * @param {string} subject String to split.
- * @returns {string[]} list of unicode characters.
+ * @typedef {object} IteratableObject
+ * @property {number} length
  */
-export function string2unicodes(subject) {
-  const string = stringify(subject);
-  const found = [];
-  let length = 0;
 
-  if (string) {
-    string.replace(
-      UNICODE_CODEPOINT_MATCH_REGEXP,
-      (char) => {
-        found[length++] = char;
-      }
-    );
+/**
+ * Iteratables are anything that has "length" property and
+ * contains numerically indexed items.
+ *
+ * @typedef {(string|Array|IteratableObject)} Iteratable
+ */
+
+/**
+ * Fixes parameters found in listPadStart and listPadEnd.
+ *
+ * @private
+ * @param {Iteratable} subject The iteratable to pad.
+ * @param {number} pad The total length to pad.
+ * @param {Iteratable} padList The items to fill-in.
+ * @returns {Array} pad information.
+ */
+function padInfo(subject, pad, padList) {
+  const typeString = TYPE_STRING;
+  const slice = ARRAY_SLICE;
+  let main = subject;
+  let totalPad = pad;
+  let padItems = padList;
+  if (!iteratable(subject)) {
+    throw new TypeError(ARRAY_PAD_ERROR);
+  }
+  else if (typeof main === typeString) {
+    main = slice.call(main, 0);
   }
 
-  return found;
-}
-
-/**
- * Splits string into collection of Unicode code points.
- *
- * @function module:unicode.string2codePoints
- * @param {string} subject String to split.
- * @returns {number[]} list of codePoints.
- */
-export function string2codePoints(subject) {
-  const string = stringify(subject);
-  const found = [];
-  let length = 0;
-
-  if (string) {
-    string.replace(
-      UNICODE_CODEPOINT_MATCH_REGEXP,
-      (char) => {
-        found[length++] = char.length === 1 ? char.charCodeAt(0)
-          : (char.charCodeAt(0) - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000;
-      }
-    );
+  if (typeof totalPad !== TYPE_NUMBER || !IS_FINITE(totalPad) || totalPad &lt; 0) {
+    totalPad = 0;
   }
 
-  return found;
+  if (!iteratable(padItems)) {
+    padItems = [];
+  }
+  else if (typeof padItems === typeString) {
+    padItems = slice.call(padItems, 0);
+  }
+
+  return [main, totalPad, padItems];
 }
 
-/**
- * The callback used on each Unicode codePoint found.
- *
- * @callback eachCodePointCallback
- * @param {number} codePoint Unicode codePoint.
- * @param {string} chars string representation of codePoint.
- * @param {number} index Unicode character zero based index position.
- */
-
-/**
- * Iterates Unicode codePoints of string that executes callback on each codePoint found.
- *
- * @category Types
- * @function module:unicode.eachUnicode
- * @param {string} subject string to iterate.
- * @param {eachCodePointCallback} callback The callback to execute on each codePoint.
- * @returns {number} number of codePoints found
- */
-export function eachUnicode(subject, callback) {
-  let char = null;
+export function listPadStart(subject, pad, padList) {
+  const max = MATH_MAX;
+  const info = padInfo(subject, pad, padList);
+  const main = info[0];
+  const total = info[1];
+  const list = info[2];
+  const result = [];
+  const padLength = list.length;
+  const mainLength = main.length;
+  let padItemsLength = padLength;
+  let length = max(
+    0,
+    max(
+      mainLength,
+      padLength,
+      total
+    ) - mainLength
+  );
+  let resultLength = 0;
   let c = 0;
-  let length = 0;
-  let foundLength = 0;
-  let string = null;
 
-  if (!method(callback)) {
-    return length;
+  for (; length-- &amp;&amp; padItemsLength--; c++) {
+    result[resultLength++] = list[c];
+    if (padItemsLength === 0) {
+      padItemsLength = padLength;
+      c = -1;
+    }
   }
 
-  string = string2unicodes(subject);
-  length = foundLength = string.length;
+  result.push.apply(result, main);
 
-  for (; length--; c++) {
-    char = string[c];
-    callback(
-      char.length === 1 ? char.charCodeAt(0)
-        : (char.charCodeAt(0) - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000,
-      char,
-      c
-    );
-  }
-
-  return foundLength;
+  return result;
 }
 
-/**
- * Creates string with given list of codePoints.
- *
- * @function module:unicode.codePoint2string
- * @param {...number[]} codes codePoint to convert to string.
- * @returns {string} the string created based from codePoints list.
- */
-export function codePoint2string(...codes) {
-  const fromCharCode = STRING_FROM_CHARCODE;
-  const finite = IS_FINITE;
-  const empty = EMPTY_STRING;
-  const found = [];
-  let foundLength = 0;
+export function listPadEnd(subject, pad, padList) {
+  const max = MATH_MAX;
+  const info = padInfo(subject, pad, padList);
+  const main = info[0];
+  const total = info[1];
+  const list = info[2];
+  const result = [];
+  const padLength = list.length;
+  const mainLength = main.length;
+  let padItemsLength = padLength;
+  let length = max(
+    0,
+    max(
+      mainLength,
+      padLength,
+      total
+    ) - mainLength
+  );
   let c = 0;
-  let length = codes.length;
-  let value = null;
-  let code = null;
+  let resultLength = mainLength;
 
-  if (!length) {
-    return empty;
-  }
+  result.push.apply(result, main);
 
-  for (; length--; c++) {
-    code = codes[c];
-    value = 1 * code;
-
-    if (!finite(value) || value &lt; 0 || value > 0x10FFFF) {
-      console.warn(RangeError(`Invalid code point: ${code}`));
-      return empty;
-    }
-
-    if (value > 0xFFFF) {
-      value -= 0x10000;
-      found[foundLength++] = fromCharCode(
-        (value >> 10) + 0xD800,
-        (value % 0x400) + 0xDC00
-      );
-    }
-    else {
-      found[foundLength++] = fromCharCode(value);
+  for (; length-- &amp;&amp; padItemsLength--; c++) {
+    result[resultLength++] = list[c];
+    if (padItemsLength === 0) {
+      padItemsLength = padLength;
+      c = -1;
     }
   }
 
-  return found.join(empty);
+  return result;
 }
 </code></pre>
         </article>

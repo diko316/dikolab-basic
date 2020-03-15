@@ -58,6 +58,43 @@ describe("Utf", () => {
     });
   });
 
+  describe("Utf.prototype.padStart(targetLength [, padString])", () => {
+    it("Should support with String.prototype.padStart(targetLength [, padString]).", () => {
+      expect(utf.padStart(7, "a").text).to.be.equal("aa" + stringSample);
+      expect(utf.padStart(7, "animal").text).to.be.equal("an" + stringSample);
+      expect(utf.padStart(6, "animal").text).to.be.equal("a" + stringSample);
+      expect(utf.padStart(6).text).to.be.equal(" " + stringSample);
+      expect(utf.padStart(3).text).to.be.equal(stringSample);
+      expect(utf.padStart(5).text).to.be.equal(stringSample);
+    });
+  });
+
+  describe("Utf.prototype.padEnd(targetLength [, padString])", () => {
+    it("Should support with String.prototype.padEnd(targetLength [, padString]).", () => {
+      expect(utf.padEnd(7, "a").text).to.be.equal(stringSample + "aa");
+      expect(utf.padEnd(7, "animal").text).to.be.equal(stringSample + "an");
+      expect(utf.padEnd(6, "animal").text).to.be.equal(stringSample + "a");
+      expect(utf.padEnd(6).text).to.be.equal(stringSample + " ");
+      expect(utf.padEnd(3).text).to.be.equal(stringSample);
+      expect(utf.padEnd(5).text).to.be.equal(stringSample);
+    });
+  });
+
+  describe("Utf.prototype.repeat(count)", () => {
+    it("Should support with String.prototype.repeat(count).", () => {
+      expect(utf.repeat(2).text).to.be.equal(stringSample + stringSample);
+    });
+  });
+
+  describe("Utf.prototype.split(separator, limit)", () => {
+    it("Should support with String.prototype.separator(separator, limit).", () => {
+      expect(utf.split("").length).to.be.equal(5);
+      expect(utf.split("", 2).length).to.be.equal(2);
+      expect(utf.split("e", 1).length).to.be.equal(1);
+      expect(utf.split(/e/, 1).length).to.be.equal(1);
+    });
+  });
+
   // it.only("Should create Utf string", () => {
   //   const sample = '\uD83D\uDCA9';
   //   const instance = new Utf(`buang${sample}`);
