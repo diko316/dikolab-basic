@@ -13,8 +13,11 @@ import {
   REGEXP_SIGNATURE,
   PROMISE_SIGNATURE,
   UNDEFINED_SIGNATURE,
-  NULL_SIGNATURE
+  NULL_SIGNATURE,
+  TYPE_OBJECT
 } from "./constants";
+
+import { IS_FINITE } from "./number";
 
 import { OBJECT_TO_STRING } from "./object";
 
@@ -37,7 +40,7 @@ export function string(subject) {
  * @returns {boolean} result
  */
 export function number(subject) {
-  return typeof subject === TYPE_NUMBER && isFinite(subject);
+  return typeof subject === TYPE_NUMBER && IS_FINITE(subject);
 }
 
 /**
@@ -89,7 +92,7 @@ export function numeric(subject) {
 
   // falls through
   case TYPE_NUMBER:
-    return isFinite(result);
+    return IS_FINITE(result);
 
   case TYPE_BIGINT: return true;
   }
@@ -111,7 +114,7 @@ export function scalar(subject) {
   case TYPE_STRING:
   case TYPE_BOOLEAN: return true;
 
-  case TYPE_NUMBER: return isFinite(subject);
+  case TYPE_NUMBER: return IS_FINITE(subject);
   }
 
   return false;
@@ -184,6 +187,16 @@ export function promise(subject) {
   case OBJECT_SIGNATURE: return subject !== null && method(subject.then);
 
   case PROMISE_SIGNATURE: return true;
+  }
+
+  return false;
+}
+
+export function iteratable(subject) {
+  switch (typeof subject) {
+  case TYPE_STRING: return true;
+  case TYPE_OBJECT:
+    return subject !== null && IS_FINITE(subject.length);
   }
 
   return false;

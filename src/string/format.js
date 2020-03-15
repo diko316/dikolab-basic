@@ -1,66 +1,30 @@
 import {
-  TYPE_NUMBER,
   TYPE_STRING,
-  TYPE_BOOLEAN,
-  TYPE_SYMBOL,
-
-  BOOLEAN_TRUE,
-  BOOLEAN_FALSE,
   EMPTY_STRING
 } from "../native/constants";
-
-import {
-  MATH_RANDOM,
-  MATH_ROUND
-} from "../native/math";
-
-import {
-  STRING
-} from "../native/string";
 
 import { numberify } from "../number/format";
 
 import {
   STRING_TRIM_LEFT_REGEXP,
   STRING_TRIM_RIGHT_REGEXP,
-  TRIM_ERROR_NOT_STRING
+  TRIM_ERROR_NOT_STRING,
+  DEFAULT_PADSTRING
 } from "./constants";
 
-/**
- * Convert Any value to string. Or return "defaultValue" parameter.
- *
- * @category String
- * @function module:basic.stringify
- * @param {*} subject data to convert to string.
- * @param {*} [defaultValue=""] fallback value to return if conversion fails.
- * @returns {string|*} returns defaultValue if unable to convert to string.
- */
-export function stringify(subject, defaultValue = EMPTY_STRING) {
-  const empty = EMPTY_STRING;
+import {
+  stringify
+} from "./type";
 
-  switch (typeof subject) {
-  case TYPE_BOOLEAN: return subject ? BOOLEAN_TRUE : BOOLEAN_FALSE;
-  case TYPE_NUMBER:
-    return isFinite(subject) ? empty + subject : defaultValue;
-
-  case TYPE_STRING: return subject;
-  case TYPE_SYMBOL:
-    return [
-      STRING(subject),
-      "[",
-      (new Date()).getTime().toString(16),
-      MATH_ROUND(MATH_RANDOM() * 1000).toString(16),
-      "]"
-    ].join(empty);
-  }
-
-  return defaultValue;
-}
+import {
+  listPadStart,
+  listPadEnd
+} from "../array/service";
 
 /**
  * Returns repeated string "subject" in "count" number of times.
  *
- * @function module:basic.repeat
+ * @function module:string.repeat
  * @param {string} subject any data convertible to string.
  * @param {number} count number of times to repeat.
  * @returns {string} Returns empty string if unable to repeat.
@@ -86,9 +50,49 @@ export function repeat(subject, count) {
 }
 
 /**
+ * Creates a padded string with another string (multiple times, if needed)
+ * until the resulting string reaches the given length.
+ * The padding is applied from the start of the string.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}
+ * @function module:string.padStart
+ * @param {string} subject The string to pad.
+ * @param {number} length The length of the resulting string once it has been padded.
+ * @param {string} padString The string to pad the current string with.
+ * @returns {string} string of the specified length with the pad string applied from the start.
+ */
+export function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {
+  return listPadStart(
+    stringify(subject),
+    length,
+    padString
+  ).join(EMPTY_STRING);
+}
+
+/**
+ * Creates a padded string with another string (multiple times, if needed)
+ * until the resulting string reaches the given length.
+ * The padding is applied from the end of the string.
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}
+ * @function module:string.padEnd
+ * @param {string} subject The string to pad.
+ * @param {number} length The length of the resulting stringe once it has been padded.
+ * @param {string} padString The string to pad the current string with.
+ * @returns {string} string of the specified length with the pad string applied from the end.
+ */
+export function padEnd(subject, length = 0, padString = DEFAULT_PADSTRING) {
+  return listPadEnd(
+    stringify(subject),
+    length,
+    padString
+  ).join(EMPTY_STRING);
+}
+
+/**
  * Removes starting and ending white spaces.
  *
- * @function module:basic.trim
+ * @function module:string.trim
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
@@ -107,7 +111,7 @@ export function trim(subject) {
 /**
  * Removes starting white spaces.
  *
- * @function module:basic.trimStart
+ * @function module:string.trimStart
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
@@ -122,7 +126,7 @@ export function trimStart(subject) {
 /**
  * Removes ending whitespace.
  *
- * @function module:basic.trimEnd
+ * @function module:string.trimEnd
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */

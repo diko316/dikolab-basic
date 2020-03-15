@@ -8,7 +8,7 @@ import {
   STRING_FROM_CHARCODE
 } from "../native/string";
 
-import { stringify } from "../string/format";
+import { stringify } from "../string/type";
 
 import {
   UNICODE_CODEPOINT_MATCH_REGEXP
@@ -17,7 +17,7 @@ import {
 /**
  * Splits string into collection of Unicode characters.
  *
- * @function module:basic.string2unicodes
+ * @function module:unicode.string2unicodes
  * @param {string} subject String to split.
  * @returns {string[]} list of unicode characters.
  */
@@ -41,7 +41,7 @@ export function string2unicodes(subject) {
 /**
  * Splits string into collection of Unicode code points.
  *
- * @function module:basic.string2codePoints
+ * @function module:unicode.string2codePoints
  * @param {string} subject String to split.
  * @returns {number[]} list of codePoints.
  */
@@ -76,7 +76,7 @@ export function string2codePoints(subject) {
  * Iterates Unicode codePoints of string that executes callback on each codePoint found.
  *
  * @category Types
- * @function module:basic.eachUnicode
+ * @function module:unicode.eachUnicode
  * @param {string} subject string to iterate.
  * @param {eachCodePointCallback} callback The callback to execute on each codePoint.
  * @returns {number} number of codePoints found
@@ -111,7 +111,7 @@ export function eachUnicode(subject, callback) {
 /**
  * Creates string with given list of codePoints.
  *
- * @function module:basic.codePoint2string
+ * @function module:unicode.codePoint2string
  * @param {...number[]} codes codePoint to convert to string.
  * @returns {string} the string created based from codePoints list.
  */
