@@ -67,6 +67,17 @@ function padInfo(subject, pad, padList) {
   return [main, totalPad, padItems];
 }
 
+/**
+ * Creates a padded Array with another Iteratable (multiple times, if needed)
+ * until the resulting Iteratable reaches the given length.
+ * The padding is applied from the start of the Iteratable.
+ *
+ * @function module:array.listPadStart
+ * @param {Iteratable} subject The iteratable to pad.
+ * @param {number} pad The length of the resulting Iteratable once it has been padded.
+ * @param {Iteratable} padList The string to pad the current Utf instance with.
+ * @returns {Array} Utf instance of the specified length with the pad string applied from the start.
+ */
 export function listPadStart(subject, pad, padList) {
   const max = MATH_MAX;
   const info = padInfo(subject, pad, padList);
@@ -76,7 +87,6 @@ export function listPadStart(subject, pad, padList) {
   const result = [];
   const padLength = list.length;
   const mainLength = main.length;
-  let padItemsLength = padLength;
   let length = max(
     0,
     max(
@@ -88,12 +98,9 @@ export function listPadStart(subject, pad, padList) {
   let resultLength = 0;
   let c = 0;
 
-  for (; length-- && padItemsLength--; c++) {
+  for (; length--; c++) {
     result[resultLength++] = list[c];
-    if (padItemsLength === 0) {
-      padItemsLength = padLength;
-      c = -1;
-    }
+    c = (c + 1) % padLength;
   }
 
   result.push.apply(result, main);
@@ -101,6 +108,17 @@ export function listPadStart(subject, pad, padList) {
   return result;
 }
 
+/**
+ * Creates a padded Array with another Iteratable (multiple times, if needed)
+ * until the resulting Iteratable reaches the given length.
+ * The padding is applied from the end of the Iteratable.
+ *
+ * @function module:array.listPadEnd
+ * @param {Iteratable} subject The iteratable to pad.
+ * @param {number} pad The length of the resulting Iteratable once it has been padded.
+ * @param {Iteratable} padList The string to pad the current Utf instance with.
+ * @returns {Array} Utf instance of the specified length with the pad string applied from the start.
+ */
 export function listPadEnd(subject, pad, padList) {
   const max = MATH_MAX;
   const info = padInfo(subject, pad, padList);
@@ -110,7 +128,6 @@ export function listPadEnd(subject, pad, padList) {
   const result = [];
   const padLength = list.length;
   const mainLength = main.length;
-  let padItemsLength = padLength;
   let length = max(
     0,
     max(
@@ -124,12 +141,9 @@ export function listPadEnd(subject, pad, padList) {
 
   result.push.apply(result, main);
 
-  for (; length-- && padItemsLength--; c++) {
+  for (; length--;) {
     result[resultLength++] = list[c];
-    if (padItemsLength === 0) {
-      padItemsLength = padLength;
-      c = -1;
-    }
+    c = (c + 1) % padLength;
   }
 
   return result;

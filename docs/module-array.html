@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: number</title>
+    <title>JSDoc: array</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -52,7 +52,7 @@
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
                         <p>Module</p>
-                        <h1>number</h1>
+                        <h1>array</h1>
                     </header>
                     
                     
@@ -100,8 +100,8 @@
 
 
     
-    <h4 class="name" id=".numberify">
-        <a class="href-link" href="#.numberify">#</a>
+    <h4 class="name" id=".listPadEnd">
+        <a class="href-link" href="#.listPadEnd">#</a>
         
             
                 <span class='tag'>static</span>
@@ -109,7 +109,7 @@
         
         <span class="code-name">
             
-                numberify<span class="signature">(subject, defaultValue<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number|*}</span>
+                listPadEnd<span class="signature">(subject, pad, padList)</span><span class="type-signature"> &rarr; {Array}</span>
             
         </span>
     </h4>
@@ -118,7 +118,9 @@
     
     
     <div class="description">
-        <p>Convert any type &quot;subject&quot; parameter to number.</p>
+        <p>Creates a padded Array with another Iteratable (multiple times, if needed)
+until the resulting Iteratable reaches the given length.
+The padding is applied from the end of the Iteratable.</p>
     </div>
     
 
@@ -143,11 +145,7 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
-        
-        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -166,29 +164,17 @@
   <td class="type">
   
       
-<span class="param-type">*</span>
+<span class="param-type"><a href="global.html#Iteratable">Iteratable</a></span>
 
 
   
   </td>
 
   
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
 
   
-      <td class="default">
-      
-      </td>
-  
 
-  <td class="description last"><p>data to convert to number.</p></td>
+  <td class="description last"><p>The iteratable to pad.</p></td>
 </tr>
 
 
@@ -197,39 +183,48 @@
         
 <tr class="deep-level-0">
   
-      <td class="name"><code>defaultValue</code></td>
+      <td class="name"><code>pad</code></td>
   
 
   <td class="type">
   
       
-<span class="param-type">*</span>
+<span class="param-type">number</span>
 
 
   
   </td>
 
   
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
 
-      
+  
 
+  <td class="description last"><p>The length of the resulting Iteratable once it has been padded.</p></td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>padList</code></td>
+  
+
+  <td class="type">
+  
       
-      </td>
+<span class="param-type"><a href="global.html#Iteratable">Iteratable</a></span>
+
+
+  
+  </td>
+
   
 
   
-      <td class="default">
-      
-          0
-      
-      </td>
-  
 
-  <td class="description last"><p>default return value.</p></td>
+  <td class="description last"><p>The string to pad the current Utf instance with.</p></td>
 </tr>
 
 
@@ -274,9 +269,9 @@
 
     
         <p class="tag-source">
-            <a href="number_format.js.html" class="button">View Source</a>
+            <a href="array_service.js.html" class="button">View Source</a>
             <span>
-                <a href="number_format.js.html">number/format.js</a>, <a href="number_format.js.html#line7">line 7</a>
+                <a href="array_service.js.html">array/service.js</a>, <a href="array_service.js.html#line111">line 111</a>
             </span>
         </p>
     
@@ -307,16 +302,241 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Uses defaultValue if not converted to number.</p></div>
+    <div class='param-desc column is-7'><p>Utf instance of the specified length with the pad string applied from the start.</p></div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<span class="param-type">number</span>
-|
+<span class="param-type">Array</span>
 
-<span class="param-type">*</span>
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id=".listPadStart">
+        <a class="href-link" href="#.listPadStart">#</a>
+        
+            
+                <span class='tag'>static</span>
+            
+        
+        <span class="code-name">
+            
+                listPadStart<span class="signature">(subject, pad, padList)</span><span class="type-signature"> &rarr; {Array}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        <p>Creates a padded Array with another Iteratable (multiple times, if needed)
+until the resulting Iteratable reaches the given length.
+The padding is applied from the start of the Iteratable.</p>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>subject</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type"><a href="global.html#Iteratable">Iteratable</a></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The iteratable to pad.</p></td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>pad</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The length of the resulting Iteratable once it has been padded.</p></td>
+</tr>
+
+
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>padList</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type"><a href="global.html#Iteratable">Iteratable</a></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>The string to pad the current Utf instance with.</p></td>
+</tr>
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="array_service.js.html" class="button">View Source</a>
+            <span>
+                <a href="array_service.js.html">array/service.js</a>, <a href="array_service.js.html#line70">line 70</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Utf instance of the specified length with the pad string applied from the start.</p></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array</span>
 
 
     </div>
