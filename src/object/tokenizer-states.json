@@ -1,0 +1,103 @@
+{
+  "state": {
+    "initial": {
+      ":*": "ident",
+      ".": "dot",
+      ",": "comma",
+      "[": "br1",
+      "]": "br2",
+      "(": "pr1",
+      ")": "pr2",
+      "\"": "dquote",
+      "'": "squote",
+      "?": "question",
+      ":": "colon",
+      "=": "assign",
+      "/": "slash",
+      "*": "star"
+    },
+    "ident": {
+      ":*": "ident",
+      ".": false,
+      ",": false,
+      "[": false,
+      "]": false,
+      "(": false,
+      ")": false,
+      "\"": false,
+      "'": false,
+      "?": false,
+      ":": false,
+      "=": false,
+      "/": false,
+      "*": false
+    },
+    "dot": {
+      ".": "range"
+    },
+    "comma": {},
+    "dquote": {
+      ":*": "dquote",
+      "\\": "dqEscape",
+      "\"": "string"
+    },
+    "dqEscape": {
+      ":*": "dquote"
+    },
+    "squote": {
+      ":*": "squote",
+      "\\": "sqEscape",
+      "'": "string"
+    },
+    "sqEscape": {
+      ":*": "squote"
+    },
+    "slash": {
+      "/": "scomment1",
+      "*": "mcomment1"
+    },
+    "star": {},
+    "scomment1": {
+      ":*": "scomment2",
+      "\n": "scomment2"
+    },
+    "scomment2": {},
+    "mcomment1": {
+      ":*": "mcomment1",
+      "*": "mcomment2"
+    },
+    "mcomment2": {
+      ":*": "mcomment1",
+      "/": "mcomment3"
+    },
+    "mcomment3": {},
+    "range": {},
+    "br1": {},
+    "br2": {},
+    "pr1": {},
+    "pr2": {},
+    "string": {},
+    "question": {},
+    "colon": {},
+    "assign": {}
+  },
+  "ends": {
+    "ident": "ident",
+    "br1": "[",
+    "br2": "]",
+    "pr1": "(",
+    "pr2": ")",
+    "dot": ".",
+    "comma": ",",
+    "range": "..",
+    "call": "call(",
+    "string": "string",
+    "question": "?",
+    "colon": ":",
+    "assign": "=",
+    "slash": "/",
+    "star": "*",
+    "scomment2": "//",
+    "mcomment3": "/*"
+  }
+}
