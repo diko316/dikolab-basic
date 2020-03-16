@@ -68,10 +68,6 @@ import {
 
 /**
  * Utf Class for unicode representation of String.
- *
- * @category Unicode
- * @class
- * @alias module:unicode.Utf
  */
 export class Utf {
   /**
@@ -787,7 +783,7 @@ export class Utf {
    *
    * @returns {string} JSON representation of Utf instance.
    */
-  toJson() {
+  toJSON() {
     return this.text;
   }
 
