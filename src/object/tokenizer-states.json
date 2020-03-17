@@ -14,7 +14,24 @@
       ":": "colon",
       "=": "assign",
       "/": "slash",
-      "*": "star"
+      "*": "star",
+      "+": "plus",
+      "-": "minus",
+      "%": "modulo",
+      "0": "whole",
+      "1": "whole",
+      "2": "whole",
+      "3": "whole",
+      "4": "whole",
+      "5": "whole",
+      "6": "whole",
+      "7": "whole",
+      "8": "whole",
+      "9": "whole",
+      " ": "whitespace",
+      "\r": "whitespace",
+      "\n": "whitespace",
+      "\t": "whitespace"
     },
     "ident": {
       ":*": "ident",
@@ -30,10 +47,27 @@
       ":": false,
       "=": false,
       "/": false,
-      "*": false
+      "*": false,
+      "+": false,
+      "-": false,
+      "%": false,
+      " ": false,
+      "\r": false,
+      "\n": false,
+      "\t": false
     },
     "dot": {
-      ".": "range"
+      ".": "range",
+      "0": "float",
+      "1": "float",
+      "2": "float",
+      "3": "float",
+      "4": "float",
+      "5": "float",
+      "6": "float",
+      "7": "float",
+      "8": "float",
+      "9": "float"
     },
     "comma": {},
     "dquote": {
@@ -56,6 +90,7 @@
       "/": "scomment1",
       "*": "mcomment1"
     },
+    "modulo": {},
     "star": {},
     "scomment1": {
       ":*": "scomment2",
@@ -79,7 +114,79 @@
     "string": {},
     "question": {},
     "colon": {},
-    "assign": {}
+    "assign": {},
+    "plus": {
+      "0": "whole",
+      "1": "whole",
+      "2": "whole",
+      "3": "whole",
+      "4": "whole",
+      "5": "whole",
+      "6": "whole",
+      "7": "whole",
+      "8": "whole",
+      "9": "whole",
+      ".": "floatDot"
+    },
+    "minus": {
+      "0": "whole",
+      "1": "whole",
+      "2": "whole",
+      "3": "whole",
+      "4": "whole",
+      "5": "whole",
+      "6": "whole",
+      "7": "whole",
+      "8": "whole",
+      "9": "whole",
+      ".": "floatDot"
+    },
+    "whole": {
+      "0": "whole",
+      "1": "whole",
+      "2": "whole",
+      "3": "whole",
+      "4": "whole",
+      "5": "whole",
+      "6": "whole",
+      "7": "whole",
+      "8": "whole",
+      "9": "whole",
+      ".": "floatDot",
+      "%": "percent"
+    },
+    "floatDot": {
+      "0": "float",
+      "1": "float",
+      "2": "float",
+      "3": "float",
+      "4": "float",
+      "5": "float",
+      "6": "float",
+      "7": "float",
+      "8": "float",
+      "9": "float"
+    },
+    "float": {
+      "0": "float",
+      "1": "float",
+      "2": "float",
+      "3": "float",
+      "4": "float",
+      "5": "float",
+      "6": "float",
+      "7": "float",
+      "8": "float",
+      "9": "float",
+      "%": "percent"
+    },
+    "percent": {},
+    "whitespace": {
+      " ": "whitespace",
+      "\r": "whitespace",
+      "\n": "whitespace",
+      "\t": "whitespace"
+    }
   },
   "ends": {
     "ident": "ident",
@@ -98,6 +205,18 @@
     "slash": "/",
     "star": "*",
     "scomment2": "//",
-    "mcomment3": "/*"
+    "mcomment3": "/*",
+    "plus": "+",
+    "minus": "-",
+    "modulo": "%",
+    "whole": "integer",
+    "float": "float",
+    "whitespace": "whitespace",
+    "percent": "percent"
+  },
+  "transform": {
+    "ident": {
+      "set": "keyword"
+    }
   }
 }

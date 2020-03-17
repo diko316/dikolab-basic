@@ -42,8 +42,8 @@ export function tokenize(input, startIndex) {
       if (found in ends) {
         nextIndex = c + 1;
         token = ends[found];
-        continue;
       }
+      continue;
     }
 
     break;

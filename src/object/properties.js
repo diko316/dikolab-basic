@@ -30,7 +30,6 @@ import {
 /**
  * Iterates object properties or iteratable items calling [callback].
  *
- * @function module:object.each
  * @param {object|Array} subject object or iteratable to iterate.
  * @param {eachObjectPropertyCallback} callback function to call on each iteration.
  * @returns {number|string} last iteratable index or property name iterated.
