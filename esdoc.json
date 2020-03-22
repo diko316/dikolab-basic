@@ -31,6 +31,15 @@
       },
       "typeInference": {
         "enable": true
+      },
+      "manual": {
+        "index": "./README.md",
+        "globalIndex": true,
+        "asset": "./manual",
+        "files": [
+          "./README.md",
+          "./manual/json/query.md"
+        ]
       }
     }
   }]

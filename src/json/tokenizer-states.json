@@ -18,6 +18,7 @@
       "+": "plus",
       "-": "minus",
       "%": "modulo",
+      "#": "pound",
       "0": "whole",
       "1": "whole",
       "2": "whole",
@@ -51,6 +52,7 @@
       "+": false,
       "-": false,
       "%": false,
+      "#": false,
       " ": false,
       "\r": false,
       "\n": false,
@@ -87,11 +89,22 @@
       ":*": "squote"
     },
     "slash": {
+      ":*": "pattern",
+      "\\": "patternEscape",
       "/": "scomment1",
       "*": "mcomment1"
     },
     "modulo": {},
     "star": {},
+    "pattern": {
+      ":*": "pattern",
+      "\\": "patternEscape",
+      "/": "regex"
+    },
+    "patternEscape": {
+      ":*": "pattern"
+    },
+    "regex": {},
     "scomment1": {
       ":*": "scomment2",
       "\n": "scomment2"
@@ -115,6 +128,7 @@
     "question": {},
     "colon": {},
     "assign": {},
+    "pound": {},
     "plus": {
       "0": "whole",
       "1": "whole",
@@ -209,10 +223,12 @@
     "plus": "+",
     "minus": "-",
     "modulo": "%",
+    "pound": "#",
     "whole": "integer",
     "float": "float",
     "whitespace": "whitespace",
-    "percent": "percent"
+    "percent": "percent",
+    "regex": "regex"
   },
   "transform": {
     "ident": {

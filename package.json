@@ -16,7 +16,7 @@
     "doc:build": "esdoc -c esdoc.json",
     "docdoc:build": "documentation build src/** -f html -o docs",
     "doc": "run-s clean:doc doc:build",
-    "doc-dev:build": "nodemon -V --watch src --exec 'npm run doc:build'",
+    "doc-dev:build": "nodemon -V --watch src --watch esdoc.json --watch README.md --watch manual --ext js,md,json --exec 'npm run doc:build'",
     "doc-dev:serve": "browser-sync start --config browsersync.doc.js",
     "predoc-dev": "npm run clean:doc",
     "doc-dev": "run-p doc-dev:build doc-dev:serve",

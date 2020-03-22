@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="./">
+  <base data-ice="baseUrl" href="../">
   <title data-ice="title">Manual | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
 <meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikotech/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
-<body class="layout-container manual-root manual-index" data-ice="rootContainer">
+<body class="layout-container manual-root" data-ice="rootContainer">
 
 <header>
   <a href="./">Home</a>
@@ -55,94 +55,7 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown">
-  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikotech-basic">@dikotech/basic</h1></div>
-
-  
-
-  <div class="manual-cards">
-    
-  <div class="manual-card-wrap" data-ice="cards">
-      <div class="manual-card">
-        <div data-ice="card"><h1>@dikotech/basic</h1></div>
-        <a data-ice="link" href="manual/README.html"></a>
-      </div>
-    </div>
-<div class="manual-card-wrap" data-ice="cards">
-      <div class="manual-card">
-        <div data-ice="card"><h1>JSON Query</h1><h2>Getting Started</h2><h2><code>get</code> query</h2><h3>extract value</h3><h4>data.json</h4><pre><code class="lang-json"><code class="source-code prettyprint">{
-  &quot;message&quot;: &quot;Ok&quot;,
-  &quot;data&quot;: [
-    {
-      &quot;id&quot;: 1,
-      &quot;name&quot;: &quot;name1&quot;,
-      &quot;language&quot;: [
-        &quot;en&quot;,
-        &quot;fr&quot;
-      ]
-    },
-    {
-      &quot;id&quot;: 2,
-      &quot;name&quot;: &quot;name2&quot;
-    }
-  ]
-}</code>
-</code></pre><h3>Simple extract value</h3><pre><code class="lang-js"><code class="source-code prettyprint">const object = require(&quot;data.json&quot;);
-
-// returns 1
-query(
-  object,
-  &quot;get data[0].id&quot;
-);</code>
-</code></pre><h3>Compose Object</h3><pre><code class="lang-js"><code class="source-code prettyprint">// returns { &quot;found&quot;: 1 }
-query(
-  object,
-`get
-  data[0].id as found,
-  data[1].name as nextName
-`
-);</code>
-</code></pre><h3>List Filter</h3><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot; ]
-query(
-  object,
-  &quot;get data[] #name=name1 language[]&quot;
-);</code>
-</code></pre><h3>Substitution</h3><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot; ]
-query(
-  object,
-  &quot;get data[] #name=? language[]&quot;,
-  [
-    &quot;name1&quot;
-  ]
-);</code>
-</code></pre><h2><code>set</code> query</h2><h3>assign value</h3><h4>data.json</h4><pre><code class="lang-json"><code class="source-code prettyprint">{
-  &quot;message&quot;: &quot;Ok&quot;,
-  &quot;data&quot;: [
-    {
-      &quot;id&quot;: 1,
-      &quot;name&quot;: &quot;name1&quot;,
-      &quot;language&quot;: [
-        &quot;en&quot;,
-        &quot;fr&quot;
-      ]
-    },
-    {
-      &quot;id&quot;: 2,
-      &quot;name&quot;: &quot;name2&quot;
-    }
-  ]
-}</code>
-</code></pre><h3>Simple set</h3><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
-query(
-  object,
-  &quot;set data[0].id=42&quot;
-);</code>
-</code></pre></div>
-        <a data-ice="link" href="manual/query.html"></a>
-      </div>
-    </div>
-</div>
-</div>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-dikotech-basic">@dikotech/basic</h1></div>
 </div>
 
 <footer class="footer">

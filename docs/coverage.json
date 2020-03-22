@@ -15,6 +15,13 @@
       "actualCount": 3,
       "undocumentLines": []
     },
+    "src/json/tokenizer.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        11
+      ]
+    },
     "src/lifecycle/destructor.js": {
       "expectCount": 8,
       "actualCount": 5,
@@ -135,13 +142,6 @@
       "expectCount": 2,
       "actualCount": 2,
       "undocumentLines": []
-    },
-    "src/object/tokenizer.js": {
-      "expectCount": 1,
-      "actualCount": 0,
-      "undocumentLines": [
-        11
-      ]
     },
     "src/object/validate.js": {
       "expectCount": 1,

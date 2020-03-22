@@ -546,6 +546,18 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/index.js",
+    "file/src/json/index.js.html",
+    "src/json/index.js",
+    "file"
+  ],
+  [
+    "src/json/tokenizer.js",
+    "file/src/json/tokenizer.js.html",
+    "src/json/tokenizer.js",
+    "file"
+  ],
+  [
     "src/lifecycle/destructor.js",
     "file/src/lifecycle/destructor.js.html",
     "src/lifecycle/destructor.js",
@@ -639,12 +651,6 @@ window.esdocSearchIndex = [
     "src/object/properties.js",
     "file/src/object/properties.js.html",
     "src/object/properties.js",
-    "file"
-  ],
-  [
-    "src/object/tokenizer.js",
-    "file/src/object/tokenizer.js.html",
-    "src/object/tokenizer.js",
     "file"
   ],
   [
