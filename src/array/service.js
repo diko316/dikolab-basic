@@ -34,7 +34,6 @@ import {
 /**
  * Fixes parameters found in listPadStart and listPadEnd.
  *
- * @private
  * @param {Iteratable} subject The iteratable to pad.
  * @param {number} pad The total length to pad.
  * @param {Iteratable} padList The items to fill-in.
@@ -72,7 +71,6 @@ function padInfo(subject, pad, padList) {
  * until the resulting Iteratable reaches the given length.
  * The padding is applied from the start of the Iteratable.
  *
- * @function module:array.listPadStart
  * @param {Iteratable} subject The iteratable to pad.
  * @param {number} pad The length of the resulting Iteratable once it has been padded.
  * @param {Iteratable} padList The string to pad the current Utf instance with.
@@ -113,7 +111,6 @@ export function listPadStart(subject, pad, padList) {
  * until the resulting Iteratable reaches the given length.
  * The padding is applied from the end of the Iteratable.
  *
- * @function module:array.listPadEnd
  * @param {Iteratable} subject The iteratable to pad.
  * @param {number} pad The length of the resulting Iteratable once it has been padded.
  * @param {Iteratable} padList The string to pad the current Utf instance with.

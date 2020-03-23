@@ -17,7 +17,6 @@ import {
 /**
  * Splits string into collection of Unicode characters.
  *
- * @function module:unicode.string2unicodes
  * @param {string} subject String to split.
  * @returns {string[]} list of unicode characters.
  */
@@ -41,7 +40,6 @@ export function string2unicodes(subject) {
 /**
  * Splits string into collection of Unicode code points.
  *
- * @function module:unicode.string2codePoints
  * @param {string} subject String to split.
  * @returns {number[]} list of codePoints.
  */
@@ -75,8 +73,6 @@ export function string2codePoints(subject) {
 /**
  * Iterates Unicode codePoints of string that executes callback on each codePoint found.
  *
- * @category Types
- * @function module:unicode.eachUnicode
  * @param {string} subject string to iterate.
  * @param {eachCodePointCallback} callback The callback to execute on each codePoint.
  * @returns {number} number of codePoints found
@@ -111,7 +107,6 @@ export function eachUnicode(subject, callback) {
 /**
  * Creates string with given list of codePoints.
  *
- * @function module:unicode.codePoint2string
  * @param {...number[]} codes codePoint to convert to string.
  * @returns {string} the string created based from codePoints list.
  */

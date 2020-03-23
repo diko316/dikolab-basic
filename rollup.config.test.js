@@ -30,6 +30,7 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      "json",
       "buble"
     ]
   )

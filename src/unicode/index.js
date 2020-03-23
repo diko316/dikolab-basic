@@ -1,6 +1,3 @@
-/**
- * @module unicode
- */
 export {
   Utf
 } from "./Utf";

@@ -23,5 +23,8 @@
   "templates": {
     "cleverLinks": false,
     "monospaceLinks": false
+  },
+  "babel": {
+    "presets": ["@babel/env"]
   }
 }

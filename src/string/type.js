@@ -22,7 +22,6 @@ import {
  * Convert Any value to string. Or return "defaultValue" parameter.
  *
  * @category String
- * @function module:string.stringify
  * @param {*} subject data to convert to string.
  * @param {*} [defaultValue=""] fallback value to return if conversion fails.
  * @returns {string|*} returns defaultValue if unable to convert to string.

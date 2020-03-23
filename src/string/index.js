@@ -1,6 +1,3 @@
-/**
- * @module string
- */
 export {
   stringify
 } from "./type";

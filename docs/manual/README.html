@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../">
+  <title data-ice="title">Manual | @dikotech/basic</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikotech/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
+<body class="layout-container manual-root" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikotech-basic"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div class="manual-toc-root">
+  
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/README.html"><a href="manual/README.html" data-ice="link">@dikotech/basic</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/query.html"><a href="manual/query.html" data-ice="link">JSON Query</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#acquire--code-query--code--function-from--dikotech-basic" data-ice="link">Acquire query function from @dikotech/basic</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#-code-get--code--query" data-ice="link">get query</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#data-json-file-sample-data" data-ice="link">data.json file sample data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-extract-value" data-ice="link">Simple extract value</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#compose-object" data-ice="link">Compose Object</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#list-filter" data-ice="link">List Filter</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#substitution" data-ice="link">Substitution</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#custom-function-call" data-ice="link">Custom Function call</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#-code-set--code--query" data-ice="link">set query</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#data-json-file-sample-data" data-ice="link">data.json file sample data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-set" data-ice="link">Simple set</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#multiple-set" data-ice="link">Multiple set</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#transform-set" data-ice="link">Transform set</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#-code-unset--code--query" data-ice="link">unset query</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#data-json-file-sample-data" data-ice="link">data.json file sample data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-remove-array-items" data-ice="link">Simple remove array items</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard" data-ice="link">Remove Guard</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard-operator-with-multiple-value-match" data-ice="link">Remove Guard operator with multiple value match</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard-operator-with-substitution" data-ice="link">Remove Guard operator with substitution</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard-operator-with-multiple-value-substitution" data-ice="link">Remove Guard operator with multiple value substitution</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#query-language" data-ice="link">Query Language</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#get-lexical-structure" data-ice="link">get Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#set-lexical-structure" data-ice="link">set Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#unset-lexical-structure" data-ice="link">unset Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#expression-lexical-rule" data-ice="link">expression Lexical Rule</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#object-property-access-expression" data-ice="link">Object property access expression</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#array-item-access-expression" data-ice="link">Array item access expression</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#filter-conditions" data-ice="link">Filter conditions</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#filter-function-call" data-ice="link">Filter function call</a></li>
+</ul>
+  </div>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-dikotech-basic">@dikotech/basic</h1></div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,6 +1,3 @@
-/**
- * @module basic
- */
 export {
   string,
   number,

@@ -7,7 +7,6 @@ import {
 /**
  * Convert any type "subject" parameter to number.
  *
- * @function module:number.numberify
  * @param {*} subject data to convert to number.
  * @param {*} [defaultValue=0] default return value.
  * @returns {number|*} Uses defaultValue if not converted to number.

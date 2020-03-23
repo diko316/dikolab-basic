@@ -1,7 +1,3 @@
-/**
- * @module array
- */
-
 export {
   listPadStart,
   listPadEnd

@@ -26,6 +26,7 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      "json",
       "buble",
       "terser"
     ]
@@ -49,6 +50,7 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      "json",
       "buble"
     ]
   ),
@@ -71,6 +73,7 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      "json",
       "buble"
     ]
   ),
@@ -93,6 +96,7 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      "json",
       "buble"
     ]
   )

@@ -5,6 +5,7 @@ import pluginBuble from "./buble";
 import pluginTerser from "./terser";
 import pluginDelete from "./delete";
 import pluginEslint from "./eslint";
+import pluginJson from "./json";
 import pluginMultiEntry from "./multi-entry";
 
 
@@ -13,6 +14,7 @@ export default {
   "node-resolve": pluginNodeResolve,
   "commonjs": pluginCommonjs,
   // "babel": pluginBabel,
+  "json": pluginJson,
   "buble": pluginBuble,
   "terser": pluginTerser,
   "delete": pluginDelete,

@@ -1,110 +1,405 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="./">
+  <title data-ice="title">Manual | @dikotech/basic</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikotech/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
+<body class="layout-container manual-root manual-index" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikotech-basic"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div class="manual-toc-root">
+  
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/README.html"><a href="manual/README.html" data-ice="link">@dikotech/basic</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/query.html"><a href="manual/query.html" data-ice="link">JSON Query</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#acquire--code-query--code--function-from--dikotech-basic" data-ice="link">Acquire query function from @dikotech/basic</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#-code-get--code--query" data-ice="link">get query</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#data-json-file-sample-data" data-ice="link">data.json file sample data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-extract-value" data-ice="link">Simple extract value</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#compose-object" data-ice="link">Compose Object</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#list-filter" data-ice="link">List Filter</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#substitution" data-ice="link">Substitution</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#custom-function-call" data-ice="link">Custom Function call</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#-code-set--code--query" data-ice="link">set query</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#data-json-file-sample-data" data-ice="link">data.json file sample data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-set" data-ice="link">Simple set</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#multiple-set" data-ice="link">Multiple set</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#transform-set" data-ice="link">Transform set</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#-code-unset--code--query" data-ice="link">unset query</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#data-json-file-sample-data" data-ice="link">data.json file sample data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-remove-array-items" data-ice="link">Simple remove array items</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard" data-ice="link">Remove Guard</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard-operator-with-multiple-value-match" data-ice="link">Remove Guard operator with multiple value match</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard-operator-with-substitution" data-ice="link">Remove Guard operator with substitution</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#remove-guard-operator-with-multiple-value-substitution" data-ice="link">Remove Guard operator with multiple value substitution</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#query-language" data-ice="link">Query Language</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#get-lexical-structure" data-ice="link">get Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#set-lexical-structure" data-ice="link">set Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#unset-lexical-structure" data-ice="link">unset Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#expression-lexical-rule" data-ice="link">expression Lexical Rule</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#object-property-access-expression" data-ice="link">Object property access expression</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#array-item-access-expression" data-ice="link">Array item access expression</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#filter-conditions" data-ice="link">Filter conditions</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#filter-function-call" data-ice="link">Filter function call</a></li>
+</ul>
+  </div>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div class="github-markdown">
+  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikotech-basic">@dikotech/basic</h1></div>
+
+  
+
+  <div class="manual-cards">
     
-    <meta charset="utf-8">
-    <title>JSDoc: Home</title>
-
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="./build/entry.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
-</head>
-
-<body>
-    <div id="stickyNavbarOverlay"></div>
-    <div class="top-navbar">
-        <div class="container">
-            <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
-                    
-                    
-                        <h1 class="navbar-item">Documentation</h1>
-                    
-                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
-                
-            </nav>
-        </div>
+  <div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>@dikotech/basic</h1></div>
+        <a data-ice="link" href="manual/README.html"></a>
+      </div>
     </div>
-    <div class="container">
-        <div class="columns">
-            <div class="column is-3" id="sidebarNav">
-                <div class="sidebar">
-                    <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-array.html">array</a></li><li><a href="module-basic.html">basic</a></li><li><a href="module-lifecycle.html">lifecycle</a></li><li><a href="module-native.html">native</a></li><li><a href="module-number.html">number</a></li><li><a href="module-object.html">object</a></li><li><a href="module-string.html">string</a></li><li><a href="module-unicode.html">unicode</a></li></ul><h3>Classes</h3><ul><li><a href="Utf.html">Utf</a></li></ul><h3>Global</h3><ul><li><a href="global.html#assign">assign</a></li></ul></div>
-                    </nav>
-                </div>
-            </div>
-            <div class="column is-9-desktop">
-                <div class="content" id="main-content-wrapper">
-                    <header class="page-title">
-                        <p>Title</p>
-                        <h1>Home</h1>
-                    </header>
-                    
-                    
+<div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>JSON Query</h1><h2>Usage</h2><h3>Acquire <code>query</code> function from @dikotech/basic</h3><p>CommonJS</p><pre><code class="lang-js"><code class="source-code prettyprint">const query = require(&quot;@dikotech/basic&quot;).query;</code>
+</code></pre><p>ECMAScript module</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikotech/basic&quot;;</code>
+</code></pre><h3><code>get</code> query</h3><h4>data.json file sample data</h4><pre><code class="lang-json"><code class="source-code prettyprint">{
+  &quot;message&quot;: &quot;Ok&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;name1&quot;,
+      &quot;language&quot;: [
+        &quot;en&quot;,
+        &quot;fr&quot;,
+        1,
+        &quot;de&quot;
+      ]
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;name2&quot;
+    }
+  ]
+}</code>
+</code></pre><h4>Simple extract value</h4><pre><code class="lang-js"><code class="source-code prettyprint">const object = require(&quot;data.json&quot;);
 
+// returns 1
+query(
+  object,
+  &quot;get data[0].id&quot;
+);</code>
+</code></pre><h4>Compose Object</h4><pre><code class="lang-js"><code class="source-code prettyprint">// returns { &quot;found&quot;: 1 }
+query(
+  object,
+`get
+  data[0].id as found,
+  data[1].name as nextName
+`
+);</code>
+</code></pre><h4>List Filter</h4><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot;, &quot;de&quot; ]
+query(
+  object,
+  &quot;get data[]:[name=name1].language[]:[!=1]&quot;
+);</code>
+</code></pre><h4>Substitution</h4><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot;, &quot;de&quot; ]
+query(
+  object,
+  &quot;get data[]:[name=?].language[]:[!=?]&quot;,
+  [
+    &quot;name1&quot;,
+    1
+  ]
+);</code>
+</code></pre><h4>Custom Function call</h4><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot;, &quot;de&quot; ]
+query(
+  object,
+  &quot;get data[]:[name=?].language[]:customFilter()&quot;,
+  {
+    values: [
+      &quot;name1&quot;
+    ],
+    /**
+     *
+     * @param {*} value currently selected item.
+     *            may also be an item iterated from an array collection or
+     *            property iterated from object.
+     * @param {string|number|null} key zero based index position if array collection.
+     *            or, property name of parent object.
+     *            or, null if parent object is not an array or object.
+     * @param {*} parent current parent object selected.
+     *            It may contain array, object, or null.
+     * @param {...*} otherArguments other arguments passed from query expression.
+     *            otherArguments[0] may contain &quot;test&quot; value if called in query: `:customFilter(test)`
+     * @returns {boolean|*} return false to exclude from selection
+     */
+    customFilter(value, key, parent, ...otherArguments) {
+      return typeof value === &apos;string&apos;;
+    }
+  }
+);</code>
+</code></pre><h3><code>set</code> query</h3><h4>data.json file sample data</h4><pre><code class="lang-json"><code class="source-code prettyprint">{
+  &quot;message&quot;: &quot;Ok&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;name1&quot;,
+      &quot;language&quot;: [
+        &quot;en&quot;,
+        &quot;fr&quot;
+      ]
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;name2&quot;
+    }
+  ]
+}</code>
+</code></pre><h4>Simple set</h4><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
+query(
+  object,
+  &quot;set data[0].id is 42&quot;
+);</code>
+</code></pre><h4>Multiple set</h4><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
+// data[1] will now contain { id: 2, name: &quot;updated name&quot;, language: [&quot;en&quot;]}
+query(
+  object,
+`
+set
+  data[0].id is ?,
+  data[1].name is ?,
+  data[1].language[] is ?
+  `,
+  [
+    42,
+    &quot;updated name&quot;,
+    &quot;en&quot;
+  ]
+);</code>
+</code></pre><h4>Transform set</h4><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
+// data[1] will now contain { id: 2, name: &quot;updated name&quot;}
+query(
+  object,
+`
+set
+  data[0].id is ?,
+  data[1].name is :customizeValue(?)
+  `,
+  {
+    values: [
+      42,
+      &quot;updated name&quot;
+    ],
+    /**
+     *
+     * @param {*} value currently selected item.
+     *            may also be an item iterated from an array collection or
+     *            property iterated from object.
+     * @param {string|number|null} key zero based index position if array collection.
+     *            or, property name of parent object.
+     *            or, null if parent object is not an array or object.
+     * @param {*} parent current parent object selected.
+     *            It may contain array, object, or null.
+     * @param {...*} otherArguments other arguments passed from query expression.
+     *            otherArguments[0] may contain &quot;test&quot; value if called in query: `:customFilter(test)`
+     * @returns {undefined|*} return transformed value.
+     *            when used in &quot;set&quot; assignment query, returning undefined will:
+     *              remove item from parent array or object.
+     *              will do nothing if key, and parent is not array or object
+     */
+    customizeValue(value, key, parent, ...otherArguments) {
+      if (value === &quot;name2&quot;) {
+        return otherArguments[0];
+      }
 
+      return value;
+    }
+  }
+);</code>
+</code></pre><h3><code>unset</code> query</h3><h4>data.json file sample data</h4><pre><code class="lang-json"><code class="source-code prettyprint">{
+  &quot;message&quot;: &quot;Ok&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;name1&quot;,
+      &quot;language&quot;: [
+        &quot;en&quot;,
+        &quot;fr&quot;
+      ]
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;name2&quot;
+    }
+  ]
+}</code>
+</code></pre><h4>Simple remove array items</h4><pre><code class="lang-js"><code class="source-code prettyprint">// data[1] will be removed as 2 up to 10 do not exist.
+query(
+  object,
+  &apos;unset data[1..10]&apos;
+);</code>
+</code></pre><h4>Remove Guard</h4><p>Guard operator <code>only [expression] is [values]</code>.</p><pre><code class="lang-js"><code class="source-code prettyprint">// removes data[0] since it has name property containing &quot;name1&quot; value.
+query(
+  object,
+  &apos;unset data[] only name is [name1]&apos;
+);</code>
+</code></pre><h4>Remove Guard operator with multiple value match</h4><pre><code class="lang-js"><code class="source-code prettyprint">// removes data[0] since it has language property array containing &quot;en&quot;, or &quot;fr&quot; value.
+query(
+  object,
+  &apos;unset data[] only language[] is [en, fr, 1]&apos;
+);</code>
+</code></pre><h4>Remove Guard operator with substitution</h4><pre><code class="lang-js"><code class="source-code prettyprint">// removes data[0] since it has language property array containing &quot;en&quot;, or &quot;fr&quot; value.
+query(
+  object,
+  &apos;unset data[] only language[] is [?, ?, ?]&apos;,
+  [
+    &quot;en&quot;,
+    &quot;fr&quot;,
+    1
+  ]
+);</code>
+</code></pre><h4>Remove Guard operator with multiple value substitution</h4><pre><code class="lang-js"><code class="source-code prettyprint">query(
+  object,
+  &apos;unset data[] only language[] is ?&apos;,
+  [
+    [&quot;en&quot;, &quot;fr&quot;, 1]
+  ]
+);</code>
+</code></pre><h2>Query Language</h2><p>Supported Lexical Structures.</p><h3>get Lexical Structure</h3><pre><code><code class="source-code prettyprint">get `expression` [as `identifier`]
+    ...
+    , `expression` [as `identifier`]</code>
+</code></pre><h3>set Lexical Structure</h3><pre><code><code class="source-code prettyprint">set `expression` is `value`
+  ...
+  , `expression` is `value`</code>
+</code></pre><h3>unset Lexical Structure</h3><pre><code><code class="source-code prettyprint">unset `expression` [only `expression` as `values`]
+    ...
+    , `expresson` [only `expression` as `values`]</code>
+</code></pre><h3>expression Lexical Rule</h3><h4>Object property access expression</h4><pre><code><code class="source-code prettyprint">objectAccess:
 
-    
+  [`propertyName`]
 
+  .`propertyName`</code>
+</code></pre><pre><code><code class="source-code prettyprint">expression:
 
-    <h3> </h3>
+  `property`
 
+  `property` ... `objectAccess`
+</code>
+</code></pre><h4>Array item access expression</h4><pre><code><code class="source-code prettyprint">indexRange:
 
+  `number`
 
+  `number`-`number`
+</code>
+</code></pre><pre><code><code class="source-code prettyprint">expression:
 
+  [`indexRange`]
 
+  [`indexRange` ...,`indexRange`]
+</code>
+</code></pre><h4>Filter conditions</h4><pre><code><code class="source-code prettyprint">accessExpression:
 
+  `property`
 
+  `numeric_index`
+</code>
+</code></pre><pre><code><code class="source-code prettyprint">valueExpression:
 
+  `string`
 
+  `number`
 
-    
+  `regex`
+</code>
+</code></pre><pre><code><code class="source-code prettyprint">operator:
 
+  `=`
 
+  `!=`
 
+  `~=`
 
-    <section>
-        <article><h1>dikotech-basic</h1></article>
-    </section>
+  `&gt;`
 
+  `&gt;=`
 
+  `&lt;`
 
+  `&gt;=`
+</code>
+</code></pre><pre><code><code class="source-code prettyprint">expression:
 
+  :[`operator` `valueExpression`]
 
+  :[`operator` `valueExpression` ... ,`valueExpression`]
 
-                </div>
-            </div>
-        </div>
+  :[`accessExpression` `operator` `valueExpression`]
+
+  :[`accessExpression` `operator` `valueExpression` ... ,`valueExpression`]
+</code>
+</code></pre><h4>Filter function call</h4><pre><code><code class="source-code prettyprint">arguments:
+
+  `string`
+
+  `number`
+
+  `object`
+
+  `array`
+</code>
+</code></pre><pre><code><code class="source-code prettyprint">expression:
+
+  :`functionName`()
+
+  :`functionName`(`arguments`)
+
+  :`functionName`(`arguments` ..., `arguments`)
+</code>
+</code></pre></div>
+        <a data-ice="link" href="manual/query.html"></a>
+      </div>
     </div>
-
+</div>
+</div>
+</div>
 
 <footer class="footer">
-    <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Mon Mar 16 2020 13:32:28 GMT+0000 (Coordinated Universal Time)</p>
-        <p class="sidebar-created-by">
-            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
-            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
-        </p>
-    </div>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
-
-<script src="scripts/app.min.js"></script>
-<script src="scripts/linenumber.js"> </script>
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
 </body>
 </html>

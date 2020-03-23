@@ -19,7 +19,6 @@ import {
 /**
  * Convert Scalar value to Unicode.
  *
- * @function module:unicode.unicodify
  * @param {*} subject Scalar value to convert.
  * @param {*} [defaultValue=Utf] optional defaultValue to return if failed.
  * @returns {Utf|*} Unicode string when successful, or [defaultValue] parameter is returned if failed.
@@ -34,7 +33,6 @@ export function unicodify(subject, defaultValue = EMPTY_UNICODE) {
  * Create Utf based on Array of code points parameter.
  * Error will be thrown if parameter is invalid.
  *
- * @function module:unicode.codepoints2Utf
  * @param {number[]} codes Array of code points.
  * @returns {Utf} Utf instance.
  */
@@ -51,7 +49,6 @@ export function codepoints2Utf(codes) {
 /**
  * Safely counts number of Utf characters.
  *
- * @function module:unicode.unicodeCount
  * @param {string|Utf} subject String or Utf to count.
  * @returns {number} returns number of resolved Utf characters. or zero (0)
  */

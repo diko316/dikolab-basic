@@ -1,1 +1,1 @@
-# dikotech-basic
+# @dikotech/basic

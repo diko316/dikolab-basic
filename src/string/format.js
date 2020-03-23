@@ -24,7 +24,6 @@ import {
 /**
  * Returns repeated string "subject" in "count" number of times.
  *
- * @function module:string.repeat
  * @param {string} subject any data convertible to string.
  * @param {number} count number of times to repeat.
  * @returns {string} Returns empty string if unable to repeat.
@@ -55,7 +54,6 @@ export function repeat(subject, count) {
  * The padding is applied from the start of the string.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}
- * @function module:string.padStart
  * @param {string} subject The string to pad.
  * @param {number} length The length of the resulting string once it has been padded.
  * @param {string} padString The string to pad the current string with.
@@ -75,7 +73,6 @@ export function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {
  * The padding is applied from the end of the string.
  *
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}
- * @function module:string.padEnd
  * @param {string} subject The string to pad.
  * @param {number} length The length of the resulting stringe once it has been padded.
  * @param {string} padString The string to pad the current string with.
@@ -92,7 +89,6 @@ export function padEnd(subject, length = 0, padString = DEFAULT_PADSTRING) {
 /**
  * Removes starting and ending white spaces.
  *
- * @function module:string.trim
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
@@ -111,7 +107,6 @@ export function trim(subject) {
 /**
  * Removes starting white spaces.
  *
- * @function module:string.trimStart
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
@@ -126,7 +121,6 @@ export function trimStart(subject) {
 /**
  * Removes ending whitespace.
  *
- * @function module:string.trimEnd
  * @param {string} subject The string to trim.
  * @returns {string} Whitespace trimmed string.
  */
