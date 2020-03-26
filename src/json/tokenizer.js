@@ -4,11 +4,14 @@ import {
 
 import {
   TOKENIZER_START_STATE,
-  TOKENIZER_WILDCARD
+  TOKENIZER_WILDCARD,
+  TOKENIZER_KEYWORD_LIST
 } from "./constants";
+
 import STATES from "./tokenizer-states.json";
 
 export function tokenize(input, startIndex) {
+  const keywords = TOKENIZER_KEYWORD_LIST;
   const wildcard = TOKENIZER_WILDCARD;
   const reference = STATES;
   const states = reference.state;
@@ -49,11 +52,24 @@ export function tokenize(input, startIndex) {
     break;
   }
 
-  return token
-    ? [
+  // postprocess token
+  if (token) {
+    found = input.substring(anchor, nextIndex);
+
+    switch (token) {
+    case "ident":
+      if (keywords.indexOf(found) !== -1) {
+        token = found;
+      }
+      break;
+    }
+
+    return [
       token,
-      input.substring(anchor, nextIndex),
+      found,
       nextIndex
-    ]
-    : null;
+    ];
+  }
+
+  return null;
 }

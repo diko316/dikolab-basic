@@ -289,7 +289,6 @@
     "range": "..",
     "string": "string",
     "question": "?",
-    "colon": ":",
     "condition": ":[",
     "call": ":call(",
     "assign": "=",
@@ -311,10 +310,5 @@
     "whitespace": "whitespace",
     "percent": "percent",
     "regex": "regex"
-  },
-  "transform": {
-    "ident": {
-      "set": "keyword"
-    }
   }
 }
