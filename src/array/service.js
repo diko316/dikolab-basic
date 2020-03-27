@@ -97,8 +97,7 @@ export function listPadStart(subject, pad, padList) {
   let c = 0;
 
   for (; length--; c++) {
-    result[resultLength++] = list[c];
-    c = (c + 1) % padLength;
+    result[resultLength++] = list[c % padLength];
   }
 
   result.push.apply(result, main);
@@ -138,9 +137,8 @@ export function listPadEnd(subject, pad, padList) {
 
   result.push.apply(result, main);
 
-  for (; length--;) {
-    result[resultLength++] = list[c];
-    c = (c + 1) % padLength;
+  for (; length--; c++) {
+    result[resultLength++] = list[c % padLength];
   }
 
   return result;
