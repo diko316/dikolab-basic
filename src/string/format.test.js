@@ -3,7 +3,9 @@ import {
   repeat,
   trim,
   trimStart,
-  trimEnd
+  trimEnd,
+  padStart,
+  padEnd
 } from "./format";
 
 describe("String format", () => {
@@ -33,6 +35,20 @@ describe("String format", () => {
       expect(trimEnd(" buang ")).to.be.equal(" buang");
       expect(trimEnd("buang")).to.be.equal("buang");
       expect(trimEnd("   buang\t\r\n")).to.be.equal("   buang");
+    });
+  });
+
+  describe("padStart(subject, length [, padString])", () => {
+    it("should pad from start of string", () => {
+      expect(padStart("buang", 6, " ")).to.be.equal(" buang");
+      expect(padStart("buang", 7, "bass")).to.be.equal("babuang");
+    });
+  });
+
+  describe("padEnd(subject, length [, padString])", () => {
+    it("should pad from end of string", () => {
+      expect(padEnd("buang", 6, " ")).to.be.equal("buang ");
+      expect(padEnd("buang", 7, "exec")).to.be.equal("buangex");
     });
   });
 });
