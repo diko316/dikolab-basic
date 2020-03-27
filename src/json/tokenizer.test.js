@@ -20,7 +20,7 @@ describe("tokenize()", () => {
     expect(tokenize(".5% ni")).to.deep.equal(["percent", ".5%", 3]);
   });
 
-  it.only("Should tokenize quoted string.", () => {
+  it("Should tokenize quoted string.", () => {
     expect(tokenize("'buang ka'")).to.deep.equal(["string", "\'buang ka\'", 10]);
     expect(tokenize("'buang\\' ka'")).to.deep.equal(["string", "\'buang\\' ka\'", 12]);
   });

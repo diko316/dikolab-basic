@@ -1,4 +1,6 @@
 {
+  "startState": "initial",
+  "endToken": "$",
   "state": {
     "initial": {
       ":*": "ident",

@@ -3,7 +3,10 @@ import {
 } from "../native/math";
 
 import {
-  TOKENIZER_START_STATE,
+  EMPTY_STRING
+} from "../native/constants";
+
+import {
   TOKENIZER_WILDCARD,
   TOKENIZER_KEYWORD_LIST
 } from "./constants";
@@ -17,7 +20,7 @@ export function tokenize(input, startIndex) {
   const states = reference.state;
   const ends = reference.ends;
   const anchor = MATH_MAX(0, 1 * startIndex || 0);
-  let state = states[TOKENIZER_START_STATE];
+  let state = states[reference.startState];
   let length = input.length;
   let c = anchor;
   let nextIndex = c;
@@ -25,7 +28,15 @@ export function tokenize(input, startIndex) {
   let char = null;
   let found = null;
 
-  if (anchor >= length) {
+  if (anchor === length) {
+    token = reference.endToken;
+    return [
+      token,
+      EMPTY_STRING,
+      nextIndex + 1
+    ];
+  }
+  else if (anchor > length) {
     return null;
   }
 
