@@ -3,18 +3,24 @@ import {
 } from "../native/math";
 
 import {
-  TOKENIZER_START_STATE,
-  TOKENIZER_WILDCARD
+  EMPTY_STRING
+} from "../native/constants";
+
+import {
+  TOKENIZER_WILDCARD,
+  TOKENIZER_KEYWORD_LIST
 } from "./constants";
+
 import STATES from "./tokenizer-states.json";
 
 export function tokenize(input, startIndex) {
+  const keywords = TOKENIZER_KEYWORD_LIST;
   const wildcard = TOKENIZER_WILDCARD;
   const reference = STATES;
   const states = reference.state;
   const ends = reference.ends;
   const anchor = MATH_MAX(0, 1 * startIndex || 0);
-  let state = states[TOKENIZER_START_STATE];
+  let state = states[reference.startState];
   let length = input.length;
   let c = anchor;
   let nextIndex = c;
@@ -22,7 +28,15 @@ export function tokenize(input, startIndex) {
   let char = null;
   let found = null;
 
-  if (anchor >= length) {
+  if (anchor === length) {
+    token = reference.endToken;
+    return [
+      token,
+      EMPTY_STRING,
+      nextIndex + 1
+    ];
+  }
+  else if (anchor > length) {
     return null;
   }
 
@@ -49,11 +63,24 @@ export function tokenize(input, startIndex) {
     break;
   }
 
-  return token
-    ? [
+  // postprocess token
+  if (token) {
+    found = input.substring(anchor, nextIndex);
+
+    switch (token) {
+    case "ident":
+      if (keywords.indexOf(found) !== -1) {
+        token = found;
+      }
+      break;
+    }
+
+    return [
       token,
-      input.substring(anchor, nextIndex),
+      found,
       nextIndex
-    ]
-    : null;
+    ];
+  }
+
+  return null;
 }
