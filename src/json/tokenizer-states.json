@@ -207,32 +207,8 @@
       "=": "lte"
     },
     "lte": {},
-    "plus": {
-      "0": "whole",
-      "1": "whole",
-      "2": "whole",
-      "3": "whole",
-      "4": "whole",
-      "5": "whole",
-      "6": "whole",
-      "7": "whole",
-      "8": "whole",
-      "9": "whole",
-      ".": "floatDot"
-    },
-    "minus": {
-      "0": "whole",
-      "1": "whole",
-      "2": "whole",
-      "3": "whole",
-      "4": "whole",
-      "5": "whole",
-      "6": "whole",
-      "7": "whole",
-      "8": "whole",
-      "9": "whole",
-      ".": "floatDot"
-    },
+    "plus": {},
+    "minus": {},
     "whole": {
       "0": "whole",
       "1": "whole",

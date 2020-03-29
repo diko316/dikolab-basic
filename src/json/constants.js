@@ -10,3 +10,15 @@ export const TOKENIZER_KEYWORD_LIST = [
   "is",
   "as"
 ];
+
+export const DOUBLE_QUOTE = "\"";
+
+export const SINGLE_QUOTE = "\\\"";
+
+export const ESCAPED_DOUBLE_QUOTE = "\\\"";
+
+export const ESCAPED_SINGLE_QUOTE = "\\'";
+
+export const LINE_CHARACTER = "\n";
+
+export const SINGLE_TO_DOUBLE_QUOTE = /"|\\'/g;
