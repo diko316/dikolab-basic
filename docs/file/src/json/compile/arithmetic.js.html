@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/json/tokenizer.js | @dikotech/basic</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/json/compile/arithmetic.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -72,128 +72,141 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/json/tokenizer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-  MATH_MAX
-} from &quot;../native/math&quot;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/compile/arithmetic.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { EMPTY_STRING } from &quot;../../native/constants&quot;;
+import { LINE_CHARACTER } from &quot;../constants&quot;;
 
-import {
-  EMPTY_STRING
-} from &quot;../native/constants&quot;;
+export function math(node, code, symbols, operands) {
+  const symbol = node.symbol;
+  const length = operands.length;
+  const left = length &gt; 1 ? operands[0].symbol : 0;
+  const right = length &gt; 1 ? operands[1].symbol : left;
+  let symbolsLength = symbols.length;
+  let codeLength = code.length;
+  let typeCheck = null;
+  let operator = &quot;+&quot;;
 
-import {
-  TOKENIZER_WILDCARD,
-  TOKENIZER_KEYWORD_LIST,
-  LINE_CHARACTER,
-  DOUBLE_QUOTE,
-  ESCAPED_DOUBLE_QUOTE,
-  SINGLE_QUOTE,
-  ESCAPED_SINGLE_QUOTE,
-  SINGLE_TO_DOUBLE_QUOTE
-} from &quot;./constants&quot;;
+  switch (node.id) {
+  case &quot;add&quot;:
+    operator = &quot;+&quot;;
+    break;
 
-import STATES from &quot;./tokenizer-states.json&quot;;
+  case &quot;sub&quot;:
+    operator = &quot;-&quot;;
+    break;
 
-function replaceSingleQuote(all) {
-  switch (all) {
-  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
-  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
-  }
-  return all;
-}
+  case &quot;mul&quot;:
+    operator = &quot;*&quot;;
+    break;
 
-export function tokenize(input, startIndex) {
-  const emptyString = EMPTY_STRING;
-  const doubleQuote = DOUBLE_QUOTE;
-  const singleToDoubleQuoteRegexp = SINGLE_TO_DOUBLE_QUOTE;
-  const keywords = TOKENIZER_KEYWORD_LIST;
-  const wildcard = TOKENIZER_WILDCARD;
-  const reference = STATES;
-  const states = reference.state;
-  const ends = reference.ends;
-  const anchor = MATH_MAX(0, 1 * startIndex || 0);
-  const lineCharacter = LINE_CHARACTER;
+  case &quot;div&quot;:
+    operator = &quot;/&quot;;
+    break;
 
-  let state = states[reference.startState];
-  let length = input.length;
-  let c = anchor;
-  let nextIndex = c;
-  let token = null;
-  let char = null;
-  let found = null;
-  let line = 0;
-
-  if (anchor === length) {
-    return [
-      reference.endToken,
-      emptyString,
-      nextIndex + 1,
-      line
-    ];
-  }
-  else if (anchor &gt; length) {
-    return null;
-  }
-
-  for (; length--; c++) {
-    char = input.charAt(c);
-
-    found = char in state
-      ? state[char]
-      : wildcard in state
-        ? state[wildcard]
-        : false;
-
-    if (found) {
-      // change state
-      state = states[found];
-
-      if (found in ends) {
-        nextIndex = c + 1;
-        token = ends[found];
-      }
-      continue;
-    }
-
+  case &quot;mod&quot;:
+    operator = &quot;%&quot;;
     break;
   }
 
-  // postprocess token
-  if (token) {
-    found = input.substring(anchor, nextIndex);
-    line = found.split(lineCharacter).length - 1;
+  symbols[symbolsLength++] = symbol;
 
-    switch (token) {
-    case &quot;ident&quot;:
-      if (keywords.indexOf(found) !== -1) {
-        token = found;
-      }
-      break;
-    case &quot;string&quot;:
-      found = JSON.parse(
-        found.charAt(0) === doubleQuote
-          ? found
-          : ([
-            doubleQuote,
-            found.substring(1, found.length - 1).replace(singleToDoubleQuoteRegexp, replaceSingleQuote),
-            doubleQuote
-          ]).join(emptyString)
-      );
-      break;
-    case &quot;:call(&quot;:
-      found = found.substring(1, found.length - 1);
-      break;
-    }
+  if (operator === &quot;add&quot;) {
+    symbols[symbolsLength++] = typeCheck = `number${symbolsLength}`;
+    code[codeLength++] = (
+      [
+        `${typeCheck} = typeof ${left};`,
+        `if (${typeCheck} !== &quot;string&quot; || `,
+        `!(${typeCheck} === &quot;number&quot; &amp;&amp; finite(${left})`,
+        &quot;) {&quot;,
+        `${left} = 0;`,
+        &quot;}&quot;,
+        `${typeCheck} = typeof ${right};`,
+        `if (${typeCheck} !== &quot;string&quot; || `,
+        `!(${typeCheck} === &quot;number&quot; &amp;&amp; finite(${right})`,
+        &quot;) {&quot;,
+        `${right} = 0;`,
+        &quot;}&quot;
+      ]
+    ).join(LINE_CHARACTER);
+  }
+  else {
+    code[codeLength++] = (
+      [
+        `if (typeof ${left} !== &quot;number&quot; || !finite(${left})){`,
+        `${left} = 0;`,
+        &quot;}&quot;,
+        `if (typeof ${right} !== &quot;number&quot; || !finite(${right})){`,
+        `${right} = 0;`,
+        &quot;}&quot;
+      ]
+    ).join(LINE_CHARACTER);
+  }
+  code[codeLength++] = `${symbol} = ${left} ${operator} ${right};`;
+}
 
-    return [
-      token,
-      found,
-      nextIndex,
-      line
-    ];
+export function add(node, code, symbols, operands) {
+  const symbol = node.symbol;
+  let addend1 = 0;
+  let addend2 = operands[0].symbol;
+
+  if (operands.length &gt; 1) {
+    addend1 = addend2;
+    addend2 = operands[1].symbol;
   }
 
-  return null;
+  symbols[symbols.length] = symbol;
+  code[code.length] = (
+    [
+      &quot;var &quot;,
+      symbol,
+      &quot; = &quot;,
+      addend1,
+      &quot; + &quot;,
+      addend2,
+      &quot;; // &quot;
+    ]
+  ).join(EMPTY_STRING);
+}
+
+export function sub(node, code, symbols, operands) {
+  const symbol = node.symbol;
+  let minuend = 0;
+  let subtrahend = operands[0].symbol;
+
+  if (operands.length &gt; 1) {
+    minuend = subtrahend;
+    subtrahend = operands[1].symbol;
+  }
+
+  symbols[symbols.length] = symbol;
+  code[code.length] = (
+    [
+      &quot;var &quot;,
+      symbol,
+      &quot; = &quot;,
+      minuend,
+      &quot; - &quot;,
+      subtrahend,
+      &quot;; // &quot;
+    ]
+  ).join(EMPTY_STRING);
+}
+
+export function mul(node, code, symbols, operands) {
+  const symbol = node.symbol;
+
+  symbols[symbols.length] = symbol;
+  code[code.length] = (
+    [
+      &quot;var &quot;,
+      symbol,
+      &quot; = &quot;,
+      operands[0].symbol,
+      &quot; * &quot;,
+      operands[1].symbol,
+      &quot;; // &quot;
+    ]
+  ).join(EMPTY_STRING);
 }
 </code></pre>
 

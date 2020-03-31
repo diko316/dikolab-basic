@@ -546,9 +546,39 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/compile.js",
+    "file/src/json/compile.js.html",
+    "src/json/compile.js",
+    "file"
+  ],
+  [
+    "src/json/compile/arithmetic.js",
+    "file/src/json/compile/arithmetic.js.html",
+    "src/json/compile/arithmetic.js",
+    "file"
+  ],
+  [
+    "src/json/compile/initialize.js",
+    "file/src/json/compile/initialize.js.html",
+    "src/json/compile/initialize.js",
+    "file"
+  ],
+  [
+    "src/json/compile/object.js",
+    "file/src/json/compile/object.js.html",
+    "src/json/compile/object.js",
+    "file"
+  ],
+  [
     "src/json/constants.js",
     "file/src/json/constants.js.html",
     "src/json/constants.js",
+    "file"
+  ],
+  [
+    "src/json/error-reporting.js",
+    "file/src/json/error-reporting.js.html",
+    "src/json/error-reporting.js",
     "file"
   ],
   [
@@ -591,6 +621,12 @@ window.esdocSearchIndex = [
     "src/native/constants.js",
     "file/src/native/constants.js.html",
     "src/native/constants.js",
+    "file"
+  ],
+  [
+    "src/native/function.js",
+    "file/src/native/function.js.html",
+    "src/native/function.js",
     "file"
   ],
   [

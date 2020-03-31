@@ -1,32 +1,40 @@
 import { parse } from "./parser";
 
-import { reportParseError } from "./error-reporting";
+import { reportCompileError } from "./error-reporting";
 
 import {
-  initializeOperand,
-  initializeGet
+  preprocess,
+  postprocess
 } from "./compile/initialize";
+
+import {
+  operand
+} from "./compile/operand";
 
 import {
   access
 } from "./compile/object";
 
 import {
-  add,
-  sub,
-  mul
+  arithmetic
 } from "./compile/arithmetic";
+
+import {
+  condition
+} from "./compile/condition";
+
+import {
+  get
+} from "./compile/query";
 
 export function compile(subject) {
   const rpn = parse(subject);
-  const report = reportParseError;
+  const report = reportCompileError;
   const code = [];
   const symbols = [];
   const stack = [];
   let stackLength = 0;
   let node = 0;
-  let type = null;
-  let context = null;
   let nodeId = null;
   let operands = null;
 
@@ -43,17 +51,17 @@ export function compile(subject) {
   );
   console.log(output.join(" "));
 
+  preprocess(code);
+
   // generate source code
   for (let c = 0, length = rpn.length; length--; c++) {
     node = rpn[c];
-    type = node.type;
 
     // operands
-    if (type === "operand") {
+    if (node.type === "operand") {
       node.augmented = false;
+      operand(node, code, symbols);
       stack[stackLength++] = node;
-      initializeOperand(node, code, symbols, context);
-      console.log("stack push ", node.value, " length: ", stackLength);
       continue;
     }
 
@@ -62,10 +70,7 @@ export function compile(subject) {
     if (stackLength < operands) {
       report(
         `Low on operands ${node.value}`,
-        null,
-        node.line,
-        node.from,
-        node.to
+        node
       );
       console.log(
         code.join("\r\n")
@@ -76,35 +81,41 @@ export function compile(subject) {
     nodeId = node.id;
     stackLength -= operands;
     operands = stack.slice(stackLength, stackLength + operands);
+    node.operands = operands;
 
     switch (nodeId) {
     case "get":
-      context = nodeId;
-      initializeGet(node, code, symbols, context);
+      get(node, code, symbols);
       break;
 
     case "add":
-      add(node, code, symbols, operands);
-      stack[stackLength++] = node;
-      console.log("stack pushed result ", node.value, " length: ", stackLength);
-      break;
-
     case "sub":
-      sub(node, code, symbols, operands);
+    case "mul":
+    case "div":
+    case "mod":
+      arithmetic(node, code, symbols);
       stack[stackLength++] = node;
-      console.log("stack pushed result ", node.value, " length: ", stackLength);
       break;
 
-    case "mul":
-      mul(node, code, symbols, operands);
+    case "eq":
+    case "neq":
+    case "gt":
+    case "gte":
+    case "lt":
+    case "lte":
+    case "pattern":
+      condition(node, code);
       stack[stackLength++] = node;
-      console.log("stack pushed result ", node.value, " length: ", stackLength);
       break;
 
     case "access":
-      access(node, code, symbols, operands, context);
+      access(node, code, symbols);
       stack[stackLength++] = node;
       break;
+
+    case "list":
+      break;
+
     default:
       console.log("unprocessed ", node);
     }
@@ -115,6 +126,8 @@ export function compile(subject) {
     //   "stack", stack.slice(0, stackLength)
     // );
   }
+
+  postprocess(code, symbols);
 
   console.log(
     code.join("\r\n")

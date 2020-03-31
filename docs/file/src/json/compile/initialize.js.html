@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/json/tokenizer.js | @dikotech/basic</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/json/compile/initialize.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -72,128 +72,74 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/json/tokenizer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-  MATH_MAX
-} from &quot;../native/math&quot;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/compile/initialize.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { LINE_CHARACTER } from &quot;../constants&quot;;
 
-import {
-  EMPTY_STRING
-} from &quot;../native/constants&quot;;
-
-import {
-  TOKENIZER_WILDCARD,
-  TOKENIZER_KEYWORD_LIST,
-  LINE_CHARACTER,
-  DOUBLE_QUOTE,
-  ESCAPED_DOUBLE_QUOTE,
-  SINGLE_QUOTE,
-  ESCAPED_SINGLE_QUOTE,
-  SINGLE_TO_DOUBLE_QUOTE
-} from &quot;./constants&quot;;
-
-import STATES from &quot;./tokenizer-states.json&quot;;
-
-function replaceSingleQuote(all) {
-  switch (all) {
-  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
-  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
-  }
-  return all;
+export function preprocess(code) {
+  // insert helpers
+  code[code.length] = (
+    [
+      &quot;var object = Object;&quot;,
+      &quot;var objectPrototype = object.prototype;&quot;,
+      &quot;var hasOwn = objectPrototype.hasownProperty;&quot;,
+      &quot;var finite = isFinite;&quot;,
+      &quot;var result = undefined;&quot;
+    ]
+  ).join(LINE_CHARACTER);
 }
 
-export function tokenize(input, startIndex) {
-  const emptyString = EMPTY_STRING;
-  const doubleQuote = DOUBLE_QUOTE;
-  const singleToDoubleQuoteRegexp = SINGLE_TO_DOUBLE_QUOTE;
-  const keywords = TOKENIZER_KEYWORD_LIST;
-  const wildcard = TOKENIZER_WILDCARD;
-  const reference = STATES;
-  const states = reference.state;
-  const ends = reference.ends;
-  const anchor = MATH_MAX(0, 1 * startIndex || 0);
-  const lineCharacter = LINE_CHARACTER;
+export function postprocess(code, symbols) {
+  let declare = null;
+  let codeLength = code.length;
 
-  let state = states[reference.startState];
-  let length = input.length;
-  let c = anchor;
-  let nextIndex = c;
-  let token = null;
-  let char = null;
-  let found = null;
-  let line = 0;
-
-  if (anchor === length) {
-    return [
-      reference.endToken,
-      emptyString,
-      nextIndex + 1,
-      line
-    ];
-  }
-  else if (anchor &gt; length) {
-    return null;
+  if (symbols.length) {
+    declare = symbols.join(`;${LINE_CHARACTER}var `);
+    codeLength++;
+    code.splice(
+      0,
+      0,
+      `var ${declare};`
+    );
   }
 
-  for (; length--; c++) {
-    char = input.charAt(c);
+  // add unset symbols
+  code[codeLength++] = `${symbols.join(&quot; = &quot;)} = null;`;
+  code[codeLength++] = &quot;return result;&quot;;
+}
 
-    found = char in state
-      ? state[char]
-      : wildcard in state
-        ? state[wildcard]
-        : false;
+export function initializeGet(node, code) {
 
-    if (found) {
-      // change state
-      state = states[found];
+}
 
-      if (found in ends) {
-        nextIndex = c + 1;
-        token = ends[found];
-      }
-      continue;
-    }
+export function initializeOperand(node, code, symbols) {
+  const symbol = node.symbol;
+  let value = node.value;
+  let length = code.length;
+  let symbolLength = symbols.length;
+  let initialized = false;
 
+  // symbols[symbols.length] = node.
+  switch (node.dataType) {
+  case &quot;string&quot;:
+    value = JSON.stringify(value);
+
+  // falls through
+  case &quot;number&quot;:
+    initialized = true;
     break;
-  }
 
-  // postprocess token
-  if (token) {
-    found = input.substring(anchor, nextIndex);
-    line = found.split(lineCharacter).length - 1;
-
-    switch (token) {
-    case &quot;ident&quot;:
-      if (keywords.indexOf(found) !== -1) {
-        token = found;
-      }
-      break;
-    case &quot;string&quot;:
-      found = JSON.parse(
-        found.charAt(0) === doubleQuote
-          ? found
-          : ([
-            doubleQuote,
-            found.substring(1, found.length - 1).replace(singleToDoubleQuoteRegexp, replaceSingleQuote),
-            doubleQuote
-          ]).join(emptyString)
-      );
-      break;
-    case &quot;:call(&quot;:
-      found = found.substring(1, found.length - 1);
-      break;
+  default:
+    // for identifier
+    if (node.id === &quot;identifier&quot;) {
+      value = JSON.stringify(node.value);
+      initialized = true;
     }
-
-    return [
-      token,
-      found,
-      nextIndex,
-      line
-    ];
   }
 
-  return null;
+  if (initialized) {
+    symbols[symbolLength++] = symbol;
+    code[length++] = `${symbol} = ${value};`;
+  }
 }
 </code></pre>
 

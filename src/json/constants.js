@@ -6,9 +6,9 @@ export const TOKENIZER_KEYWORD_LIST = [
   "get",
   "set",
   "unset",
-  "only",
   "is",
-  "as"
+  "as",
+  "only"
 ];
 
 export const DOUBLE_QUOTE = "\"";

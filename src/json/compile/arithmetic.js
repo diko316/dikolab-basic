@@ -1,66 +1,77 @@
-import { EMPTY_STRING } from "../../native/constants";
+import { LINE_CHARACTER } from "../constants";
 
-export function add(node, code, symbols, operands) {
+function enforceNumberType(operand, code, symbols, allowString) {
+  const symbol = operand.symbol;
+  const symbolLength = symbols.length;
+  const typeOfSymbol = symbols[symbolLength] = `typeOf${symbolLength}`;
+
+  code[code.length] = (
+    [
+      `${typeOfSymbol} = typeof ${symbol};`,
+      allowString
+        ? `if (${typeOfSymbol} !== "string" || !(${typeOfSymbol} === "number" && finite(${symbol})) {`
+        : `if (${typeOfSymbol} !== "number" || !finite(${symbol}){`,
+      ") {",
+      `${symbol} = 0;`,
+      "}"
+    ]
+  ).join(LINE_CHARACTER);
+}
+
+export function arithmetic(node, code, symbols) {
   const symbol = node.symbol;
-  let addend1 = 0;
-  let addend2 = operands[0].symbol;
+  const operands = node.operands;
+  let operator = "+";
+  let operand = null;
+  let allowString = false;
+  let left = 0;
+  let right = null;
 
-  if (operands.length > 1) {
-    addend1 = addend2;
-    addend2 = operands[1].symbol;
+  switch (node.id) {
+  case "add":
+    operator = "+";
+    allowString = true;
+    break;
+
+  case "sub":
+    operator = "-";
+    break;
+
+  case "mul":
+    operator = "*";
+    break;
+
+  case "div":
+    operator = "/";
+    break;
+
+  case "mod":
+    operator = "%";
+    break;
+  }
+
+  // apply type check if augmented
+  operand = operands[0];
+  left = operand.symbol;
+  if (operand.augmented) {
+    enforceNumberType(operand, code, symbols, allowString);
+  }
+
+  // unary: zero minus operand
+  if (operands.length === 1) {
+    right = left;
+    left = 0;
+  }
+  else {
+    operand = operands[1];
+    right = operand.symbol;
+
+    if (operand.augmented) {
+      enforceNumberType(operand, code, symbols, allowString);
+    }
   }
 
   symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      "var ",
-      symbol,
-      " = ",
-      addend1,
-      " + ",
-      addend2,
-      "; // "
-    ]
-  ).join(EMPTY_STRING);
-}
 
-export function sub(node, code, symbols, operands) {
-  const symbol = node.symbol;
-  let minuend = 0;
-  let subtrahend = operands[0].symbol;
-
-  if (operands.length > 1) {
-    minuend = subtrahend;
-    subtrahend = operands[1].symbol;
-  }
-
-  symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      "var ",
-      symbol,
-      " = ",
-      minuend,
-      " - ",
-      subtrahend,
-      "; // "
-    ]
-  ).join(EMPTY_STRING);
-}
-
-export function mul(node, code, symbols, operands) {
-  const symbol = node.symbol;
-
-  symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      "var ",
-      symbol,
-      " = ",
-      operands[0].symbol,
-      " * ",
-      operands[1].symbol,
-      "; // "
-    ]
-  ).join(EMPTY_STRING);
+  code[code.length] = `${symbol} = ${left} ${operator} ${right};`;
 }

@@ -1,6 +1,6 @@
 {
-  "coverage": "52.11%",
-  "expectCount": 142,
+  "coverage": "44.84%",
+  "expectCount": 165,
   "actualCount": 74,
   "files": {
     "src/array/contants.js": {
@@ -15,20 +15,78 @@
       "actualCount": 3,
       "undocumentLines": []
     },
-    "src/json/constants.js": {
+    "src/json/compile/arithmetic.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        72,
+        96,
+        120
+      ]
+    },
+    "src/json/compile/initialize.js": {
+      "expectCount": 4,
+      "actualCount": 0,
+      "undocumentLines": [
+        3,
+        16,
+        35,
+        39
+      ]
+    },
+    "src/json/compile/object.js": {
       "expectCount": 3,
+      "actualCount": 0,
+      "undocumentLines": [
+        4,
+        27,
+        53
+      ]
+    },
+    "src/json/compile.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        20
+      ]
+    },
+    "src/json/constants.js": {
+      "expectCount": 9,
       "actualCount": 0,
       "undocumentLines": [
         1,
         3,
-        5
+        5,
+        14,
+        16,
+        18,
+        20,
+        22,
+        24
       ]
     },
-    "src/json/tokenizer.js": {
+    "src/json/error-reporting.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        1,
+        3
+      ]
+    },
+    "src/json/parser.js": {
       "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        13
+        7
+      ]
+    },
+    "src/json/tokenizer.js": {
+      "expectCount": 2,
+      "actualCount": 0,
+      "undocumentLines": [
+        22,
+        30
       ]
     },
     "src/lifecycle/destructor.js": {
@@ -77,6 +135,13 @@
         29,
         30,
         31
+      ]
+    },
+    "src/native/function.js": {
+      "expectCount": 1,
+      "actualCount": 0,
+      "undocumentLines": [
+        1
       ]
     },
     "src/native/math.js": {

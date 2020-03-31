@@ -81,10 +81,22 @@ export const TOKENIZER_KEYWORD_LIST = [
   &quot;get&quot;,
   &quot;set&quot;,
   &quot;unset&quot;,
-  &quot;only&quot;,
   &quot;is&quot;,
-  &quot;as&quot;
+  &quot;as&quot;,
+  &quot;only&quot;
 ];
+
+export const DOUBLE_QUOTE = &quot;\&quot;&quot;;
+
+export const SINGLE_QUOTE = &quot;\\\&quot;&quot;;
+
+export const ESCAPED_DOUBLE_QUOTE = &quot;\\\&quot;&quot;;
+
+export const ESCAPED_SINGLE_QUOTE = &quot;\\&apos;&quot;;
+
+export const LINE_CHARACTER = &quot;\n&quot;;
+
+export const SINGLE_TO_DOUBLE_QUOTE = /&quot;|\\&apos;/g;
 </code></pre>
 
 </div>

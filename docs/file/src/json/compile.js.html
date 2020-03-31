@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/json/tokenizer.js | @dikotech/basic</title>
+  <title data-ice="title">src/json/compile.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -72,128 +72,127 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/json/tokenizer.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-  MATH_MAX
-} from &quot;../native/math&quot;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/compile.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { parse } from &quot;./parser&quot;;
+
+import { reportParseError } from &quot;./error-reporting&quot;;
 
 import {
-  EMPTY_STRING
-} from &quot;../native/constants&quot;;
+  preprocess,
+  postprocess,
+  initializeOperand,
+  initializeGet
+} from &quot;./compile/initialize&quot;;
 
 import {
-  TOKENIZER_WILDCARD,
-  TOKENIZER_KEYWORD_LIST,
-  LINE_CHARACTER,
-  DOUBLE_QUOTE,
-  ESCAPED_DOUBLE_QUOTE,
-  SINGLE_QUOTE,
-  ESCAPED_SINGLE_QUOTE,
-  SINGLE_TO_DOUBLE_QUOTE
-} from &quot;./constants&quot;;
+  access
+} from &quot;./compile/object&quot;;
 
-import STATES from &quot;./tokenizer-states.json&quot;;
+import {
+  math
+} from &quot;./compile/arithmetic&quot;;
 
-function replaceSingleQuote(all) {
-  switch (all) {
-  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
-  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
-  }
-  return all;
-}
+export function compile(subject) {
+  const rpn = parse(subject);
+  const report = reportParseError;
+  const code = [];
+  const symbols = [];
+  const stack = [];
+  let stackLength = 0;
+  let node = 0;
+  let type = null;
+  let context = null;
+  let nodeId = null;
+  let operands = null;
 
-export function tokenize(input, startIndex) {
-  const emptyString = EMPTY_STRING;
-  const doubleQuote = DOUBLE_QUOTE;
-  const singleToDoubleQuoteRegexp = SINGLE_TO_DOUBLE_QUOTE;
-  const keywords = TOKENIZER_KEYWORD_LIST;
-  const wildcard = TOKENIZER_WILDCARD;
-  const reference = STATES;
-  const states = reference.state;
-  const ends = reference.ends;
-  const anchor = MATH_MAX(0, 1 * startIndex || 0);
-  const lineCharacter = LINE_CHARACTER;
-
-  let state = states[reference.startState];
-  let length = input.length;
-  let c = anchor;
-  let nextIndex = c;
-  let token = null;
-  let char = null;
-  let found = null;
-  let line = 0;
-
-  if (anchor === length) {
-    return [
-      reference.endToken,
-      emptyString,
-      nextIndex + 1,
-      line
-    ];
-  }
-  else if (anchor &gt; length) {
+  // dont if no rpn created
+  if (!rpn) {
     return null;
   }
 
-  for (; length--; c++) {
-    char = input.charAt(c);
+  const output = [];
+  rpn.forEach(
+    (item, index) =&gt; {
+      output[index] = item.value;
+    }
+  );
+  console.log(output.join(&quot; &quot;));
 
-    found = char in state
-      ? state[char]
-      : wildcard in state
-        ? state[wildcard]
-        : false;
+  preprocess(code);
 
-    if (found) {
-      // change state
-      state = states[found];
+  // generate source code
+  for (let c = 0, length = rpn.length; length--; c++) {
+    node = rpn[c];
+    type = node.type;
 
-      if (found in ends) {
-        nextIndex = c + 1;
-        token = ends[found];
-      }
+    // operands
+    if (type === &quot;operand&quot;) {
+      node.augmented = false;
+      stack[stackLength++] = node;
+      initializeOperand(node, code, symbols, context);
+      console.log(&quot;stack push &quot;, node.value, &quot; length: &quot;, stackLength);
       continue;
     }
 
-    break;
-  }
+    operands = node.operands;
 
-  // postprocess token
-  if (token) {
-    found = input.substring(anchor, nextIndex);
-    line = found.split(lineCharacter).length - 1;
-
-    switch (token) {
-    case &quot;ident&quot;:
-      if (keywords.indexOf(found) !== -1) {
-        token = found;
-      }
-      break;
-    case &quot;string&quot;:
-      found = JSON.parse(
-        found.charAt(0) === doubleQuote
-          ? found
-          : ([
-            doubleQuote,
-            found.substring(1, found.length - 1).replace(singleToDoubleQuoteRegexp, replaceSingleQuote),
-            doubleQuote
-          ]).join(emptyString)
+    if (stackLength &lt; operands) {
+      report(
+        `Low on operands ${node.value}`,
+        null,
+        node.line,
+        node.from,
+        node.to
       );
+      console.log(
+        code.join(&quot;\r\n&quot;)
+      );
+      return null;
+    }
+    node.augmented = true;
+    nodeId = node.id;
+    stackLength -= operands;
+    operands = stack.slice(stackLength, stackLength + operands);
+    node.operands = operands;
+
+    switch (nodeId) {
+    case &quot;get&quot;:
+      context = nodeId;
+      initializeGet(node, code, symbols, context);
       break;
-    case &quot;:call(&quot;:
-      found = found.substring(1, found.length - 1);
+
+    case &quot;add&quot;:
+    case &quot;sub&quot;:
+    case &quot;mul&quot;:
+    case &quot;div&quot;:
+    case &quot;mod&quot;:
+      math(node, code, symbols, operands);
       break;
+
+    case &quot;access&quot;:
+      access(node, code, symbols, operands, context);
+      stack[stackLength++] = node;
+      break;
+
+    case &quot;list&quot;:
+      break;
+
+    default:
+      console.log(&quot;unprocessed &quot;, node);
     }
 
-    return [
-      token,
-      found,
-      nextIndex,
-      line
-    ];
+    // console.log(
+    //   &quot;id&quot;, nodeId,
+    //   &quot;operands&quot;, operands,
+    //   &quot;stack&quot;, stack.slice(0, stackLength)
+    // );
   }
 
-  return null;
+  postprocess(code, symbols);
+
+  console.log(
+    code.join(&quot;\r\n&quot;)
+  );
 }
 </code></pre>
 

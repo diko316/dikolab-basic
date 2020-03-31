@@ -31,6 +31,8 @@ export function parse(subject) {
   let item = null;
   let precedence = 0;
   let symbolGen = 0;
+  let alternatePrecedence = false;
+  let context = null;
 
   for (token = tokenize(subject, index); token; token = tokenize(subject, index)) {
     id = token[0];
@@ -40,15 +42,19 @@ export function parse(subject) {
     token = token[1];
 
     definition = reference[id];
-
+    alternatePrecedence = definition[3];
+    precedence = definition[4];
+    id = definition[1];
+    context = definition[7] ? id : context;
     node = {
-      id: definition[1],
+      id,
       type: nodeTypes[definition[0]],
       dataType: definition[6],
-      symbol: `${definition[1]}${++symbolGen}`,
+      symbol: `${id}${++symbolGen}`,
+      context,
       value: token,
       operands: definition[2],
-      precedence: definition[4],
+      precedence: alternatePrecedence ? precedence[0] : precedence,
       rightAssiociative: definition[5] === 1,
       from,
       to,
@@ -70,6 +76,9 @@ export function parse(subject) {
         )
       ) {
         node.operands = 1;
+        if (alternatePrecedence) {
+          node.precedence = precedence[1];
+        }
       }
 
       precedence = node.precedence;
@@ -118,8 +127,8 @@ export function parse(subject) {
       break;
 
     case 3: // start
-      node.ender = definition[7];
-      node.separator = definition[8];
+      node.ender = definition[8];
+      node.separator = definition[9];
 
       if (enclosure && !enclosure.operands) {
         enclosure.operands = 1;
@@ -132,7 +141,6 @@ export function parse(subject) {
       if (!enclosureStackLength) {
         report(
           `Invalid token found ${token}.`,
-          null,
           line,
           from,
           to
@@ -143,7 +151,6 @@ export function parse(subject) {
       if (enclosure.ender !== node.id) {
         report(
           `Invalid terminating token found ${token}.`,
-          null,
           line,
           from,
           to
@@ -171,7 +178,6 @@ export function parse(subject) {
         if (item.type === "enclosure_start") {
           report(
             `Invalid terminating token found ${item.value}.`,
-            null,
             item.line,
             item.from,
             item.to
