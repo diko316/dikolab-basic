@@ -329,7 +329,8 @@
       "boolean",
       0,
       "closeBrace",
-      "separator"
+      "separator",
+      0
     ],
     "[": [
       3,
@@ -341,7 +342,8 @@
       "list",
       0,
       "closeBrace",
-      "separator"
+      "separator",
+      1
     ],
     "]": [
       4,
@@ -363,7 +365,8 @@
       "mixed",
       0,
       "closeContainer",
-      "separator"
+      "separator",
+      0
     ],
     "(": [
       3,

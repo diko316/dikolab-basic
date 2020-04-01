@@ -1,90 +1,147 @@
-import { EMPTY_STRING } from "../../native/constants";
-import { LINE_CHARACTER } from "../constants";
 
-function accessGet(assignSymbol, parentSymbol, propertySymbol, symbols) {
-  const line = LINE_CHARACTER;
-  let length = symbols.length;
-  let validParent = null;
-  let propertyType = null;
-  let validProperty = null;
+function populateObject(assign, parent, property, code, symbols, validate, validateProperty) {
+  const symbolLength = symbols.length;
+  const type = symbols[symbolLength] = `type${symbolLength}`;
+  const validations = [];
+  let validationsLength = 0;
+  let length = code.length;
 
-  validParent = symbols[length++] = `validParent${length}`;
-  propertyType = symbols[length++] = `propertyType${length}`;
-  validProperty = symbols[length++] = `validPropertyType${length}`;
+  code[length++] = `${type} = typeof ${property};`;
 
-  return ([
-    `${validParent} = ${parentSymbol} !== null && `,
-    `typeof ${parentSymbol} === "object";${line}`,
-    `${propertyType} = typeof ${propertySymbol};${line}`,
-    `${validProperty} = ${propertyType} === "string" || (`,
-    `${propertyType} === "number" && finite(${propertySymbol}));${line}`,
-    `if (${validParent} && ${validProperty} && `,
-    `hasOwn.call(${parentSymbol},${propertySymbol})) {${line}`,
-    `${assignSymbol} = ${parentSymbol}[${propertySymbol}];${line}}${line}`
-  ]).join(EMPTY_STRING);
+  if (validate) {
+    validations[validationsLength++] = `(!${parent} || typeof ${parent} !== "object")`;
+  }
+
+  if (validateProperty) {
+    validations[validationsLength++] = `(${type} !== "string" && !(${type} === "number" && finite(${property})))`;
+  }
+
+  if (validationsLength) {
+    code[length++] = `if (${validations.join(" || ")}) {
+    ${assign} = undefined;
+} else `;
+  }
+  code[length++] = `if (!hasOwn.call(${parent}, ${property})) {
+  ${parent}[${property}] = ${assign} = ${type} === "string" ? {} : [];
+}
+else {
+  ${assign} = ${parent}[${property}];
+}`;
 }
 
-function accessSet(assignSymbol, parentSymbol, propertySymbol, symbols) {
-  const line = LINE_CHARACTER;
-  let length = symbols.length;
-  let validParent = null;
-  let propertyType = null;
-  let validProperty = null;
+function accessObject(assign, parent, property, code, symbols, validate, validateProperty) {
+  let symbolLength = null;
+  let type = null;
+  let length = code.length;
 
-  validParent = symbols[length++] = `validParent${length}`;
-  propertyType = symbols[length++] = `propertyType${length}`;
-  validProperty = symbols[length++] = `validPropertyType${length}`;
+  if (validateProperty) {
+    symbolLength = symbols.length;
+    type = symbols[symbolLength] = `type${symbolLength}`;
+    code[length++] = `${type} = typeof ${property};`;
+  }
 
-  return ([
-    `${validParent} = ${parentSymbol} !== null && `,
-    `typeof ${parentSymbol} === "object";${line}`,
-    `${propertyType} = typeof ${propertySymbol};${line}`,
-    `${validProperty} = ${propertyType} === "string" || (`,
-    `${propertyType} === "number" && finite(${propertySymbol}));${line}`,
-    `if (${validParent} && ${validProperty}) {${line}`,
-    `if (!hasOwn.call(${parentSymbol}, ${propertySymbol})) {${line}`,
-    `${parentSymbol}[${propertySymbol}] = `,
-    `typeof ${propertySymbol} === "string" ? {} : [];}${line}`,
-    `${assignSymbol} = ${parentSymbol}[${propertySymbol}];${line}`,
-    `}${line}`
-  ]).join(EMPTY_STRING);
+  code[length++] = "if (";
+
+  if (validate) {
+    code[length++] = `(${parent} && typeof ${parent} === "object") &&`;
+  }
+  if (validateProperty) {
+    code[length++] = `(${type} === "string" || (${type} === "number" && finite(${property}))) &&`;
+  }
+
+  code[length++] = `hasOwn.call(${parent}, ${property})
+){
+  ${assign} = ${parent}[${property}];
+}
+else {
+  ${assign} = undefined;
+}`;
 }
 
-export function access(node, code, symbols) {
+export function access(features, node, code, symbols) {
   const symbol = node.symbol;
-  const operands = node.operands;
+  const operands = node.arguments;
   const parent = operands[0];
   const property = operands[1];
-  const subCode = [];
-  let length = 0;
-  let accessMethod = accessGet;
+  const propertySymbol = property.symbol;
+  const populate = node.context === "set";
+  let parentSymbol = parent.symbol;
+  let augmentedSymbol = null;
+  let symbolLength = null;
+  let validateProperty = false;
 
-  switch (node.context) {
-  case "set":
-    accessMethod = accessSet;
-  }
+  features.objectHasOwn = true;
+  features.finite = true;
 
   // initialize
   if (!parent.augmented) {
-    subCode[length++] = accessMethod(
-      parent.symbol,
-      "root",
-      parent.symbol,
-      symbols
-    );
+    switch (parent.id) {
+    case "string":
+    case "number":
+    case "identifier":
+      validateProperty = false;
+      break;
+    default:
+      validateProperty = true;
+    }
+    symbolLength = symbols.length;
+    augmentedSymbol = symbols[symbolLength] = `augmentedParent${symbolLength}`;
+
+    if (populate) {
+      populateObject(
+        augmentedSymbol,
+        "root",
+        parentSymbol,
+        code,
+        symbols,
+        false,
+        validateProperty
+      );
+    }
+    else {
+      accessObject(
+        augmentedSymbol,
+        "root",
+        parentSymbol,
+        code,
+        symbols,
+        false,
+        validateProperty
+      );
+    }
+    parentSymbol = augmentedSymbol;
   }
 
-  symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      subCode.join(EMPTY_STRING),
-      symbol, " = undefined;", LINE_CHARACTER,
-      accessMethod(
-        node.symbol,
-        parent.symbol,
-        property.symbol,
-        symbols
-      )
-    ]
-  ).join(EMPTY_STRING);
+  switch (property.id) {
+  case "string":
+  case "number":
+  case "identifier":
+    validateProperty = false;
+    break;
+  default:
+    validateProperty = true;
+  }
+
+  if (populate) {
+    populateObject(
+      symbol,
+      parentSymbol,
+      propertySymbol,
+      code,
+      symbols,
+      true,
+      validateProperty
+    );
+  }
+  else {
+    accessObject(
+      symbol,
+      parentSymbol,
+      propertySymbol,
+      code,
+      symbols,
+      true,
+      validateProperty
+    );
+  }
 }

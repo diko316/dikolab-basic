@@ -21,7 +21,6 @@ export function parse(subject) {
   let ignored = false;
   let token = null;
   let node = null;
-  let nodeBefore = null;
   let definition = null;
   let index = 0;
   let id = null;
@@ -33,6 +32,9 @@ export function parse(subject) {
   let symbolGen = 0;
   let alternatePrecedence = false;
   let context = null;
+  let isExpectingOperand = true;
+  let nodeType = null;
+  let hasEnclosureArguments = false;
 
   for (token = tokenize(subject, index); token; token = tokenize(subject, index)) {
     id = token[0];
@@ -46,9 +48,10 @@ export function parse(subject) {
     precedence = definition[4];
     id = definition[1];
     context = definition[7] ? id : context;
+    nodeType = nodeTypes[definition[0]];
     node = {
       id,
-      type: nodeTypes[definition[0]],
+      type: nodeType,
       dataType: definition[6],
       symbol: `${id}${++symbolGen}`,
       context,
@@ -68,13 +71,7 @@ export function parse(subject) {
 
     case 1: // operator
       // inspect if unary
-      if (definition[3] &&
-        (!nodeBefore ||
-          nodeBefore.type === "operator" ||
-          nodeBefore.type === "enclosure_start" ||
-          nodeBefore.type === "enclosure_separator"
-        )
-      ) {
+      if (definition[3] && isExpectingOperand) {
         node.operands = 1;
         if (alternatePrecedence) {
           node.precedence = precedence[1];
@@ -101,10 +98,12 @@ export function parse(subject) {
         }
         break;
       }
+
       // push
       if (node.operands > 0) {
         stack[stackLength++] = node;
       }
+      // pop operators not expecting operands
       else {
         rpn[rpnLength++] = node;
       }
@@ -112,27 +111,11 @@ export function parse(subject) {
 
     case 2: // operand
       rpn[rpnLength++] = node;
-
-      if (enclosure && !enclosure.operands) {
-        enclosure.operands = 1;
-      }
-
-      // pop unary
-      if (stackLength &&
-        stack[stackLength - 1].operands < 2 &&
-        stack[stackLength - 1].type !== "enclosure_start"
-      ) {
-        rpn[rpnLength++] = stack[--stackLength];
-      }
       break;
 
     case 3: // start
       node.ender = definition[8];
       node.separator = definition[9];
-
-      if (enclosure && !enclosure.operands) {
-        enclosure.operands = 1;
-      }
       stack[stackLength++] = node;
       enclosureStack[enclosureStackLength++] = enclosure = node;
       break;
@@ -157,6 +140,12 @@ export function parse(subject) {
         );
         return null;
       }
+
+      // append arguments
+      if (hasEnclosureArguments) {
+        enclosure.operands++;
+      }
+
       // pop all
       for (; stackLength--;) {
         item = stack[stackLength];
@@ -184,12 +173,24 @@ export function parse(subject) {
           );
           return null;
         }
-        rpn[rpnLength++] = stack[stackLength];
+        rpn[rpnLength++] = item;
       }
     }
 
     if (!ignored) {
-      nodeBefore = node;
+      hasEnclosureArguments = true;
+      isExpectingOperand = false;
+
+      switch (nodeType) {
+      case "enclosure_start":
+        hasEnclosureArguments = false;
+
+      // falls through
+      case "operator":
+      case "enclosure_separator":
+        isExpectingOperand = true;
+        break;
+      }
     }
     ignored = false;
   }

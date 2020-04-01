@@ -1,14 +1,16 @@
 import { EMPTY_STRING } from "../../native/constants";
 
-export function condition(node, code) {
+export function condition(features, node, code) {
   const empty = EMPTY_STRING;
   const symbol = node.symbol;
-  const operands = node.operands;
+  const operands = node.arguments;
   const leftSymbol = operands[0].symbol;
   const right = operands[1];
   const rightSymbol = right.symbol;
   let length = code.length;
   let operator = "===";
+
+  features.signature = true;
 
   switch (node.id) {
   case "neq": operator = "!=="; break;
@@ -17,16 +19,12 @@ export function condition(node, code) {
   case "lt": operator = "<"; break;
   case "lte": operator = "<="; break;
   case "pattern":
+    operator = right.agumented || right.id !== "regex"
+      ? `signature.call(${rightSymbol}) === "[object RegExp]" && `
+      : empty;
+
     // validate regexp
-    code[length++] = (
-      [
-        `${symbol} = `,
-        right.agumented || right.id !== "regex"
-          ? `signature.call(${rightSymbol}) === "[object RegExp]" && `
-          : empty,
-        `${rightSymbol}.test(${leftSymbol});`
-      ]
-    ).join(empty);
+    code[length++] = `${symbol} = ${operator}${rightSymbol}.test(${leftSymbol});`;
     return;
   }
 

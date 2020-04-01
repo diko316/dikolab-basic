@@ -1,3 +1,5 @@
+import { FUNCTION } from "../native/function";
+
 import { parse } from "./parser";
 
 import { reportCompileError } from "./error-reporting";
@@ -33,6 +35,13 @@ export function compile(subject) {
   const code = [];
   const symbols = [];
   const stack = [];
+  const features = {
+    symbols: true,
+    finite: false,
+    signature: false,
+    objectHasOwn: false,
+    objectPrototype: false
+  };
   let stackLength = 0;
   let node = 0;
   let nodeId = null;
@@ -81,11 +90,11 @@ export function compile(subject) {
     nodeId = node.id;
     stackLength -= operands;
     operands = stack.slice(stackLength, stackLength + operands);
-    node.operands = operands;
+    node.arguments = operands;
 
     switch (nodeId) {
     case "get":
-      get(node, code, symbols);
+      get(features, node, code, symbols);
       break;
 
     case "add":
@@ -93,7 +102,7 @@ export function compile(subject) {
     case "mul":
     case "div":
     case "mod":
-      arithmetic(node, code, symbols);
+      arithmetic(features, node, code, symbols);
       stack[stackLength++] = node;
       break;
 
@@ -104,12 +113,12 @@ export function compile(subject) {
     case "lt":
     case "lte":
     case "pattern":
-      condition(node, code);
+      condition(features, node, code);
       stack[stackLength++] = node;
       break;
 
     case "access":
-      access(node, code, symbols);
+      access(features, node, code, symbols);
       stack[stackLength++] = node;
       break;
 
@@ -127,9 +136,21 @@ export function compile(subject) {
     // );
   }
 
-  postprocess(code, symbols);
-
-  console.log(
-    code.join("\r\n")
+  postprocess(
+    code,
+    symbols,
+    features
   );
+
+  try {
+    const compiled = new FUNCTION("root", code.join("\n"));
+    compiled({});
+    console.log(
+      compiled.toString()
+    );
+  }
+  catch (error) {
+    console.log(code.join("\n"));
+    throw error;
+  }
 }

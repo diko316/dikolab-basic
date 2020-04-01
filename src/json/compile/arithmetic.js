@@ -1,31 +1,28 @@
-import { LINE_CHARACTER } from "../constants";
 
 function enforceNumberType(operand, code, symbols, allowString) {
   const symbol = operand.symbol;
   const symbolLength = symbols.length;
   const typeOfSymbol = symbols[symbolLength] = `typeOf${symbolLength}`;
+  const allowStringCondition = allowString
+    ? `${typeOfSymbol} !== "string" && (${typeOfSymbol} !== "number" || !finite(${symbol})`
+    : `${typeOfSymbol} !== "number" || !finite(${symbol}`;
 
-  code[code.length] = (
-    [
-      `${typeOfSymbol} = typeof ${symbol};`,
-      allowString
-        ? `if (${typeOfSymbol} !== "string" || !(${typeOfSymbol} === "number" && finite(${symbol})) {`
-        : `if (${typeOfSymbol} !== "number" || !finite(${symbol}){`,
-      ") {",
-      `${symbol} = 0;`,
-      "}"
-    ]
-  ).join(LINE_CHARACTER);
+  code[code.length] = `${typeOfSymbol} = typeof ${symbol};
+    if (${allowStringCondition}) {
+      ${symbol} = 0;
+    }`;
 }
 
-export function arithmetic(node, code, symbols) {
+export function arithmetic(features, node, code, symbols) {
   const symbol = node.symbol;
-  const operands = node.operands;
+  const operands = node.arguments;
   let operator = "+";
   let operand = null;
   let allowString = false;
   let left = 0;
   let right = null;
+
+  features.finite = true;
 
   switch (node.id) {
   case "add":
