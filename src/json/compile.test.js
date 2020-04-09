@@ -2,9 +2,9 @@
 import { compile } from "./compile";
 
 describe("compile()", () => {
-  it.only("Should be able to compile.", () => {
+  it("Should be able to compile.", () => {
     compile(`
-set div.test.sub
+set :call(2 + 1 * 3, 2, 3)
     `);
   });
 });

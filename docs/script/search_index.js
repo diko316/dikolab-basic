@@ -558,15 +558,39 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/compile/condition.js",
+    "file/src/json/compile/condition.js.html",
+    "src/json/compile/condition.js",
+    "file"
+  ],
+  [
     "src/json/compile/initialize.js",
     "file/src/json/compile/initialize.js.html",
     "src/json/compile/initialize.js",
     "file"
   ],
   [
+    "src/json/compile/object-access.js",
+    "file/src/json/compile/object-access.js.html",
+    "src/json/compile/object-access.js",
+    "file"
+  ],
+  [
     "src/json/compile/object.js",
     "file/src/json/compile/object.js.html",
     "src/json/compile/object.js",
+    "file"
+  ],
+  [
+    "src/json/compile/operand.js",
+    "file/src/json/compile/operand.js.html",
+    "src/json/compile/operand.js",
+    "file"
+  ],
+  [
+    "src/json/compile/query.js",
+    "file/src/json/compile/query.js.html",
+    "src/json/compile/query.js",
     "file"
   ],
   [
@@ -585,6 +609,12 @@ window.esdocSearchIndex = [
     "src/json/index.js",
     "file/src/json/index.js.html",
     "src/json/index.js",
+    "file"
+  ],
+  [
+    "src/json/parser copy.js",
+    "file/src/json/parser copy.js.html",
+    "src/json/parser copy.js",
     "file"
   ],
   [

@@ -1,17 +1,17 @@
 
-export function operand(node, code, symbols) {
-  const symbol = node.symbol;
-  let value = node.value;
-  let length = code.length;
-  let symbolLength = symbols.length;
+export function operand(lexeme) {
+  const symbol = lexeme.symbol;
+  const code = lexeme.code;
+  let value = lexeme.value;
   let initialized = false;
 
   // symbols[symbols.length] = node.
   // for identifier
-  switch (node.id) {
+  switch (lexeme.rule) {
   case "string":
   case "identifier":
     value = JSON.stringify(value);
+
   // falls through
   case "number":
     initialized = true;
@@ -24,7 +24,6 @@ export function operand(node, code, symbols) {
   }
 
   if (initialized) {
-    symbols[symbolLength++] = symbol;
-    code[length++] = `${symbol} = ${value};`;
+    code[code.length] = `${symbol} = ${value};`;
   }
 }

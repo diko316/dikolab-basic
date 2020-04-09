@@ -73,22 +73,35 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/json/compile/arithmetic.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { EMPTY_STRING } from &quot;../../native/constants&quot;;
-import { LINE_CHARACTER } from &quot;../constants&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+function enforceNumberType(operand, code, symbols, allowString) {
+  const symbol = operand.symbol;
+  const symbolLength = symbols.length;
+  const typeOfSymbol = symbols[symbolLength] = `typeOf${symbolLength}`;
+  const allowStringCondition = allowString
+    ? `${typeOfSymbol} !== &quot;string&quot; &amp;&amp; (${typeOfSymbol} !== &quot;number&quot; || !finite(${symbol})`
+    : `${typeOfSymbol} !== &quot;number&quot; || !finite(${symbol}`;
 
-export function math(node, code, symbols, operands) {
-  const symbol = node.symbol;
+  code[code.length] = `${typeOfSymbol} = typeof ${symbol};
+    if (${allowStringCondition}) {
+      ${symbol} = 0;
+    }`;
+}
+
+export function arithmetic(lexeme, symbols, operands) {
+  const symbol = lexeme.symbol;
+  const code = lexeme.code;
   const length = operands.length;
-  const left = length &gt; 1 ? operands[0].symbol : 0;
-  const right = length &gt; 1 ? operands[1].symbol : left;
-  let symbolsLength = symbols.length;
-  let codeLength = code.length;
-  let typeCheck = null;
   let operator = &quot;+&quot;;
+  let operand = null;
+  let allowString = false;
+  let left = 0;
+  let right = null;
 
-  switch (node.id) {
+  switch (lexeme.id) {
   case &quot;add&quot;:
     operator = &quot;+&quot;;
+    allowString = true;
     break;
 
   case &quot;sub&quot;:
@@ -108,105 +121,37 @@ export function math(node, code, symbols, operands) {
     break;
   }
 
-  symbols[symbolsLength++] = symbol;
+  // insert operand codes
+  operand = operands[0];
+  code.push.apply(code, operand.code);
 
-  if (operator === &quot;add&quot;) {
-    symbols[symbolsLength++] = typeCheck = `number${symbolsLength}`;
-    code[codeLength++] = (
-      [
-        `${typeCheck} = typeof ${left};`,
-        `if (${typeCheck} !== &quot;string&quot; || `,
-        `!(${typeCheck} === &quot;number&quot; &amp;&amp; finite(${left})`,
-        &quot;) {&quot;,
-        `${left} = 0;`,
-        &quot;}&quot;,
-        `${typeCheck} = typeof ${right};`,
-        `if (${typeCheck} !== &quot;string&quot; || `,
-        `!(${typeCheck} === &quot;number&quot; &amp;&amp; finite(${right})`,
-        &quot;) {&quot;,
-        `${right} = 0;`,
-        &quot;}&quot;
-      ]
-    ).join(LINE_CHARACTER);
+  if (length &gt; 1) {
+    code.push.apply(code, operands[1].code);
+  }
+
+  // apply type check if augmented
+  left = operand.symbol;
+  if (operand.augmented) {
+    enforceNumberType(operand, code, symbols, allowString);
+  }
+
+  // unary: zero minus operand
+  if (operands.length === 1) {
+    right = left;
+    left = 0;
   }
   else {
-    code[codeLength++] = (
-      [
-        `if (typeof ${left} !== &quot;number&quot; || !finite(${left})){`,
-        `${left} = 0;`,
-        &quot;}&quot;,
-        `if (typeof ${right} !== &quot;number&quot; || !finite(${right})){`,
-        `${right} = 0;`,
-        &quot;}&quot;
-      ]
-    ).join(LINE_CHARACTER);
-  }
-  code[codeLength++] = `${symbol} = ${left} ${operator} ${right};`;
-}
+    operand = operands[1];
+    right = operand.symbol;
 
-export function add(node, code, symbols, operands) {
-  const symbol = node.symbol;
-  let addend1 = 0;
-  let addend2 = operands[0].symbol;
-
-  if (operands.length &gt; 1) {
-    addend1 = addend2;
-    addend2 = operands[1].symbol;
+    if (operand.augmented) {
+      enforceNumberType(operand, code, symbols, allowString);
+    }
   }
 
   symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      &quot;var &quot;,
-      symbol,
-      &quot; = &quot;,
-      addend1,
-      &quot; + &quot;,
-      addend2,
-      &quot;; // &quot;
-    ]
-  ).join(EMPTY_STRING);
-}
 
-export function sub(node, code, symbols, operands) {
-  const symbol = node.symbol;
-  let minuend = 0;
-  let subtrahend = operands[0].symbol;
-
-  if (operands.length &gt; 1) {
-    minuend = subtrahend;
-    subtrahend = operands[1].symbol;
-  }
-
-  symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      &quot;var &quot;,
-      symbol,
-      &quot; = &quot;,
-      minuend,
-      &quot; - &quot;,
-      subtrahend,
-      &quot;; // &quot;
-    ]
-  ).join(EMPTY_STRING);
-}
-
-export function mul(node, code, symbols, operands) {
-  const symbol = node.symbol;
-
-  symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      &quot;var &quot;,
-      symbol,
-      &quot; = &quot;,
-      operands[0].symbol,
-      &quot; * &quot;,
-      operands[1].symbol,
-      &quot;; // &quot;
-    ]
-  ).join(EMPTY_STRING);
+  code[code.length] = `${symbol} = ${left} ${operator} ${right};`;
 }
 </code></pre>
 

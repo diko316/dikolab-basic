@@ -13,18 +13,17 @@ function enforceNumberType(operand, code, symbols, allowString) {
     }`;
 }
 
-export function arithmetic(features, node, code, symbols) {
-  const symbol = node.symbol;
-  const operands = node.arguments;
+export function arithmetic(lexeme, symbols, operands) {
+  const symbol = lexeme.symbol;
+  const code = lexeme.code;
+  const length = operands.length;
   let operator = "+";
   let operand = null;
   let allowString = false;
   let left = 0;
   let right = null;
 
-  features.finite = true;
-
-  switch (node.id) {
+  switch (lexeme.id) {
   case "add":
     operator = "+";
     allowString = true;
@@ -47,8 +46,15 @@ export function arithmetic(features, node, code, symbols) {
     break;
   }
 
-  // apply type check if augmented
+  // insert operand codes
   operand = operands[0];
+  code.push.apply(code, operand.code);
+
+  if (length > 1) {
+    code.push.apply(code, operands[1].code);
+  }
+
+  // apply type check if augmented
   left = operand.symbol;
   if (operand.augmented) {
     enforceNumberType(operand, code, symbols, allowString);

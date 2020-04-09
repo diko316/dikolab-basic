@@ -73,127 +73,261 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/json/compile.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { parse } from &quot;./parser&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// import { FUNCTION } from &quot;../native/function&quot;;
 
-import { reportParseError } from &quot;./error-reporting&quot;;
+import { parse } from &quot;./parser&quot;;
 
-import {
-  preprocess,
-  postprocess,
-  initializeOperand,
-  initializeGet
-} from &quot;./compile/initialize&quot;;
+// import { reportCompileError } from &quot;./error-reporting&quot;;
 
-import {
-  access
-} from &quot;./compile/object&quot;;
+// import {
+//   preprocess,
+//   postprocess
+// } from &quot;./compile/initialize&quot;;
 
 import {
-  math
+  operand
+} from &quot;./compile/operand&quot;;
+
+import {
+  objectAccess
+} from &quot;./compile/object-access&quot;;
+
+import {
+  arithmetic
 } from &quot;./compile/arithmetic&quot;;
 
-export function compile(subject) {
-  const rpn = parse(subject);
-  const report = reportParseError;
-  const code = [];
-  const symbols = [];
-  const stack = [];
-  let stackLength = 0;
-  let node = 0;
-  let type = null;
-  let context = null;
-  let nodeId = null;
-  let operands = null;
+import {
+  condition
+} from &quot;./compile/condition&quot;;
 
-  // dont if no rpn created
-  if (!rpn) {
-    return null;
-  }
+// import {
+//   get
+// } from &quot;./compile/query&quot;;
 
+export function show(rpn) {
   const output = [];
+
   rpn.forEach(
     (item, index) =&gt; {
       output[index] = item.value;
     }
   );
-  console.log(output.join(&quot; &quot;));
 
-  preprocess(code);
+  console.log(&quot;rpn: &quot;, output.join(&quot; &quot;));
+}
 
-  // generate source code
-  for (let c = 0, length = rpn.length; length--; c++) {
-    node = rpn[c];
-    type = node.type;
+export function compile(subject) {
+  const rpn = parse(subject);
+  // const report = reportCompileError;
+  const symbols = [];
+  const stack = [];
+  const features = {
+    symbols: true,
+    finite: false,
+    signature: false,
+    objectHasOwn: false,
+    objectPrototype: false
+  };
+
+  let slength = 0;
+  let rlength = 0;
+  let rc = 0;
+  let lexeme = null;
+  let operands = null;
+
+  if (!rpn) {
+    return null;
+  }
+
+  show(rpn);
+
+  for (rlength = rpn.length; rlength--; rc++) {
+    lexeme = rpn[rc];
+    symbols[symbols.length] = lexeme.symbol;
 
     // operands
-    if (type === &quot;operand&quot;) {
-      node.augmented = false;
-      stack[stackLength++] = node;
-      initializeOperand(node, code, symbols, context);
-      console.log(&quot;stack push &quot;, node.value, &quot; length: &quot;, stackLength);
+    if (lexeme.type === &quot;operand&quot;) {
+      lexeme.augmented = false;
+      operand(lexeme, symbols);
+      stack[slength++] = lexeme;
       continue;
     }
 
-    operands = node.operands;
+    lexeme.augmented = true;
 
-    if (stackLength &lt; operands) {
-      report(
-        `Low on operands ${node.value}`,
-        null,
-        node.line,
-        node.from,
-        node.to
-      );
-      console.log(
-        code.join(&quot;\r\n&quot;)
-      );
-      return null;
+    // resolve operands
+    operands = lexeme.operands;
+    if (operands) {
+      slength -= operands;
+      operands = stack.slice(slength, slength + operands);
     }
-    node.augmented = true;
-    nodeId = node.id;
-    stackLength -= operands;
-    operands = stack.slice(stackLength, stackLength + operands);
-    node.operands = operands;
+    else {
+      operands = [];
+    }
 
-    switch (nodeId) {
-    case &quot;get&quot;:
-      context = nodeId;
-      initializeGet(node, code, symbols, context);
-      break;
-
+    switch (lexeme.rule) {
+    // arithmetic
     case &quot;add&quot;:
     case &quot;sub&quot;:
     case &quot;mul&quot;:
     case &quot;div&quot;:
     case &quot;mod&quot;:
-      math(node, code, symbols, operands);
+      features.finite = true;
+      arithmetic(
+        lexeme,
+        symbols,
+        operands
+      );
       break;
 
+    // condition
+    case &quot;eq&quot;:
+    case &quot;neq&quot;:
+    case &quot;gt&quot;:
+    case &quot;gte&quot;:
+    case &quot;lt&quot;:
+    case &quot;lte&quot;:
+    case &quot;pattern&quot;:
+      condition(lexeme, operands[0], operands[1]);
+      features.signature = true;
+      break;
+
+    // object
     case &quot;access&quot;:
-      access(node, code, symbols, operands, context);
-      stack[stackLength++] = node;
-      break;
-
-    case &quot;list&quot;:
-      break;
-
-    default:
-      console.log(&quot;unprocessed &quot;, node);
+      objectAccess(lexeme, operands[0], operands[1]);
     }
 
-    // console.log(
-    //   &quot;id&quot;, nodeId,
-    //   &quot;operands&quot;, operands,
-    //   &quot;stack&quot;, stack.slice(0, stackLength)
-    // );
+    stack[slength++] = lexeme;
   }
-
-  postprocess(code, symbols);
-
-  console.log(
-    code.join(&quot;\r\n&quot;)
-  );
 }
+
+// export function compile(subject) {
+//   const rpn = parse(subject);
+//   const report = reportCompileError;
+//   const code = [];
+//   const symbols = [];
+//   const stack = [];
+//   const features = {
+//     symbols: true,
+//     finite: false,
+//     signature: false,
+//     objectHasOwn: false,
+//     objectPrototype: false
+//   };
+//   let stackLength = 0;
+//   let node = 0;
+//   let nodeId = null;
+//   let operands = null;
+
+//   // dont if no rpn created
+//   if (!rpn) {
+//     return null;
+//   }
+
+//   const output = [];
+//   rpn.forEach(
+//     (item, index) =&gt; {
+//       output[index] = item.value;
+//     }
+//   );
+
+//   console.log(&quot;rpn: &quot;, output.join(&quot; &quot;));
+//   console.log(rpn);
+
+//   preprocess(code);
+
+//   // generate source code
+//   for (let c = 0, length = rpn.length; length--; c++) {
+//     node = rpn[c];
+
+//     // operands
+//     if (node.type === &quot;operand&quot;) {
+//       node.augmented = false;
+//       operand(node, code, symbols);
+//       stack[stackLength++] = node;
+//       continue;
+//     }
+
+//     operands = node.operands;
+
+//     if (stackLength &lt; operands) {
+//       report(
+//         `Low on operands ${node.value}`,
+//         node
+//       );
+//       console.log(
+//         code.join(&quot;\r\n&quot;)
+//       );
+//       return null;
+//     }
+//     node.augmented = true;
+//     nodeId = node.id;
+//     stackLength -= operands;
+//     operands = stack.slice(stackLength, stackLength + operands);
+//     node.arguments = operands;
+
+//     switch (nodeId) {
+//     case &quot;get&quot;:
+//       get(features, node, code, symbols);
+//       break;
+
+//     case &quot;add&quot;:
+//     case &quot;sub&quot;:
+//     case &quot;mul&quot;:
+//     case &quot;div&quot;:
+//     case &quot;mod&quot;:
+//       arithmetic(features, node, code, symbols);
+//       stack[stackLength++] = node;
+//       break;
+
+//     case &quot;eq&quot;:
+//     case &quot;neq&quot;:
+//     case &quot;gt&quot;:
+//     case &quot;gte&quot;:
+//     case &quot;lt&quot;:
+//     case &quot;lte&quot;:
+//     case &quot;pattern&quot;:
+//       condition(features, node, code);
+//       stack[stackLength++] = node;
+//       break;
+
+//     case &quot;access&quot;:
+//       access(features, node, code, symbols);
+//       stack[stackLength++] = node;
+//       break;
+
+//     case &quot;list&quot;:
+//       break;
+
+//     default:
+//       console.log(&quot;unprocessed &quot;, node);
+//     }
+
+//     // console.log(
+//     //   &quot;id&quot;, nodeId,
+//     //   &quot;operands&quot;, operands,
+//     //   &quot;stack&quot;, stack.slice(0, stackLength)
+//     // );
+//   }
+
+//   postprocess(
+//     code,
+//     symbols,
+//     features
+//   );
+
+//   try {
+//     const compiled = new FUNCTION(&quot;root&quot;, code.join(&quot;\n&quot;));
+//     compiled({});
+//     console.log(
+//       compiled.toString()
+//     );
+//   }
+//   catch (error) {
+//     console.log(code.join(&quot;\n&quot;));
+//     throw error;
+//   }
+// }
 </code></pre>
 
 </div>

@@ -1,6 +1,6 @@
 let LAST_ERRORS = null;
 
-export function reportParseError(error, line, from, to) {
+export function reportParseError(error, lexeme) {
   let errors = LAST_ERRORS;
 
   if (!errors) {
@@ -8,10 +8,10 @@ export function reportParseError(error, line, from, to) {
   }
 
   errors[errors.length] = error;
-  console.log(error);
+  console.error(error);
 }
 
-export function reportCompileError(error, node) {
+export function reportCompileError(error, lexeme) {
   let errors = LAST_ERRORS;
 
   if (!errors) {
@@ -19,5 +19,5 @@ export function reportCompileError(error, node) {
   }
 
   errors[errors.length] = error;
-  console.log(error);
+  console.error(error);
 }

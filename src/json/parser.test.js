@@ -2,7 +2,17 @@
 import { parse } from "./parser";
 
 describe("parse()", () => {
-  it("Should be able to parse.", () => {
-    parse("get -1 * 1, 1 + 1 - 2");
+  it.only("Should be able to parse.", () => {
+    const infix = "-1 + 2 + -3)";
+    const rpn = parse(infix);
+    const output = [];
+
+    rpn.forEach(
+      (item, index) => {
+        output[index] = `${item.value}|${item.operands}`;
+      }
+    );
+    console.log("infix: ", infix);
+    console.log("rpn: ", output.join(", "));
   });
 });

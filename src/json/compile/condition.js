@@ -1,18 +1,19 @@
 import { EMPTY_STRING } from "../../native/constants";
 
-export function condition(features, node, code) {
+export function condition(lexeme, left, right) {
   const empty = EMPTY_STRING;
-  const symbol = node.symbol;
-  const operands = node.arguments;
-  const leftSymbol = operands[0].symbol;
-  const right = operands[1];
+  const code = lexeme.code;
+  const symbol = lexeme.symbol;
+  const leftSymbol = left.symbol;
   const rightSymbol = right.symbol;
   let length = code.length;
   let operator = "===";
 
-  features.signature = true;
+  // insert operand codes
+  code.push.apply(code, left);
+  code.push.apply(code, right);
 
-  switch (node.id) {
+  switch (lexeme.id) {
   case "neq": operator = "!=="; break;
   case "gt": operator = ">"; break;
   case "gte": operator = ">="; break;

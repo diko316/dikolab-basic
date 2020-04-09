@@ -75,70 +75,100 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/json/compile/initialize.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { LINE_CHARACTER } from &quot;../constants&quot;;
 
+const FEATURE_LIST = [
+  &quot;objectPrototype&quot;,
+  &quot;finite&quot;,
+  &quot;signature&quot;,
+  &quot;objectHasOwn&quot;,
+  &quot;symbols&quot;
+];
+
 export function preprocess(code) {
   // insert helpers
-  code[code.length] = (
-    [
-      &quot;var object = Object;&quot;,
-      &quot;var objectPrototype = object.prototype;&quot;,
-      &quot;var hasOwn = objectPrototype.hasownProperty;&quot;,
-      &quot;var finite = isFinite;&quot;,
-      &quot;var result = undefined;&quot;
-    ]
-  ).join(LINE_CHARACTER);
+  code[code.length] = `var result = undefined;
+
+if (root === null || typeof root !== &quot;object&quot;) {
+  return result;
+}
+  `;
 }
 
-export function postprocess(code, symbols) {
-  let declare = null;
-  let codeLength = code.length;
+export function postprocess(code, symbols, features) {
+  const line = LINE_CHARACTER;
+  const list = FEATURE_LIST;
+  const precodes = [];
+  const postcodes = [];
+  let nullfills = [];
+  let c = 0;
+  let length = list.length;
+  let item = null;
+  let precodesLength = 0;
+  let postcodesLength = 0;
+  let nullfillsLength = 0;
 
-  if (symbols.length) {
-    declare = symbols.join(`;${LINE_CHARACTER}var `);
-    codeLength++;
-    code.splice(
-      0,
-      0,
-      `var ${declare};`
-    );
+  if (features.signature || features.objectHasOwn) {
+    features.objectPrototype = true;
   }
 
-  // add unset symbols
-  code[codeLength++] = `${symbols.join(&quot; = &quot;)} = null;`;
-  code[codeLength++] = &quot;return result;&quot;;
-}
+  for (; length--; c++) {
+    item = list[c];
+    if (!(item in features) || features[item] === false) {
+      continue;
+    }
+    switch (item) {
+    case &quot;objectPrototype&quot;:
+      precodes[precodesLength++] = &quot;var object = Object;&quot;;
+      precodes[precodesLength++] = &quot;var objectPrototype = object.prototype;&quot;;
+      nullfills[nullfillsLength++] = &quot;object&quot;;
+      nullfills[nullfillsLength++] = &quot;objectPrototype&quot;;
+      break;
 
-export function initializeGet(node, code) {
+    case &quot;finite&quot;:
+      precodes[precodesLength++] = &quot;var finite = isFinite;&quot;;
+      nullfills[nullfillsLength++] = &quot;finite&quot;;
+      break;
 
-}
+    case &quot;signature&quot;:
+      precodes[precodesLength++] = &quot;var signature = objectPrototype.toString;&quot;;
+      nullfills[nullfillsLength++] = &quot;signature&quot;;
+      break;
 
-export function initializeOperand(node, code, symbols) {
-  const symbol = node.symbol;
-  let value = node.value;
-  let length = code.length;
-  let symbolLength = symbols.length;
-  let initialized = false;
+    case &quot;objectHasOwn&quot;:
+      precodes[precodesLength++] = &quot;var hasOwn = objectPrototype.hasOwnProperty;&quot;;
+      nullfills[nullfillsLength++] = &quot;hasOwn&quot;;
+      break;
 
-  // symbols[symbols.length] = node.
-  switch (node.dataType) {
-  case &quot;string&quot;:
-    value = JSON.stringify(value);
+    case &quot;symbols&quot;:
+      if (symbols.length) {
+        precodes[precodesLength++] = `var ${symbols.join(`;${line}var `)};`;
+      }
 
-  // falls through
-  case &quot;number&quot;:
-    initialized = true;
-    break;
+      if (nullfillsLength) {
+        nullfills.reverse();
+        nullfills = symbols.concat(nullfills);
+      }
+      else {
+        nullfills = symbols;
+      }
 
-  default:
-    // for identifier
-    if (node.id === &quot;identifier&quot;) {
-      value = JSON.stringify(node.value);
-      initialized = true;
+      if (nullfills.length) {
+        postcodes[postcodesLength++] = `${nullfills.join(&quot; = &quot;)} = null;`;
+      }
     }
   }
 
-  if (initialized) {
-    symbols[symbolLength++] = symbol;
-    code[length++] = `${symbol} = ${value};`;
+  if (precodesLength) {
+    code.splice(
+      0,
+      0,
+      precodes.join(line)
+    );
+  }
+  if (postcodesLength) {
+    code.push.apply(
+      code,
+      postcodes
+    );
   }
 }
 </code></pre>

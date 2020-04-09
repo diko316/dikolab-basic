@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/json/error-reporting.js | @dikotech/basic</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/json/compile/query.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -72,29 +72,10 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/json/error-reporting.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">let LAST_ERRORS = null;
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/compile/query.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+export function get(node, code, symbols) {
 
-export function reportParseError(error, lexeme) {
-  let errors = LAST_ERRORS;
-
-  if (!errors) {
-    LAST_ERRORS = errors = [];
-  }
-
-  errors[errors.length] = error;
-  console.log(error);
-}
-
-export function reportCompileError(error, lexeme) {
-  let errors = LAST_ERRORS;
-
-  if (!errors) {
-    LAST_ERRORS = errors = [];
-  }
-
-  errors[errors.length] = error;
-  console.log(error);
 }
 </code></pre>
 

@@ -82,192 +82,136 @@ import { reportParseError } from &quot;./error-reporting&quot;;
 export function parse(subject) {
   const manifest = MANIFEST;
   const reference = manifest.reference;
-  const nodeTypes = manifest.types;
+  const dataTypes = manifest.dataType;
   const report = reportParseError;
   const rpn = [];
-  const stack = [];
-  const enclosureStack = [];
 
-  let rpnLength = 0;
-  let stackLength = 0;
-  let enclosureStackLength = 0;
-  let enclosure = null;
-
-  let ignored = false;
-  let token = null;
-  let node = null;
-  let nodeBefore = null;
-  let definition = null;
   let index = 0;
-  let id = null;
-  let from = 0;
-  let to = 0;
+  let rpnLength = 0;
+  let isExpectingOperand = true;
   let line = 1;
-  let item = null;
-  let precedence = 0;
-  let symbolGen = 0;
-  let alternatePrecedence = false;
+  let stack = null;
+  let enclosure = [null, null];
+  let enclosureNode = null;
+  let hasOperand = false;
+  let output;
+  let stackPop;
+  let stackPush;
+  let pushEnclosure;
+  let popEnclosure;
+  let value;
+  let rule;
+  let from;
+  let to;
+  let token;
+  let node;
+  let definition;
+  let type;
+  let item;
+  let precedence;
+  let separator;
+  let operands;
 
-  for (token = tokenize(subject, index); token; token = tokenize(subject, index)) {
-    id = token[0];
+  /* eslint no-labels: 0 */
+  loop: for (token = tokenize(subject, index); token; token = tokenize(subject, index)) {
+    rule = token[0];
+    value = token[1];
+    definition = reference[rule];
+    type = definition[0];
     from = index;
     index = to = token[2];
     line += token[3];
-    token = token[1];
+    token = rule;
 
-    definition = reference[id];
-    alternatePrecedence = definition[3];
-    precedence = definition[4];
+    // preprocess
+    switch (type) {
+    case 0: continue loop;
+    case 3:
+      definition = isExpectingOperand
+        ? definition[1]
+        : definition[2];
+      type = definition[0];
+      break;
+    }
 
+    token = rule;
+    rule = definition[1];
+
+    // node
     node = {
-      id: definition[1],
-      type: nodeTypes[definition[0]],
-      dataType: definition[6],
-      symbol: `${definition[1]}${++symbolGen}`,
-      value: token,
-      operands: definition[2],
-      precedence: alternatePrecedence ? precedence[0] : precedence,
-      rightAssiociative: definition[5] === 1,
+      rule,
+      token,
+      value,
+      parameterized: false,
+      operands: 0,
+      precedence: 0,
+      augmented: true,
       from,
       to,
       line
     };
 
-    switch (definition[0]) {
-    case 0: // ignore
-      ignored = true;
+    pushEnclosure = popEnclosure = stackPop = stackPush = output = hasOperand = false;
+
+    switch (type) {
+    case 10: // operand
+      node.augmented =
+        isExpectingOperand = false;
+
+      output = true;
       break;
 
-    case 1: // operator
-      // inspect if unary
-      if (definition[3] &amp;&amp;
-        (!nodeBefore ||
-          nodeBefore.type === &quot;operator&quot; ||
-          nodeBefore.type === &quot;enclosure_start&quot; ||
-          nodeBefore.type === &quot;enclosure_separator&quot;
-        )
-      ) {
-        node.operands = 1;
-        if (alternatePrecedence) {
-          node.precedence = precedence[1];
-        }
-      }
+    case 1: // unary
+      node.precedence = precedence = definition[3];
+      node.operands = 1;
+      isExpectingOperand =
+        stackPop =
+        stackPush = true;
+      break;
 
-      precedence = node.precedence;
+    case 2: // binary operator
+      node.precedence = precedence = definition[3];
+      node.operands = 2;
+      isExpectingOperand =
+        stackPop =
+        stackPush = true;
+      break;
 
-      // pop
-      for (; stackLength; stackLength--) {
-        item = stack[stackLength - 1];
-        if (
-          item.type !== &quot;enclosure_start&quot; &amp;&amp;
-          (
-            item.precedence &gt; precedence ||
-            (
-              item.precedence === precedence &amp;&amp;
-              !item.rightAssiociative
-            )
-          )
-        ) {
-          rpn[rpnLength++] = item;
+    case 20:
+      precedence = 0;
+      stackPop = true;
+    }
+
+    // console.log(&quot;node: &quot;, node.rule, isExpectingOperand);
+
+    // pop until
+    if (stackPop) {
+      for (; stack; stack = stack[0]) {
+        item = stack[1];
+        if (!item.parameterized &amp;&amp; item.precedence &gt;= precedence) {
+          if (item.rule) {
+            rpn[rpnLength++] = item;
+          }
           continue;
         }
         break;
       }
-      // push
-      if (node.operands &gt; 0) {
-        stack[stackLength++] = node;
-      }
-      else {
-        rpn[rpnLength++] = node;
-      }
-      break;
+    }
 
-    case 2: // operand
+    if (stackPush) {
+      stack = [
+        stack,
+        node
+      ];
+    }
+    else if (output &amp;&amp; node.rule) {
       rpn[rpnLength++] = node;
-
-      if (enclosure &amp;&amp; !enclosure.operands) {
-        enclosure.operands = 1;
-      }
-
-      // pop unary
-      if (stackLength &amp;&amp;
-        stack[stackLength - 1].operands &lt; 2 &amp;&amp;
-        stack[stackLength - 1].type !== &quot;enclosure_start&quot;
-      ) {
-        rpn[rpnLength++] = stack[--stackLength];
-      }
-      break;
-
-    case 3: // start
-      node.ender = definition[7];
-      node.separator = definition[8];
-
-      if (enclosure &amp;&amp; !enclosure.operands) {
-        enclosure.operands = 1;
-      }
-      stack[stackLength++] = node;
-      enclosureStack[enclosureStackLength++] = enclosure = node;
-      break;
-
-    case 4: // ender
-      if (!enclosureStackLength) {
-        report(
-          `Invalid token found ${token}.`,
-          null,
-          line,
-          from,
-          to
-        );
-        return null;
-      }
-
-      if (enclosure.ender !== node.id) {
-        report(
-          `Invalid terminating token found ${token}.`,
-          null,
-          line,
-          from,
-          to
-        );
-        return null;
-      }
-      // pop all
-      for (; stackLength--;) {
-        item = stack[stackLength];
-        if (item.id === enclosure.id) {
-          rpn[rpnLength++] = item;
-          item.type = &quot;operator&quot;;
-          break;
-        }
-        rpn[rpnLength++] = item;
-      }
-      enclosure = --enclosureStackLength &gt; 0
-        ? enclosureStack[enclosureStackLength - 1]
-        : null;
-      break;
-
-    case 6: // end
-      for (; stackLength--;) {
-        item = stack[stackLength];
-        if (item.type === &quot;enclosure_start&quot;) {
-          report(
-            `Invalid terminating token found ${item.value}.`,
-            null,
-            item.line,
-            item.from,
-            item.to
-          );
-          return null;
-        }
-        rpn[rpnLength++] = stack[stackLength];
-      }
     }
-
-    if (!ignored) {
-      nodeBefore = node;
-    }
-    ignored = false;
   }
+
+  console.log(&quot;stack: &quot;, JSON.stringify(stack, null, 2));
+
+  console.log(&quot;rpn: &quot;, rpn);
 
   return rpn;
 }

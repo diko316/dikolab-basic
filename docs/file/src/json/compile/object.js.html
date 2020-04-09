@@ -73,94 +73,152 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/json/compile/object.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { EMPTY_STRING } from &quot;../../native/constants&quot;;
-import { LINE_CHARACTER } from &quot;../constants&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+function populateObject(assign, parent, property, code, symbols, validate, validateProperty) {
+  const symbolLength = symbols.length;
+  const type = symbols[symbolLength] = `type${symbolLength}`;
+  const validations = [];
+  let validationsLength = 0;
+  let length = code.length;
 
-function accessGet(assignSymbol, parentSymbol, propertySymbol, symbols) {
-  const line = LINE_CHARACTER;
-  let length = symbols.length;
-  let validParent = null;
-  let propertyType = null;
-  let validProperty = null;
+  code[length++] = `${type} = typeof ${property};`;
 
-  validParent = symbols[length++] = `validParent${length}`;
-  propertyType = symbols[length++] = `propertyType${length}`;
-  validProperty = symbols[length++] = `validPropertyType${length}`;
+  if (validate) {
+    validations[validationsLength++] = `(!${parent} || typeof ${parent} !== &quot;object&quot;)`;
+  }
 
-  return ([
-    `${validParent} = ${parentSymbol} !== null &amp;&amp; `,
-    `typeof ${parentSymbol} === &quot;object&quot;;${line}`,
-    `${propertyType} = typeof ${propertySymbol};${line}`,
-    `${validProperty} = ${propertyType} === &quot;string&quot; || (`,
-    `${propertyType} === &quot;number&quot; &amp;&amp; finite(${propertySymbol}));${line}`,
-    `if (${validParent} &amp;&amp; ${validProperty} &amp;&amp; `,
-    `hasOwn.call(${parentSymbol},${propertySymbol})) {${line}`,
-    `${assignSymbol} = ${parentSymbol}[${propertySymbol}];${line}}${line}`
-  ]).join(EMPTY_STRING);
+  if (validateProperty) {
+    validations[validationsLength++] = `(${type} !== &quot;string&quot; &amp;&amp; !(${type} === &quot;number&quot; &amp;&amp; finite(${property})))`;
+  }
+
+  if (validationsLength) {
+    code[length++] = `if (${validations.join(&quot; || &quot;)}) {
+    ${assign} = undefined;
+} else `;
+  }
+  code[length++] = `if (!hasOwn.call(${parent}, ${property})) {
+  ${parent}[${property}] = ${assign} = ${type} === &quot;string&quot; ? {} : [];
+}
+else {
+  ${assign} = ${parent}[${property}];
+}`;
 }
 
-function accessSet(assignSymbol, parentSymbol, propertySymbol, symbols) {
-  const line = LINE_CHARACTER;
-  let length = symbols.length;
-  let validParent = null;
-  let propertyType = null;
-  let validProperty = null;
+function accessObject(assign, parent, property, code, symbols, validate, validateProperty) {
+  let symbolLength = null;
+  let type = null;
+  let length = code.length;
 
-  validParent = symbols[length++] = `validParent${length}`;
-  propertyType = symbols[length++] = `propertyType${length}`;
-  validProperty = symbols[length++] = `validPropertyType${length}`;
+  if (validateProperty) {
+    symbolLength = symbols.length;
+    type = symbols[symbolLength] = `type${symbolLength}`;
+    code[length++] = `${type} = typeof ${property};`;
+  }
 
-  return ([
-    `${validParent} = ${parentSymbol} !== null &amp;&amp; `,
-    `typeof ${parentSymbol} === &quot;object&quot;;${line}`,
-    `${propertyType} = typeof ${propertySymbol};${line}`,
-    `${validProperty} = ${propertyType} === &quot;string&quot; || (`,
-    `${propertyType} === &quot;number&quot; &amp;&amp; finite(${propertySymbol}));${line}`,
-    `if (${validParent} &amp;&amp; ${validProperty}) {${line}`,
-    `if (!hasOwn.call(${parentSymbol}, ${propertySymbol})) {${line}`,
-    `${parentSymbol}[${propertySymbol}] = `,
-    `typeof ${propertySymbol} === &quot;string&quot; ? {} : [];}${line}`,
-    `${assignSymbol} = ${parentSymbol}[${propertySymbol}];${line}`,
-    `}${line}`
-  ]).join(EMPTY_STRING);
+  code[length++] = &quot;if (&quot;;
+
+  if (validate) {
+    code[length++] = `(${parent} &amp;&amp; typeof ${parent} === &quot;object&quot;) &amp;&amp;`;
+  }
+  if (validateProperty) {
+    code[length++] = `(${type} === &quot;string&quot; || (${type} === &quot;number&quot; &amp;&amp; finite(${property}))) &amp;&amp;`;
+  }
+
+  code[length++] = `hasOwn.call(${parent}, ${property})
+){
+  ${assign} = ${parent}[${property}];
+}
+else {
+  ${assign} = undefined;
+}`;
 }
 
-export function access(node, code, symbols, operands, context) {
+export function access(features, node, code, symbols) {
   const symbol = node.symbol;
+  const operands = node.arguments;
   const parent = operands[0];
   const property = operands[1];
-  const subCode = [];
-  let length = 0;
-  let accessMethod = accessGet;
+  const propertySymbol = property.symbol;
+  const populate = node.context === &quot;set&quot;;
+  let parentSymbol = parent.symbol;
+  let augmentedSymbol = null;
+  let symbolLength = null;
+  let validateProperty = false;
 
-  switch (context) {
-  case &quot;set&quot;:
-    accessMethod = accessSet;
-  }
+  features.objectHasOwn = true;
+  features.finite = true;
 
   // initialize
   if (!parent.augmented) {
-    subCode[length++] = accessMethod(
-      parent.symbol,
-      &quot;root&quot;,
-      parent.symbol,
-      symbols
-    );
+    switch (parent.id) {
+    case &quot;string&quot;:
+    case &quot;number&quot;:
+    case &quot;identifier&quot;:
+      validateProperty = false;
+      break;
+    default:
+      validateProperty = true;
+    }
+    symbolLength = symbols.length;
+    augmentedSymbol = symbols[symbolLength] = `augmentedParent${symbolLength}`;
+
+    if (populate) {
+      populateObject(
+        augmentedSymbol,
+        &quot;root&quot;,
+        parentSymbol,
+        code,
+        symbols,
+        false,
+        validateProperty
+      );
+    }
+    else {
+      accessObject(
+        augmentedSymbol,
+        &quot;root&quot;,
+        parentSymbol,
+        code,
+        symbols,
+        false,
+        validateProperty
+      );
+    }
+    parentSymbol = augmentedSymbol;
   }
 
-  symbols[symbols.length] = symbol;
-  code[code.length] = (
-    [
-      subCode.join(EMPTY_STRING),
-      symbol, &quot; = undefined;&quot;, LINE_CHARACTER,
-      accessMethod(
-        node.symbol,
-        parent.symbol,
-        property.symbol,
-        symbols
-      )
-    ]
-  ).join(EMPTY_STRING);
+  switch (property.id) {
+  case &quot;string&quot;:
+  case &quot;number&quot;:
+  case &quot;identifier&quot;:
+    validateProperty = false;
+    break;
+  default:
+    validateProperty = true;
+  }
+
+  if (populate) {
+    populateObject(
+      symbol,
+      parentSymbol,
+      propertySymbol,
+      code,
+      symbols,
+      true,
+      validateProperty
+    );
+  }
+  else {
+    accessObject(
+      symbol,
+      parentSymbol,
+      propertySymbol,
+      code,
+      symbols,
+      true,
+      validateProperty
+    );
+  }
 }
 </code></pre>
 
