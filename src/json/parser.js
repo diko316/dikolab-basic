@@ -1,5 +1,10 @@
 import MANIFEST from "./parser-reference.json";
 
+import {
+  INVALID_OPERAND_TOKEN,
+  INVALID_SEPARATOR_TOKEN
+} from "./constants";
+
 import { tokenize } from "./tokenizer";
 
 import { reportParseError } from "./error-reporting";
@@ -18,6 +23,7 @@ export function parse(subject) {
   let stack = null;
   let stackNode = null;
   let isSeparator;
+  let isOperand;
   let separator;
   let isMultiArguments;
   let isEnder;
@@ -73,6 +79,7 @@ export function parse(subject) {
       operands: 0,
       min: 0,
       max: 0,
+      literal: false,
       augmented: true,
       from,
       to,
@@ -81,13 +88,17 @@ export function parse(subject) {
 
     stackPop =
       stackPush =
+      isOperand =
       stackOutput = false;
 
     switch (definition[0]) {
+    case 11: // literal number
+    case 12: // literal string
+    case 13: // literal regex
+      node.literal = true;
+    // falls through
     case 10: // operand
-      operands++;
-      rpn[rpnLength++] = node;
-      node.augmented = isExpectingOperand = false;
+      isOperand = true;
       break;
 
     case 1: // infix unary
@@ -114,7 +125,7 @@ export function parse(subject) {
         node.min = node.max = 2;
         node.isSeparator = true;
         if (!stackNode || stackNode.separator !== node.token) {
-          report("Invalid parameter separator.", node);
+          report(INVALID_SEPARATOR_TOKEN, node, subject);
           return null;
         }
       }
@@ -148,12 +159,19 @@ export function parse(subject) {
 
     case 16: // ender
       isExpectingOperand = false;
+      stackOutput = true;
 
     // falls through
     case 20: // end
       node.precedence = 0;
       stackOutput = true;
       break;
+    }
+
+    if (isOperand) {
+      operands++;
+      rpn[rpnLength++] = node;
+      node.augmented = isExpectingOperand = false;
     }
 
     if (stackPop || stackOutput) {
@@ -172,7 +190,7 @@ export function parse(subject) {
           if (expectedOperands < item.min ||
             (max && max > expectedOperands)
           ) {
-            report("Invalid number of operands.", item);
+            report(INVALID_OPERAND_TOKEN, item, subject);
             return null;
           }
 
@@ -188,7 +206,7 @@ export function parse(subject) {
         }
         else if (stackOutput) {
           item.operands += operands;
-          operands = 0;
+          operands = 1;
 
           // postfix ender
           if (isEnder && item.precedence) {
@@ -201,7 +219,7 @@ export function parse(subject) {
             if (expectedOperands < item.min ||
               (max && max > expectedOperands)
             ) {
-              report("Invalid number of operands.", item);
+              report(INVALID_OPERAND_TOKEN, item, subject);
               return null;
             }
 

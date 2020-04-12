@@ -7,6 +7,9 @@
     "4": "multi_arguments",
     "5": "separator",
     "10": "operand",
+    "11": "literal-number",
+    "12": "literal-string",
+    "13": "literal-regex",
     "15": "enclosure",
     "16": "ender",
     "20": "end"
@@ -72,12 +75,12 @@
     "..":         [2, "range", 6, 2, 2, 180],
 
     "ident":      [10, "ident", 10],
-    "string":     [10, "string", 1],
+    "string":     [12, "string", 1],
     "?":          [10, "var", 10],
-    "integer":    [10, "int", 2],
-    "float":      [10, "real", 2],
-    "percent":    [10, "percent", 2],
-    "regex":      [10, "regex", 4],
+    "integer":    [11, "int", 2],
+    "float":      [11, "real", 2],
+    "percent":    [11, "percent", 2],
+    "regex":      [13, "regex", 4],
 
     "$":          [20, 0]
   }
