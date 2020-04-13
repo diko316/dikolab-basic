@@ -56,11 +56,11 @@ export function parse(subject) {
     // preprocess
     switch (definition[0]) {
     case 0: continue loop;
-    case 4:
+    case 4: // multi arguments
       isMultiArguments = true;
       break;
 
-    case 5:
+    case 5: // separator
       isSeparator = true;
       break;
 
@@ -77,6 +77,7 @@ export function parse(subject) {
       token,
       value,
       operands: 0,
+      requiredLeftOperands: 0,
       min: 0,
       max: 0,
       literal: false,
@@ -92,10 +93,9 @@ export function parse(subject) {
       stackOutput = false;
 
     switch (definition[0]) {
-    case 11: // literal number
-    case 12: // literal string
-    case 13: // literal regex
+    case 11: // literal number/string/regex
       node.literal = true;
+
     // falls through
     case 10: // operand
       isOperand = true;
@@ -105,8 +105,10 @@ export function parse(subject) {
     case 2: // binary
     case 4: // multi arguments
     case 5: // separator
+      node.requiredLeftOperands = definition[3];
+
       if (isMultiArguments) {
-        node.separator = definition[6];
+        node.separator = definition[7];
       }
 
       // separator only
@@ -122,6 +124,7 @@ export function parse(subject) {
             break;
           }
         }
+        node.requiredLeftOperands = 1;
         node.min = node.max = 2;
         node.isSeparator = true;
         if (!stackNode || stackNode.separator !== node.token) {
@@ -130,9 +133,9 @@ export function parse(subject) {
         }
       }
       else {
-        node.min = definition[3];
-        node.max = definition[4];
-        node.precedence = definition[5];
+        node.min = definition[4];
+        node.max = definition[5];
+        node.precedence = definition[6];
       }
 
       isExpectingOperand =
@@ -141,9 +144,10 @@ export function parse(subject) {
       break;
 
     case 15: // enclosure
-      node.precedence = precedence = definition[5];
-      node.ender = definition[6];
-      node.separator = definition[7];
+      node.requiredLeftOperands = definition[3];
+      node.precedence = precedence = definition[6];
+      node.ender = definition[7];
+      node.separator = definition[8];
 
       if (precedence) {
         stackPop = true;
@@ -206,11 +210,11 @@ export function parse(subject) {
         }
         else if (stackOutput) {
           item.operands += operands;
-          operands = 1;
 
           // postfix ender
           if (isEnder && item.precedence) {
             item.ender = false;
+            operands = 0;
           }
           else {
             expectedOperands = item.operands;
@@ -234,6 +238,10 @@ export function parse(subject) {
     }
 
     if (stackPush) {
+      if (node.requiredLeftOperands !== operands) {
+        report(INVALID_OPERAND_TOKEN, node, subject);
+        return null;
+      }
       node.operands += operands;
       operands = 0;
       stack = [stack, node];
