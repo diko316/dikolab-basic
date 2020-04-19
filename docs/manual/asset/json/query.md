@@ -2,7 +2,7 @@
 
 ## Usage
 
-### Acquire `query` function from @dikotech/basic
+### Importing `query` function from @dikotech/basic
 
 CommonJS
 
@@ -15,10 +15,29 @@ ECMAScript module
 ```js
 import { query } from "@dikotech/basic";
 ```
+### Simple Query
 
-### `get` query
+```js
+// returns 9
+query(
+  "(1 + 2) * 3"
+);
 
-#### data.json file sample data
+// returns false
+query(
+  "5 > 6"
+);
+
+// returns true
+query(
+  "5 <= 6"
+);
+```
+
+### Select/Extract JSON data
+
+**With sample JSON**
+
 ```json
 {
   "message": "Ok",
@@ -41,86 +60,53 @@ import { query } from "@dikotech/basic";
 }
 ```
 
-#### Simple extract value 
-```js
-const object = require("data.json");
+#### Simple Extract data
 
+```js
 // returns 1
 query(
-  object,
-  "get data[0].id"
+  "data[0].id",
+  object
 );
 ```
 
-#### Compose Object
-```js
-// returns { "found": 1 }
-query(
-  object,
-`get
-  data[0].id as found,
-  data[1].name as nextName
-`
-);
-```
+#### Extract and Compose
 
-#### List Filter
+**Composing array/list**
+
 ```js
 // returns [ "en", "fr", "de" ]
 query(
-  object,
-  "get data[]:[name=name1].language[]:[!=1]"
+  `
+  (
+    data[0].language[0],
+    data[0].language[1],
+    data[0].language[3]
+  )
+  `,
+  object
 );
 ```
 
-#### Substitution
+**Composing object**
+
 ```js
-// returns [ "en", "fr", "de" ]
+//  returns { "found": 1, "nextName": "name1" }
 query(
-  object,
-  "get data[]:[name=?].language[]:[!=?]",
-  [
-    "name1",
-    1
-  ]
+  `
+  (
+    data[0].id as found,
+    data[1].name as nextName
+  )
+  `,
+  object
 );
 ```
 
-#### Custom Function call
-```js
-// returns [ "en", "fr", "de" ]
-query(
-  object,
-  "get data[]:[name=?].language[]:customFilter()",
-  {
-    values: [
-      "name1"
-    ],
-    /**
-     *
-     * @param {*} value currently selected item.
-     *            may also be an item iterated from an array collection or
-     *            property iterated from object.
-     * @param {string|number|null} key zero based index position if array collection.
-     *            or, property name of parent object.
-     *            or, null if parent object is not an array or object.
-     * @param {*} parent current parent object selected.
-     *            It may contain array, object, or null.
-     * @param {...*} otherArguments other arguments passed from query expression.
-     *            otherArguments[0] may contain "test" value if called in query: `:customFilter(test)`
-     * @returns {boolean|*} return false to exclude from selection
-     */
-    customFilter(value, key, parent, ...otherArguments) {
-      return typeof value === 'string';
-    }
-  }
-);
-```
+### Manipulate JSON data
 
+**With sample JSON**
 
-### `set` query
-
-#### data.json file sample data
 ```json
 {
   "message": "Ok",
@@ -141,27 +127,72 @@ query(
 }
 ```
 
-#### Simple set
+#### Set value
+
+**Simple set value**
+
 ```js
 // data[0] will now contain { id: 42, name: "name1", language: ["en", "fr"]}
+// then, returns 42
 query(
-  object,
-  "set data[0].id is 42"
+  "data[0].id is 42",
+  object
 );
 ```
 
-#### Multiple set
+**Multiple set value**
+
 ```js
 // data[0] will now contain { id: 42, name: "name1", language: ["en", "fr"]}
 // data[1] will now contain { id: 2, name: "updated name", language: ["en"]}
+// then, returns [42, "updated name", "en" ]
 query(
-  object,
-`
-set
-  data[0].id is ?,
-  data[1].name is ?,
-  data[1].language[] is ?
+  `
+  (
+    data[0].id is ?,
+    data[1].name is ?,
+    data[1].language[] is ?
+  )
   `,
+  object,
+  [
+    42,
+    "updated name",
+    "en"
+  ]
+);
+
+// data[0] will now contain { id: 42, name: "name1", language: ["en", "fr"]}
+// data[1] will now contain { id: 2, name: "updated name", language: ["en"]}
+// then, returns { "updatedId": 42, "updatedName": "updated name", "updatedLanguage": "en" }
+query(
+  `
+  (
+    data[0].id is ? as updatedId,
+    data[1].name is ? as updatedName,
+    data[1].language[] is ? as updatedLanguage
+  )
+  `,
+  object,
+  [
+    42,
+    "updated name",
+    "en"
+  ]
+);
+
+// creates new item in "data" array indexed by "2".
+// data[2] will now contain { id: 42, name: "name1", language: ["en"]}
+// then, returns { "updatedId": 42, "updatedName": "updated name", "updatedLanguage": "en" }
+query(
+  `
+  (
+    data[2].id is ? as updatedId,
+    data[2].name is ? as updatedName,
+    data[2].language[] is ? as updatedLanguage
+  )
+  `,
+  object,
   [
     42,
     "updated name",
@@ -170,127 +201,32 @@ set
 );
 ```
 
-#### Transform set
+#### Unset value
+
+**Simple remove property**
 ```js
-// data[0] will now contain { id: 42, name: "name1", language: ["en", "fr"]}
-// data[1] will now contain { id: 2, name: "updated name"}
+
+// removes "message" property.
+// returns last value "Ok".
 query(
-  object,
-`
-set
-  data[0].id is ?,
-  data[1].name is :customizeValue(?)
+  "! message",
+  object
+);
+
+// removes "message" property.
+//  then, removes "name" property in data[0].
+//  then, removes "language" property in data[0].
+//  then, pops "0" index in data[0].language array.
+// returns old values [ "Ok", "name1", "en" ].
+query(
+  `
+  (
+    ! message,
+    data[0] ! name,
+    data[0] ! language ! 0
+  )
   `,
-  {
-    values: [
-      42,
-      "updated name"
-    ],
-    /**
-     *
-     * @param {*} value currently selected item.
-     *            may also be an item iterated from an array collection or
-     *            property iterated from object.
-     * @param {string|number|null} key zero based index position if array collection.
-     *            or, property name of parent object.
-     *            or, null if parent object is not an array or object.
-     * @param {*} parent current parent object selected.
-     *            It may contain array, object, or null.
-     * @param {...*} otherArguments other arguments passed from query expression.
-     *            otherArguments[0] may contain "test" value if called in query: `:customFilter(test)`
-     * @returns {undefined|*} return transformed value.
-     *            when used in "set" assignment query, returning undefined will:
-     *              remove item from parent array or object.
-     *              will do nothing if key, and parent is not array or object
-     */
-    customizeValue(value, key, parent, ...otherArguments) {
-      if (value === "name2") {
-        return otherArguments[0];
-      }
-
-      return value;
-    }
-  }
-);
-```
-
-### `unset` query
-
-#### data.json file sample data
-```json
-{
-  "message": "Ok",
-  "data": [
-    {
-      "id": 1,
-      "name": "name1",
-      "language": [
-        "en",
-        "fr"
-      ]
-    },
-    {
-      "id": 2,
-      "name": "name2"
-    }
-  ]
-}
-```
-
-#### Simple remove array items
-
-```js
-// data[1] will be removed as 2 up to 10 do not exist.
-query(
-  object,
-  'unset data[1..10]'
-);
-```
-
-#### Remove Guard
-
-Guard operator `only [expression] is [values]`.
-
-```js
-// removes data[0] since it has name property containing "name1" value.
-query(
-  object,
-  'unset data[] only name is [name1]'
-);
-```
-
-#### Remove Guard operator with multiple value match
-
-```js
-// removes data[0] since it has language property array containing "en", or "fr" value.
-query(
-  object,
-  'unset data[] only language[] is [en, fr, 1]'
-);
-```
-
-#### Remove Guard operator with substitution
-```js
-// removes data[0] since it has language property array containing "en", or "fr" value.
-query(
-  object,
-  'unset data[] only language[] is [?, ?, ?]',
-  [
-    "en",
-    "fr",
-    1
-  ]
-);
-```
-
-#### Remove Guard operator with multiple value substitution
-```js
-query(
-  object,
-  'unset data[] only language[] is ?',
-  [
-    ["en", "fr", 1]
-  ]
+  object
 );
 ```
 
@@ -298,149 +234,117 @@ query(
 
 Supported Lexical Structures.
 
-### get Lexical Structure
+### Lexical Structure
 
 ```
-get `expression` [as `identifier`]
-    ...
-    , `expression` [as `identifier`]
-```
+#####################################
+# Reference declarations (optional)
+#####################################
 
-### set Lexical Structure
-
-```
-set `expression` is `value`
+[`identifier` from `expression`;]
   ...
-  , `expression` is `value`
-```
+  [`identifier` from `expression`;]
 
-### unset Lexical Structure
 
-```
-unset `expression` [only `expression` as `values`]
+#####################################
+# Main expression (required)
+#####################################
+
+`expression` [as `identifier`] [is `expression`]
     ...
-    , `expresson` [only `expression` as `values`]
-```
-
-### expression Lexical Rule
-
-#### Object property access expression
-
-```
-objectAccess:
-
-  [`propertyName`]
-
-  .`propertyName`
-```
-
-```
-expression:
-
-  `property`
-
-  `property` ... `objectAccess`
-
-```
-
-#### Array item access expression
-
-```
-indexRange:
-
-  `number`
-
-  `number`-`number`
-
-```
+    , `expression` [as `identifier`] [is `expression`]
 
 
 ```
-expression:
 
-  [`indexRange`]
+### References
 
-  [`indexRange` ...,`indexRange`]
-
-```
-
-#### Filter conditions
+**Using references**
 
 ```
-accessExpression:
+// reference declaration
 
-  `property`
+myReference from data[1].value;
 
-  `numeric_index`
+// using reference with @
 
+@myReference.length
 ```
 
-```
-valueExpression:
+### Scalar and Literals
 
-  `string`
-
-  `number`
-
-  `regex`
-
-```
-
-```
-operator:
-
-  `=`
-
-  `!=`
-
-  `~=`
-
-  `>`
-
-  `>=`
-
-  `<`
-
-  `>=`
-
-```
+Scalars are literally declared as seen in the examples.
 
 
-```
-expression:
+Type | Example | Description
+--- | --- | ---
+Integer | `10`<br><br>`-2`<br><br>`+500` | Whole number.
+Float | `.5`<br><br>`1.5`<br><br>`-0.1` | Number with precision
+Percent | `-1%`<br><br>`210%` | Float multiplied by .01
+String | `"double quote"`<br><br>`'single quote'`<br><br>`'\n escaped next line'` | Enclosed in double quote and single quote
 
-  :[`operator` `valueExpression`]
 
-  :[`operator` `valueExpression` ... ,`valueExpression`]
+### List
 
-  :[`accessExpression` `operator` `valueExpression`]
+Lists are internally Javascript Array instance.
 
-  :[`accessExpression` `operator` `valueExpression` ... ,`valueExpression`]
+It can be composed using parenthesis `(1, 2, "last item")`.
 
-```
+Result Type | Example | Description
+--- | --- | ---
+Array | `(1,2,3)`<br><br>`(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"diko",`<br>&nbsp;&nbsp;&nbsp;&nbsp;`3,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`@myValue`<br>`)` | Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.
 
-#### Filter function call
 
-```
-arguments:
+### Object
 
-  `string`
+Objects are internally Javascript Object instance.
 
-  `number`
+It can be composed using parenthesis with properties defined using `as` operator `(1 as first, 2 as seconds, "last item" as last)`.
 
-  `object`
 
-  `array`
+Result Type | Example | Description
+--- | --- | ---
+Object | (1 **as** first, 2 **as** second, 3 **as** third)<br><br>(<br>&nbsp;&nbsp;&nbsp;&nbsp;"diko" **as** name,<br>&nbsp;&nbsp;&nbsp;&nbsp;3 **as** count,<br>&nbsp;&nbsp;&nbsp;&nbsp;@myValue **as** value<br>) | Struct data containing properties defined using **as** operator and **identifier** as property name.
 
-```
+### Variables
 
-```
-expression:
 
-  :`functionName`()
+Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Mixed | **`?`** | data[**?**]<br><br>data[0].id = **?** | Question mark **?** contains any value defined outside the query.<br>Value in **?** contains value listed in **variables** Array argument when calling `query(myquery, targetobject, `**variables**`)` function in order they appear in the query code.<br><br>For example, the first question mark will contain **"my value"** string if function is executed like this `query("data.?", target, [`**"my value"**`, 1])`
+Mixed | **`@`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br><br>**@myReference**.name as name,<br>1 + **@value** as value | Uses the value referenced from **from** declaration.
 
-  :`functionName`(`arguments`)
 
-  :`functionName`(`arguments` ..., `arguments`)
+### Arithmetic
 
-```
+ Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Number or,<br>String | **`+`** | 1 **`+`** 2 | Addition.<br>But, result may be a **concatenated string** if one or all of the operands is a **string**.
+Number | **`-`** | 1 **`-`** 2 | Subtraction.
+Number | **`*`** | 1 **`*`** 2 | Multiplication.
+Number | **`/`** | 1 **`/`** 2 | Division.
+Number | **`%`** | 1 **`%`** 2 | Modulo Division. Resturns remainder of division operation
+
+### Conditional
+
+ Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Boolean | **`=`** | 1 **`=`** 2 | Modulo Division.
+Boolean | **`>`** | 1 **`>`** 2 | Addition.
+Boolean | **`>=`** | 1 **`>=`** 2 | Subtraction.
+Boolean | **`<`** | 1 **`<`** 2 | Multiplication.
+Boolean | **`<=`** | 1 **`<=`** 2 | Division.
+
+### Assignment
+
+Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Mixed | **`is`** | data[0] **`is`** "value" | Assigns **"value"** to **data[0]** expression.
+
+### Object Query
+
+Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Mixed | **`.`** | data **`.`** propertyName<br>data **`.`** "propertyName" **`.`** target = ? | **Extract mode:**<br>Retrieves property of Object.<br><br>**Assign mode:**<br>Assign/Populate property value of the Object.
+Mixed | **`[]`** | data **`[1]`**<br><br>data **`[propertyName]`** = ?<br><br>data **`[1..10, 20]`**<br><br>data **`[]`** is ? | **Extract mode:**<br>Retrieves property of an object or item of an Array list if there is only one value or identifier inside **`[]`**.<br><br>It can also act as object property or list index filter if **`[]`** contains none (e.g. **`[]`**), or two or more values (e.g. **`[1, 5, name]`**), or number range (e.g. **`[10..25]`**).<br>The result of list index or object property filter with **`[]`** operator end up as list array.<br><br>**Assign mode:**<br>Assign/populate list item or object property value. May also do multiple assignment of values when **`[]`** operator results in object property or list index filter.
+Mixed | **`as`** | data[0] **as** propertyName |  

@@ -73,28 +73,69 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/json/error-reporting.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">let LAST_ERRORS = null;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+  EMPTY_STRING
+} from &quot;../native/constants&quot;;
+import {
+  MATH_MIN,
+  MATH_MAX
+} from &quot;../native/math&quot;;
 
-export function reportParseError(error, lexeme) {
-  let errors = LAST_ERRORS;
+let LAST_ERRORS = null;
 
-  if (!errors) {
-    LAST_ERRORS = errors = [];
-  }
+let SHOW_ERRORS = false;
 
-  errors[errors.length] = error;
-  console.log(error);
+export function reset() {
+  LAST_ERRORS = null;
 }
 
-export function reportCompileError(error, lexeme) {
+export function get() {
+  const list = LAST_ERRORS;
+  return list ? null : list.slice(0);
+}
+
+export function showErrors(show) {
+  SHOW_ERRORS = show !== false;
+}
+
+export function reportParseError(error, lexeme, subject) {
+  const value = lexeme.value || EMPTY_STRING;
+  const length = value.length;
+  const near = subject.substring(
+    MATH_MAX(0, lexeme.from - length - 5),
+    MATH_MIN(subject.length, lexeme.to + length + 5)
+  );
+  const message = `Parse Error: ${error} (${value}) at line: ${lexeme.line} near: ${near}`;
   let errors = LAST_ERRORS;
 
   if (!errors) {
     LAST_ERRORS = errors = [];
   }
 
-  errors[errors.length] = error;
-  console.log(error);
+  errors[errors.length] = message;
+  if (SHOW_ERRORS) {
+    console.error(message);
+  }
+}
+
+export function reportCompileError(error, lexeme, subject) {
+  const value = lexeme.value || EMPTY_STRING;
+  const length = value.length;
+  const near = subject.substring(
+    MATH_MAX(0, lexeme.from - length - 5),
+    MATH_MIN(subject.length, lexeme.to + length + 5)
+  );
+  const message = `Compile Error: ${error} (${value}) at line: ${lexeme.line} near: ${near}`;
+  let errors = LAST_ERRORS;
+
+  if (!errors) {
+    LAST_ERRORS = errors = [];
+  }
+
+  errors[errors.length] = message;
+  if (SHOW_ERRORS) {
+    console.error(message);
+  }
 }
 </code></pre>
 
