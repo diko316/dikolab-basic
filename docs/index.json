@@ -877,901 +877,6 @@
   {
     "__docId__": 59,
     "kind": "file",
-    "name": "src/json/compile/arithmetic.js",
-    "content": "\nfunction enforceNumberType(operand, code, symbols, allowString) {\n  const symbol = operand.symbol;\n  const symbolLength = symbols.length;\n  const typeOfSymbol = symbols[symbolLength] = `typeOf${symbolLength}`;\n  const allowStringCondition = allowString\n    ? `${typeOfSymbol} !== \"string\" && (${typeOfSymbol} !== \"number\" || !finite(${symbol})`\n    : `${typeOfSymbol} !== \"number\" || !finite(${symbol}`;\n\n  code[code.length] = `${typeOfSymbol} = typeof ${symbol};\n    if (${allowStringCondition}) {\n      ${symbol} = 0;\n    }`;\n}\n\nexport function arithmetic(lexeme, symbols, operands) {\n  const symbol = lexeme.symbol;\n  const code = lexeme.code;\n  const length = operands.length;\n  let operator = \"+\";\n  let operand = null;\n  let allowString = false;\n  let left = 0;\n  let right = null;\n\n  switch (lexeme.id) {\n  case \"add\":\n    operator = \"+\";\n    allowString = true;\n    break;\n\n  case \"sub\":\n    operator = \"-\";\n    break;\n\n  case \"mul\":\n    operator = \"*\";\n    break;\n\n  case \"div\":\n    operator = \"/\";\n    break;\n\n  case \"mod\":\n    operator = \"%\";\n    break;\n  }\n\n  // insert operand codes\n  operand = operands[0];\n  code.push.apply(code, operand.code);\n\n  if (length > 1) {\n    code.push.apply(code, operands[1].code);\n  }\n\n  // apply type check if augmented\n  left = operand.symbol;\n  if (operand.augmented) {\n    enforceNumberType(operand, code, symbols, allowString);\n  }\n\n  // unary: zero minus operand\n  if (operands.length === 1) {\n    right = left;\n    left = 0;\n  }\n  else {\n    operand = operands[1];\n    right = operand.symbol;\n\n    if (operand.augmented) {\n      enforceNumberType(operand, code, symbols, allowString);\n    }\n  }\n\n  symbols[symbols.length] = symbol;\n\n  code[code.length] = `${symbol} = ${left} ${operator} ${right};`;\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/arithmetic.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 60,
-    "kind": "function",
-    "name": "enforceNumberType",
-    "memberof": "src/json/compile/arithmetic.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/arithmetic.js~enforceNumberType",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/compile/arithmetic.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "params": [
-      {
-        "name": "operand",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "allowString",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 61,
-    "kind": "function",
-    "name": "arithmetic",
-    "memberof": "src/json/compile/arithmetic.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/arithmetic.js~arithmetic",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/arithmetic.js",
-    "importStyle": "{arithmetic}",
-    "description": null,
-    "lineNumber": 16,
-    "undocument": true,
-    "params": [
-      {
-        "name": "lexeme",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "operands",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 62,
-    "kind": "file",
-    "name": "src/json/compile/condition.js",
-    "content": "import { EMPTY_STRING } from \"../../native/constants\";\n\nexport function condition(lexeme, left, right) {\n  const empty = EMPTY_STRING;\n  const code = lexeme.code;\n  const symbol = lexeme.symbol;\n  const leftSymbol = left.symbol;\n  const rightSymbol = right.symbol;\n  let length = code.length;\n  let operator = \"===\";\n\n  // insert operand codes\n  code.push.apply(code, left);\n  code.push.apply(code, right);\n\n  switch (lexeme.id) {\n  case \"neq\": operator = \"!==\"; break;\n  case \"gt\": operator = \">\"; break;\n  case \"gte\": operator = \">=\"; break;\n  case \"lt\": operator = \"<\"; break;\n  case \"lte\": operator = \"<=\"; break;\n  case \"pattern\":\n    operator = right.agumented || right.id !== \"regex\"\n      ? `signature.call(${rightSymbol}) === \"[object RegExp]\" && `\n      : empty;\n\n    // validate regexp\n    code[length++] = `${symbol} = ${operator}${rightSymbol}.test(${leftSymbol});`;\n    return;\n  }\n\n  code[length++] = `${symbol} = ${leftSymbol} ${operator} ${rightSymbol};`;\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/condition.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 63,
-    "kind": "function",
-    "name": "condition",
-    "memberof": "src/json/compile/condition.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/condition.js~condition",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/condition.js",
-    "importStyle": "{condition}",
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "params": [
-      {
-        "name": "lexeme",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "left",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "right",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 64,
-    "kind": "file",
-    "name": "src/json/compile/initialize.js",
-    "content": "import { LINE_CHARACTER } from \"../constants\";\n\nconst FEATURE_LIST = [\n  \"objectPrototype\",\n  \"finite\",\n  \"signature\",\n  \"objectHasOwn\",\n  \"symbols\"\n];\n\nexport function preprocess(code) {\n  // insert helpers\n  code[code.length] = `var result = undefined;\n\nif (root === null || typeof root !== \"object\") {\n  return result;\n}\n  `;\n}\n\nexport function postprocess(code, symbols, features) {\n  const line = LINE_CHARACTER;\n  const list = FEATURE_LIST;\n  const precodes = [];\n  const postcodes = [];\n  let nullfills = [];\n  let c = 0;\n  let length = list.length;\n  let item = null;\n  let precodesLength = 0;\n  let postcodesLength = 0;\n  let nullfillsLength = 0;\n\n  if (features.signature || features.objectHasOwn) {\n    features.objectPrototype = true;\n  }\n\n  for (; length--; c++) {\n    item = list[c];\n    if (!(item in features) || features[item] === false) {\n      continue;\n    }\n    switch (item) {\n    case \"objectPrototype\":\n      precodes[precodesLength++] = \"var object = Object;\";\n      precodes[precodesLength++] = \"var objectPrototype = object.prototype;\";\n      nullfills[nullfillsLength++] = \"object\";\n      nullfills[nullfillsLength++] = \"objectPrototype\";\n      break;\n\n    case \"finite\":\n      precodes[precodesLength++] = \"var finite = isFinite;\";\n      nullfills[nullfillsLength++] = \"finite\";\n      break;\n\n    case \"signature\":\n      precodes[precodesLength++] = \"var signature = objectPrototype.toString;\";\n      nullfills[nullfillsLength++] = \"signature\";\n      break;\n\n    case \"objectHasOwn\":\n      precodes[precodesLength++] = \"var hasOwn = objectPrototype.hasOwnProperty;\";\n      nullfills[nullfillsLength++] = \"hasOwn\";\n      break;\n\n    case \"symbols\":\n      if (symbols.length) {\n        precodes[precodesLength++] = `var ${symbols.join(`;${line}var `)};`;\n      }\n\n      if (nullfillsLength) {\n        nullfills.reverse();\n        nullfills = symbols.concat(nullfills);\n      }\n      else {\n        nullfills = symbols;\n      }\n\n      if (nullfills.length) {\n        postcodes[postcodesLength++] = `${nullfills.join(\" = \")} = null;`;\n      }\n    }\n  }\n\n  if (precodesLength) {\n    code.splice(\n      0,\n      0,\n      precodes.join(line)\n    );\n  }\n  if (postcodesLength) {\n    code.push.apply(\n      code,\n      postcodes\n    );\n  }\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/initialize.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 65,
-    "kind": "variable",
-    "name": "FEATURE_LIST",
-    "memberof": "src/json/compile/initialize.js",
-    "static": true,
-    "longname": "src/json/compile/initialize.js~FEATURE_LIST",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/compile/initialize.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string[]"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 66,
-    "kind": "function",
-    "name": "preprocess",
-    "memberof": "src/json/compile/initialize.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/initialize.js~preprocess",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/initialize.js",
-    "importStyle": "{preprocess}",
-    "description": null,
-    "lineNumber": 11,
-    "undocument": true,
-    "params": [
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 67,
-    "kind": "function",
-    "name": "postprocess",
-    "memberof": "src/json/compile/initialize.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/initialize.js~postprocess",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/initialize.js",
-    "importStyle": "{postprocess}",
-    "description": null,
-    "lineNumber": 21,
-    "undocument": true,
-    "params": [
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "features",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 68,
-    "kind": "file",
-    "name": "src/json/compile/object-access.js",
-    "content": "\nexport function objectAccess(lexeme, left, right) {\n\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/object-access.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 69,
-    "kind": "function",
-    "name": "objectAccess",
-    "memberof": "src/json/compile/object-access.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/object-access.js~objectAccess",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/object-access.js",
-    "importStyle": "{objectAccess}",
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "params": [
-      {
-        "name": "lexeme",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "left",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "right",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 70,
-    "kind": "file",
-    "name": "src/json/compile/object.js",
-    "content": "\nfunction populateObject(assign, parent, property, code, symbols, validate, validateProperty) {\n  const symbolLength = symbols.length;\n  const type = symbols[symbolLength] = `type${symbolLength}`;\n  const validations = [];\n  let validationsLength = 0;\n  let length = code.length;\n\n  code[length++] = `${type} = typeof ${property};`;\n\n  if (validate) {\n    validations[validationsLength++] = `(!${parent} || typeof ${parent} !== \"object\")`;\n  }\n\n  if (validateProperty) {\n    validations[validationsLength++] = `(${type} !== \"string\" && !(${type} === \"number\" && finite(${property})))`;\n  }\n\n  if (validationsLength) {\n    code[length++] = `if (${validations.join(\" || \")}) {\n    ${assign} = undefined;\n} else `;\n  }\n  code[length++] = `if (!hasOwn.call(${parent}, ${property})) {\n  ${parent}[${property}] = ${assign} = ${type} === \"string\" ? {} : [];\n}\nelse {\n  ${assign} = ${parent}[${property}];\n}`;\n}\n\nfunction accessObject(assign, parent, property, code, symbols, validate, validateProperty) {\n  let symbolLength = null;\n  let type = null;\n  let length = code.length;\n\n  if (validateProperty) {\n    symbolLength = symbols.length;\n    type = symbols[symbolLength] = `type${symbolLength}`;\n    code[length++] = `${type} = typeof ${property};`;\n  }\n\n  code[length++] = \"if (\";\n\n  if (validate) {\n    code[length++] = `(${parent} && typeof ${parent} === \"object\") &&`;\n  }\n  if (validateProperty) {\n    code[length++] = `(${type} === \"string\" || (${type} === \"number\" && finite(${property}))) &&`;\n  }\n\n  code[length++] = `hasOwn.call(${parent}, ${property})\n){\n  ${assign} = ${parent}[${property}];\n}\nelse {\n  ${assign} = undefined;\n}`;\n}\n\nexport function access(features, node, code, symbols) {\n  const symbol = node.symbol;\n  const operands = node.arguments;\n  const parent = operands[0];\n  const property = operands[1];\n  const propertySymbol = property.symbol;\n  const populate = node.context === \"set\";\n  let parentSymbol = parent.symbol;\n  let augmentedSymbol = null;\n  let symbolLength = null;\n  let validateProperty = false;\n\n  features.objectHasOwn = true;\n  features.finite = true;\n\n  // initialize\n  if (!parent.augmented) {\n    switch (parent.id) {\n    case \"string\":\n    case \"number\":\n    case \"identifier\":\n      validateProperty = false;\n      break;\n    default:\n      validateProperty = true;\n    }\n    symbolLength = symbols.length;\n    augmentedSymbol = symbols[symbolLength] = `augmentedParent${symbolLength}`;\n\n    if (populate) {\n      populateObject(\n        augmentedSymbol,\n        \"root\",\n        parentSymbol,\n        code,\n        symbols,\n        false,\n        validateProperty\n      );\n    }\n    else {\n      accessObject(\n        augmentedSymbol,\n        \"root\",\n        parentSymbol,\n        code,\n        symbols,\n        false,\n        validateProperty\n      );\n    }\n    parentSymbol = augmentedSymbol;\n  }\n\n  switch (property.id) {\n  case \"string\":\n  case \"number\":\n  case \"identifier\":\n    validateProperty = false;\n    break;\n  default:\n    validateProperty = true;\n  }\n\n  if (populate) {\n    populateObject(\n      symbol,\n      parentSymbol,\n      propertySymbol,\n      code,\n      symbols,\n      true,\n      validateProperty\n    );\n  }\n  else {\n    accessObject(\n      symbol,\n      parentSymbol,\n      propertySymbol,\n      code,\n      symbols,\n      true,\n      validateProperty\n    );\n  }\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/object.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 71,
-    "kind": "function",
-    "name": "populateObject",
-    "memberof": "src/json/compile/object.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/object.js~populateObject",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/compile/object.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "params": [
-      {
-        "name": "assign",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "parent",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "property",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "validate",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "validateProperty",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 72,
-    "kind": "function",
-    "name": "accessObject",
-    "memberof": "src/json/compile/object.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/object.js~accessObject",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/compile/object.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 32,
-    "undocument": true,
-    "params": [
-      {
-        "name": "assign",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "parent",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "property",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "validate",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "validateProperty",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 73,
-    "kind": "function",
-    "name": "access",
-    "memberof": "src/json/compile/object.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/object.js~access",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/object.js",
-    "importStyle": "{access}",
-    "description": null,
-    "lineNumber": 61,
-    "undocument": true,
-    "params": [
-      {
-        "name": "features",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "node",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 74,
-    "kind": "file",
-    "name": "src/json/compile/operand.js",
-    "content": "\nexport function operand(lexeme) {\n  const symbol = lexeme.symbol;\n  const code = lexeme.code;\n  let value = lexeme.value;\n  let initialized = false;\n\n  // symbols[symbols.length] = node.\n  // for identifier\n  switch (lexeme.rule) {\n  case \"string\":\n  case \"identifier\":\n    value = JSON.stringify(value);\n\n  // falls through\n  case \"number\":\n    initialized = true;\n    break;\n\n  case \"regex\":\n    value = JSON.stringify(value.substring(1, value.length - 1));\n    value = `new RegExp(${value})`;\n    initialized = true;\n  }\n\n  if (initialized) {\n    code[code.length] = `${symbol} = ${value};`;\n  }\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/operand.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 75,
-    "kind": "function",
-    "name": "operand",
-    "memberof": "src/json/compile/operand.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/operand.js~operand",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/operand.js",
-    "importStyle": "{operand}",
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "params": [
-      {
-        "name": "lexeme",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 76,
-    "kind": "file",
-    "name": "src/json/compile/query.js",
-    "content": "\nexport function get(node, code, symbols) {\n\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile/query.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 77,
-    "kind": "function",
-    "name": "get",
-    "memberof": "src/json/compile/query.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile/query.js~get",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile/query.js",
-    "importStyle": "{get}",
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "params": [
-      {
-        "name": "node",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "code",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbols",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 78,
-    "kind": "file",
-    "name": "src/json/compile.js",
-    "content": "// import { FUNCTION } from \"../native/function\";\n\nimport { parse } from \"./parser\";\n\n// import { reportCompileError } from \"./error-reporting\";\n\n// import {\n//   preprocess,\n//   postprocess\n// } from \"./compile/initialize\";\n\nimport {\n  operand\n} from \"./compile/operand\";\n\nimport {\n  objectAccess\n} from \"./compile/object-access\";\n\nimport {\n  arithmetic\n} from \"./compile/arithmetic\";\n\nimport {\n  condition\n} from \"./compile/condition\";\n\n// import {\n//   get\n// } from \"./compile/query\";\n\nexport function show(rpn) {\n  const output = [];\n\n  rpn.forEach(\n    (item, index) => {\n      output[index] = item.value;\n    }\n  );\n\n  console.log(\"rpn: \", output.join(\" \"));\n}\n\nexport function compile(subject) {\n  const rpn = parse(subject);\n  // const report = reportCompileError;\n  const symbols = [];\n  const stack = [];\n  const features = {\n    symbols: true,\n    finite: false,\n    signature: false,\n    objectHasOwn: false,\n    objectPrototype: false\n  };\n\n  let slength = 0;\n  let rlength = 0;\n  let rc = 0;\n  let lexeme = null;\n  let operands = null;\n\n  if (!rpn) {\n    return null;\n  }\n\n  show(rpn);\n\n  for (rlength = rpn.length; rlength--; rc++) {\n    lexeme = rpn[rc];\n    symbols[symbols.length] = lexeme.symbol;\n\n    // operands\n    if (lexeme.type === \"operand\") {\n      lexeme.augmented = false;\n      operand(lexeme, symbols);\n      stack[slength++] = lexeme;\n      continue;\n    }\n\n    lexeme.augmented = true;\n\n    // resolve operands\n    operands = lexeme.operands;\n    if (operands) {\n      slength -= operands;\n      operands = stack.slice(slength, slength + operands);\n    }\n    else {\n      operands = [];\n    }\n\n    switch (lexeme.rule) {\n    // arithmetic\n    case \"add\":\n    case \"sub\":\n    case \"mul\":\n    case \"div\":\n    case \"mod\":\n      features.finite = true;\n      arithmetic(\n        lexeme,\n        symbols,\n        operands\n      );\n      break;\n\n    // condition\n    case \"eq\":\n    case \"neq\":\n    case \"gt\":\n    case \"gte\":\n    case \"lt\":\n    case \"lte\":\n    case \"pattern\":\n      condition(lexeme, operands[0], operands[1]);\n      features.signature = true;\n      break;\n\n    // object\n    case \"access\":\n      objectAccess(lexeme, operands[0], operands[1]);\n    }\n\n    stack[slength++] = lexeme;\n  }\n}\n\n// export function compile(subject) {\n//   const rpn = parse(subject);\n//   const report = reportCompileError;\n//   const code = [];\n//   const symbols = [];\n//   const stack = [];\n//   const features = {\n//     symbols: true,\n//     finite: false,\n//     signature: false,\n//     objectHasOwn: false,\n//     objectPrototype: false\n//   };\n//   let stackLength = 0;\n//   let node = 0;\n//   let nodeId = null;\n//   let operands = null;\n\n//   // dont if no rpn created\n//   if (!rpn) {\n//     return null;\n//   }\n\n//   const output = [];\n//   rpn.forEach(\n//     (item, index) => {\n//       output[index] = item.value;\n//     }\n//   );\n\n//   console.log(\"rpn: \", output.join(\" \"));\n//   console.log(rpn);\n\n//   preprocess(code);\n\n//   // generate source code\n//   for (let c = 0, length = rpn.length; length--; c++) {\n//     node = rpn[c];\n\n//     // operands\n//     if (node.type === \"operand\") {\n//       node.augmented = false;\n//       operand(node, code, symbols);\n//       stack[stackLength++] = node;\n//       continue;\n//     }\n\n//     operands = node.operands;\n\n//     if (stackLength < operands) {\n//       report(\n//         `Low on operands ${node.value}`,\n//         node\n//       );\n//       console.log(\n//         code.join(\"\\r\\n\")\n//       );\n//       return null;\n//     }\n//     node.augmented = true;\n//     nodeId = node.id;\n//     stackLength -= operands;\n//     operands = stack.slice(stackLength, stackLength + operands);\n//     node.arguments = operands;\n\n//     switch (nodeId) {\n//     case \"get\":\n//       get(features, node, code, symbols);\n//       break;\n\n//     case \"add\":\n//     case \"sub\":\n//     case \"mul\":\n//     case \"div\":\n//     case \"mod\":\n//       arithmetic(features, node, code, symbols);\n//       stack[stackLength++] = node;\n//       break;\n\n//     case \"eq\":\n//     case \"neq\":\n//     case \"gt\":\n//     case \"gte\":\n//     case \"lt\":\n//     case \"lte\":\n//     case \"pattern\":\n//       condition(features, node, code);\n//       stack[stackLength++] = node;\n//       break;\n\n//     case \"access\":\n//       access(features, node, code, symbols);\n//       stack[stackLength++] = node;\n//       break;\n\n//     case \"list\":\n//       break;\n\n//     default:\n//       console.log(\"unprocessed \", node);\n//     }\n\n//     // console.log(\n//     //   \"id\", nodeId,\n//     //   \"operands\", operands,\n//     //   \"stack\", stack.slice(0, stackLength)\n//     // );\n//   }\n\n//   postprocess(\n//     code,\n//     symbols,\n//     features\n//   );\n\n//   try {\n//     const compiled = new FUNCTION(\"root\", code.join(\"\\n\"));\n//     compiled({});\n//     console.log(\n//       compiled.toString()\n//     );\n//   }\n//   catch (error) {\n//     console.log(code.join(\"\\n\"));\n//     throw error;\n//   }\n// }\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/compile.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 79,
-    "kind": "function",
-    "name": "show",
-    "memberof": "src/json/compile.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile.js~show",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile.js",
-    "importStyle": "{show}",
-    "description": null,
-    "lineNumber": 32,
-    "undocument": true,
-    "params": [
-      {
-        "name": "rpn",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": null,
-    "ignore": true
-  },
-  {
-    "__docId__": 80,
-    "kind": "function",
-    "name": "compile",
-    "memberof": "src/json/compile.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/compile.js~compile",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/compile.js",
-    "importStyle": "{compile}",
-    "description": null,
-    "lineNumber": 44,
-    "undocument": true,
-    "params": [
-      {
-        "name": "subject",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 81,
-    "kind": "file",
-    "name": "src/json/constants.js",
-    "content": "export const TOKENIZER_START_STATE = \"initial\";\n\nexport const TOKENIZER_WILDCARD = \":*\";\n\nexport const TOKENIZER_KEYWORD_LIST = [\n  \"get\",\n  \"set\",\n  \"unset\",\n  \"is\",\n  \"as\",\n  \"only\"\n];\n\nexport const DOUBLE_QUOTE = \"\\\"\";\n\nexport const SINGLE_QUOTE = \"\\\\\\\"\";\n\nexport const ESCAPED_DOUBLE_QUOTE = \"\\\\\\\"\";\n\nexport const ESCAPED_SINGLE_QUOTE = \"\\\\'\";\n\nexport const LINE_CHARACTER = \"\\n\";\n\nexport const SINGLE_TO_DOUBLE_QUOTE = /\"|\\\\'/g;\n\nexport const INVALID_TOKEN = \"Invalid token\";\n\nexport const INVALID_OPERAND_TOKEN = \"Invalid operand\";\n\nexport const INVALID_SEPARATOR_TOKEN = \"Invalid arguments separator\";\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/constants.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 82,
-    "kind": "variable",
-    "name": "TOKENIZER_START_STATE",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~TOKENIZER_START_STATE",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{TOKENIZER_START_STATE}",
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 83,
-    "kind": "variable",
-    "name": "TOKENIZER_WILDCARD",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~TOKENIZER_WILDCARD",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{TOKENIZER_WILDCARD}",
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 84,
-    "kind": "variable",
-    "name": "TOKENIZER_KEYWORD_LIST",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~TOKENIZER_KEYWORD_LIST",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{TOKENIZER_KEYWORD_LIST}",
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string[]"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 85,
-    "kind": "variable",
-    "name": "DOUBLE_QUOTE",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~DOUBLE_QUOTE",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{DOUBLE_QUOTE}",
-    "description": null,
-    "lineNumber": 14,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 86,
-    "kind": "variable",
-    "name": "SINGLE_QUOTE",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~SINGLE_QUOTE",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{SINGLE_QUOTE}",
-    "description": null,
-    "lineNumber": 16,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 87,
-    "kind": "variable",
-    "name": "ESCAPED_DOUBLE_QUOTE",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~ESCAPED_DOUBLE_QUOTE",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{ESCAPED_DOUBLE_QUOTE}",
-    "description": null,
-    "lineNumber": 18,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 88,
-    "kind": "variable",
-    "name": "ESCAPED_SINGLE_QUOTE",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~ESCAPED_SINGLE_QUOTE",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{ESCAPED_SINGLE_QUOTE}",
-    "description": null,
-    "lineNumber": 20,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 89,
-    "kind": "variable",
-    "name": "LINE_CHARACTER",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~LINE_CHARACTER",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{LINE_CHARACTER}",
-    "description": null,
-    "lineNumber": 22,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 90,
-    "kind": "variable",
-    "name": "SINGLE_TO_DOUBLE_QUOTE",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~SINGLE_TO_DOUBLE_QUOTE",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{SINGLE_TO_DOUBLE_QUOTE}",
-    "description": null,
-    "lineNumber": 24,
-    "undocument": true,
-    "type": {
-      "types": [
-        "undefined"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 91,
-    "kind": "variable",
-    "name": "INVALID_TOKEN",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~INVALID_TOKEN",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{INVALID_TOKEN}",
-    "description": null,
-    "lineNumber": 26,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 92,
-    "kind": "variable",
-    "name": "INVALID_OPERAND_TOKEN",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~INVALID_OPERAND_TOKEN",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{INVALID_OPERAND_TOKEN}",
-    "description": null,
-    "lineNumber": 28,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 93,
-    "kind": "variable",
-    "name": "INVALID_SEPARATOR_TOKEN",
-    "memberof": "src/json/constants.js",
-    "static": true,
-    "longname": "src/json/constants.js~INVALID_SEPARATOR_TOKEN",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/constants.js",
-    "importStyle": "{INVALID_SEPARATOR_TOKEN}",
-    "description": null,
-    "lineNumber": 30,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 94,
-    "kind": "file",
     "name": "src/json/error-reporting.js",
     "content": "import {\n  EMPTY_STRING\n} from \"../native/constants\";\nimport {\n  MATH_MIN,\n  MATH_MAX\n} from \"../native/math\";\n\nlet LAST_ERRORS = null;\n\nlet SHOW_ERRORS = false;\n\nexport function reset() {\n  LAST_ERRORS = null;\n}\n\nexport function get() {\n  const list = LAST_ERRORS;\n  return list ? null : list.slice(0);\n}\n\nexport function showErrors(show) {\n  SHOW_ERRORS = show !== false;\n}\n\nexport function reportParseError(error, lexeme, subject) {\n  const value = lexeme.value || EMPTY_STRING;\n  const length = value.length;\n  const near = subject.substring(\n    MATH_MAX(0, lexeme.from - length - 5),\n    MATH_MIN(subject.length, lexeme.to + length + 5)\n  );\n  const message = `Parse Error: ${error} (${value}) at line: ${lexeme.line} near: ${near}`;\n  let errors = LAST_ERRORS;\n\n  if (!errors) {\n    LAST_ERRORS = errors = [];\n  }\n\n  errors[errors.length] = message;\n  if (SHOW_ERRORS) {\n    console.error(message);\n  }\n}\n\nexport function reportCompileError(error, lexeme, subject) {\n  const value = lexeme.value || EMPTY_STRING;\n  const length = value.length;\n  const near = subject.substring(\n    MATH_MAX(0, lexeme.from - length - 5),\n    MATH_MIN(subject.length, lexeme.to + length + 5)\n  );\n  const message = `Compile Error: ${error} (${value}) at line: ${lexeme.line} near: ${near}`;\n  let errors = LAST_ERRORS;\n\n  if (!errors) {\n    LAST_ERRORS = errors = [];\n  }\n\n  errors[errors.length] = message;\n  if (SHOW_ERRORS) {\n    console.error(message);\n  }\n}\n",
     "static": true,
@@ -1781,7 +886,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 95,
+    "__docId__": 60,
     "kind": "variable",
     "name": "LAST_ERRORS",
     "memberof": "src/json/error-reporting.js",
@@ -1802,7 +907,7 @@
     "ignore": true
   },
   {
-    "__docId__": 96,
+    "__docId__": 61,
     "kind": "variable",
     "name": "SHOW_ERRORS",
     "memberof": "src/json/error-reporting.js",
@@ -1823,7 +928,7 @@
     "ignore": true
   },
   {
-    "__docId__": 97,
+    "__docId__": 62,
     "kind": "function",
     "name": "reset",
     "memberof": "src/json/error-reporting.js",
@@ -1843,7 +948,7 @@
     "ignore": true
   },
   {
-    "__docId__": 98,
+    "__docId__": 63,
     "kind": "function",
     "name": "get",
     "memberof": "src/json/error-reporting.js",
@@ -1867,7 +972,7 @@
     "ignore": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 64,
     "kind": "function",
     "name": "showErrors",
     "memberof": "src/json/error-reporting.js",
@@ -1894,7 +999,7 @@
     "ignore": true
   },
   {
-    "__docId__": 100,
+    "__docId__": 65,
     "kind": "function",
     "name": "reportParseError",
     "memberof": "src/json/error-reporting.js",
@@ -1933,7 +1038,7 @@
     "ignore": true
   },
   {
-    "__docId__": 101,
+    "__docId__": 66,
     "kind": "function",
     "name": "reportCompileError",
     "memberof": "src/json/error-reporting.js",
@@ -1972,7 +1077,7 @@
     "ignore": true
   },
   {
-    "__docId__": 102,
+    "__docId__": 67,
     "kind": "file",
     "name": "src/json/index.js",
     "content": "",
@@ -1983,52 +1088,10 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 103,
-    "kind": "file",
-    "name": "src/json/parser.js",
-    "content": "import MANIFEST from \"./parser-reference.json\";\n\nimport {\n  INVALID_OPERAND_TOKEN,\n  INVALID_SEPARATOR_TOKEN\n} from \"./constants\";\n\nimport { tokenize } from \"./tokenizer\";\n\nimport { reportParseError } from \"./error-reporting\";\n\nexport function parse(subject) {\n  const manifest = MANIFEST;\n  const reference = manifest.reference;\n  const report = reportParseError;\n  const rpn = [];\n\n  let index = 0;\n  let rpnLength = 0;\n  let operands = 0;\n  let isExpectingOperand = true;\n  let line = 1;\n  let stack = null;\n  let stackNode = null;\n  let isSeparator;\n  let isOperand;\n  let separator;\n  let isMultiArguments;\n  let isEnder;\n  let stackPop;\n  let stackPush;\n  let stackOutput;\n  let value;\n  let from;\n  let to;\n  let token;\n  let node;\n  let definition;\n  let item;\n  let precedence;\n  let expectedOperands;\n  let max;\n\n  /* eslint no-labels: 0 */\n  loop: for (token = tokenize(subject, index); token; token = tokenize(subject, index)) {\n    value = token[1];\n    from = index;\n    index = to = token[2];\n    line += token[3];\n    token = token[0];\n    definition = reference[token];\n\n    isSeparator =\n      isMultiArguments = false;\n\n    // preprocess\n    switch (definition[0]) {\n    case 0: continue loop;\n    case 4: // multi arguments\n      isMultiArguments = true;\n      break;\n\n    case 5: // separator\n      isSeparator = true;\n      break;\n\n    case 3:\n      definition = isExpectingOperand\n        ? definition[1]\n        : definition[2];\n      break;\n    }\n\n    // node\n    node = {\n      rule: definition[1],\n      token,\n      value,\n      operands: 0,\n      requiredLeftOperands: 0,\n      min: 0,\n      max: 0,\n      literal: false,\n      augmented: true,\n      from,\n      to,\n      line\n    };\n\n    stackPop =\n      stackPush =\n      isOperand =\n      stackOutput = false;\n\n    switch (definition[0]) {\n    case 11: // literal number/string/regex\n      node.literal = true;\n\n    // falls through\n    case 10: // operand\n      isOperand = true;\n      break;\n\n    case 1: // infix unary\n    case 2: // binary\n    case 4: // multi arguments\n    case 5: // separator\n      node.requiredLeftOperands = definition[3];\n\n      if (isMultiArguments) {\n        node.separator = definition[7];\n      }\n\n      // separator only\n      if (isSeparator) {\n        stackNode = null;\n        for (item = stack; item; item = item[0]) {\n          stackNode = item[1];\n          if (stackNode.separator) {\n            node.precedence = stackNode.precedence + 1;\n            break;\n          }\n          if (stackNode.ender) {\n            break;\n          }\n        }\n        node.requiredLeftOperands = 1;\n        node.min = node.max = 2;\n        node.isSeparator = true;\n        if (!stackNode || stackNode.separator !== node.token) {\n          report(INVALID_SEPARATOR_TOKEN, node, subject);\n          return null;\n        }\n      }\n      else {\n        node.min = definition[4];\n        node.max = definition[5];\n        node.precedence = definition[6];\n      }\n\n      isExpectingOperand =\n        stackPop =\n        stackPush = true;\n      break;\n\n    case 15: // enclosure\n      node.requiredLeftOperands = definition[3];\n      node.precedence = precedence = definition[6];\n      node.ender = definition[7];\n      node.separator = definition[8];\n\n      if (precedence) {\n        stackPop = true;\n      }\n\n      if (separator) {\n        node.separator = separator;\n      }\n\n      stackPush =\n        isExpectingOperand = true;\n      break;\n\n    case 16: // ender\n      isExpectingOperand = false;\n      stackOutput = true;\n\n    // falls through\n    case 20: // end\n      node.precedence = 0;\n      stackOutput = true;\n      break;\n    }\n\n    if (isOperand) {\n      operands++;\n      rpn[rpnLength++] = node;\n      node.augmented = isExpectingOperand = false;\n    }\n\n    if (stackPop || stackOutput) {\n      isSeparator = node.isSeparator || false;\n      precedence = node.precedence;\n\n      for (; stack; stack = stack[0]) {\n        item = stack[1];\n        isEnder = item.ender;\n\n        if (!isEnder && item.precedence >= precedence) {\n          expectedOperands = item.operands += operands;\n          operands = 1;\n          max = item.max;\n\n          if (expectedOperands < item.min ||\n            (max && max > expectedOperands)\n          ) {\n            report(INVALID_OPERAND_TOKEN, item, subject);\n            return null;\n          }\n\n          if (item.rule) {\n            rpn[rpnLength++] = item;\n          }\n          continue;\n        }\n\n        if (isSeparator && item.separator) {\n          item.operands += operands;\n          operands = 1;\n        }\n        else if (stackOutput) {\n          item.operands += operands;\n\n          // postfix ender\n          if (isEnder && item.precedence) {\n            item.ender = false;\n            operands = 0;\n          }\n          else {\n            expectedOperands = item.operands;\n            max = item.max;\n\n            if (expectedOperands < item.min ||\n              (max && max > expectedOperands)\n            ) {\n              report(INVALID_OPERAND_TOKEN, item, subject);\n              return null;\n            }\n\n            if (item.rule) {\n              rpn[rpnLength++] = item;\n            }\n            stack = stack[0];\n          }\n        }\n        break;\n      }\n    }\n\n    if (stackPush) {\n      if (node.requiredLeftOperands !== operands) {\n        report(INVALID_OPERAND_TOKEN, node, subject);\n        return null;\n      }\n      node.operands += operands;\n      operands = 0;\n      stack = [stack, node];\n    }\n  }\n\n  return rpn;\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/parser.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 104,
-    "kind": "function",
-    "name": "parse",
-    "memberof": "src/json/parser.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/parser.js~parse",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/parser.js",
-    "importStyle": "{parse}",
-    "description": null,
-    "lineNumber": 12,
-    "undocument": true,
-    "params": [
-      {
-        "name": "subject",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 105,
+    "__docId__": 68,
     "kind": "file",
     "name": "src/json/tokenizer.js",
-    "content": "import {\n  MATH_MAX\n} from \"../native/math\";\n\nimport {\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport {\n  TOKENIZER_WILDCARD,\n  TOKENIZER_KEYWORD_LIST,\n  LINE_CHARACTER,\n  DOUBLE_QUOTE,\n  ESCAPED_DOUBLE_QUOTE,\n  SINGLE_QUOTE,\n  ESCAPED_SINGLE_QUOTE,\n  SINGLE_TO_DOUBLE_QUOTE\n} from \"./constants\";\n\nimport STATES from \"./tokenizer-states.json\";\n\nfunction replaceSingleQuote(all) {\n  switch (all) {\n  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;\n  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;\n  }\n  return all;\n}\n\nexport function tokenize(input, startIndex) {\n  const emptyString = EMPTY_STRING;\n  const doubleQuote = DOUBLE_QUOTE;\n  const singleToDoubleQuoteRegexp = SINGLE_TO_DOUBLE_QUOTE;\n  const keywords = TOKENIZER_KEYWORD_LIST;\n  const wildcard = TOKENIZER_WILDCARD;\n  const reference = STATES;\n  const states = reference.state;\n  const ends = reference.ends;\n  const anchor = MATH_MAX(0, 1 * startIndex || 0);\n  const lineCharacter = LINE_CHARACTER;\n\n  let state = states[reference.startState];\n  let length = input.length;\n  let c = anchor;\n  let nextIndex = c;\n  let token = null;\n  let char = null;\n  let found = null;\n  let line = 0;\n\n  if (anchor === length) {\n    return [\n      reference.endToken,\n      emptyString,\n      nextIndex + 1,\n      line\n    ];\n  }\n  else if (anchor > length) {\n    return null;\n  }\n\n  for (; length--; c++) {\n    char = input.charAt(c);\n\n    found = char in state\n      ? state[char]\n      : wildcard in state\n        ? state[wildcard]\n        : false;\n\n    if (found) {\n      // change state\n      state = states[found];\n\n      if (found in ends) {\n        nextIndex = c + 1;\n        token = ends[found];\n      }\n      continue;\n    }\n\n    break;\n  }\n\n  // postprocess token\n  if (token) {\n    found = input.substring(anchor, nextIndex);\n    line = found.split(lineCharacter).length - 1;\n\n    switch (token) {\n    case \"ident\":\n      if (keywords.indexOf(found) !== -1) {\n        token = found;\n      }\n      break;\n    case \"string\":\n      found = JSON.parse(\n        found.charAt(0) === doubleQuote\n          ? found\n          : ([\n            doubleQuote,\n            found.substring(1, found.length - 1).replace(singleToDoubleQuoteRegexp, replaceSingleQuote),\n            doubleQuote\n          ]).join(emptyString)\n      );\n      break;\n    case \":call(\":\n      found = found.substring(1, found.length - 1);\n      break;\n    }\n\n    return [\n      token,\n      found,\n      nextIndex,\n      line\n    ];\n  }\n\n  return null;\n}\n",
+    "content": "import {\n  MATH_MAX\n} from \"../native/math\";\n\nimport {\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport {\n  TOKENIZER_WILDCARD,\n  LINE_CHARACTER,\n  DOUBLE_QUOTE,\n  ESCAPED_DOUBLE_QUOTE,\n  SINGLE_QUOTE,\n  ESCAPED_SINGLE_QUOTE,\n  QUOTE_ESCAPE_REGEXP\n} from \"./constants\";\n\nimport STATES from \"./tokenizer-states.json\";\n\nfunction replaceQuote(all) {\n  switch (all) {\n  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;\n  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;\n  }\n  return all;\n}\n\nexport function tokenize(input, startIndex) {\n  const emptyString = EMPTY_STRING;\n  const doubleQuote = DOUBLE_QUOTE;\n  const quoteRegexp = QUOTE_ESCAPE_REGEXP;\n  const wildcard = TOKENIZER_WILDCARD;\n  const reference = STATES;\n  const keywords = reference.keywords;\n  const states = reference.state;\n  const ends = reference.ends;\n  const anchor = MATH_MAX(0, 1 * startIndex || 0);\n  const lineCharacter = LINE_CHARACTER;\n\n  let state = states[reference.startState];\n  let length = input.length;\n  let c = anchor;\n  let nextIndex = c;\n  let token = null;\n  let char = null;\n  let found = null;\n  let line = 0;\n\n  if (anchor === length) {\n    return [\n      reference.endToken,\n      emptyString,\n      nextIndex + 1,\n      line\n    ];\n  }\n  else if (anchor > length) {\n    return null;\n  }\n\n  for (; length--; c++) {\n    char = input.charAt(c);\n\n    found = char in state\n      ? state[char]\n      : wildcard in state\n        ? state[wildcard]\n        : false;\n\n    if (found) {\n      // change state\n      state = states[found];\n\n      if (found in ends) {\n        nextIndex = c + 1;\n        token = ends[found];\n      }\n      continue;\n    }\n\n    break;\n  }\n\n  // postprocess token\n  if (token) {\n    found = input.substring(anchor, nextIndex);\n    line = found.split(lineCharacter).length - 1;\n\n    switch (token) {\n    case \"ident\":\n      if (keywords.indexOf(found) !== -1) {\n        token = found;\n      }\n      break;\n    case \"string\":\n      found = ([\n        doubleQuote,\n        found.substring(1, found.length - 1)\n          .replace(\n            quoteRegexp,\n            replaceQuote\n          ),\n        doubleQuote\n      ]).join(emptyString);\n      break;\n    case \":call(\":\n      found = found.substring(1, found.length - 1);\n      break;\n    }\n\n    return [\n      token,\n      found,\n      nextIndex,\n      line\n    ];\n  }\n\n  return null;\n}\n",
     "static": true,
     "longname": "/opt/app/source/src/json/tokenizer.js",
     "access": "public",
@@ -2036,20 +1099,20 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 106,
+    "__docId__": 69,
     "kind": "function",
-    "name": "replaceSingleQuote",
+    "name": "replaceQuote",
     "memberof": "src/json/tokenizer.js",
     "generator": false,
     "async": false,
     "static": true,
-    "longname": "src/json/tokenizer.js~replaceSingleQuote",
+    "longname": "src/json/tokenizer.js~replaceQuote",
     "access": "public",
     "export": false,
     "importPath": "@dikotech/basic/src/json/tokenizer.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 22,
+    "lineNumber": 21,
     "undocument": true,
     "params": [
       {
@@ -2067,7 +1130,7 @@
     "ignore": true
   },
   {
-    "__docId__": 107,
+    "__docId__": 70,
     "kind": "function",
     "name": "tokenize",
     "memberof": "src/json/tokenizer.js",
@@ -2080,7 +1143,7 @@
     "importPath": "@dikotech/basic/src/json/tokenizer.js",
     "importStyle": "{tokenize}",
     "description": null,
-    "lineNumber": 30,
+    "lineNumber": 29,
     "undocument": true,
     "params": [
       {
@@ -2104,7 +1167,7 @@
     "ignore": true
   },
   {
-    "__docId__": 108,
+    "__docId__": 71,
     "kind": "file",
     "name": "src/lifecycle/destructor.js",
     "content": "import { method } from \"../native\";\n\nconst DESTRUCTORS = [];\nlet INITIALIZED = false;\nlet DESTROYED = false;\n\n/**\n * @private\n */\nfunction onDestroy() {\n  let list = null;\n\n  if (!DESTROYED) {\n    list = DESTRUCTORS.slice(0);\n    DESTROYED = true;\n\n    for (let c = 0, length = list.length; length--; c++) {\n      try {\n        list[c]();\n      }\n      catch (error) {\n        console.warn(error);\n      }\n    }\n\n    DESTRUCTORS.length = list.length = 0;\n  }\n}\n\n/**\n * @private\n */\nfunction onBrowserDestroy() {\n  window.removeEventListener(\"beforeunload\", onDestroy);\n  window.removeEventListener(\"unload\", onDestroy);\n}\n\n/**\n * @private\n */\nfunction onProcessDestroy() {\n  process.removeListener(\"beforeExit\", onDestroy);\n}\n\n/**\n * @private\n */\nfunction initialize() {\n  const list = DESTRUCTORS;\n\n  if (!INITIALIZED) {\n    INITIALIZED = true;\n\n    if (typeof window !== \"undefined\") {\n      window.addEventListener(\"beforeunload\", onDestroy, false);\n      window.addEventListener(\"unload\", onDestroy, false);\n      list[list.length] = onBrowserDestroy;\n    }\n\n    if (typeof process !== \"undefined\") {\n      process.on(\"beforeExit\", onDestroy);\n      list[list.length] = onProcessDestroy;\n    }\n  }\n}\n\n/**\n * Registers a destructor handler. Very useful for NodeJS and browser.\n *\n * @param {Function} callback Function to call when app shutsdown or browser document is unloaded.\n */\nexport function destructor(callback) {\n  const list = DESTRUCTORS;\n\n  if (method(callback)) {\n    initialize();\n    list[list.length] = callback;\n  }\n}\n",
@@ -2115,7 +1178,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 109,
+    "__docId__": 72,
     "kind": "variable",
     "name": "DESTRUCTORS",
     "memberof": "src/lifecycle/destructor.js",
@@ -2136,7 +1199,7 @@
     "ignore": true
   },
   {
-    "__docId__": 110,
+    "__docId__": 73,
     "kind": "variable",
     "name": "INITIALIZED",
     "memberof": "src/lifecycle/destructor.js",
@@ -2157,7 +1220,7 @@
     "ignore": true
   },
   {
-    "__docId__": 111,
+    "__docId__": 74,
     "kind": "variable",
     "name": "DESTROYED",
     "memberof": "src/lifecycle/destructor.js",
@@ -2178,7 +1241,7 @@
     "ignore": true
   },
   {
-    "__docId__": 112,
+    "__docId__": 75,
     "kind": "function",
     "name": "onDestroy",
     "memberof": "src/lifecycle/destructor.js",
@@ -2197,7 +1260,7 @@
     "ignore": true
   },
   {
-    "__docId__": 113,
+    "__docId__": 76,
     "kind": "function",
     "name": "onBrowserDestroy",
     "memberof": "src/lifecycle/destructor.js",
@@ -2216,7 +1279,7 @@
     "ignore": true
   },
   {
-    "__docId__": 114,
+    "__docId__": 77,
     "kind": "function",
     "name": "onProcessDestroy",
     "memberof": "src/lifecycle/destructor.js",
@@ -2235,7 +1298,7 @@
     "ignore": true
   },
   {
-    "__docId__": 115,
+    "__docId__": 78,
     "kind": "function",
     "name": "initialize",
     "memberof": "src/lifecycle/destructor.js",
@@ -2254,7 +1317,7 @@
     "ignore": true
   },
   {
-    "__docId__": 116,
+    "__docId__": 79,
     "kind": "function",
     "name": "destructor",
     "memberof": "src/lifecycle/destructor.js",
@@ -2283,7 +1346,7 @@
     "return": null
   },
   {
-    "__docId__": 117,
+    "__docId__": 80,
     "kind": "file",
     "name": "src/lifecycle/index.js",
     "content": "export {\n  destructor\n} from \"./destructor\";\n",
@@ -2294,7 +1357,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 118,
+    "__docId__": 81,
     "kind": "file",
     "name": "src/native/array.js",
     "content": "const ArrayPrototype = Array.prototype;\n\nexport const ARRAY_SLICE = ArrayPrototype.slice;\n\nexport const ARRAY_PUSH = ArrayPrototype.push;\n\nexport const ARRAY_SPLICE = ArrayPrototype.splice;\n\nexport const ARRAY_JOIN = ArrayPrototype.join;\n",
@@ -2305,7 +1368,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 119,
+    "__docId__": 82,
     "kind": "variable",
     "name": "ArrayPrototype",
     "memberof": "src/native/array.js",
@@ -2326,7 +1389,7 @@
     "ignore": true
   },
   {
-    "__docId__": 120,
+    "__docId__": 83,
     "kind": "variable",
     "name": "ARRAY_SLICE",
     "memberof": "src/native/array.js",
@@ -2347,7 +1410,7 @@
     "ignore": true
   },
   {
-    "__docId__": 121,
+    "__docId__": 84,
     "kind": "variable",
     "name": "ARRAY_PUSH",
     "memberof": "src/native/array.js",
@@ -2368,7 +1431,7 @@
     "ignore": true
   },
   {
-    "__docId__": 122,
+    "__docId__": 85,
     "kind": "variable",
     "name": "ARRAY_SPLICE",
     "memberof": "src/native/array.js",
@@ -2389,7 +1452,7 @@
     "ignore": true
   },
   {
-    "__docId__": 123,
+    "__docId__": 86,
     "kind": "variable",
     "name": "ARRAY_JOIN",
     "memberof": "src/native/array.js",
@@ -2410,7 +1473,7 @@
     "ignore": true
   },
   {
-    "__docId__": 124,
+    "__docId__": 87,
     "kind": "file",
     "name": "src/native/constants.js",
     "content": "export const TYPE_NUMBER = \"number\";\n\nexport const TYPE_BIGINT = \"bigint\";\n\nexport const TYPE_STRING = \"string\";\n\nexport const TYPE_BOOLEAN = \"boolean\";\n\nexport const TYPE_UNDEFINED = \"undefined\";\n\nexport const TYPE_FUNCTION = \"function\";\n\nexport const TYPE_OBJECT = \"object\";\n\nexport const TYPE_SYMBOL = \"symbol\";\n\nexport const BIGINT_SIGNATURE = \"[object BigInt]\";\nexport const SYMBOL_SIGNATURE = \"[object Symbol]\";\nexport const OBJECT_SIGNATURE = \"[object Object]\";\nexport const FUNCTION_SIGNATURE = \"[object Function]\";\nexport const ARRAY_SIGNATURE = \"[object Array]\";\nexport const DATE_SIGNATURE = \"[object Date]\";\nexport const REGEXP_SIGNATURE = \"[object RegExp]\";\nexport const PROMISE_SIGNATURE = \"[object Promise]\";\nexport const UNDEFINED_SIGNATURE = \"[object Undefined]\";\nexport const NULL_SIGNATURE = \"[object Null]\";\n\nexport const NOT_NUMBER = undefined + null;\nexport const EMPTY_STRING = \"\";\nexport const BOOLEAN_TRUE = \"true\";\nexport const BOOLEAN_FALSE = \"false\";\n\n/**\n * @ignore\n */\nexport function EMPTY_FUNCTION() {\n}\n",
@@ -2421,7 +1484,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 125,
+    "__docId__": 88,
     "kind": "variable",
     "name": "TYPE_NUMBER",
     "memberof": "src/native/constants.js",
@@ -2442,7 +1505,7 @@
     "ignore": true
   },
   {
-    "__docId__": 126,
+    "__docId__": 89,
     "kind": "variable",
     "name": "TYPE_BIGINT",
     "memberof": "src/native/constants.js",
@@ -2463,7 +1526,7 @@
     "ignore": true
   },
   {
-    "__docId__": 127,
+    "__docId__": 90,
     "kind": "variable",
     "name": "TYPE_STRING",
     "memberof": "src/native/constants.js",
@@ -2484,7 +1547,7 @@
     "ignore": true
   },
   {
-    "__docId__": 128,
+    "__docId__": 91,
     "kind": "variable",
     "name": "TYPE_BOOLEAN",
     "memberof": "src/native/constants.js",
@@ -2505,7 +1568,7 @@
     "ignore": true
   },
   {
-    "__docId__": 129,
+    "__docId__": 92,
     "kind": "variable",
     "name": "TYPE_UNDEFINED",
     "memberof": "src/native/constants.js",
@@ -2526,7 +1589,7 @@
     "ignore": true
   },
   {
-    "__docId__": 130,
+    "__docId__": 93,
     "kind": "variable",
     "name": "TYPE_FUNCTION",
     "memberof": "src/native/constants.js",
@@ -2547,7 +1610,7 @@
     "ignore": true
   },
   {
-    "__docId__": 131,
+    "__docId__": 94,
     "kind": "variable",
     "name": "TYPE_OBJECT",
     "memberof": "src/native/constants.js",
@@ -2568,7 +1631,7 @@
     "ignore": true
   },
   {
-    "__docId__": 132,
+    "__docId__": 95,
     "kind": "variable",
     "name": "TYPE_SYMBOL",
     "memberof": "src/native/constants.js",
@@ -2589,7 +1652,7 @@
     "ignore": true
   },
   {
-    "__docId__": 133,
+    "__docId__": 96,
     "kind": "variable",
     "name": "BIGINT_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2610,7 +1673,7 @@
     "ignore": true
   },
   {
-    "__docId__": 134,
+    "__docId__": 97,
     "kind": "variable",
     "name": "SYMBOL_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2631,7 +1694,7 @@
     "ignore": true
   },
   {
-    "__docId__": 135,
+    "__docId__": 98,
     "kind": "variable",
     "name": "OBJECT_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2652,7 +1715,7 @@
     "ignore": true
   },
   {
-    "__docId__": 136,
+    "__docId__": 99,
     "kind": "variable",
     "name": "FUNCTION_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2673,7 +1736,7 @@
     "ignore": true
   },
   {
-    "__docId__": 137,
+    "__docId__": 100,
     "kind": "variable",
     "name": "ARRAY_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2694,7 +1757,7 @@
     "ignore": true
   },
   {
-    "__docId__": 138,
+    "__docId__": 101,
     "kind": "variable",
     "name": "DATE_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2715,7 +1778,7 @@
     "ignore": true
   },
   {
-    "__docId__": 139,
+    "__docId__": 102,
     "kind": "variable",
     "name": "REGEXP_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2736,7 +1799,7 @@
     "ignore": true
   },
   {
-    "__docId__": 140,
+    "__docId__": 103,
     "kind": "variable",
     "name": "PROMISE_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2757,7 +1820,7 @@
     "ignore": true
   },
   {
-    "__docId__": 141,
+    "__docId__": 104,
     "kind": "variable",
     "name": "UNDEFINED_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2778,7 +1841,7 @@
     "ignore": true
   },
   {
-    "__docId__": 142,
+    "__docId__": 105,
     "kind": "variable",
     "name": "NULL_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -2799,7 +1862,7 @@
     "ignore": true
   },
   {
-    "__docId__": 143,
+    "__docId__": 106,
     "kind": "variable",
     "name": "NOT_NUMBER",
     "memberof": "src/native/constants.js",
@@ -2820,7 +1883,7 @@
     "ignore": true
   },
   {
-    "__docId__": 144,
+    "__docId__": 107,
     "kind": "variable",
     "name": "EMPTY_STRING",
     "memberof": "src/native/constants.js",
@@ -2841,7 +1904,7 @@
     "ignore": true
   },
   {
-    "__docId__": 145,
+    "__docId__": 108,
     "kind": "variable",
     "name": "BOOLEAN_TRUE",
     "memberof": "src/native/constants.js",
@@ -2862,7 +1925,7 @@
     "ignore": true
   },
   {
-    "__docId__": 146,
+    "__docId__": 109,
     "kind": "variable",
     "name": "BOOLEAN_FALSE",
     "memberof": "src/native/constants.js",
@@ -2883,7 +1946,7 @@
     "ignore": true
   },
   {
-    "__docId__": 147,
+    "__docId__": 110,
     "kind": "function",
     "name": "EMPTY_FUNCTION",
     "memberof": "src/native/constants.js",
@@ -2902,7 +1965,7 @@
     "return": null
   },
   {
-    "__docId__": 148,
+    "__docId__": 111,
     "kind": "file",
     "name": "src/native/function.js",
     "content": "export const FUNCTION = Function;\n",
@@ -2913,7 +1976,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 149,
+    "__docId__": 112,
     "kind": "variable",
     "name": "FUNCTION",
     "memberof": "src/native/function.js",
@@ -2934,7 +1997,7 @@
     "ignore": true
   },
   {
-    "__docId__": 150,
+    "__docId__": 113,
     "kind": "file",
     "name": "src/native/index.js",
     "content": "export {\n  TYPE_BIGINT,\n  TYPE_NUMBER,\n  TYPE_STRING,\n  TYPE_BOOLEAN,\n  TYPE_UNDEFINED,\n  TYPE_SYMBOL,\n  TYPE_FUNCTION,\n  TYPE_OBJECT,\n\n  OBJECT_SIGNATURE,\n  FUNCTION_SIGNATURE,\n  ARRAY_SIGNATURE,\n  DATE_SIGNATURE,\n  REGEXP_SIGNATURE,\n  PROMISE_SIGNATURE,\n  UNDEFINED_SIGNATURE,\n  NULL_SIGNATURE,\n\n  NOT_NUMBER,\n  EMPTY_STRING,\n  BOOLEAN_TRUE,\n  BOOLEAN_FALSE,\n  EMPTY_FUNCTION\n} from \"./constants\";\n\nexport {\n  string,\n  number,\n  boolean,\n  numeric,\n  bigint,\n  symbol,\n  scalar,\n  date,\n  regexp,\n  object,\n  array,\n  method,\n  promise,\n  signature\n} from \"./type\";\n\nexport {\n  MATH_MIN,\n  MATH_MAX\n} from \"./math\";\n\nexport {\n  STRING_FROM_CHARCODE\n} from \"./string\";\n\nexport {\n  OBJECT_DEFINE_PROPERTY,\n  OBJECT_TO_STRING\n} from \"./object\";\n\nexport {\n  ARRAY_JOIN,\n  ARRAY_PUSH,\n  ARRAY_SLICE,\n  ARRAY_SPLICE\n} from \"./array\";\n",
@@ -2945,7 +2008,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 151,
+    "__docId__": 114,
     "kind": "file",
     "name": "src/native/math.js",
     "content": "export const MATH = Math;\n\nexport const MATH_MIN = MATH.min;\nexport const MATH_MAX = MATH.max;\n\nexport const MATH_RANDOM = MATH.random;\nexport const MATH_ROUND = MATH.round;\nexport const MATH_FLOOR = MATH.floor;\nexport const MATH_CEIL = MATH.ceil;\n",
@@ -2956,7 +2019,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 152,
+    "__docId__": 115,
     "kind": "variable",
     "name": "MATH",
     "memberof": "src/native/math.js",
@@ -2977,7 +2040,7 @@
     "ignore": true
   },
   {
-    "__docId__": 153,
+    "__docId__": 116,
     "kind": "variable",
     "name": "MATH_MIN",
     "memberof": "src/native/math.js",
@@ -2998,7 +2061,7 @@
     "ignore": true
   },
   {
-    "__docId__": 154,
+    "__docId__": 117,
     "kind": "variable",
     "name": "MATH_MAX",
     "memberof": "src/native/math.js",
@@ -3019,7 +2082,7 @@
     "ignore": true
   },
   {
-    "__docId__": 155,
+    "__docId__": 118,
     "kind": "variable",
     "name": "MATH_RANDOM",
     "memberof": "src/native/math.js",
@@ -3040,7 +2103,7 @@
     "ignore": true
   },
   {
-    "__docId__": 156,
+    "__docId__": 119,
     "kind": "variable",
     "name": "MATH_ROUND",
     "memberof": "src/native/math.js",
@@ -3061,7 +2124,7 @@
     "ignore": true
   },
   {
-    "__docId__": 157,
+    "__docId__": 120,
     "kind": "variable",
     "name": "MATH_FLOOR",
     "memberof": "src/native/math.js",
@@ -3082,7 +2145,7 @@
     "ignore": true
   },
   {
-    "__docId__": 158,
+    "__docId__": 121,
     "kind": "variable",
     "name": "MATH_CEIL",
     "memberof": "src/native/math.js",
@@ -3103,7 +2166,7 @@
     "ignore": true
   },
   {
-    "__docId__": 159,
+    "__docId__": 122,
     "kind": "file",
     "name": "src/native/number.js",
     "content": "\nexport const IS_FINITE = isFinite;\n",
@@ -3114,7 +2177,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 160,
+    "__docId__": 123,
     "kind": "variable",
     "name": "IS_FINITE",
     "memberof": "src/native/number.js",
@@ -3135,7 +2198,7 @@
     "ignore": true
   },
   {
-    "__docId__": 161,
+    "__docId__": 124,
     "kind": "file",
     "name": "src/native/object.js",
     "content": "const OBJECT = Object;\n\nconst ObjectPrototype = OBJECT.prototype;\n\nexport const OBJECT_DEFINE_PROPERTY = OBJECT.defineProperty;\n\nexport const OBJECT_TO_STRING = ObjectPrototype.toString;\n\nexport const OBJECT_HAS_OWN = ObjectPrototype.hasOwnProperty;\n\nexport const OBJECT_KEYS = OBJECT.keys;\n",
@@ -3146,7 +2209,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 162,
+    "__docId__": 125,
     "kind": "variable",
     "name": "OBJECT",
     "memberof": "src/native/object.js",
@@ -3167,7 +2230,7 @@
     "ignore": true
   },
   {
-    "__docId__": 163,
+    "__docId__": 126,
     "kind": "variable",
     "name": "ObjectPrototype",
     "memberof": "src/native/object.js",
@@ -3188,7 +2251,7 @@
     "ignore": true
   },
   {
-    "__docId__": 164,
+    "__docId__": 127,
     "kind": "variable",
     "name": "OBJECT_DEFINE_PROPERTY",
     "memberof": "src/native/object.js",
@@ -3209,7 +2272,7 @@
     "ignore": true
   },
   {
-    "__docId__": 165,
+    "__docId__": 128,
     "kind": "variable",
     "name": "OBJECT_TO_STRING",
     "memberof": "src/native/object.js",
@@ -3230,7 +2293,7 @@
     "ignore": true
   },
   {
-    "__docId__": 166,
+    "__docId__": 129,
     "kind": "variable",
     "name": "OBJECT_HAS_OWN",
     "memberof": "src/native/object.js",
@@ -3251,7 +2314,7 @@
     "ignore": true
   },
   {
-    "__docId__": 167,
+    "__docId__": 130,
     "kind": "variable",
     "name": "OBJECT_KEYS",
     "memberof": "src/native/object.js",
@@ -3272,7 +2335,7 @@
     "ignore": true
   },
   {
-    "__docId__": 168,
+    "__docId__": 131,
     "kind": "file",
     "name": "src/native/regexp.js",
     "content": "export const REGEXP = RegExp;\n",
@@ -3283,7 +2346,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 169,
+    "__docId__": 132,
     "kind": "variable",
     "name": "REGEXP",
     "memberof": "src/native/regexp.js",
@@ -3304,7 +2367,7 @@
     "ignore": true
   },
   {
-    "__docId__": 170,
+    "__docId__": 133,
     "kind": "file",
     "name": "src/native/string.js",
     "content": "export const STRING = String;\n\n/**\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n */\nexport const STRING_FROM_CHARCODE = STRING.fromCharCode;\n",
@@ -3315,7 +2378,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 171,
+    "__docId__": 134,
     "kind": "variable",
     "name": "STRING",
     "memberof": "src/native/string.js",
@@ -3336,7 +2399,7 @@
     "ignore": true
   },
   {
-    "__docId__": 172,
+    "__docId__": 135,
     "kind": "variable",
     "name": "STRING_FROM_CHARCODE",
     "memberof": "src/native/string.js",
@@ -3400,7 +2463,7 @@
     }
   },
   {
-    "__docId__": 173,
+    "__docId__": 136,
     "kind": "file",
     "name": "src/native/type.js",
     "content": "import {\n  TYPE_NUMBER,\n  TYPE_STRING,\n  TYPE_BOOLEAN,\n  TYPE_UNDEFINED,\n  TYPE_BIGINT,\n  TYPE_SYMBOL,\n\n  OBJECT_SIGNATURE,\n  FUNCTION_SIGNATURE,\n  ARRAY_SIGNATURE,\n  DATE_SIGNATURE,\n  REGEXP_SIGNATURE,\n  PROMISE_SIGNATURE,\n  UNDEFINED_SIGNATURE,\n  NULL_SIGNATURE,\n  TYPE_OBJECT\n} from \"./constants\";\n\nimport { IS_FINITE } from \"./number\";\n\nimport { OBJECT_TO_STRING } from \"./object\";\n\n/**\n * Returns true. if \"subject\" parameter is String.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function string(subject) {\n  return typeof subject === TYPE_STRING;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Number.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function number(subject) {\n  return typeof subject === TYPE_NUMBER && IS_FINITE(subject);\n}\n\n/**\n * Returns true. if \"subject\" parameter is BigInt.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function bigint(subject) {\n  return typeof subject === TYPE_BIGINT;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Boolean.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function boolean(subject) {\n  return typeof subject === TYPE_BOOLEAN;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Symbol.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function symbol(subject) {\n  return typeof subject === TYPE_SYMBOL;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Numeric string, number, or bigint.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function numeric(subject) {\n  let result = subject;\n\n  switch (typeof result) {\n  case TYPE_STRING:\n    result = parseInt(result, 10);\n\n  // falls through\n  case TYPE_NUMBER:\n    return IS_FINITE(result);\n\n  case TYPE_BIGINT: return true;\n  }\n\n  return false;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Scalar string, number, boolean, symbol, or bigint.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function scalar(subject) {\n  switch (typeof subject) {\n  case TYPE_BIGINT:\n  case TYPE_SYMBOL:\n  case TYPE_STRING:\n  case TYPE_BOOLEAN: return true;\n\n  case TYPE_NUMBER: return IS_FINITE(subject);\n  }\n\n  return false;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an instance of Date.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function date(subject) {\n  return OBJECT_TO_STRING.call(subject) === DATE_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an instance of RegExp.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function regexp(subject) {\n  return OBJECT_TO_STRING.call(subject) === REGEXP_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an instance of User defined Object.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function object(subject) {\n  return subject !== null && OBJECT_TO_STRING.call(subject) === OBJECT_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is a Function.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function method(subject) {\n  return OBJECT_TO_STRING.call(subject) === FUNCTION_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an Array.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function array(subject) {\n  return OBJECT_TO_STRING.call(subject) === ARRAY_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is a thenable Object or Promise.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function promise(subject) {\n  switch (OBJECT_TO_STRING.call(subject)) {\n  case OBJECT_SIGNATURE: return subject !== null && method(subject.then);\n\n  case PROMISE_SIGNATURE: return true;\n  }\n\n  return false;\n}\n\n/**\n * Returns true if [subject] is an object with zero-based index properties and length.\n *\n * @param {*} subject value to test.\n * @returns {boolean} result\n */\nexport function iteratable(subject) {\n  switch (typeof subject) {\n  case TYPE_STRING: return true;\n  case TYPE_OBJECT:\n    return subject !== null && IS_FINITE(subject.length);\n  }\n\n  return false;\n}\n\n/**\n * Returns Object signature of \"subject\" parameter.\n * The Object signature in `[object ${ObjectName}]` syntax.\n * The value is extracted by using the value from Object.prototype.toString.call(subject) call.\n *\n * @param {*} subject value to test\n * @returns {string} resolved Object signature `[object ${ObjectName}]`\n */\nexport function signature(subject) {\n  if (typeof subject === TYPE_UNDEFINED) {\n    return UNDEFINED_SIGNATURE;\n  }\n\n  if (subject === null) {\n    return NULL_SIGNATURE;\n  }\n\n  if (subject && method(subject.then)) {\n    return PROMISE_SIGNATURE;\n  }\n\n  return OBJECT_TO_STRING.call(subject);\n}\n",
@@ -3411,7 +2474,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 174,
+    "__docId__": 137,
     "kind": "function",
     "name": "string",
     "memberof": "src/native/type.js",
@@ -3453,7 +2516,7 @@
     }
   },
   {
-    "__docId__": 175,
+    "__docId__": 138,
     "kind": "function",
     "name": "number",
     "memberof": "src/native/type.js",
@@ -3495,7 +2558,7 @@
     }
   },
   {
-    "__docId__": 176,
+    "__docId__": 139,
     "kind": "function",
     "name": "bigint",
     "memberof": "src/native/type.js",
@@ -3537,7 +2600,7 @@
     }
   },
   {
-    "__docId__": 177,
+    "__docId__": 140,
     "kind": "function",
     "name": "boolean",
     "memberof": "src/native/type.js",
@@ -3579,7 +2642,7 @@
     }
   },
   {
-    "__docId__": 178,
+    "__docId__": 141,
     "kind": "function",
     "name": "symbol",
     "memberof": "src/native/type.js",
@@ -3621,7 +2684,7 @@
     }
   },
   {
-    "__docId__": 179,
+    "__docId__": 142,
     "kind": "function",
     "name": "numeric",
     "memberof": "src/native/type.js",
@@ -3663,7 +2726,7 @@
     }
   },
   {
-    "__docId__": 180,
+    "__docId__": 143,
     "kind": "function",
     "name": "scalar",
     "memberof": "src/native/type.js",
@@ -3705,7 +2768,7 @@
     }
   },
   {
-    "__docId__": 181,
+    "__docId__": 144,
     "kind": "function",
     "name": "date",
     "memberof": "src/native/type.js",
@@ -3747,7 +2810,7 @@
     }
   },
   {
-    "__docId__": 182,
+    "__docId__": 145,
     "kind": "function",
     "name": "regexp",
     "memberof": "src/native/type.js",
@@ -3789,7 +2852,7 @@
     }
   },
   {
-    "__docId__": 183,
+    "__docId__": 146,
     "kind": "function",
     "name": "object",
     "memberof": "src/native/type.js",
@@ -3831,7 +2894,7 @@
     }
   },
   {
-    "__docId__": 184,
+    "__docId__": 147,
     "kind": "function",
     "name": "method",
     "memberof": "src/native/type.js",
@@ -3873,7 +2936,7 @@
     }
   },
   {
-    "__docId__": 185,
+    "__docId__": 148,
     "kind": "function",
     "name": "array",
     "memberof": "src/native/type.js",
@@ -3915,7 +2978,7 @@
     }
   },
   {
-    "__docId__": 186,
+    "__docId__": 149,
     "kind": "function",
     "name": "promise",
     "memberof": "src/native/type.js",
@@ -3957,7 +3020,7 @@
     }
   },
   {
-    "__docId__": 187,
+    "__docId__": 150,
     "kind": "function",
     "name": "iteratable",
     "memberof": "src/native/type.js",
@@ -3999,7 +3062,7 @@
     }
   },
   {
-    "__docId__": 188,
+    "__docId__": 151,
     "kind": "function",
     "name": "signature",
     "memberof": "src/native/type.js",
@@ -4041,7 +3104,7 @@
     }
   },
   {
-    "__docId__": 189,
+    "__docId__": 152,
     "kind": "file",
     "name": "src/number/format.js",
     "content": "import {\n  TYPE_STRING,\n  TYPE_NUMBER,\n  TYPE_BOOLEAN\n} from \"../native\";\n\n/**\n * Convert any type \"subject\" parameter to number.\n *\n * @param {*} subject data to convert to number.\n * @param {*} [defaultValue=0] default return value.\n * @returns {number|*} Uses defaultValue if not converted to number.\n */\nexport function numberify(subject, defaultValue = 0) {\n  let value = subject;\n\n  switch (typeof value) {\n  case TYPE_STRING:\n    value = 1 * value;\n\n  // falls through\n  case TYPE_NUMBER: return isFinite(value) ? value : defaultValue;\n\n  case TYPE_BOOLEAN: return value ? 1 : 0;\n  }\n\n  return defaultValue;\n}\n",
@@ -4052,7 +3115,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 190,
+    "__docId__": 153,
     "kind": "function",
     "name": "numberify",
     "memberof": "src/number/format.js",
@@ -4107,7 +3170,7 @@
     }
   },
   {
-    "__docId__": 191,
+    "__docId__": 154,
     "kind": "file",
     "name": "src/number/index.js",
     "content": "export {\n  numberify\n} from \"./format\";\n",
@@ -4118,7 +3181,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 192,
+    "__docId__": 155,
     "kind": "file",
     "name": "src/object/constants.js",
     "content": "\nexport const EACH_ERROR_INVALID_SUBJECT = \"Unable to each() iterate non-object [subject] parameter.\";\n\nexport const EACH_ERROR_INVALID_CALLBACK = \"Unable to each() iterate object with invalid [callback] parameter.\";\n\nexport const ASSIGN_ERROR_INVALID_SUBJECT = \"Unable to assign() properties to non-object [subject] parameter.\";\n\nexport const ASSIGN_ERROR_INVALID_SOURCE = \"Unable to assign() properties from non-object [source] parameter.\";\n\nexport const TOKENIZER_START_STATE = \"initial\";\n\nexport const TOKENIZER_WILDCARD = \":*\";\n",
@@ -4129,7 +3192,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 193,
+    "__docId__": 156,
     "kind": "variable",
     "name": "EACH_ERROR_INVALID_SUBJECT",
     "memberof": "src/object/constants.js",
@@ -4150,7 +3213,7 @@
     "ignore": true
   },
   {
-    "__docId__": 194,
+    "__docId__": 157,
     "kind": "variable",
     "name": "EACH_ERROR_INVALID_CALLBACK",
     "memberof": "src/object/constants.js",
@@ -4171,7 +3234,7 @@
     "ignore": true
   },
   {
-    "__docId__": 195,
+    "__docId__": 158,
     "kind": "variable",
     "name": "ASSIGN_ERROR_INVALID_SUBJECT",
     "memberof": "src/object/constants.js",
@@ -4192,7 +3255,7 @@
     "ignore": true
   },
   {
-    "__docId__": 196,
+    "__docId__": 159,
     "kind": "variable",
     "name": "ASSIGN_ERROR_INVALID_SOURCE",
     "memberof": "src/object/constants.js",
@@ -4213,7 +3276,7 @@
     "ignore": true
   },
   {
-    "__docId__": 197,
+    "__docId__": 160,
     "kind": "variable",
     "name": "TOKENIZER_START_STATE",
     "memberof": "src/object/constants.js",
@@ -4234,7 +3297,7 @@
     "ignore": true
   },
   {
-    "__docId__": 198,
+    "__docId__": 161,
     "kind": "variable",
     "name": "TOKENIZER_WILDCARD",
     "memberof": "src/object/constants.js",
@@ -4255,7 +3318,7 @@
     "ignore": true
   },
   {
-    "__docId__": 199,
+    "__docId__": 162,
     "kind": "file",
     "name": "src/object/index.js",
     "content": "/**\n * Object Module\n *\n * @module object\n */\n\nexport {\n  each,\n  assign\n} from \"./properties\";\n\nexport {\n  contains\n} from \"./validate\";\n",
@@ -4266,7 +3329,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 200,
+    "__docId__": 163,
     "kind": "file",
     "name": "src/object/properties.js",
     "content": "import { method } from \"../native/type\";\n\nimport {\n  OBJECT_SIGNATURE,\n  ARRAY_SIGNATURE,\n  TYPE_NUMBER\n} from \"../native/constants\";\n\nimport {\n  OBJECT_KEYS,\n  OBJECT_TO_STRING\n} from \"../native/object\";\n\nimport {\n  EACH_ERROR_INVALID_CALLBACK,\n  EACH_ERROR_INVALID_SUBJECT,\n  ASSIGN_ERROR_INVALID_SOURCE,\n  ASSIGN_ERROR_INVALID_SUBJECT\n} from \"./constants\";\n\n/**\n * Used for each(subject, callback) callback parameter.\n *\n * @callback eachObjectPropertyCallback\n * @param {*} item value of item with given object key or iteratable index\n * @param {string|number} index key of object or index of iteratable\n * @returns {boolean|undefined} optionally, return false to stop iteration.\n */\n\n/**\n * Iterates object properties or iteratable items calling [callback].\n *\n * @param {object|Array} subject object or iteratable to iterate.\n * @param {eachObjectPropertyCallback} callback function to call on each iteration.\n * @returns {number|string} last iteratable index or property name iterated.\n */\nexport function each(subject, callback) {\n  let c = 0;\n  let length = 0;\n  let key = null;\n  let properties = null;\n\n  if (!method(callback)) {\n    throw new Error(EACH_ERROR_INVALID_CALLBACK);\n  }\n\n  switch (OBJECT_TO_STRING.call(subject)) {\n  case OBJECT_SIGNATURE:\n    length = subject.length;\n    // iterate object\n    if (typeof length !== TYPE_NUMBER || length < 0 || !isFinite(length)) {\n      properties = OBJECT_KEYS(subject);\n\n      for (; length--; c++) {\n        key = properties[c];\n        if (callback(subject[key], key) === false) {\n          return key;\n        }\n      }\n    }\n    // at this point object is iteratable\n\n  // falls through\n  case ARRAY_SIGNATURE:\n    length = subject.length;\n    for (; length--; c++) {\n      if (callback(subject[c], c) === false) {\n        return c;\n      }\n    }\n\n    break;\n\n  default:\n    throw new Error(EACH_ERROR_INVALID_SUBJECT);\n  }\n}\n\n/**\n * Assign own properties of [source] to [subject].\n *\n * @param {object} subject target object to populate with [source] properties.\n * @param {object} source source of properties to populate [subject].\n * @returns {object} the [subject] parameter.\n */\nexport function assign(subject, source) {\n  const toSignature = OBJECT_TO_STRING;\n  const objectSignature = OBJECT_SIGNATURE;\n  let properties = null;\n  let c = 0;\n  let length = 0;\n  let key = null;\n\n  if (toSignature.call(subject) !== objectSignature) {\n    throw new Error(ASSIGN_ERROR_INVALID_SUBJECT);\n  }\n\n  if (toSignature.call(source) !== objectSignature) {\n    throw new Error(ASSIGN_ERROR_INVALID_SOURCE);\n  }\n\n  properties = OBJECT_KEYS(source);\n  length = properties.length;\n\n  for (; length--; c++) {\n    key = properties[c];\n    subject[key] = source[key];\n  }\n\n  return subject;\n}\n",
@@ -4277,7 +3340,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 201,
+    "__docId__": 164,
     "kind": "function",
     "name": "each",
     "memberof": "src/object/properties.js",
@@ -4331,7 +3394,7 @@
     }
   },
   {
-    "__docId__": 202,
+    "__docId__": 165,
     "kind": "function",
     "name": "assign",
     "memberof": "src/object/properties.js",
@@ -4383,7 +3446,7 @@
     }
   },
   {
-    "__docId__": 203,
+    "__docId__": 166,
     "kind": "file",
     "name": "src/object/validate.js",
     "content": "/**\n * @module object/validate\n */\nimport { object } from \"../native/type\";\n\nimport { OBJECT_HAS_OWN } from \"../native/object\";\n\n/**\n * Returns true. if \"subject\" object contains property.\n *\n * @param {object} subject object to inspect.\n * @param {string} property property name to inspect\n * @returns {boolean} true if \"subject\" contains property. false otherwise.\n */\nexport function contains(subject, property) {\n  return object(subject) && OBJECT_HAS_OWN.call(subject, property);\n}\n",
@@ -4394,7 +3457,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 204,
+    "__docId__": 167,
     "kind": "function",
     "name": "contains",
     "memberof": "src/object/validate.js",
@@ -4446,7 +3509,7 @@
     }
   },
   {
-    "__docId__": 205,
+    "__docId__": 168,
     "kind": "file",
     "name": "src/string/constants.js",
     "content": "export const STRING_TRIM_LEFT_REGEXP = /^[\\s\\uFEFF\\xA0]+/;\n\nexport const STRING_TRIM_RIGHT_REGEXP = /[\\s\\uFEFF\\xA0]+$/;\n\nexport const STRING_TRIM_REGEXP = /^[\\s\\uFEFF\\xA0]+|[\\s\\uFEFF\\xA0]+$/g;\n\nexport const TRIM_ERROR_NOT_STRING = \"Unable to trim invalid string.\";\n\nexport const DEFAULT_PADSTRING = \" \";\n",
@@ -4457,7 +3520,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 206,
+    "__docId__": 169,
     "kind": "variable",
     "name": "STRING_TRIM_LEFT_REGEXP",
     "memberof": "src/string/constants.js",
@@ -4478,7 +3541,7 @@
     "ignore": true
   },
   {
-    "__docId__": 207,
+    "__docId__": 170,
     "kind": "variable",
     "name": "STRING_TRIM_RIGHT_REGEXP",
     "memberof": "src/string/constants.js",
@@ -4499,7 +3562,7 @@
     "ignore": true
   },
   {
-    "__docId__": 208,
+    "__docId__": 171,
     "kind": "variable",
     "name": "STRING_TRIM_REGEXP",
     "memberof": "src/string/constants.js",
@@ -4520,7 +3583,7 @@
     "ignore": true
   },
   {
-    "__docId__": 209,
+    "__docId__": 172,
     "kind": "variable",
     "name": "TRIM_ERROR_NOT_STRING",
     "memberof": "src/string/constants.js",
@@ -4541,7 +3604,7 @@
     "ignore": true
   },
   {
-    "__docId__": 210,
+    "__docId__": 173,
     "kind": "variable",
     "name": "DEFAULT_PADSTRING",
     "memberof": "src/string/constants.js",
@@ -4562,7 +3625,7 @@
     "ignore": true
   },
   {
-    "__docId__": 211,
+    "__docId__": 174,
     "kind": "file",
     "name": "src/string/format.js",
     "content": "import {\n  TYPE_STRING,\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport { numberify } from \"../number/format\";\n\nimport {\n  STRING_TRIM_LEFT_REGEXP,\n  STRING_TRIM_RIGHT_REGEXP,\n  TRIM_ERROR_NOT_STRING,\n  DEFAULT_PADSTRING\n} from \"./constants\";\n\nimport {\n  stringify\n} from \"./type\";\n\nimport {\n  listPadStart,\n  listPadEnd\n} from \"../array/service\";\n\n/**\n * Returns repeated string \"subject\" in \"count\" number of times.\n *\n * @param {string} subject any data convertible to string.\n * @param {number} count number of times to repeat.\n * @returns {string} Returns empty string if unable to repeat.\n */\nexport function repeat(subject, count) {\n  const empty = EMPTY_STRING;\n  const value = stringify(subject, empty);\n  let length = numberify(count, 0);\n  let list = null;\n\n  if (!value || length < 1) {\n    return value;\n  }\n\n  list = [];\n  length++;\n\n  for (let c = 0; length--; c++) {\n    list[c] = value;\n  }\n\n  return list.join(empty);\n}\n\n/**\n * Creates a padded string with another string (multiple times, if needed)\n * until the resulting string reaches the given length.\n * The padding is applied from the start of the string.\n *\n * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}\n * @param {string} subject The string to pad.\n * @param {number} length The length of the resulting string once it has been padded.\n * @param {string} padString The string to pad the current string with.\n * @returns {string} string of the specified length with the pad string applied from the start.\n */\nexport function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {\n  return listPadStart(\n    stringify(subject),\n    length,\n    padString\n  ).join(EMPTY_STRING);\n}\n\n/**\n * Creates a padded string with another string (multiple times, if needed)\n * until the resulting string reaches the given length.\n * The padding is applied from the end of the string.\n *\n * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}\n * @param {string} subject The string to pad.\n * @param {number} length The length of the resulting stringe once it has been padded.\n * @param {string} padString The string to pad the current string with.\n * @returns {string} string of the specified length with the pad string applied from the end.\n */\nexport function padEnd(subject, length = 0, padString = DEFAULT_PADSTRING) {\n  return listPadEnd(\n    stringify(subject),\n    length,\n    padString\n  ).join(EMPTY_STRING);\n}\n\n/**\n * Removes starting and ending white spaces.\n *\n * @param {string} subject The string to trim.\n * @returns {string} Whitespace trimmed string.\n */\nexport function trim(subject) {\n  const empty = EMPTY_STRING;\n\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(TRIM_ERROR_NOT_STRING);\n  }\n\n  return subject && subject\n    .replace(STRING_TRIM_LEFT_REGEXP, empty)\n    .replace(STRING_TRIM_RIGHT_REGEXP, empty);\n}\n\n/**\n * Removes starting white spaces.\n *\n * @param {string} subject The string to trim.\n * @returns {string} Whitespace trimmed string.\n */\nexport function trimStart(subject) {\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(TRIM_ERROR_NOT_STRING);\n  }\n\n  return subject && subject.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING);\n}\n\n/**\n * Removes ending whitespace.\n *\n * @param {string} subject The string to trim.\n * @returns {string} Whitespace trimmed string.\n */\nexport function trimEnd(subject) {\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(TRIM_ERROR_NOT_STRING);\n  }\n\n  return subject && subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);\n}\n",
@@ -4573,7 +3636,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 212,
+    "__docId__": 175,
     "kind": "function",
     "name": "repeat",
     "memberof": "src/string/format.js",
@@ -4625,7 +3688,7 @@
     }
   },
   {
-    "__docId__": 213,
+    "__docId__": 176,
     "kind": "function",
     "name": "padStart",
     "memberof": "src/string/format.js",
@@ -4690,7 +3753,7 @@
     }
   },
   {
-    "__docId__": 214,
+    "__docId__": 177,
     "kind": "function",
     "name": "padEnd",
     "memberof": "src/string/format.js",
@@ -4755,7 +3818,7 @@
     }
   },
   {
-    "__docId__": 215,
+    "__docId__": 178,
     "kind": "function",
     "name": "trim",
     "memberof": "src/string/format.js",
@@ -4797,7 +3860,7 @@
     }
   },
   {
-    "__docId__": 216,
+    "__docId__": 179,
     "kind": "function",
     "name": "trimStart",
     "memberof": "src/string/format.js",
@@ -4839,7 +3902,7 @@
     }
   },
   {
-    "__docId__": 217,
+    "__docId__": 180,
     "kind": "function",
     "name": "trimEnd",
     "memberof": "src/string/format.js",
@@ -4881,7 +3944,7 @@
     }
   },
   {
-    "__docId__": 218,
+    "__docId__": 181,
     "kind": "file",
     "name": "src/string/index.js",
     "content": "export {\n  stringify\n} from \"./type\";\n\nexport {\n  repeat,\n  trim,\n  trimStart,\n  trimEnd\n} from \"./format\";\n",
@@ -4892,7 +3955,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 219,
+    "__docId__": 182,
     "kind": "file",
     "name": "src/string/type.js",
     "content": "import {\n  TYPE_NUMBER,\n  TYPE_STRING,\n  TYPE_BOOLEAN,\n  TYPE_SYMBOL,\n\n  BOOLEAN_TRUE,\n  BOOLEAN_FALSE,\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport {\n  MATH_RANDOM,\n  MATH_ROUND\n} from \"../native/math\";\n\nimport {\n  STRING\n} from \"../native/string\";\n\n/**\n * Convert Any value to string. Or return \"defaultValue\" parameter.\n *\n * @category String\n * @param {*} subject data to convert to string.\n * @param {*} [defaultValue=\"\"] fallback value to return if conversion fails.\n * @returns {string|*} returns defaultValue if unable to convert to string.\n */\nexport function stringify(subject, defaultValue = EMPTY_STRING) {\n  const empty = EMPTY_STRING;\n\n  switch (typeof subject) {\n  case TYPE_BOOLEAN: return subject ? BOOLEAN_TRUE : BOOLEAN_FALSE;\n  case TYPE_NUMBER:\n    return isFinite(subject) ? empty + subject : defaultValue;\n\n  case TYPE_STRING: return subject;\n  case TYPE_SYMBOL:\n    return [\n      STRING(subject),\n      \"[\",\n      (new Date()).getTime().toString(16),\n      MATH_ROUND(MATH_RANDOM() * 1000).toString(16),\n      \"]\"\n    ].join(empty);\n  }\n\n  return defaultValue;\n}\n",
@@ -4903,7 +3966,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 220,
+    "__docId__": 183,
     "kind": "function",
     "name": "stringify",
     "memberof": "src/string/type.js",
@@ -4962,7 +4025,7 @@
     }
   },
   {
-    "__docId__": 221,
+    "__docId__": 184,
     "kind": "file",
     "name": "src/unicode/Utf.js",
     "content": "import {\n  TYPE_NUMBER,\n  TYPE_UNDEFINED,\n  EMPTY_STRING,\n  NOT_NUMBER,\n  TYPE_STRING\n} from \"../native/constants\";\n\nimport { OBJECT_DEFINE_PROPERTY } from \"../native/object\";\n\nimport {\n  IS_FINITE\n} from \"../native/number\";\n\nimport {\n  MATH_MAX,\n  MATH_MIN,\n  MATH_FLOOR\n} from \"../native/math\";\n\nimport {\n  ARRAY_PUSH,\n  ARRAY_SLICE\n} from \"../native/array\";\n\nimport {\n  REGEXP\n} from \"../native/regexp\";\n\nimport {\n  regexp,\n  method\n} from \"../native/type\";\n\nimport {\n  listPadStart,\n  listPadEnd\n} from \"../array/service\";\n\nimport {\n  STRING_TRIM_REGEXP,\n  STRING_TRIM_LEFT_REGEXP,\n  STRING_TRIM_RIGHT_REGEXP,\n  DEFAULT_PADSTRING\n} from \"../string/constants\";\n\nimport { stringify } from \"../string/type\";\n\nimport {\n  INVALID_REPEAT_COUNT_ERROR\n} from \"./constants\";\n\nimport {\n  eachUnicode,\n  string2codePoints,\n  string2unicodes\n} from \"./service\";\n\n/**\n * String.prototype.replace() callback.\n *\n * @callback stringReplaceCallback\n * @param {string} matched string matched by replace() pattern.\n * @param {...string} captures string match captures in pattern.\n * @param {number} offset the zero-based index position of the current match.\n * @param {string} subject the string calling replace(pattern, callback).\n */\n\n/**\n * Utf Class for unicode representation of String.\n */\nexport class Utf {\n  /**\n   * Creates Utf instance based from string or Utf16 (cloning).\n   *\n   * @param {string|Utf} subject The string to create from.\n   */\n  constructor(subject) {\n    const empty = EMPTY_STRING;\n    const defineProperty = OBJECT_DEFINE_PROPERTY;\n    let points = [];\n    let text = null;\n    let length = 0;\n\n    // create clone\n    if (subject instanceof Utf) {\n      text = subject.text;\n      length = subject.length;\n\n      if (text !== empty) {\n        ARRAY_PUSH.apply(this, subject);\n        points = subject.points.slice(0);\n      }\n    }\n    else {\n      text = stringify(subject);\n      length = eachUnicode(\n        subject,\n        (codePoint, char, index) => {\n          this[index] = char;\n          points[index] = codePoint;\n        }\n      );\n    }\n\n    /**\n     * @property {number} length\n     */\n    defineProperty(\n      this,\n      \"length\",\n      {\n        writable: false,\n        enumerable: false,\n        configurable: true,\n        value: length\n      }\n    );\n\n    /**\n     * @property {number[]} points\n     */\n    defineProperty(\n      this,\n      \"points\",\n      {\n        writable: false,\n        enumerable: false,\n        configurable: true,\n        value: points\n      }\n    );\n\n    /**\n     * @property {string} text\n     */\n    defineProperty(\n      this,\n      \"text\",\n      {\n        writable: false,\n        enumerable: false,\n        configurable: true,\n        value: text\n      }\n    );\n  }\n\n  /**\n   * Extracts Unicode code point at givent [index] position.\n   *\n   * @param {number} index The character position to extract Unicode code point.\n   * @returns {number} The extracted Unicode code point.\n   */\n  codePointAt(index) {\n    if (typeof index === TYPE_NUMBER && index > -1 && index < this.length) {\n      return this.points[index];\n    }\n\n    return NOT_NUMBER;\n  }\n\n  /**\n   * Extracts string at given [index] position.\n   * Please note that length of string is possibly greater than 1 characters.\n   *\n   * @param {number} index The character position to extract.\n   * @returns {string} The extracted string\n   */\n  charAt(index) {\n    if (typeof index === TYPE_NUMBER && index > -1 && index < this.length) {\n      return this[index];\n    }\n\n    return EMPTY_STRING;\n  }\n\n  /**\n   * Creates new Utf instance with only extracted section of the string.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice}\n   * @param {*} begin The zero-based index at which to begin extraction. If negative, it is treated as str.length + beginIndex.\n   * @param {*} end The zero-based index before which to end extraction. The character at this index will not be included.\n   * @returns {Utf} Utf instance with containing extracted string.\n   */\n  slice(begin, end) {\n    const min = MATH_MIN;\n    const max = MATH_MAX;\n    const empty = EMPTY_STRING;\n    const length = this.length;\n\n    let start = min(begin, length) || 0;\n    let limit = typeof end === TYPE_UNDEFINED ? length : min(end, length) || 0;\n\n    if (start < 0) {\n      start = max(length + start, 0);\n    }\n\n    if (limit < 0) {\n      limit = max(length + limit, 0);\n    }\n\n    if (start >= limit) {\n      return new Utf(empty);\n    }\n\n    return new Utf(\n      ARRAY_SLICE.call(this, start, limit).join(empty)\n    );\n  }\n\n  /**\n   * Creates Utf instance containing part of string between [begin] and [end].\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring}\n   * @param {number} begin The index of the first Unicode character to include in the returned substring.\n   * @param {number} [end] The index of the first Unicode character to exclude from the returned substring.\n   * @returns {Utf} Utf instance containing extracted string.\n   */\n  substring(begin, end = undefined) {\n    const min = MATH_MIN;\n    const max = MATH_MAX;\n    const empty = EMPTY_STRING;\n    const length = this.length;\n\n    let start = min(max(begin, 0) || 0, length);\n    let limit = typeof end === TYPE_UNDEFINED ? length : min(max(end, 0) || 0, length);\n\n    if (start === limit) {\n      return new Utf(empty);\n    }\n\n    // swap\n    if (start > limit) {\n      start -= limit;\n      limit += start;\n      start = limit - start;\n    }\n\n    return new Utf(\n      ARRAY_SLICE.call(this, start, limit).join(empty)\n    );\n  }\n\n  /**\n   * Creates Utf instance by concatenating Utf instances or strings.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/concat}\n   * @param {...(string|Utf)} subject strings or Ut16 instances to concatentate.\n   * @returns {Utf} Utf instance containing concatenated strings and Utf16s\n   */\n  concat(...subject) {\n    const toString = stringify;\n    const Me = Utf;\n    const empty = EMPTY_STRING;\n    const strings = [];\n    let c = 0;\n\n    for (let length = subject.length; length--; c++) {\n      const value = subject[c];\n\n      strings[c] = value instanceof Me ? value.text : toString(value);\n    }\n\n    return new Me(\n      c ? strings.join(empty) : empty\n    );\n  }\n\n  /**\n   * Retrieves zero-based index position that first matches the FIRST occurence\n   * of [searchValue] in Utf instance starting from zero or [fromIndex] if specified.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf}\n   * @param {string|Utf} searchValue The string or Utf instance to search.\n   * @param {number} [fromIndex=0] The index to start the search.\n   * @returns {number} Returns the zero-based index. Or, -1 if not found.\n   */\n  indexOf(searchValue, fromIndex = 0) {\n    const subject = this.points;\n    const searchPoints = searchValue instanceof Utf ? searchValue.points\n      : string2codePoints(\n        stringify(searchValue, EMPTY_STRING)\n      );\n    const searchLength = searchPoints.length;\n    const subjectLength = subject.length;\n    let anchor = fromIndex;\n    let length = subjectLength;\n    let slength = 0;\n\n    if (!subjectLength ||\n      searchLength > subjectLength ||\n      typeof anchor !== TYPE_NUMBER ||\n      !IS_FINITE(anchor)\n    ) {\n      return -1;\n    }\n\n    // empty string rules from MDN\n    if (!searchLength) {\n      return MATH_MAX(0, MATH_MIN(anchor, subjectLength));\n    }\n    // more than length\n    else if (anchor >= subjectLength) {\n      return -1;\n    }\n    // finalize iteration anchor\n    else if (anchor < 0) {\n      anchor = 0;\n    }\n    else if (anchor > 0) {\n      length = subjectLength - anchor;\n    }\n\n    /* eslint no-labels: 0 */\n    mainLoop: for (; length--; anchor++) {\n      if (anchor + searchLength - 1 > subjectLength) {\n        return -1;\n      }\n\n      slength = searchLength;\n      for (; slength--;) {\n        if (searchPoints[slength] !== subject[anchor + slength]) {\n          continue mainLoop;\n        }\n      }\n\n      // found!\n      return anchor;\n    }\n\n    return -1;\n  }\n\n  /**\n   * Retrieves zero-based index position that first matches the LAST occurence\n   * of [searchValue] in Utf instance starting from zero or [fromIndex] if specified.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/lastIndexOf}\n   * @param {string|Utf} searchValue The string or Utf instance to search.\n   * @param {number} [fromIndex] The index to start the search.\n   * @returns {number} Returns the zero-based index. Or, -1 if not found.\n   */\n  lastIndexOf(searchValue, fromIndex = null) {\n    const min = MATH_MIN;\n    const subject = this.points;\n    const searchPoints = searchValue instanceof Utf ? searchValue.points\n      : string2codePoints(\n        stringify(searchValue, EMPTY_STRING)\n      );\n    const searchLength = searchPoints.length;\n    const subjectLength = subject.length;\n    let anchor = fromIndex === null ? subjectLength : fromIndex;\n    let length = 0;\n\n    if (!subjectLength ||\n      searchLength > subjectLength ||\n      typeof anchor !== TYPE_NUMBER ||\n      !IS_FINITE(anchor)\n    ) {\n      return -1;\n    }\n\n    anchor = MATH_MAX(0, min(anchor, subjectLength));\n    if (!searchLength) {\n      return anchor;\n    }\n\n    anchor = min(anchor, subjectLength - searchLength);\n    if (anchor < 0) {\n      return -1;\n    }\n\n    /* eslint no-labels: 0 */\n    mainLoop: for (; anchor + 1; anchor--) {\n      length = searchLength;\n      for (; length--;) {\n        if (searchPoints[length] !== subject[anchor + length]) {\n          continue mainLoop;\n        }\n      }\n      return anchor;\n    }\n\n    return -1;\n  }\n\n  /**\n   * Searches the Utf string with given RegExp [pattern] and\n   * returns the zero-based index position of the first occurence.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search}\n   * @param {RegExp} pattern The RegExp pattern to match.\n   * @returns {number} Returns zero-based index if found. Returns -1 otherwise.\n   */\n  search(pattern) {\n    const matches = this.text.match(REGEXP(pattern));\n\n    // correct the index\n    if (!matches) {\n      return -1;\n    }\n\n    return this.indexOf(matches[0]);\n  }\n\n  /**\n   * Determines if Utf or string [keyword] is found in this instance.\n   *\n   * @see {@link http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode}\n   * @param {string|Utf} keyword The search keyword to match.\n   * @param {number} position The zero-based index position to start the search.\n   * @returns {boolean} Returns true if match is found. Returns false otherwise.\n   */\n  includes(keyword, position) {\n    return this.indexOf(keyword, position) !== -1;\n  }\n\n  /**\n   * The method returns a number indicating whether a reference string comes before or after\n   * or is the same as the given string in sort order.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare}\n   * @param {string|Utf} compareString The string or Utf16 against which the referring Utf is compared.\n   * @param {string} [locales] A string with a BCP 47 language tag, or an array of such strings.\n   * @param {object} [options] An object with some or all of the following properties:\n   * @param {string} [options.localeMatcher=\"best fit\"] Possible values: \"lookup\" or \"best fit\"\n   * @param {string} [options.usage=\"sort\"] Possible values: \"sort\" and \"search\"\n   * @param {string} [options.sensitivity=\"variant\"] Possible values: \"variant\", \"case\", \"accent\", and \"base\"\n   * @param {boolean} [options.ignorePunctuation=false] Should ignore punctation or not.\n   * @param {boolean} [options.numeric=false] Whether numeric collation should be used, such that \"1\" < \"2\" < \"10\".\n   * @param {string} [options.caseFirst=\"false\"] Whether upper case or lower case should sort first.\n   *                    Possible values are \"upper\", \"lower\", or \"false\" (use the locale's default).\n   * @returns {number} Returns negative number if Utf occurs before [compareString].\n   *                    Returns positive number if Utf occurs after [compareString].\n   *                    Returns zero (0) if equivalent.\n   */\n  localeCompare(compareString, locales, options) {\n    const subject = compareString instanceof Utf ? compareString.text : compareString;\n    const length = arguments.length;\n    const string = this.text;\n\n    return length < 2 ? string.localeCompare(subject)\n      : length < 3 ? string.localeCompare(subject, locales)\n        : string.localeCompare(subject, locales, options);\n  }\n\n  /**\n   * Retrieves the result of matching a string against a regular expression.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match}\n   * @param {RegExp} pattern A regular expression object.\n   * @returns {Utf[]|null} Returns Array of Utf matches. Or, null of not matches.\n   */\n  match(pattern) {\n    const Me = Utf;\n    const found = this.text.match(pattern);\n    let c = 0;\n    let length = 0;\n\n    if (found) {\n      for (; length--; c++) {\n        found[c] = new Me(found[c]);\n      }\n    }\n\n    return found;\n  }\n\n  /**\n   * Creates a padded Utf instance with another string (multiple times, if needed)\n   * until the resulting string reaches the given length.\n   * The padding is applied from the start of the current Utf instance.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}\n   * @param {number} targetLength The length of the resulting Utf instance once it has been padded.\n   * @param {string|Utf} padString The string to pad the current Utf instance with.\n   * @returns {Utf} Utf instance of the specified length with the pad string applied from the start.\n   */\n  padStart(targetLength, padString = DEFAULT_PADSTRING) {\n    const empty = EMPTY_STRING;\n    const pad = padString instanceof Utf ? padString\n      : string2unicodes(\n        stringify(padString, empty)\n      );\n    const result = listPadStart(this, targetLength, pad);\n\n    return new Utf(\n      result.join(empty)\n    );\n  }\n\n  /**\n   * Creates a padded Utf instance with another string (multiple times, if needed)\n   * until the resulting string reaches the given length.\n   * The padding is applied from the end of the Utf instance.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}\n   * @param {number} targetLength The length of the resulting Utf instance once it has been padded.\n   * @param {string|Utf} padString The string to pad the current Utf instance with.\n   * @returns {Utf} Utf instance of the specified length with the pad string applied from the start.\n   */\n  padEnd(targetLength, padString = DEFAULT_PADSTRING) {\n    const empty = EMPTY_STRING;\n    const pad = padString instanceof Utf ? padString\n      : string2unicodes(\n        stringify(padString, empty)\n      );\n    const result = listPadEnd(this, targetLength, pad);\n\n    return new Utf(\n      result.join(empty)\n    );\n  }\n\n  /**\n   * Creates Utf instance with repeated unicode text.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat}\n   * @param {number} count Number of repeats.\n   * @returns {Utf} Returns instance with repeated text.\n   */\n  repeat(count) {\n    const string = this.text;\n    let result = null;\n    let c = 0;\n    let length = 0;\n\n    if (typeof count !== TYPE_NUMBER || !IS_FINITE(count) || count < 0) {\n      throw new RangeError(INVALID_REPEAT_COUNT_ERROR);\n    }\n\n    length = MATH_FLOOR(count);\n    result = [];\n    for (; length--; c++) {\n      result[c] = string;\n    }\n\n    return new Utf(\n      result.join(EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Safely splits unicode characters into list of Utf instances using a [separator] pattern.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split}\n   * @param {string|RegExp|Utf} separator Separator pattern used for splitting.\n   * @param {number} [limit] Limit number of splits.\n   * @returns {Utf[]} Collection of Utf instances.\n   */\n  split(separator, limit) {\n    const Me = Utf;\n    const me = this;\n    const empty = EMPTY_STRING;\n    const subjectLength = me.length;\n    const isRegex = regexp(separator);\n    const isUtfInstance = separator instanceof Me;\n    let limiter = typeof limit === TYPE_NUMBER && IS_FINITE(limit) && limit > -1\n      ? limit\n      : limit === null\n        ? 0\n        : undefined;\n    let stringSeparator = isUtfInstance\n      ? separator.text\n      : isRegex || typeof separator === TYPE_STRING\n        ? separator\n        : stringify(separator);\n    // safely return split version\n    let result = null;\n    let resultLength = 0;\n    let buffer = null;\n    let bufferLength = 0;\n    let separatorLength = 0;\n    let slength = 0;\n    let c = 0;\n    let length = 0;\n    let matchPointer = 0;\n    let isLast = false;\n    let pos = null;\n\n    // usual split\n    if (isRegex || stringSeparator === empty) {\n      result = isRegex\n        ? me.text.split(stringSeparator, limiter)\n        : ARRAY_SLICE.call(\n          me,\n          0,\n          limiter\n        );\n      length = result.length;\n      // replace\n      for (; length--; c++) {\n        result[c] = new Me(result[c]);\n      }\n      return result;\n    }\n\n    // manual split\n    length = subjectLength;\n\n    stringSeparator = isUtfInstance ? separator : string2unicodes(separator);\n    separatorLength = stringSeparator.length;\n\n    // replace\n    buffer = [];\n    result = [];\n    if (typeof limiter === TYPE_UNDEFINED) {\n      limiter = subjectLength;\n    }\n    mainLoop: for (; length--; c++) {\n      isLast = length === 0;\n\n      // check if separator matches\n      slength = separatorLength;\n      matchPointer = 0;\n\n      for (; slength--; matchPointer++) {\n        pos = c + matchPointer;\n        // failed!\n        if (pos >= subjectLength ||\n          stringSeparator[matchPointer] !== me[pos]\n        ) {\n          buffer[bufferLength++] = me[c];\n          if (!isLast) {\n            continue mainLoop;\n          }\n        }\n      }\n\n      // generate result from buffer\n      result[resultLength++] = new Me(\n        bufferLength ? buffer.join(empty) : empty\n      );\n\n      // stop!\n      if (resultLength === limiter) {\n        break mainLoop;\n      }\n      // reset buffer\n      else if (!isLast) {\n        buffer = [];\n        bufferLength = 0;\n      }\n    }\n\n    return result;\n  }\n\n  /**\n   * Creates new Utf instance with replacing unicode characters with [replacement] using [pattern].\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace}\n   * @param {string|Utf|RegExp} pattern The pattern to match for replacement.\n   * @param {string|Utf|stringReplaceCallback} replacement function callback or string replacement.\n   * @returns {Utf} Utf instance with replaced unicode characters.\n   */\n  replace(pattern, replacement) {\n    const Me = Utf;\n\n    return new Me(\n      this.text.replace(\n        pattern instanceof Me\n          ? pattern.text\n          : regexp(pattern)\n            ? pattern\n            : stringify(pattern),\n        replacement instanceof Me\n          ? replacement.text\n          : method(replacement)\n            ? replacement\n            : stringify(replacement)\n      )\n    );\n  }\n\n  /**\n   * Removes whitespace characters prefix and suffix.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim}\n   * @returns {Utf} new Utf instance with whitespaces removed.\n   */\n  trim() {\n    return new Utf(\n      this.text.replace(STRING_TRIM_REGEXP, EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Removes whitespace characters prefix.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart}\n   * @returns {Utf} new Utf instance with whitespaces removed.\n   */\n  trimStart() {\n    return new Utf(\n      this.text.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Removes whitespace characters suffix.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd}\n   * @returns {Utf} new Utf instance with whitespaces removed.\n   */\n  trimEnd() {\n    return new Utf(\n      this.text.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Clones Utf instance.\n   *\n   * @returns {Utf} cloned Utf instance.\n   */\n  clone() {\n    return new Utf(this);\n  }\n\n  /**\n   * Generates list of Utf code points.\n   *\n   * @returns {number[]} List of Unicode code points.\n   */\n  toPoints() {\n    return this.points.slice(0);\n  }\n\n  /**\n   * Creates Utf instance with string converted to upper-case.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase}\n   * @returns {Utf} Utf instance with upper-case string.\n   */\n  toUpperCase() {\n    return new Utf(\n      this.text.toUpperCase()\n    );\n  }\n\n  /**\n   * Creates Utf instance with string converted to upper-case according to any locale-specific case mappings.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase}\n   * @param {string|string[]} [locale] The locale/s to be used to convert to upper case according to any locale-specific case mappings.\n   * @returns {Utf} Utf Instance with upper-case string.\n   */\n  toLocaleUpperCase(locale) {\n    return new Utf(\n      this.text.toLocaleUpperCase(locale)\n    );\n  }\n\n  /**\n   * Creates Utf instance with string converted to lower-case.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase}\n   * @returns {Utf} Utf instance with lower-case string.\n   */\n  toLowerCase() {\n    return new Utf(\n      this.text.toLowerCase()\n    );\n  }\n\n  /**\n   * Creates Utf instance with string converted to lower-case according to any locale-specific case mappings.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase}\n   * @param {string|string[]} [locale] The locale/s to be used to convert to upper case according to any locale-specific case mappings.\n   * @returns {Utf} Utf instance with lower-case string.\n   */\n  toLocaleLowerCase(locale) {\n    return new Utf(\n      this.text.toLocaleLowerCase(locale)\n    );\n  }\n\n  /**\n   * Returns the JSON representation.\n   *\n   * @returns {string} JSON representation of Utf instance.\n   */\n  toJSON() {\n    return this.text;\n  }\n\n  /**\n   * Returns the Array representation of Utf instance.\n   *\n   * @returns {string[]} Array representation.\n   */\n  toArray() {\n    return ARRAY_SLICE.call(this, 0);\n  }\n\n  /**\n   * Returns the String representation of Uft instance.\n   *\n   * @returns {string} String representation of Utf intance.\n   */\n  toString() {\n    return this.text;\n  }\n\n  /**\n   * Returns the primitive value of this instance which is a string.\n   *\n   * @returns {string} String primitive value.\n   */\n  valueOf() {\n    return this.text;\n  }\n}\n\nexport const EMPTY_UNICODE = new Utf(EMPTY_STRING);\n",
@@ -4973,7 +4036,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 222,
+    "__docId__": 185,
     "kind": "class",
     "name": "Utf",
     "memberof": "src/unicode/Utf.js",
@@ -4988,7 +4051,7 @@
     "interface": false
   },
   {
-    "__docId__": 223,
+    "__docId__": 186,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5014,7 +4077,7 @@
     ]
   },
   {
-    "__docId__": 224,
+    "__docId__": 187,
     "kind": "member",
     "name": "[index]",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5032,7 +4095,7 @@
     "ignore": true
   },
   {
-    "__docId__": 225,
+    "__docId__": 188,
     "kind": "method",
     "name": "codePointAt",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5071,7 +4134,7 @@
     }
   },
   {
-    "__docId__": 226,
+    "__docId__": 189,
     "kind": "method",
     "name": "charAt",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5110,7 +4173,7 @@
     }
   },
   {
-    "__docId__": 227,
+    "__docId__": 190,
     "kind": "method",
     "name": "slice",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5162,7 +4225,7 @@
     }
   },
   {
-    "__docId__": 228,
+    "__docId__": 191,
     "kind": "method",
     "name": "substring",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5214,7 +4277,7 @@
     }
   },
   {
-    "__docId__": 229,
+    "__docId__": 192,
     "kind": "method",
     "name": "concat",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5256,7 +4319,7 @@
     }
   },
   {
-    "__docId__": 230,
+    "__docId__": 193,
     "kind": "method",
     "name": "indexOf",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5311,7 +4374,7 @@
     }
   },
   {
-    "__docId__": 231,
+    "__docId__": 194,
     "kind": "method",
     "name": "lastIndexOf",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5364,7 +4427,7 @@
     }
   },
   {
-    "__docId__": 232,
+    "__docId__": 195,
     "kind": "method",
     "name": "search",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5406,7 +4469,7 @@
     }
   },
   {
-    "__docId__": 233,
+    "__docId__": 196,
     "kind": "method",
     "name": "includes",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5459,7 +4522,7 @@
     }
   },
   {
-    "__docId__": 234,
+    "__docId__": 197,
     "kind": "method",
     "name": "localeCompare",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5594,7 +4657,7 @@
     }
   },
   {
-    "__docId__": 235,
+    "__docId__": 198,
     "kind": "method",
     "name": "match",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5637,7 +4700,7 @@
     }
   },
   {
-    "__docId__": 236,
+    "__docId__": 199,
     "kind": "method",
     "name": "padStart",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5690,7 +4753,7 @@
     }
   },
   {
-    "__docId__": 237,
+    "__docId__": 200,
     "kind": "method",
     "name": "padEnd",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5743,7 +4806,7 @@
     }
   },
   {
-    "__docId__": 238,
+    "__docId__": 201,
     "kind": "method",
     "name": "repeat",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5785,7 +4848,7 @@
     }
   },
   {
-    "__docId__": 239,
+    "__docId__": 202,
     "kind": "method",
     "name": "split",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5839,7 +4902,7 @@
     }
   },
   {
-    "__docId__": 240,
+    "__docId__": 203,
     "kind": "method",
     "name": "replace",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5895,7 +4958,7 @@
     }
   },
   {
-    "__docId__": 241,
+    "__docId__": 204,
     "kind": "method",
     "name": "trim",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5926,7 +4989,7 @@
     "params": []
   },
   {
-    "__docId__": 242,
+    "__docId__": 205,
     "kind": "method",
     "name": "trimStart",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5957,7 +5020,7 @@
     "params": []
   },
   {
-    "__docId__": 243,
+    "__docId__": 206,
     "kind": "method",
     "name": "trimEnd",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -5988,7 +5051,7 @@
     "params": []
   },
   {
-    "__docId__": 244,
+    "__docId__": 207,
     "kind": "method",
     "name": "clone",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6016,7 +5079,7 @@
     "params": []
   },
   {
-    "__docId__": 245,
+    "__docId__": 208,
     "kind": "method",
     "name": "toPoints",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6044,7 +5107,7 @@
     "params": []
   },
   {
-    "__docId__": 246,
+    "__docId__": 209,
     "kind": "method",
     "name": "toUpperCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6075,7 +5138,7 @@
     "params": []
   },
   {
-    "__docId__": 247,
+    "__docId__": 210,
     "kind": "method",
     "name": "toLocaleUpperCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6118,7 +5181,7 @@
     }
   },
   {
-    "__docId__": 248,
+    "__docId__": 211,
     "kind": "method",
     "name": "toLowerCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6149,7 +5212,7 @@
     "params": []
   },
   {
-    "__docId__": 249,
+    "__docId__": 212,
     "kind": "method",
     "name": "toLocaleLowerCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6192,7 +5255,7 @@
     }
   },
   {
-    "__docId__": 250,
+    "__docId__": 213,
     "kind": "method",
     "name": "toJSON",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6220,7 +5283,7 @@
     "params": []
   },
   {
-    "__docId__": 251,
+    "__docId__": 214,
     "kind": "method",
     "name": "toArray",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6248,7 +5311,7 @@
     "params": []
   },
   {
-    "__docId__": 252,
+    "__docId__": 215,
     "kind": "method",
     "name": "toString",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6276,7 +5339,7 @@
     "params": []
   },
   {
-    "__docId__": 253,
+    "__docId__": 216,
     "kind": "method",
     "name": "valueOf",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6304,7 +5367,7 @@
     "params": []
   },
   {
-    "__docId__": 254,
+    "__docId__": 217,
     "kind": "variable",
     "name": "EMPTY_UNICODE",
     "memberof": "src/unicode/Utf.js",
@@ -6325,7 +5388,7 @@
     "ignore": true
   },
   {
-    "__docId__": 255,
+    "__docId__": 218,
     "kind": "file",
     "name": "src/unicode/constants.js",
     "content": "export const UNICODE_CODEPOINT_MATCH_REGEXP = /[\\uD800-\\uDBFF][\\uDC00-\\uDFFF]|./g;\n\nexport const CODE_POINTS_TO_UTF_ERROR = \"Invalid Code Points parameter.\";\n\nexport const CODE_POINT_TO_STRING_ERROR = \"Invalid Code Point item while generating [Utf].\";\n\nexport const INVALID_REPEAT_COUNT_ERROR = \"Invalid repeat [count] parameter.\";\n",
@@ -6336,7 +5399,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 256,
+    "__docId__": 219,
     "kind": "variable",
     "name": "UNICODE_CODEPOINT_MATCH_REGEXP",
     "memberof": "src/unicode/constants.js",
@@ -6357,7 +5420,7 @@
     "ignore": true
   },
   {
-    "__docId__": 257,
+    "__docId__": 220,
     "kind": "variable",
     "name": "CODE_POINTS_TO_UTF_ERROR",
     "memberof": "src/unicode/constants.js",
@@ -6378,7 +5441,7 @@
     "ignore": true
   },
   {
-    "__docId__": 258,
+    "__docId__": 221,
     "kind": "variable",
     "name": "CODE_POINT_TO_STRING_ERROR",
     "memberof": "src/unicode/constants.js",
@@ -6399,7 +5462,7 @@
     "ignore": true
   },
   {
-    "__docId__": 259,
+    "__docId__": 222,
     "kind": "variable",
     "name": "INVALID_REPEAT_COUNT_ERROR",
     "memberof": "src/unicode/constants.js",
@@ -6420,7 +5483,7 @@
     "ignore": true
   },
   {
-    "__docId__": 260,
+    "__docId__": 223,
     "kind": "file",
     "name": "src/unicode/format.js",
     "content": "import {\n  stringify\n} from \"../string/type\";\n\nimport { array } from \"../native/type\";\n\nimport {\n  CODE_POINTS_TO_UTF_ERROR,\n  UNICODE_CODEPOINT_MATCH_REGEXP\n} from \"./constants\";\n\nimport { codePoint2string } from \"./service\";\n\nimport {\n  Utf,\n  EMPTY_UNICODE\n} from \"./Utf\";\n\n/**\n * Convert Scalar value to Unicode.\n *\n * @param {*} subject Scalar value to convert.\n * @param {*} [defaultValue=Utf] optional defaultValue to return if failed.\n * @returns {Utf|*} Unicode string when successful, or [defaultValue] parameter is returned if failed.\n */\nexport function unicodify(subject, defaultValue = EMPTY_UNICODE) {\n  const stringified = stringify(subject, null);\n\n  return stringified === null ? defaultValue : new Utf(stringified);\n}\n\n/**\n * Create Utf based on Array of code points parameter.\n * Error will be thrown if parameter is invalid.\n *\n * @param {number[]} codes Array of code points.\n * @returns {Utf} Utf instance.\n */\nexport function codepoints2Utf(codes) {\n  if (!array(codes)) {\n    throw new Error(CODE_POINTS_TO_UTF_ERROR);\n  }\n\n  return new Utf(\n    codePoint2string(...codes)\n  );\n}\n\n/**\n * Safely counts number of Utf characters.\n *\n * @param {string|Utf} subject String or Utf to count.\n * @returns {number} returns number of resolved Utf characters. or zero (0)\n */\nexport function unicodeCount(subject) {\n  let string = null;\n\n  if (subject instanceof Utf) {\n    return subject.length;\n  }\n\n  string = stringify(subject);\n  if (string) {\n    return string.replace(UNICODE_CODEPOINT_MATCH_REGEXP, \"-\").length;\n  }\n\n  return 0;\n}\n",
@@ -6431,7 +5494,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 261,
+    "__docId__": 224,
     "kind": "function",
     "name": "unicodify",
     "memberof": "src/unicode/format.js",
@@ -6486,7 +5549,7 @@
     }
   },
   {
-    "__docId__": 262,
+    "__docId__": 225,
     "kind": "function",
     "name": "codepoints2Utf",
     "memberof": "src/unicode/format.js",
@@ -6528,7 +5591,7 @@
     }
   },
   {
-    "__docId__": 263,
+    "__docId__": 226,
     "kind": "function",
     "name": "unicodeCount",
     "memberof": "src/unicode/format.js",
@@ -6571,7 +5634,7 @@
     }
   },
   {
-    "__docId__": 264,
+    "__docId__": 227,
     "kind": "file",
     "name": "src/unicode/index.js",
     "content": "export {\n  Utf\n} from \"./Utf\";\n\nexport {\n  eachUnicode,\n  string2unicodes,\n  string2codePoints,\n  codePoint2string\n} from \"./service\";\n\nexport {\n  unicodify,\n  unicodeCount,\n  codepoints2Utf\n} from \"./format\";\n",
@@ -6582,7 +5645,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 265,
+    "__docId__": 228,
     "kind": "file",
     "name": "src/unicode/service.js",
     "content": "import { method } from \"../native/type\";\n\nimport { IS_FINITE } from \"../native/number\";\n\nimport { EMPTY_STRING } from \"../native/constants\";\n\nimport {\n  STRING_FROM_CHARCODE\n} from \"../native/string\";\n\nimport { stringify } from \"../string/type\";\n\nimport {\n  UNICODE_CODEPOINT_MATCH_REGEXP\n} from \"./constants\";\n\n/**\n * Splits string into collection of Unicode characters.\n *\n * @param {string} subject String to split.\n * @returns {string[]} list of unicode characters.\n */\nexport function string2unicodes(subject) {\n  const string = stringify(subject);\n  const found = [];\n  let length = 0;\n\n  if (string) {\n    string.replace(\n      UNICODE_CODEPOINT_MATCH_REGEXP,\n      (char) => {\n        found[length++] = char;\n      }\n    );\n  }\n\n  return found;\n}\n\n/**\n * Splits string into collection of Unicode code points.\n *\n * @param {string} subject String to split.\n * @returns {number[]} list of codePoints.\n */\nexport function string2codePoints(subject) {\n  const string = stringify(subject);\n  const found = [];\n  let length = 0;\n\n  if (string) {\n    string.replace(\n      UNICODE_CODEPOINT_MATCH_REGEXP,\n      (char) => {\n        found[length++] = char.length === 1 ? char.charCodeAt(0)\n          : (char.charCodeAt(0) - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000;\n      }\n    );\n  }\n\n  return found;\n}\n\n/**\n * The callback used on each Unicode codePoint found.\n *\n * @callback eachCodePointCallback\n * @param {number} codePoint Unicode codePoint.\n * @param {string} chars string representation of codePoint.\n * @param {number} index Unicode character zero based index position.\n */\n\n/**\n * Iterates Unicode codePoints of string that executes callback on each codePoint found.\n *\n * @param {string} subject string to iterate.\n * @param {eachCodePointCallback} callback The callback to execute on each codePoint.\n * @returns {number} number of codePoints found\n */\nexport function eachUnicode(subject, callback) {\n  let char = null;\n  let c = 0;\n  let length = 0;\n  let foundLength = 0;\n  let string = null;\n\n  if (!method(callback)) {\n    return length;\n  }\n\n  string = string2unicodes(subject);\n  length = foundLength = string.length;\n\n  for (; length--; c++) {\n    char = string[c];\n    callback(\n      char.length === 1 ? char.charCodeAt(0)\n        : (char.charCodeAt(0) - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000,\n      char,\n      c\n    );\n  }\n\n  return foundLength;\n}\n\n/**\n * Creates string with given list of codePoints.\n *\n * @param {...number[]} codes codePoint to convert to string.\n * @returns {string} the string created based from codePoints list.\n */\nexport function codePoint2string(...codes) {\n  const fromCharCode = STRING_FROM_CHARCODE;\n  const finite = IS_FINITE;\n  const empty = EMPTY_STRING;\n  const found = [];\n  let foundLength = 0;\n  let c = 0;\n  let length = codes.length;\n  let value = null;\n  let code = null;\n\n  if (!length) {\n    return empty;\n  }\n\n  for (; length--; c++) {\n    code = codes[c];\n    value = 1 * code;\n\n    if (!finite(value) || value < 0 || value > 0x10FFFF) {\n      console.warn(RangeError(`Invalid code point: ${code}`));\n      return empty;\n    }\n\n    if (value > 0xFFFF) {\n      value -= 0x10000;\n      found[foundLength++] = fromCharCode(\n        (value >> 10) + 0xD800,\n        (value % 0x400) + 0xDC00\n      );\n    }\n    else {\n      found[foundLength++] = fromCharCode(value);\n    }\n  }\n\n  return found.join(empty);\n}\n",
@@ -6593,7 +5656,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 266,
+    "__docId__": 229,
     "kind": "function",
     "name": "string2unicodes",
     "memberof": "src/unicode/service.js",
@@ -6635,7 +5698,7 @@
     }
   },
   {
-    "__docId__": 267,
+    "__docId__": 230,
     "kind": "function",
     "name": "string2codePoints",
     "memberof": "src/unicode/service.js",
@@ -6677,7 +5740,7 @@
     }
   },
   {
-    "__docId__": 268,
+    "__docId__": 231,
     "kind": "function",
     "name": "eachUnicode",
     "memberof": "src/unicode/service.js",
@@ -6729,7 +5792,7 @@
     }
   },
   {
-    "__docId__": 269,
+    "__docId__": 232,
     "kind": "function",
     "name": "codePoint2string",
     "memberof": "src/unicode/service.js",
@@ -6780,7 +5843,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"@dikotech/basic\",\n  \"version\": \"0.0.1\",\n  \"description\": \"Basic Javascript helpers\",\n  \"main\": \"cjs/index.js\",\n  \"module\": \"esm/index.js\",\n  \"scripts\": {\n    \"test:rollup\": \"rollup --config rollup.config.test.js\",\n    \"test:mocha\": \"mocha test/mocha-feed.js\",\n    \"pretest\": \"clear\",\n    \"test\": \"run-s test:rollup test:mocha\",\n    \"prepare\": \"rollup --config\",\n    \"lint\": \"eslint 'src/**/*.js'\",\n    \"tdd\": \"nodemon --watch src --exec 'npm run test'\",\n    \"jsdoc:build\": \"jsdoc -c jsdoc.json src\",\n    \"doc:build\": \"esdoc -c esdoc.json\",\n    \"docdoc:build\": \"documentation build src/** -f html -o docs\",\n    \"doc\": \"run-s clean:doc doc:build\",\n    \"doc-dev:build\": \"nodemon -V --watch src --watch esdoc.json --watch README.md --watch manual --ext js,md,json --exec 'npm run doc:build'\",\n    \"doc-dev:serve\": \"browser-sync start --config browsersync.doc.js\",\n    \"predoc-dev\": \"npm run clean:doc\",\n    \"doc-dev\": \"run-p doc-dev:build doc-dev:serve\",\n    \"clean:doc\": \"del 'docs/*'\",\n    \"clean:output\": \"del umd system cjs esm 'test'\",\n    \"clean\": \"run-p clean:doc clean:output\"\n  },\n  \"files\": [\n    \"cjs/*\",\n    \"esm/*\",\n    \"umd/*\",\n    \"system/*\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/diko316/dikotech-basic.git\"\n  },\n  \"keywords\": [\n    \"NodeJS\",\n    \"core\",\n    \"basic\",\n    \"Javascript\"\n  ],\n  \"author\": \"Diko Tech Slave\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/diko316/dikotech-basic/issues\"\n  },\n  \"homepage\": \"https://github.com/diko316/dikotech-basic#readme\",\n  \"devDependencies\": {\n    \"@rollup/plugin-buble\": \"^0.21.1\",\n    \"@rollup/plugin-commonjs\": \"^11.0.2\",\n    \"@rollup/plugin-json\": \"^4.0.2\",\n    \"@rollup/plugin-multi-entry\": \"^3.0.0\",\n    \"@rollup/plugin-node-resolve\": \"^7.1.1\",\n    \"better-docs\": \"^1.4.7\",\n    \"browser-sync\": \"^2.26.7\",\n    \"chai\": \"^4.2.0\",\n    \"clear-cli\": \"^1.0.1\",\n    \"del-cli\": \"^3.0.0\",\n    \"documentation\": \"^12.1.4\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^6.8.0\",\n    \"eslint-config-standard\": \"^14.1.0\",\n    \"eslint-config-strict\": \"^14.0.1\",\n    \"eslint-plugin-import\": \"^2.20.1\",\n    \"eslint-plugin-jsdoc\": \"^22.0.1\",\n    \"eslint-plugin-node\": \"^11.0.0\",\n    \"eslint-plugin-promise\": \"^4.2.1\",\n    \"eslint-plugin-standard\": \"^4.0.1\",\n    \"ink-docstrap\": \"^1.3.2\",\n    \"jsdoc\": \"^3.6.3\",\n    \"jsdoc-babel\": \"^0.5.0\",\n    \"mocha\": \"^7.1.0\",\n    \"nodemon\": \"^2.0.2\",\n    \"npm-run-all\": \"^4.1.5\",\n    \"rollup\": \"^2.0.6\",\n    \"rollup-plugin-delete\": \"^1.2.0\",\n    \"rollup-plugin-eslint\": \"^7.0.0\",\n    \"rollup-plugin-terser\": \"^5.3.0\",\n    \"unexpected\": \"^11.13.0\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"@dikotech/basic\",\n  \"version\": \"0.0.1\",\n  \"description\": \"Basic Javascript helpers\",\n  \"main\": \"cjs/index.js\",\n  \"module\": \"esm/index.js\",\n  \"scripts\": {\n    \"test:rollup\": \"rollup --config rollup.config.test.js\",\n    \"test:mocha\": \"mocha test/mocha-feed.js\",\n    \"pretest\": \"clear\",\n    \"test\": \"run-s build:parser test:rollup test:mocha\",\n    \"build:parser\": \"node lib/slr/generate-slr-states src/json/grammar.json src/json/parse-states.json\",\n    \"build:source\": \"rollup --config\",\n    \"build\": \"run-s build:parser build:source\",\n    \"prepare\": \"run-s build\",\n    \"lint\": \"eslint 'src/**/*.js'\",\n    \"tdd\": \"nodemon --watch src --exec 'npm run test'\",\n    \"jsdoc:build\": \"jsdoc -c jsdoc.json src\",\n    \"doc:build\": \"esdoc -c esdoc.json\",\n    \"docdoc:build\": \"documentation build src/** -f html -o docs\",\n    \"doc\": \"run-s clean:doc doc:build\",\n    \"doc-dev:build\": \"nodemon -V --watch src --watch esdoc.json --ignore 'src/**/*.json' --watch README.md --watch manual --ext js,md,json --exec 'npm run doc:build'\",\n    \"doc-dev:serve\": \"browser-sync start --config browsersync.doc.js\",\n    \"predoc-dev\": \"npm run clean:doc\",\n    \"doc-dev\": \"run-p doc-dev:build doc-dev:serve\",\n    \"clean:doc\": \"del 'docs/*'\",\n    \"clean:output\": \"del umd system cjs esm 'test'\",\n    \"clean\": \"run-p clean:doc clean:output\"\n  },\n  \"files\": [\n    \"cjs/*\",\n    \"esm/*\",\n    \"umd/*\",\n    \"system/*\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/diko316/dikotech-basic.git\"\n  },\n  \"keywords\": [\n    \"NodeJS\",\n    \"core\",\n    \"basic\",\n    \"Javascript\"\n  ],\n  \"author\": \"Diko Tech Slave\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/diko316/dikotech-basic/issues\"\n  },\n  \"homepage\": \"https://github.com/diko316/dikotech-basic#readme\",\n  \"devDependencies\": {\n    \"@rollup/plugin-buble\": \"^0.21.1\",\n    \"@rollup/plugin-commonjs\": \"^11.0.2\",\n    \"@rollup/plugin-json\": \"^4.0.2\",\n    \"@rollup/plugin-multi-entry\": \"^3.0.0\",\n    \"@rollup/plugin-node-resolve\": \"^7.1.1\",\n    \"better-docs\": \"^1.4.7\",\n    \"browser-sync\": \"^2.26.7\",\n    \"chai\": \"^4.2.0\",\n    \"clear-cli\": \"^1.0.1\",\n    \"del-cli\": \"^3.0.0\",\n    \"documentation\": \"^12.1.4\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^6.8.0\",\n    \"eslint-config-standard\": \"^14.1.0\",\n    \"eslint-config-strict\": \"^14.0.1\",\n    \"eslint-plugin-import\": \"^2.20.1\",\n    \"eslint-plugin-jsdoc\": \"^22.0.1\",\n    \"eslint-plugin-node\": \"^11.0.0\",\n    \"eslint-plugin-promise\": \"^4.2.1\",\n    \"eslint-plugin-standard\": \"^4.0.1\",\n    \"ink-docstrap\": \"^1.3.2\",\n    \"jsdoc\": \"^3.6.3\",\n    \"jsdoc-babel\": \"^0.5.0\",\n    \"mocha\": \"^7.1.0\",\n    \"nodemon\": \"^2.0.2\",\n    \"npm-run-all\": \"^4.1.5\",\n    \"rollup\": \"^2.0.6\",\n    \"rollup-plugin-delete\": \"^1.2.0\",\n    \"rollup-plugin-eslint\": \"^7.0.0\",\n    \"rollup-plugin-terser\": \"^5.3.0\",\n    \"unexpected\": \"^11.13.0\"\n  }\n}\n",
     "longname": "/opt/app/source/package.json",
     "name": "package.json",
     "static": true,
@@ -6814,7 +5877,7 @@
     "kind": "manual",
     "longname": "/opt/app/source/manual/json/query.md",
     "name": "./manual/json/query.md",
-    "content": "# JSON Query\n\n## Usage\n\n### Importing `query` function from @dikotech/basic\n\nCommonJS\n\n```js\nconst query = require(\"@dikotech/basic\").query;\n```\n\nECMAScript module\n\n```js\nimport { query } from \"@dikotech/basic\";\n```\n### Simple Query\n\n```js\n// returns 9\nquery(\n  \"(1 + 2) * 3\"\n);\n\n// returns false\nquery(\n  \"5 > 6\"\n);\n\n// returns true\nquery(\n  \"5 <= 6\"\n);\n```\n\n### Select/Extract JSON data\n\n**With sample JSON**\n\n```json\n{\n  \"message\": \"Ok\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"name1\",\n      \"language\": [\n        \"en\",\n        \"fr\",\n        1,\n        \"de\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"name\": \"name2\"\n    }\n  ]\n}\n```\n\n#### Simple Extract data\n\n```js\n// returns 1\nquery(\n  \"data[0].id\",\n  object\n);\n```\n\n#### Extract and Compose\n\n**Composing array/list**\n\n```js\n// returns [ \"en\", \"fr\", \"de\" ]\nquery(\n  `\n  (\n    data[0].language[0],\n    data[0].language[1],\n    data[0].language[3]\n  )\n  `,\n  object\n);\n```\n\n**Composing object**\n\n```js\n//  returns { \"found\": 1, \"nextName\": \"name1\" }\nquery(\n  `\n  (\n    data[0].id as found,\n    data[1].name as nextName\n  )\n  `,\n  object\n);\n```\n\n### Manipulate JSON data\n\n**With sample JSON**\n\n```json\n{\n  \"message\": \"Ok\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"name1\",\n      \"language\": [\n        \"en\",\n        \"fr\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"name\": \"name2\"\n    }\n  ]\n}\n```\n\n#### Set value\n\n**Simple set value**\n\n```js\n// data[0] will now contain { id: 42, name: \"name1\", language: [\"en\", \"fr\"]}\n// then, returns 42\nquery(\n  \"data[0].id is 42\",\n  object\n);\n```\n\n**Multiple set value**\n\n```js\n// data[0] will now contain { id: 42, name: \"name1\", language: [\"en\", \"fr\"]}\n// data[1] will now contain { id: 2, name: \"updated name\", language: [\"en\"]}\n// then, returns [42, \"updated name\", \"en\" ]\nquery(\n  `\n  (\n    data[0].id is ?,\n    data[1].name is ?,\n    data[1].language[] is ?\n  )\n  `,\n  object,\n  [\n    42,\n    \"updated name\",\n    \"en\"\n  ]\n);\n\n// data[0] will now contain { id: 42, name: \"name1\", language: [\"en\", \"fr\"]}\n// data[1] will now contain { id: 2, name: \"updated name\", language: [\"en\"]}\n// then, returns { \"updatedId\": 42, \"updatedName\": \"updated name\", \"updatedLanguage\": \"en\" }\nquery(\n  `\n  (\n    data[0].id is ? as updatedId,\n    data[1].name is ? as updatedName,\n    data[1].language[] is ? as updatedLanguage\n  )\n  `,\n  object,\n  [\n    42,\n    \"updated name\",\n    \"en\"\n  ]\n);\n\n// creates new item in \"data\" array indexed by \"2\".\n// data[2] will now contain { id: 42, name: \"name1\", language: [\"en\"]}\n// then, returns { \"updatedId\": 42, \"updatedName\": \"updated name\", \"updatedLanguage\": \"en\" }\nquery(\n  `\n  (\n    data[2].id is ? as updatedId,\n    data[2].name is ? as updatedName,\n    data[2].language[] is ? as updatedLanguage\n  )\n  `,\n  object,\n  [\n    42,\n    \"updated name\",\n    \"en\"\n  ]\n);\n```\n\n#### Unset value\n\n**Simple remove property**\n```js\n\n// removes \"message\" property.\n// returns last value \"Ok\".\nquery(\n  \"! message\",\n  object\n);\n\n// removes \"message\" property.\n//  then, removes \"name\" property in data[0].\n//  then, removes \"language\" property in data[0].\n//  then, pops \"0\" index in data[0].language array.\n// returns old values [ \"Ok\", \"name1\", \"en\" ].\nquery(\n  `\n  (\n    ! message,\n    data[0] ! name,\n    data[0] ! language ! 0\n  )\n  `,\n  object\n);\n```\n\n## Query Language\n\nSupported Lexical Structures.\n\n### Lexical Structure\n\n```\n#####################################\n# Reference declarations (optional)\n#####################################\n\n[`identifier` from `expression`;]\n  ...\n  [`identifier` from `expression`;]\n\n\n#####################################\n# Main expression (required)\n#####################################\n\n`expression` [as `identifier`] [is `expression`]\n    ...\n    , `expression` [as `identifier`] [is `expression`]\n\n\n```\n\n### References\n\n**Using references**\n\n```\n// reference declaration\n\nmyReference from data[1].value;\n\n// using reference with @\n\n@myReference.length\n```\n\n### Scalar and Literals\n\nScalars are literally declared as seen in the examples.\n\n\nType | Example | Description\n--- | --- | ---\nInteger | `10`<br><br>`-2`<br><br>`+500` | Whole number.\nFloat | `.5`<br><br>`1.5`<br><br>`-0.1` | Number with precision\nPercent | `-1%`<br><br>`210%` | Float multiplied by .01\nString | `\"double quote\"`<br><br>`'single quote'`<br><br>`'\\n escaped next line'` | Enclosed in double quote and single quote\n\n\n### List\n\nLists are internally Javascript Array instance.\n\nIt can be composed using parenthesis `(1, 2, \"last item\")`.\n\nResult Type | Example | Description\n--- | --- | ---\nArray | `(1,2,3)`<br><br>`(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`\"diko\",`<br>&nbsp;&nbsp;&nbsp;&nbsp;`3,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`@myValue`<br>`)` | Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.\n\n\n### Object\n\nObjects are internally Javascript Object instance.\n\nIt can be composed using parenthesis with properties defined using `as` operator `(1 as first, 2 as seconds, \"last item\" as last)`.\n\n\nResult Type | Example | Description\n--- | --- | ---\nObject | (1 **as** first, 2 **as** second, 3 **as** third)<br><br>(<br>&nbsp;&nbsp;&nbsp;&nbsp;\"diko\" **as** name,<br>&nbsp;&nbsp;&nbsp;&nbsp;3 **as** count,<br>&nbsp;&nbsp;&nbsp;&nbsp;@myValue **as** value<br>) | Struct data containing properties defined using **as** operator and **identifier** as property name.\n\n### Variables\n\n\nResult Type | Operator | Example | Description\n--- | --- | --- | ---\nMixed | **`?`** | data[**?**]<br><br>data[0].id = **?** | Question mark **?** contains any value defined outside the query.<br>Value in **?** contains value listed in **variables** Array argument when calling `query(myquery, targetobject, `**variables**`)` function in order they appear in the query code.<br><br>For example, the first question mark will contain **\"my value\"** string if function is executed like this `query(\"data.?\", target, [`**\"my value\"**`, 1])`\nMixed | **`@`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br><br>**@myReference**.name as name,<br>1 + **@value** as value | Uses the value referenced from **from** declaration.\n\n\n### Arithmetic\n\n Result Type | Operator | Example | Description\n--- | --- | --- | ---\nNumber or,<br>String | **`+`** | 1 **`+`** 2 | Addition.<br>But, result may be a **concatenated string** if one or all of the operands is a **string**.\nNumber | **`-`** | 1 **`-`** 2 | Subtraction.\nNumber | **`*`** | 1 **`*`** 2 | Multiplication.\nNumber | **`/`** | 1 **`/`** 2 | Division.\nNumber | **`%`** | 1 **`%`** 2 | Modulo Division. Resturns remainder of division operation\n\n### Conditional\n\n Result Type | Operator | Example | Description\n--- | --- | --- | ---\nBoolean | **`=`** | 1 **`=`** 2 | Modulo Division.\nBoolean | **`>`** | 1 **`>`** 2 | Addition.\nBoolean | **`>=`** | 1 **`>=`** 2 | Subtraction.\nBoolean | **`<`** | 1 **`<`** 2 | Multiplication.\nBoolean | **`<=`** | 1 **`<=`** 2 | Division.\n\n### Assignment\n\nResult Type | Operator | Example | Description\n--- | --- | --- | ---\nMixed | **`is`** | data[0] **`is`** \"value\" | Assigns **\"value\"** to **data[0]** expression.\n\n### Object Query\n\nResult Type | Operator | Example | Description\n--- | --- | --- | ---\nMixed | **`.`** | data **`.`** propertyName<br>data **`.`** \"propertyName\" **`.`** target = ? | **Extract mode:**<br>Retrieves property of Object.<br><br>**Assign mode:**<br>Assign/Populate property value of the Object.\nMixed | **`[]`** | data **`[1]`**<br><br>data **`[propertyName]`** = ?<br><br>data **`[1..10, 20]`**<br><br>data **`[]`** is ? | **Extract mode:**<br>Retrieves property of an object or item of an Array list if there is only one value or identifier inside **`[]`**.<br><br>It can also act as object property or list index filter if **`[]`** contains none (e.g. **`[]`**), or two or more values (e.g. **`[1, 5, name]`**), or number range (e.g. **`[10..25]`**).<br>The result of list index or object property filter with **`[]`** operator end up as list array.<br><br>**Assign mode:**<br>Assign/populate list item or object property value. May also do multiple assignment of values when **`[]`** operator results in object property or list index filter.\nMixed | **`as`** | data[0] **as** propertyName |  ",
+    "content": "# JSON Query\n\n## Usage\n\n### Importing `query` function from @dikotech/basic\n\nCommonJS\n\n```js\nconst query = require(\"@dikotech/basic\").query;\n```\n\nECMAScript module\n\n```js\nimport { query } from \"@dikotech/basic\";\n```\n### Simple Query\n\n```js\n// returns 9\nquery(\n  \"(1 + 2) * 3\"\n);\n\n// returns false\nquery(\n  \"5 > 6\"\n);\n\n// returns true\nquery(\n  \"5 <= 6\"\n);\n```\n\n### Select/Extract JSON data\n\n**With sample JSON**\n\n```json\n{\n  \"message\": \"Ok\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"name1\",\n      \"language\": [\n        \"en\",\n        \"fr\",\n        1,\n        \"de\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"name\": \"name2\"\n    }\n  ]\n}\n```\n\n#### Simple Extract data\n\n```js\n// returns 1\nquery(\n  \"data[0].id\",\n  object\n);\n```\n\n#### Extract and Compose\n\n**Composing array/list**\n\n```js\n// returns [ \"en\", \"fr\", \"de\" ]\nquery(\n  `\n  [\n    data[0].language[0],\n    data[0].language[1],\n    data[0].language[3]\n  ]\n  `,\n  object\n);\n```\n\n**Composing object**\n\n```js\n//  returns { \"found\": 1, \"nextName\": \"name1\" }\nquery(\n  `\n  {\n    found: data[0].id,\n    nextName: data[1].name\n  }\n  `,\n  object\n);\n```\n\n### Manipulate JSON data\n\n**With sample JSON**\n\n```json\n{\n  \"message\": \"Ok\",\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"name1\",\n      \"language\": [\n        \"en\",\n        \"fr\"\n      ]\n    },\n    {\n      \"id\": 2,\n      \"name\": \"name2\"\n    }\n  ]\n}\n```\n\n#### Set value\n\n**Simple set value**\n\n```js\n// data[0] will now contain { id: 42, name: \"name1\", language: [\"en\", \"fr\"]}\n// then, returns 42\nquery(\n  \"data[0].id = 42\",\n  object\n);\n```\n\n**Multiple set value**\n\n```js\n// data[0] will now contain { id: 42, name: \"name1\", language: [\"en\", \"fr\"]}\n// data[1] will now contain { id: 2, name: \"updated name\", language: [\"en\"]}\n// then, returns [42, \"updated name\", \"en\" ]\nquery(\n  `\n  [\n    data[0].id = ?,\n    data[1].name = ?,\n    data[1].language[] = ?\n  ]\n  `,\n  object,\n  [\n    42,\n    \"updated name\",\n    \"en\"\n  ]\n);\n\n// data[0] will now contain { id: 42, name: \"name1\", language: [\"en\", \"fr\"]}\n// data[1] will now contain { id: 2, name: \"updated name\", language: [\"en\"]}\n// then, returns { \"updatedId\": 42, \"updatedName\": \"updated name\", \"updatedLanguage\": \"en\" }\nquery(\n  `\n  {\n    updatedId: data[0].id = ?,\n    updatedName: data[1].name = ?,\n    updatedLanguage: data[1].language[] = ?\n  }\n  `,\n  object,\n  [\n    42,\n    \"updated name\",\n    \"en\"\n  ]\n);\n\n// creates new item in \"data\" array indexed by \"2\".\n// data[2] will now contain { id: 42, name: \"name1\", language: [\"en\"]}\n// then, returns { \"updatedId\": 42, \"updatedName\": \"updated name\", \"updatedLanguage\": \"en\" }\nquery(\n  `\n  {\n    updatedId: data[2].id = ?,\n    updatedName: data[2].name = ?,\n    updatedLanguage: data[2].language[] = ?\n  }\n  `,\n  object,\n  [\n    42,\n    \"updated name\",\n    \"en\"\n  ]\n);\n```\n\n#### Unset value\n\n**Simple remove property**\n```js\n\n// removes \"message\" property.\n// returns last value \"Ok\".\nquery(\n  \"delete message\",\n  object\n);\n\n// removes \"message\" property.\n//  then, removes \"name\" property in data[0].\n//  then, removes \"language\" property in data[0].\n//  then, pops \"0\" index in data[0].language array.\n// returns old values [ \"Ok\", \"name1\", \"en\" ].\nquery(\n  `\n  [\n    delete message,\n    delete data[0].name,\n    delete data[0].language,\n    delete data[0]\n  ]\n  `,\n  object\n);\n```\n\n## Query Language\n\nSupported Lexical Structures.\n\n### Lexical Structure\n\n```\n#####################################\n# Reference declarations (optional)\n#####################################\n\n[`identifier` from `expression`;]\n  ...\n  [`identifier` from `expression`;]\n\n\n#####################################\n# Main expression (required)\n#####################################\n\n# return result of `expression`\n`expression`\n\n  # or, return composed array\n  |\n    `[`\n      `expression`\n      [, `expression`]\n      [, `expression`]\n    `]`\n\n  # or, return composed object\n  |\n    `{`\n      `identifier`: `expression`\n      [, `identifier`: `expression`]\n      [, `identifier`: `expression`]\n    `}`\n\n\n```\n\n### References\n\n**Using references**\n\n```\n// reference declaration\n\nmyReference from data[1].value;\nfirstElement from data[0];\ncustomValue from ?;\n\n// using reference with @\n{\n  count: @myReference.length,\n  first: @firstElement,\n  value: @customValue\n}\n```\n\n### Scalar and Literals\n\nScalars are literally declared as seen in the examples.\n\n\nType | Example | Description\n--- | --- | ---\nInteger | `10`<br><br>`-2`<br><br>`+500` | Whole number.\nFloat | `.5`<br><br>`1.5`<br><br>`-0.1` | Number with precision\nPercent | `-1%`<br><br>`210%` | Float multiplied by .01\nString | `\"double quote\"`<br><br>`'single quote'`<br><br>`'\\n escaped next line'` | Enclosed in double quote and single quote\n\n\n### Array/List\n\nLists are internally Javascript Array instance.\n\nIt can be composed by enclosing items with brackets `[]` like: `[1, 2, \"last item\"]`.\n\nResult Type | Example | Description\n--- | --- | ---\nArray | `[1,2,3]`<br><br>`[`<br>&nbsp;&nbsp;&nbsp;&nbsp;`\"diko\",`<br>&nbsp;&nbsp;&nbsp;&nbsp;`3,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`@myValue`<br>`]` | Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.\n\n\n### Object\n\nObjects are internal Javascript Object instance.\n\nIt can be composed by enclosing properties with braces `{}`.\n\nProperties are named with `identifiers` followed by colon `:`, then an `expression` representing value of the property.\n\n```js\n{\n  first: 1,\n  seconds: 2,\n  last: \"last item\"\n}\n```\n\n\nResult Type | Example | Description\n--- | --- | ---\nObject | { first: 1, seconds: 2 , third: 3 }<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;name: \"diko\",<br>&nbsp;&nbsp;&nbsp;&nbsp;\"count\": 3,<br>&nbsp;&nbsp;&nbsp;&nbsp;value: @myValue<br>} | Struct data containing properties defined using **:** operator and **identifier** as property name.\n\n### Variables\n\n\nResult Type | Operator | Example | Description\n--- | --- | --- | ---\nMixed | **`?`** | data[**?**]<br><br>data[0].id = **?** | Question mark **?** contains any value defined outside the query.<br>Value in **?** contains value listed in **variables** Array argument when calling `query(myquery, targetobject, `**variables**`)` function in order they appear in the query code.<br><br>For example, the first question mark will contain **\"my value\"** string if function is executed like this `query(\"data.?\", target, [`**\"my value\"**`, 1])`\nMixed | **`@`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br>another *from* ?;<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;name: **@myReference**.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;value: 1 + **@value**,<br>&nbsp;&nbsp;&nbsp;&nbsp;scope: **@**,<br>&nbsp;&nbsp;&nbsp;&nbsp;custom: **@1**<br>} | Uses value referenced from **from** declaration. <br><br>**@** can also be used to reference root object if not followed by identifier.<br><br>**@** can represent **?** variable when it's followed by numeric identifier such as **@1**, or **@3**.\n\n\n### Arithmetic\n\n Result Type | Operator | Example | Description\n--- | --- | --- | ---\nNumber or,<br>String | **`+`** | 1 **`+`** 2 | Addition.<br>But, result may be a **concatenated string** if one or all of the operands is a **string**.\nNumber | **`-`** | 1 **`-`** 2 | Subtraction.\nNumber | **`*`** | 1 **`*`** 2 | Multiplication.\nNumber | **`/`** | 1 **`/`** 2 | Division.\nNumber | **`%`** | 1 **`%`** 2 | Modulo Division. Resturns remainder of division operation\n\n### Conditional\n\n Result Type | Operator | Example | Description\n--- | --- | --- | ---\nBoolean | **`==`** | 1 **`==`** 2 | Modulo Division.\nBoolean | **`>`** | 1 **`>`** 2 | Addition.\nBoolean | **`>=`** | 1 **`>=`** 2 | Subtraction.\nBoolean | **`<`** | 1 **`<`** 2 | Multiplication.\nBoolean | **`<=`** | 1 **`<=`** 2 | Division.\n\n### Assignment\n\nResult Type | Operator | Example | Description\n--- | --- | --- | ---\nMixed | **`=`** | data[0].value **`=`** \"value\" | Assigns **\"value\"** to **data[0].value** expression. <br>Take note that if zero \"0\" don't exist, zero index will be created with empty object.\n\n### Object Query\n\nResult Type | Operator | Example | Description\n--- | --- | --- | ---\nMixed | **`.`** | data **`.`** propertyName<br>data **`.`** \"propertyName\" **`.`** target = ? | **Extract mode:**<br>Retrieves property of Object.<br><br>**Assign mode:**<br>Assign/Populate property value of the Object.\nMixed | **`[]`** | data **`[1]`**<br><br>data **`[propertyName]`** = ?<br><br>data **`[1..10, 20]`**<br><br>data **`[]`** is ? | **Extract mode:**<br>Retrieves property of an object or item of an Array list if there is only one value or identifier inside **`[]`**.<br><br>It can also act as object property or list index filter if **`[]`** contains none (e.g. **`[]`**), or two or more values (e.g. **`[1, 5, name]`**), or number range (e.g. **`[10..25]`**).<br>The result of list index or object property filter with **`[]`** operator end up as list array.<br><br>**Assign mode:**<br>Assign/populate list item or object property value. May also do multiple assignment of values when **`[]`** operator results in object property or list index filter.\nMixed | **`:`** | propertyName **:** data[0] | **Compose mode:**<br>Assign property value of an object with the given identifier.",
     "static": true,
     "access": "public"
   }

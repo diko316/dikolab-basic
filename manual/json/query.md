@@ -78,11 +78,11 @@ query(
 // returns [ "en", "fr", "de" ]
 query(
   `
-  (
+  [
     data[0].language[0],
     data[0].language[1],
     data[0].language[3]
-  )
+  ]
   `,
   object
 );
@@ -94,10 +94,10 @@ query(
 //  returns { "found": 1, "nextName": "name1" }
 query(
   `
-  (
-    data[0].id as found,
-    data[1].name as nextName
-  )
+  {
+    found: data[0].id,
+    nextName: data[1].name
+  }
   `,
   object
 );
@@ -135,7 +135,7 @@ query(
 // data[0] will now contain { id: 42, name: "name1", language: ["en", "fr"]}
 // then, returns 42
 query(
-  "data[0].id is 42",
+  "data[0].id = 42",
   object
 );
 ```
@@ -148,11 +148,11 @@ query(
 // then, returns [42, "updated name", "en" ]
 query(
   `
-  (
-    data[0].id is ?,
-    data[1].name is ?,
-    data[1].language[] is ?
-  )
+  [
+    data[0].id = ?,
+    data[1].name = ?,
+    data[1].language[] = ?
+  ]
   `,
   object,
   [
@@ -167,11 +167,11 @@ query(
 // then, returns { "updatedId": 42, "updatedName": "updated name", "updatedLanguage": "en" }
 query(
   `
-  (
-    data[0].id is ? as updatedId,
-    data[1].name is ? as updatedName,
-    data[1].language[] is ? as updatedLanguage
-  )
+  {
+    updatedId: data[0].id = ?,
+    updatedName: data[1].name = ?,
+    updatedLanguage: data[1].language[] = ?
+  }
   `,
   object,
   [
@@ -186,11 +186,11 @@ query(
 // then, returns { "updatedId": 42, "updatedName": "updated name", "updatedLanguage": "en" }
 query(
   `
-  (
-    data[2].id is ? as updatedId,
-    data[2].name is ? as updatedName,
-    data[2].language[] is ? as updatedLanguage
-  )
+  {
+    updatedId: data[2].id = ?,
+    updatedName: data[2].name = ?,
+    updatedLanguage: data[2].language[] = ?
+  }
   `,
   object,
   [
@@ -209,7 +209,7 @@ query(
 // removes "message" property.
 // returns last value "Ok".
 query(
-  "! message",
+  "delete message",
   object
 );
 
@@ -220,11 +220,12 @@ query(
 // returns old values [ "Ok", "name1", "en" ].
 query(
   `
-  (
-    ! message,
-    data[0] ! name,
-    data[0] ! language ! 0
-  )
+  [
+    delete message,
+    delete data[0].name,
+    delete data[0].language,
+    delete data[0]
+  ]
   `,
   object
 );
@@ -250,9 +251,24 @@ Supported Lexical Structures.
 # Main expression (required)
 #####################################
 
-`expression` [as `identifier`] [is `expression`]
-    ...
-    , `expression` [as `identifier`] [is `expression`]
+# return result of `expression`
+`expression`
+
+  # or, return composed array
+  |
+    `[`
+      `expression`
+      [, `expression`]
+      [, `expression`]
+    `]`
+
+  # or, return composed object
+  |
+    `{`
+      `identifier`: `expression`
+      [, `identifier`: `expression`]
+      [, `identifier`: `expression`]
+    `}`
 
 
 ```
@@ -265,10 +281,15 @@ Supported Lexical Structures.
 // reference declaration
 
 myReference from data[1].value;
+firstElement from data[0];
+customValue from ?;
 
 // using reference with @
-
-@myReference.length
+{
+  count: @myReference.length,
+  first: @firstElement,
+  value: @customValue
+}
 ```
 
 ### Scalar and Literals
@@ -284,27 +305,37 @@ Percent | `-1%`<br><br>`210%` | Float multiplied by .01
 String | `"double quote"`<br><br>`'single quote'`<br><br>`'\n escaped next line'` | Enclosed in double quote and single quote
 
 
-### List
+### Array/List
 
 Lists are internally Javascript Array instance.
 
-It can be composed using parenthesis `(1, 2, "last item")`.
+It can be composed by enclosing items with brackets `[]` like: `[1, 2, "last item"]`.
 
 Result Type | Example | Description
 --- | --- | ---
-Array | `(1,2,3)`<br><br>`(`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"diko",`<br>&nbsp;&nbsp;&nbsp;&nbsp;`3,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`@myValue`<br>`)` | Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.
+Array | `[1,2,3]`<br><br>`[`<br>&nbsp;&nbsp;&nbsp;&nbsp;`"diko",`<br>&nbsp;&nbsp;&nbsp;&nbsp;`3,`<br>&nbsp;&nbsp;&nbsp;&nbsp;`@myValue`<br>`]` | Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.
 
 
 ### Object
 
-Objects are internally Javascript Object instance.
+Objects are internal Javascript Object instance.
 
-It can be composed using parenthesis with properties defined using `as` operator `(1 as first, 2 as seconds, "last item" as last)`.
+It can be composed by enclosing properties with braces `{}`.
+
+Properties are named with `identifiers` followed by colon `:`, then an `expression` representing value of the property.
+
+```js
+{
+  first: 1,
+  seconds: 2,
+  last: "last item"
+}
+```
 
 
 Result Type | Example | Description
 --- | --- | ---
-Object | (1 **as** first, 2 **as** second, 3 **as** third)<br><br>(<br>&nbsp;&nbsp;&nbsp;&nbsp;"diko" **as** name,<br>&nbsp;&nbsp;&nbsp;&nbsp;3 **as** count,<br>&nbsp;&nbsp;&nbsp;&nbsp;@myValue **as** value<br>) | Struct data containing properties defined using **as** operator and **identifier** as property name.
+Object | { first: 1, seconds: 2 , third: 3 }<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;name: "diko",<br>&nbsp;&nbsp;&nbsp;&nbsp;"count": 3,<br>&nbsp;&nbsp;&nbsp;&nbsp;value: @myValue<br>} | Struct data containing properties defined using **:** operator and **identifier** as property name.
 
 ### Variables
 
@@ -312,7 +343,7 @@ Object | (1 **as** first, 2 **as** second, 3 **as** third)<br><br>(<br>&nbsp;&nb
 Result Type | Operator | Example | Description
 --- | --- | --- | ---
 Mixed | **`?`** | data[**?**]<br><br>data[0].id = **?** | Question mark **?** contains any value defined outside the query.<br>Value in **?** contains value listed in **variables** Array argument when calling `query(myquery, targetobject, `**variables**`)` function in order they appear in the query code.<br><br>For example, the first question mark will contain **"my value"** string if function is executed like this `query("data.?", target, [`**"my value"**`, 1])`
-Mixed | **`@`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br><br>**@myReference**.name as name,<br>1 + **@value** as value | Uses the value referenced from **from** declaration.
+Mixed | **`@`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br>another *from* ?;<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;name: **@myReference**.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;value: 1 + **@value**,<br>&nbsp;&nbsp;&nbsp;&nbsp;scope: **@**,<br>&nbsp;&nbsp;&nbsp;&nbsp;custom: **@1**<br>} | Uses value referenced from **from** declaration. <br><br>**@** can also be used to reference root object if not followed by identifier.<br><br>**@** can represent **?** variable when it's followed by numeric identifier such as **@1**, or **@3**.
 
 
 ### Arithmetic
@@ -329,7 +360,7 @@ Number | **`%`** | 1 **`%`** 2 | Modulo Division. Resturns remainder of division
 
  Result Type | Operator | Example | Description
 --- | --- | --- | ---
-Boolean | **`=`** | 1 **`=`** 2 | Modulo Division.
+Boolean | **`==`** | 1 **`==`** 2 | Modulo Division.
 Boolean | **`>`** | 1 **`>`** 2 | Addition.
 Boolean | **`>=`** | 1 **`>=`** 2 | Subtraction.
 Boolean | **`<`** | 1 **`<`** 2 | Multiplication.
@@ -339,7 +370,7 @@ Boolean | **`<=`** | 1 **`<=`** 2 | Division.
 
 Result Type | Operator | Example | Description
 --- | --- | --- | ---
-Mixed | **`is`** | data[0] **`is`** "value" | Assigns **"value"** to **data[0]** expression.
+Mixed | **`=`** | data[0].value **`=`** "value" | Assigns **"value"** to **data[0].value** expression. <br>Take note that if zero "0" don't exist, zero index will be created with empty object.
 
 ### Object Query
 
@@ -347,4 +378,4 @@ Result Type | Operator | Example | Description
 --- | --- | --- | ---
 Mixed | **`.`** | data **`.`** propertyName<br>data **`.`** "propertyName" **`.`** target = ? | **Extract mode:**<br>Retrieves property of Object.<br><br>**Assign mode:**<br>Assign/Populate property value of the Object.
 Mixed | **`[]`** | data **`[1]`**<br><br>data **`[propertyName]`** = ?<br><br>data **`[1..10, 20]`**<br><br>data **`[]`** is ? | **Extract mode:**<br>Retrieves property of an object or item of an Array list if there is only one value or identifier inside **`[]`**.<br><br>It can also act as object property or list index filter if **`[]`** contains none (e.g. **`[]`**), or two or more values (e.g. **`[1, 5, name]`**), or number range (e.g. **`[10..25]`**).<br>The result of list index or object property filter with **`[]`** operator end up as list array.<br><br>**Assign mode:**<br>Assign/populate list item or object property value. May also do multiple assignment of values when **`[]`** operator results in object property or list index filter.
-Mixed | **`as`** | data[0] **as** propertyName |  
+Mixed | **`:`** | propertyName **:** data[0] | **Compose mode:**<br>Assign property value of an object with the given identifier.

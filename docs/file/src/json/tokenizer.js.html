@@ -83,18 +83,17 @@ import {
 
 import {
   TOKENIZER_WILDCARD,
-  TOKENIZER_KEYWORD_LIST,
   LINE_CHARACTER,
   DOUBLE_QUOTE,
   ESCAPED_DOUBLE_QUOTE,
   SINGLE_QUOTE,
   ESCAPED_SINGLE_QUOTE,
-  SINGLE_TO_DOUBLE_QUOTE
+  QUOTE_ESCAPE_REGEXP
 } from &quot;./constants&quot;;
 
 import STATES from &quot;./tokenizer-states.json&quot;;
 
-function replaceSingleQuote(all) {
+function replaceQuote(all) {
   switch (all) {
   case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
   case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
@@ -105,10 +104,10 @@ function replaceSingleQuote(all) {
 export function tokenize(input, startIndex) {
   const emptyString = EMPTY_STRING;
   const doubleQuote = DOUBLE_QUOTE;
-  const singleToDoubleQuoteRegexp = SINGLE_TO_DOUBLE_QUOTE;
-  const keywords = TOKENIZER_KEYWORD_LIST;
+  const quoteRegexp = QUOTE_ESCAPE_REGEXP;
   const wildcard = TOKENIZER_WILDCARD;
   const reference = STATES;
+  const keywords = reference.keywords;
   const states = reference.state;
   const ends = reference.ends;
   const anchor = MATH_MAX(0, 1 * startIndex || 0);
@@ -170,15 +169,15 @@ export function tokenize(input, startIndex) {
       }
       break;
     case &quot;string&quot;:
-      found = JSON.parse(
-        found.charAt(0) === doubleQuote
-          ? found
-          : ([
-            doubleQuote,
-            found.substring(1, found.length - 1).replace(singleToDoubleQuoteRegexp, replaceSingleQuote),
-            doubleQuote
-          ]).join(emptyString)
-      );
+      found = ([
+        doubleQuote,
+        found.substring(1, found.length - 1)
+          .replace(
+            quoteRegexp,
+            replaceQuote
+          ),
+        doubleQuote
+      ]).join(emptyString);
       break;
     case &quot;:call(&quot;:
       found = found.substring(1, found.length - 1);

@@ -546,60 +546,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/json/compile.js",
-    "file/src/json/compile.js.html",
-    "src/json/compile.js",
-    "file"
-  ],
-  [
-    "src/json/compile/arithmetic.js",
-    "file/src/json/compile/arithmetic.js.html",
-    "src/json/compile/arithmetic.js",
-    "file"
-  ],
-  [
-    "src/json/compile/condition.js",
-    "file/src/json/compile/condition.js.html",
-    "src/json/compile/condition.js",
-    "file"
-  ],
-  [
-    "src/json/compile/initialize.js",
-    "file/src/json/compile/initialize.js.html",
-    "src/json/compile/initialize.js",
-    "file"
-  ],
-  [
-    "src/json/compile/object-access.js",
-    "file/src/json/compile/object-access.js.html",
-    "src/json/compile/object-access.js",
-    "file"
-  ],
-  [
-    "src/json/compile/object.js",
-    "file/src/json/compile/object.js.html",
-    "src/json/compile/object.js",
-    "file"
-  ],
-  [
-    "src/json/compile/operand.js",
-    "file/src/json/compile/operand.js.html",
-    "src/json/compile/operand.js",
-    "file"
-  ],
-  [
-    "src/json/compile/query.js",
-    "file/src/json/compile/query.js.html",
-    "src/json/compile/query.js",
-    "file"
-  ],
-  [
-    "src/json/constants.js",
-    "file/src/json/constants.js.html",
-    "src/json/constants.js",
-    "file"
-  ],
-  [
     "src/json/error-reporting.js",
     "file/src/json/error-reporting.js.html",
     "src/json/error-reporting.js",
@@ -609,12 +555,6 @@ window.esdocSearchIndex = [
     "src/json/index.js",
     "file/src/json/index.js.html",
     "src/json/index.js",
-    "file"
-  ],
-  [
-    "src/json/parser.js",
-    "file/src/json/parser.js.html",
-    "src/json/parser.js",
     "file"
   ],
   [

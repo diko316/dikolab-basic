@@ -51,7 +51,7 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#lexical-structure" data-ice="link">Lexical Structure</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#references" data-ice="link">References</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#scalar-and-literals" data-ice="link">Scalar and Literals</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#list" data-ice="link">List</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#array-list" data-ice="link">Array/List</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#object" data-ice="link">Object</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#variables" data-ice="link">Variables</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#arithmetic" data-ice="link">Arithmetic</a></li>
@@ -121,21 +121,21 @@ query(
 </code></pre><h4>Extract and Compose</h4><p><strong>Composing array/list</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot;, &quot;de&quot; ]
 query(
   `
-  (
+  [
     data[0].language[0],
     data[0].language[1],
     data[0].language[3]
-  )
+  ]
   `,
   object
 );</code>
 </code></pre><p><strong>Composing object</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">//  returns { &quot;found&quot;: 1, &quot;nextName&quot;: &quot;name1&quot; }
 query(
   `
-  (
-    data[0].id as found,
-    data[1].name as nextName
-  )
+  {
+    found: data[0].id,
+    nextName: data[1].name
+  }
   `,
   object
 );</code>
@@ -159,7 +159,7 @@ query(
 </code></pre><h4>Set value</h4><p><strong>Simple set value</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
 // then, returns 42
 query(
-  &quot;data[0].id is 42&quot;,
+  &quot;data[0].id = 42&quot;,
   object
 );</code>
 </code></pre><p><strong>Multiple set value</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
@@ -167,11 +167,11 @@ query(
 // then, returns [42, &quot;updated name&quot;, &quot;en&quot; ]
 query(
   `
-  (
-    data[0].id is ?,
-    data[1].name is ?,
-    data[1].language[] is ?
-  )
+  [
+    data[0].id = ?,
+    data[1].name = ?,
+    data[1].language[] = ?
+  ]
   `,
   object,
   [
@@ -186,11 +186,11 @@ query(
 // then, returns { &quot;updatedId&quot;: 42, &quot;updatedName&quot;: &quot;updated name&quot;, &quot;updatedLanguage&quot;: &quot;en&quot; }
 query(
   `
-  (
-    data[0].id is ? as updatedId,
-    data[1].name is ? as updatedName,
-    data[1].language[] is ? as updatedLanguage
-  )
+  {
+    updatedId: data[0].id = ?,
+    updatedName: data[1].name = ?,
+    updatedLanguage: data[1].language[] = ?
+  }
   `,
   object,
   [
@@ -205,11 +205,11 @@ query(
 // then, returns { &quot;updatedId&quot;: 42, &quot;updatedName&quot;: &quot;updated name&quot;, &quot;updatedLanguage&quot;: &quot;en&quot; }
 query(
   `
-  (
-    data[2].id is ? as updatedId,
-    data[2].name is ? as updatedName,
-    data[2].language[] is ? as updatedLanguage
-  )
+  {
+    updatedId: data[2].id = ?,
+    updatedName: data[2].name = ?,
+    updatedLanguage: data[2].language[] = ?
+  }
   `,
   object,
   [
@@ -222,7 +222,7 @@ query(
 // removes &quot;message&quot; property.
 // returns last value &quot;Ok&quot;.
 query(
-  &quot;! message&quot;,
+  &quot;delete message&quot;,
   object
 );
 
@@ -233,11 +233,12 @@ query(
 // returns old values [ &quot;Ok&quot;, &quot;name1&quot;, &quot;en&quot; ].
 query(
   `
-  (
-    ! message,
-    data[0] ! name,
-    data[0] ! language ! 0
-  )
+  [
+    delete message,
+    delete data[0].name,
+    delete data[0].language,
+    delete data[0]
+  ]
   `,
   object
 );</code>
@@ -254,18 +255,38 @@ query(
 # Main expression (required)
 #####################################
 
-`expression` [as `identifier`] [is `expression`]
-    ...
-    , `expression` [as `identifier`] [is `expression`]
+# return result of `expression`
+`expression`
+
+  # or, return composed array
+  |
+    `[`
+      `expression`
+      [, `expression`]
+      [, `expression`]
+    `]`
+
+  # or, return composed object
+  |
+    `{`
+      `identifier`: `expression`
+      [, `identifier`: `expression`]
+      [, `identifier`: `expression`]
+    `}`
 
 </code>
 </code></pre><h3>References</h3><p><strong>Using references</strong></p><pre><code><code class="source-code prettyprint">// reference declaration
 
 myReference from data[1].value;
+firstElement from data[0];
+customValue from ?;
 
 // using reference with @
-
-@myReference.length</code>
+{
+  count: @myReference.length,
+  first: @firstElement,
+  value: @customValue
+}</code>
 </code></pre><h3>Scalar and Literals</h3><p>Scalars are literally declared as seen in the examples.</p><table>
 <thead>
 <tr>
@@ -296,7 +317,7 @@ myReference from data[1].value;
 <td>Enclosed in double quote and single quote</td>
 </tr>
 </tbody>
-</table><h3>List</h3><p>Lists are internally Javascript Array instance.</p><p>It can be composed using parenthesis <code>(1, 2, &quot;last item&quot;)</code>.</p><table>
+</table><h3>Array/List</h3><p>Lists are internally Javascript Array instance.</p><p>It can be composed by enclosing items with brackets <code>[]</code> like: <code>[1, 2, &quot;last item&quot;]</code>.</p><table>
 <thead>
 <tr>
 <th>Result Type</th>
@@ -307,11 +328,16 @@ myReference from data[1].value;
 <tbody>
 <tr>
 <td>Array</td>
-<td><code>(1,2,3)</code><br><br><code>(</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>&quot;diko&quot;,</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>3,</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>@myValue</code><br><code>)</code></td>
+<td><code>[1,2,3]</code><br><br><code>[</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>&quot;diko&quot;,</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>3,</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>@myValue</code><br><code>]</code></td>
 <td>Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.</td>
 </tr>
 </tbody>
-</table><h3>Object</h3><p>Objects are internally Javascript Object instance.</p><p>It can be composed using parenthesis with properties defined using <code>as</code> operator <code>(1 as first, 2 as seconds, &quot;last item&quot; as last)</code>.</p><table>
+</table><h3>Object</h3><p>Objects are internal Javascript Object instance.</p><p>It can be composed by enclosing properties with braces <code>{}</code>.</p><p>Properties are named with <code>identifiers</code> followed by colon <code>:</code>, then an <code>expression</code> representing value of the property.</p><pre><code class="lang-js"><code class="source-code prettyprint">{
+  first: 1,
+  seconds: 2,
+  last: &quot;last item&quot;
+}</code>
+</code></pre><table>
 <thead>
 <tr>
 <th>Result Type</th>
@@ -322,8 +348,8 @@ myReference from data[1].value;
 <tbody>
 <tr>
 <td>Object</td>
-<td>(1 <strong>as</strong> first, 2 <strong>as</strong> second, 3 <strong>as</strong> third)<br><br>(<br>&#xA0;&#xA0;&#xA0;&#xA0;&quot;diko&quot; <strong>as</strong> name,<br>&#xA0;&#xA0;&#xA0;&#xA0;3 <strong>as</strong> count,<br>&#xA0;&#xA0;&#xA0;&#xA0;@myValue <strong>as</strong> value<br>)</td>
-<td>Struct data containing properties defined using <strong>as</strong> operator and <strong>identifier</strong> as property name.</td>
+<td>{ first: 1, seconds: 2 , third: 3 }<br><br>{<br>&#xA0;&#xA0;&#xA0;&#xA0;name: &quot;diko&quot;,<br>&#xA0;&#xA0;&#xA0;&#xA0;&quot;count&quot;: 3,<br>&#xA0;&#xA0;&#xA0;&#xA0;value: @myValue<br>}</td>
+<td>Struct data containing properties defined using <strong>:</strong> operator and <strong>identifier</strong> as property name.</td>
 </tr>
 </tbody>
 </table><h3>Variables</h3><table>
@@ -345,8 +371,8 @@ myReference from data[1].value;
 <tr>
 <td>Mixed</td>
 <td><strong><code>@</code></strong></td>
-<td>myReference <em>from</em> data[1];<br>value <em>from</em> <strong>@myReference</strong>.value;<br><br><strong>@myReference</strong>.name as name,<br>1 + <strong>@value</strong> as value</td>
-<td>Uses the value referenced from <strong>from</strong> declaration.</td>
+<td>myReference <em>from</em> data[1];<br>value <em>from</em> <strong>@myReference</strong>.value;<br>another <em>from</em> ?;<br><br>{<br>&#xA0;&#xA0;&#xA0;&#xA0;name: <strong>@myReference</strong>.name,<br>&#xA0;&#xA0;&#xA0;&#xA0;value: 1 + <strong>@value</strong>,<br>&#xA0;&#xA0;&#xA0;&#xA0;scope: <strong>@</strong>,<br>&#xA0;&#xA0;&#xA0;&#xA0;custom: <strong>@1</strong><br>}</td>
+<td>Uses value referenced from <strong>from</strong> declaration. <br><br><strong>@</strong> can also be used to reference root object if not followed by identifier.<br><br><strong>@</strong> can represent <strong>?</strong> variable when it&apos;s followed by numeric identifier such as <strong>@1</strong>, or <strong>@3</strong>.</td>
 </tr>
 </tbody>
 </table><h3>Arithmetic</h3><table>
@@ -402,8 +428,8 @@ myReference from data[1].value;
 <tbody>
 <tr>
 <td>Boolean</td>
-<td><strong><code>=</code></strong></td>
-<td>1 <strong><code>=</code></strong> 2</td>
+<td><strong><code>==</code></strong></td>
+<td>1 <strong><code>==</code></strong> 2</td>
 <td>Modulo Division.</td>
 </tr>
 <tr>
@@ -443,9 +469,9 @@ myReference from data[1].value;
 <tbody>
 <tr>
 <td>Mixed</td>
-<td><strong><code>is</code></strong></td>
-<td>data[0] <strong><code>is</code></strong> &quot;value&quot;</td>
-<td>Assigns <strong>&quot;value&quot;</strong> to <strong>data[0]</strong> expression.</td>
+<td><strong><code>=</code></strong></td>
+<td>data[0].value <strong><code>=</code></strong> &quot;value&quot;</td>
+<td>Assigns <strong>&quot;value&quot;</strong> to <strong>data[0].value</strong> expression. <br>Take note that if zero &quot;0&quot; don&apos;t exist, zero index will be created with empty object.</td>
 </tr>
 </tbody>
 </table><h3>Object Query</h3><table>
@@ -472,9 +498,9 @@ myReference from data[1].value;
 </tr>
 <tr>
 <td>Mixed</td>
-<td><strong><code>as</code></strong></td>
-<td>data[0] <strong>as</strong> propertyName</td>
-<td></td>
+<td><strong><code>:</code></strong></td>
+<td>propertyName <strong>:</strong> data[0]</td>
+<td><strong>Compose mode:</strong><br>Assign property value of an object with the given identifier.</td>
 </tr>
 </tbody>
 </table></div>

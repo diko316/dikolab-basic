@@ -1,0 +1,242 @@
+{
+  "root": "JsonQuery",
+  "grammar": {
+    "JsonQuery": [
+      ["Refs", "Stmt", "$"],
+      ["Stmt", "$"]
+    ],
+    "Refs": [
+      ["Refs", "Ref", ";"],
+      ["Ref", ";"]
+    ],
+    "Ref": [
+      ["ident", "from", "Stmt"]
+    ],
+    "Stmt": [
+      ["Assignment"],
+      ["Cond"],
+      ["Or"]
+    ],
+
+    "Assignment": [
+      ["JsonPath", "=", "Stmt"]
+    ],
+
+    "Cond": [
+      ["Or", "?", "Stmt", ":", "Stmt"]
+    ],
+
+    "Or": [
+      ["Or", "||", "And"],
+      ["And"]
+    ],
+
+    "And": [
+      ["And", "&&", "Logical"],
+      ["Logical"]
+    ],
+
+    "Logical": [
+      ["Eq"],
+      ["Neq"],
+      ["Match"],
+      ["Gt"],
+      ["Gte"],
+      ["Lt"],
+      ["Lte"],
+      ["Comp"]
+    ],
+
+    "Eq": [
+      ["Comp", "==", "Comp"],
+      ["Comp", "===", "Comp"]
+    ],
+
+    "Neq": [
+      ["Comp", "!=", "Comp"],
+      ["Comp", "!==", "Comp"]
+    ],
+
+    "Match": [
+      ["Scalar", "~=", "Matcher"]
+    ],
+
+    "Matcher": [
+      ["Scalar"],
+      ["regex"]
+    ],
+
+    "Comp": [
+      ["Object"],
+      ["Array"],
+      ["regex"],
+      ["Boolean"],
+      ["Scalar"]
+    ],
+
+    "Gt": [
+      ["Scalar", ">", "Scalar"]
+    ],
+
+    "Gte": [
+      ["Scalar", ">=", "Scalar"]
+    ],
+
+    "Lt": [
+      ["Scalar", "<", "Scalar"]
+    ],
+
+    "Lte": [
+      ["Scalar", "<=", "Scalar"]
+    ],
+
+    "Scalar": [
+      ["Term"],
+      ["string"],
+      ["Concat"]
+    ],
+
+    "Object": [
+      ["{", "Props", "}"],
+      ["{", "}"]
+    ],
+
+    "Props": [
+      ["Props", ",", "PropsDef"],
+      ["PropsDef"]
+    ],
+
+    "PropsDef": [
+      ["ident", ":", "Stmt"]
+    ],
+
+    "Array": [
+      ["[", "ArrayItems", "]"],
+      ["[", "]"]
+    ],
+
+    "ArrayItems": [
+      ["ArrayItems", ",", "Stmt"],
+      ["Stmt"]
+    ],
+
+    "Boolean": [
+      ["!", "Base"],
+      ["true"],
+      ["false"]
+    ],
+
+    "Concat": [
+      ["Concat", "+", "String"],
+      ["string", "+", "String"]
+    ],
+
+    "String": [
+      ["Term"],
+      ["string"]
+    ],
+
+    "Term": [
+      ["Term", "+", "Factor"],
+      ["Term", "-", "Factor"],
+      ["Factor"]
+    ],
+
+    "Factor": [
+      ["Factor", "*", "Numeric"],
+      ["Factor", "/", "Numeric"],
+      ["Factor", "%", "Numeric"],
+      ["Numeric", "^", "Factor"],
+      ["Numeric"]
+    ],
+
+    "Numeric": [
+      ["(", "Stmt", ")"],
+      ["Call"],
+      ["JsonPath"],
+      ["Signed"],
+      ["Number"]
+    ],
+
+    "Call": [
+      ["ident", "(", "Params", ")"]
+    ],
+
+    "Params": [
+      ["Params", ",", "Stmt"],
+      ["Stmt"]
+    ],
+
+    "JsonPath": [
+      ["JsonListify"],
+      ["JsonFilter"],
+      ["JsonAccess"],
+      ["JsonProps"],
+      ["Variable"],
+      ["ident"]
+    ],
+
+    "JsonProps": [
+      ["JsonPath", ".", "*"]
+    ],
+    "JsonListify": [
+      ["JsonPath", "[", "]"]
+    ],
+
+    "JsonAccess": [
+      ["JsonPath", ".", "JsonKey"],
+      ["JsonPath", "[", "JsonKeyIndex", "]"]
+    ],
+
+    "JsonFilter": [
+      ["JsonPath", "[", "JsonKeys", "]"]
+    ],
+
+    "JsonKey": [
+      ["ident"],
+      ["string"],
+      ["JsonKeyIndex"]
+    ],
+
+    "JsonKeys": [
+      ["JsonKeys", ",", "JsonKeyIndex"],
+      ["JsonKeyIndex", ",", "JsonKeyIndex"]
+    ],
+
+    "JsonKeyIndex": [
+      ["integer"],
+      ["Variable"],
+      ["(", "JsonPath", ")"]
+    ],
+
+    "Variable": [
+      ["VarRef"],
+      ["VarIndex"],
+      ["Root"]
+    ],
+
+    "VarRef": [
+      ["@", "ident"]
+    ],
+
+    "VarIndex": [
+      ["@", "integer"],
+      ["?"]
+    ],
+
+    "Root": [
+      ["@"]
+    ],
+
+    "Signed": [
+      ["-", "Number"],
+      ["+", "Number"]
+    ],
+
+    "Number": [
+      ["float"],
+      ["integer"],
+      ["percent"]
+    ]
+  }
+}

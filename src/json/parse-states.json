@@ -1,0 +1,2337 @@
+{
+  "root": "JsonQuery",
+  "initialState": "s1",
+  "states": {
+    "s1": {
+      "Refs": "s2",
+      "Stmt": "s3",
+      "Ref": "s4",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "ident": "s8",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s2": {
+      "Stmt": "s94",
+      "Ref": "s95",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "ident": "s8",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s3": {
+      "$": "s93"
+    },
+    "s4": {
+      ";": "s92"
+    },
+    "s5": {},
+    "s6": {},
+    "s7": {
+      "?": "s90",
+      "||": "s91"
+    },
+    "s8": {
+      "from": "s88",
+      "(": "s89"
+    },
+    "s9": {
+      "=": "s85",
+      "[": "s86",
+      ".": "s87"
+    },
+    "s10": {
+      "&&": "s84"
+    },
+    "s11": {},
+    "s12": {},
+    "s13": {},
+    "s14": {},
+    "s15": {},
+    "s16": {},
+    "s17": {},
+    "s18": {},
+    "s19": {},
+    "s20": {},
+    "s21": {},
+    "s22": {},
+    "s23": {},
+    "s24": {},
+    "s25": {},
+    "s26": {},
+    "s27": {
+      "==": "s80",
+      "===": "s81",
+      "!=": "s82",
+      "!==": "s83"
+    },
+    "s28": {
+      "ident": "s78",
+      "integer": "s79"
+    },
+    "s29": {},
+    "s30": {
+      "~=": "s73",
+      ">": "s74",
+      ">=": "s75",
+      "<": "s76",
+      "<=": "s77"
+    },
+    "s31": {},
+    "s32": {},
+    "s33": {},
+    "s34": {},
+    "s35": {
+      "+": "s71",
+      "-": "s72"
+    },
+    "s36": {
+      "+": "s70"
+    },
+    "s37": {
+      "+": "s69"
+    },
+    "s38": {
+      "Props": "s65",
+      "}": "s66",
+      "PropsDef": "s67",
+      "ident": "s68"
+    },
+    "s39": {
+      "ArrayItems": "s62",
+      "]": "s63",
+      "Stmt": "s64",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s40": {
+      "Base": "s61"
+    },
+    "s41": {},
+    "s42": {},
+    "s43": {
+      "*": "s58",
+      "/": "s59",
+      "%": "s60"
+    },
+    "s44": {
+      "^": "s57"
+    },
+    "s45": {
+      "Stmt": "s56",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s46": {},
+    "s47": {},
+    "s48": {},
+    "s49": {
+      "Number": "s55",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s50": {
+      "Number": "s54",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s51": {},
+    "s52": {},
+    "s53": {},
+    "s54": {},
+    "s55": {},
+    "s56": {
+      ")": "s142"
+    },
+    "s57": {
+      "Factor": "s141",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s58": {
+      "Numeric": "s140",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s59": {
+      "Numeric": "s139",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s60": {
+      "Numeric": "s138",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s61": {},
+    "s62": {
+      "]": "s136",
+      ",": "s137"
+    },
+    "s63": {},
+    "s64": {},
+    "s65": {
+      "}": "s134",
+      ",": "s135"
+    },
+    "s66": {},
+    "s67": {},
+    "s68": {
+      ":": "s133"
+    },
+    "s69": {
+      "String": "s132",
+      "Term": "s130",
+      "string": "s131",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s70": {
+      "String": "s129",
+      "Term": "s130",
+      "string": "s131",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s71": {
+      "Factor": "s128",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s72": {
+      "Factor": "s127",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s73": {
+      "Matcher": "s124",
+      "Scalar": "s125",
+      "regex": "s126",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s74": {
+      "Scalar": "s123",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s75": {
+      "Scalar": "s122",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s76": {
+      "Scalar": "s121",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s77": {
+      "Scalar": "s120",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s78": {},
+    "s79": {},
+    "s80": {
+      "Comp": "s119",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Scalar": "s30",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s81": {
+      "Comp": "s118",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Scalar": "s30",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s82": {
+      "Comp": "s117",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Scalar": "s30",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s83": {
+      "Comp": "s116",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Scalar": "s30",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s84": {
+      "Logical": "s115",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s85": {
+      "Stmt": "s114",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s86": {
+      "]": "s111",
+      "JsonKeys": "s112",
+      "JsonKeyIndex": "s113",
+      "integer": "s108",
+      "Variable": "s109",
+      "(": "s110",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s87": {
+      "JsonKey": "s103",
+      "*": "s104",
+      "ident": "s105",
+      "string": "s106",
+      "JsonKeyIndex": "s107",
+      "integer": "s108",
+      "Variable": "s109",
+      "(": "s110",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s88": {
+      "Stmt": "s102",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s89": {
+      "Params": "s100",
+      "Stmt": "s101",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s90": {
+      "Stmt": "s99",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s91": {
+      "And": "s98",
+      "Logical": "s16",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "JsonPath": "s9",
+      "Signed": "s47",
+      "Number": "s48",
+      "ident": "s8",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s92": {},
+    "s93": {},
+    "s94": {
+      "$": "s97"
+    },
+    "s95": {
+      ";": "s96"
+    },
+    "s96": {},
+    "s97": {},
+    "s98": {},
+    "s99": {
+      ":": "s153"
+    },
+    "s100": {
+      ")": "s151",
+      ",": "s152"
+    },
+    "s101": {},
+    "s102": {},
+    "s103": {},
+    "s104": {},
+    "s105": {},
+    "s106": {},
+    "s107": {},
+    "s108": {},
+    "s109": {},
+    "s110": {
+      "JsonPath": "s146",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s111": {},
+    "s112": {
+      "]": "s149",
+      ",": "s150"
+    },
+    "s113": {
+      "]": "s147",
+      ",": "s148"
+    },
+    "s114": {},
+    "s115": {},
+    "s116": {},
+    "s117": {},
+    "s118": {},
+    "s119": {},
+    "s120": {},
+    "s121": {},
+    "s122": {},
+    "s123": {},
+    "s124": {},
+    "s125": {},
+    "s126": {},
+    "s127": {},
+    "s128": {},
+    "s129": {},
+    "s130": {},
+    "s131": {},
+    "s132": {},
+    "s133": {
+      "Stmt": "s145",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s134": {},
+    "s135": {
+      "PropsDef": "s144",
+      "ident": "s68"
+    },
+    "s136": {},
+    "s137": {
+      "Stmt": "s143",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s138": {},
+    "s139": {},
+    "s140": {},
+    "s141": {},
+    "s142": {},
+    "s143": {},
+    "s144": {},
+    "s145": {},
+    "s146": {
+      ")": "s156"
+    },
+    "s147": {},
+    "s148": {
+      "JsonKeyIndex": "s158",
+      "integer": "s108",
+      "Variable": "s109",
+      "(": "s110",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s149": {},
+    "s150": {
+      "JsonKeyIndex": "s157",
+      "integer": "s108",
+      "Variable": "s109",
+      "(": "s110",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "@": "s28",
+      "?": "s29"
+    },
+    "s151": {},
+    "s152": {
+      "Stmt": "s155",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s153": {
+      "Stmt": "s154",
+      "Assignment": "s5",
+      "Cond": "s6",
+      "Or": "s7",
+      "JsonPath": "s9",
+      "And": "s10",
+      "JsonListify": "s11",
+      "JsonFilter": "s12",
+      "JsonAccess": "s13",
+      "JsonProps": "s14",
+      "Variable": "s15",
+      "ident": "s8",
+      "Logical": "s16",
+      "VarRef": "s17",
+      "VarIndex": "s18",
+      "Root": "s19",
+      "Eq": "s20",
+      "Neq": "s21",
+      "Match": "s22",
+      "Gt": "s23",
+      "Gte": "s24",
+      "Lt": "s25",
+      "Lte": "s26",
+      "Comp": "s27",
+      "@": "s28",
+      "?": "s29",
+      "Scalar": "s30",
+      "Object": "s31",
+      "Array": "s32",
+      "regex": "s33",
+      "Boolean": "s34",
+      "Term": "s35",
+      "string": "s36",
+      "Concat": "s37",
+      "{": "s38",
+      "[": "s39",
+      "!": "s40",
+      "true": "s41",
+      "false": "s42",
+      "Factor": "s43",
+      "Numeric": "s44",
+      "(": "s45",
+      "Call": "s46",
+      "Signed": "s47",
+      "Number": "s48",
+      "-": "s49",
+      "+": "s50",
+      "float": "s51",
+      "integer": "s52",
+      "percent": "s53"
+    },
+    "s154": {},
+    "s155": {},
+    "s156": {},
+    "s157": {},
+    "s158": {}
+  },
+  "reduce": {
+    "s53": [
+      "Number",
+      1,
+      [
+        "percent"
+      ]
+    ],
+    "s52": [
+      "Number",
+      1,
+      [
+        "integer"
+      ]
+    ],
+    "s51": [
+      "Number",
+      1,
+      [
+        "float"
+      ]
+    ],
+    "s48": [
+      "Numeric",
+      1,
+      [
+        "Number"
+      ]
+    ],
+    "s47": [
+      "Numeric",
+      1,
+      [
+        "Signed"
+      ]
+    ],
+    "s46": [
+      "Numeric",
+      1,
+      [
+        "Call"
+      ]
+    ],
+    "s44": [
+      "Factor",
+      1,
+      [
+        "Numeric"
+      ]
+    ],
+    "s43": [
+      "Term",
+      1,
+      [
+        "Factor"
+      ]
+    ],
+    "s42": [
+      "Boolean",
+      1,
+      [
+        "false"
+      ]
+    ],
+    "s41": [
+      "Boolean",
+      1,
+      [
+        "true"
+      ]
+    ],
+    "s37": [
+      "Scalar",
+      1,
+      [
+        "Concat"
+      ]
+    ],
+    "s36": [
+      "Scalar",
+      1,
+      [
+        "string"
+      ]
+    ],
+    "s35": [
+      "Scalar",
+      1,
+      [
+        "Term"
+      ]
+    ],
+    "s34": [
+      "Comp",
+      1,
+      [
+        "Boolean"
+      ]
+    ],
+    "s33": [
+      "Comp",
+      1,
+      [
+        "regex"
+      ]
+    ],
+    "s32": [
+      "Comp",
+      1,
+      [
+        "Array"
+      ]
+    ],
+    "s31": [
+      "Comp",
+      1,
+      [
+        "Object"
+      ]
+    ],
+    "s30": [
+      "Comp",
+      1,
+      [
+        "Scalar"
+      ]
+    ],
+    "s29": [
+      "VarIndex",
+      1,
+      [
+        "?"
+      ]
+    ],
+    "s28": [
+      "Root",
+      1,
+      [
+        "@"
+      ]
+    ],
+    "s27": [
+      "Logical",
+      1,
+      [
+        "Comp"
+      ]
+    ],
+    "s26": [
+      "Logical",
+      1,
+      [
+        "Lte"
+      ]
+    ],
+    "s25": [
+      "Logical",
+      1,
+      [
+        "Lt"
+      ]
+    ],
+    "s24": [
+      "Logical",
+      1,
+      [
+        "Gte"
+      ]
+    ],
+    "s23": [
+      "Logical",
+      1,
+      [
+        "Gt"
+      ]
+    ],
+    "s22": [
+      "Logical",
+      1,
+      [
+        "Match"
+      ]
+    ],
+    "s21": [
+      "Logical",
+      1,
+      [
+        "Neq"
+      ]
+    ],
+    "s20": [
+      "Logical",
+      1,
+      [
+        "Eq"
+      ]
+    ],
+    "s19": [
+      "Variable",
+      1,
+      [
+        "Root"
+      ]
+    ],
+    "s18": [
+      "Variable",
+      1,
+      [
+        "VarIndex"
+      ]
+    ],
+    "s17": [
+      "Variable",
+      1,
+      [
+        "VarRef"
+      ]
+    ],
+    "s16": [
+      "And",
+      1,
+      [
+        "Logical"
+      ]
+    ],
+    "s15": [
+      "JsonPath",
+      1,
+      [
+        "Variable"
+      ]
+    ],
+    "s14": [
+      "JsonPath",
+      1,
+      [
+        "JsonProps"
+      ]
+    ],
+    "s13": [
+      "JsonPath",
+      1,
+      [
+        "JsonAccess"
+      ]
+    ],
+    "s12": [
+      "JsonPath",
+      1,
+      [
+        "JsonFilter"
+      ]
+    ],
+    "s11": [
+      "JsonPath",
+      1,
+      [
+        "JsonListify"
+      ]
+    ],
+    "s10": [
+      "Or",
+      1,
+      [
+        "And"
+      ]
+    ],
+    "s9": [
+      "Numeric",
+      1,
+      [
+        "JsonPath"
+      ]
+    ],
+    "s8": [
+      "JsonPath",
+      1,
+      [
+        "ident"
+      ]
+    ],
+    "s7": [
+      "Stmt",
+      1,
+      [
+        "Or"
+      ]
+    ],
+    "s6": [
+      "Stmt",
+      1,
+      [
+        "Cond"
+      ]
+    ],
+    "s5": [
+      "Stmt",
+      1,
+      [
+        "Assignment"
+      ]
+    ],
+    "s93": [
+      "JsonQuery",
+      2,
+      [
+        "Stmt",
+        "$"
+      ]
+    ],
+    "s92": [
+      "Refs",
+      2,
+      [
+        "Ref",
+        ";"
+      ]
+    ],
+    "s79": [
+      "VarIndex",
+      2,
+      [
+        "@",
+        "integer"
+      ]
+    ],
+    "s78": [
+      "VarRef",
+      2,
+      [
+        "@",
+        "ident"
+      ]
+    ],
+    "s67": [
+      "Props",
+      1,
+      [
+        "PropsDef"
+      ]
+    ],
+    "s66": [
+      "Object",
+      2,
+      [
+        "{",
+        "}"
+      ]
+    ],
+    "s64": [
+      "ArrayItems",
+      1,
+      [
+        "Stmt"
+      ]
+    ],
+    "s63": [
+      "Array",
+      2,
+      [
+        "[",
+        "]"
+      ]
+    ],
+    "s61": [
+      "Boolean",
+      2,
+      [
+        "!",
+        "Base"
+      ]
+    ],
+    "s55": [
+      "Signed",
+      2,
+      [
+        "-",
+        "Number"
+      ]
+    ],
+    "s54": [
+      "Signed",
+      2,
+      [
+        "+",
+        "Number"
+      ]
+    ],
+    "s142": [
+      "Numeric",
+      3,
+      [
+        "(",
+        "Stmt",
+        ")"
+      ]
+    ],
+    "s141": [
+      "Factor",
+      3,
+      [
+        "Numeric",
+        "^",
+        "Factor"
+      ]
+    ],
+    "s140": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "*",
+        "Numeric"
+      ]
+    ],
+    "s139": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "/",
+        "Numeric"
+      ]
+    ],
+    "s138": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "%",
+        "Numeric"
+      ]
+    ],
+    "s136": [
+      "Array",
+      3,
+      [
+        "[",
+        "ArrayItems",
+        "]"
+      ]
+    ],
+    "s134": [
+      "Object",
+      3,
+      [
+        "{",
+        "Props",
+        "}"
+      ]
+    ],
+    "s131": [
+      "String",
+      1,
+      [
+        "string"
+      ]
+    ],
+    "s130": [
+      "String",
+      1,
+      [
+        "Term"
+      ]
+    ],
+    "s132": [
+      "Concat",
+      3,
+      [
+        "Concat",
+        "+",
+        "String"
+      ]
+    ],
+    "s129": [
+      "Concat",
+      3,
+      [
+        "string",
+        "+",
+        "String"
+      ]
+    ],
+    "s128": [
+      "Term",
+      3,
+      [
+        "Term",
+        "+",
+        "Factor"
+      ]
+    ],
+    "s127": [
+      "Term",
+      3,
+      [
+        "Term",
+        "-",
+        "Factor"
+      ]
+    ],
+    "s126": [
+      "Matcher",
+      1,
+      [
+        "regex"
+      ]
+    ],
+    "s125": [
+      "Matcher",
+      1,
+      [
+        "Scalar"
+      ]
+    ],
+    "s124": [
+      "Match",
+      3,
+      [
+        "Scalar",
+        "~=",
+        "Matcher"
+      ]
+    ],
+    "s123": [
+      "Gt",
+      3,
+      [
+        "Scalar",
+        ">",
+        "Scalar"
+      ]
+    ],
+    "s122": [
+      "Gte",
+      3,
+      [
+        "Scalar",
+        ">=",
+        "Scalar"
+      ]
+    ],
+    "s121": [
+      "Lt",
+      3,
+      [
+        "Scalar",
+        "<",
+        "Scalar"
+      ]
+    ],
+    "s120": [
+      "Lte",
+      3,
+      [
+        "Scalar",
+        "<=",
+        "Scalar"
+      ]
+    ],
+    "s119": [
+      "Eq",
+      3,
+      [
+        "Comp",
+        "==",
+        "Comp"
+      ]
+    ],
+    "s118": [
+      "Eq",
+      3,
+      [
+        "Comp",
+        "===",
+        "Comp"
+      ]
+    ],
+    "s117": [
+      "Neq",
+      3,
+      [
+        "Comp",
+        "!=",
+        "Comp"
+      ]
+    ],
+    "s116": [
+      "Neq",
+      3,
+      [
+        "Comp",
+        "!==",
+        "Comp"
+      ]
+    ],
+    "s115": [
+      "And",
+      3,
+      [
+        "And",
+        "&&",
+        "Logical"
+      ]
+    ],
+    "s114": [
+      "Assignment",
+      3,
+      [
+        "JsonPath",
+        "=",
+        "Stmt"
+      ]
+    ],
+    "s109": [
+      "JsonKeyIndex",
+      1,
+      [
+        "Variable"
+      ]
+    ],
+    "s108": [
+      "JsonKeyIndex",
+      1,
+      [
+        "integer"
+      ]
+    ],
+    "s111": [
+      "JsonListify",
+      3,
+      [
+        "JsonPath",
+        "[",
+        "]"
+      ]
+    ],
+    "s107": [
+      "JsonKey",
+      1,
+      [
+        "JsonKeyIndex"
+      ]
+    ],
+    "s106": [
+      "JsonKey",
+      1,
+      [
+        "string"
+      ]
+    ],
+    "s105": [
+      "JsonKey",
+      1,
+      [
+        "ident"
+      ]
+    ],
+    "s104": [
+      "JsonProps",
+      3,
+      [
+        "JsonPath",
+        ".",
+        "*"
+      ]
+    ],
+    "s103": [
+      "JsonAccess",
+      3,
+      [
+        "JsonPath",
+        ".",
+        "JsonKey"
+      ]
+    ],
+    "s102": [
+      "Ref",
+      3,
+      [
+        "ident",
+        "from",
+        "Stmt"
+      ]
+    ],
+    "s101": [
+      "Params",
+      1,
+      [
+        "Stmt"
+      ]
+    ],
+    "s98": [
+      "Or",
+      3,
+      [
+        "Or",
+        "||",
+        "And"
+      ]
+    ],
+    "s97": [
+      "JsonQuery",
+      3,
+      [
+        "Refs",
+        "Stmt",
+        "$"
+      ]
+    ],
+    "s96": [
+      "Refs",
+      3,
+      [
+        "Refs",
+        "Ref",
+        ";"
+      ]
+    ],
+    "s151": [
+      "Call",
+      4,
+      [
+        "ident",
+        "(",
+        "Params",
+        ")"
+      ]
+    ],
+    "s149": [
+      "JsonFilter",
+      4,
+      [
+        "JsonPath",
+        "[",
+        "JsonKeys",
+        "]"
+      ]
+    ],
+    "s147": [
+      "JsonAccess",
+      4,
+      [
+        "JsonPath",
+        "[",
+        "JsonKeyIndex",
+        "]"
+      ]
+    ],
+    "s145": [
+      "PropsDef",
+      3,
+      [
+        "ident",
+        ":",
+        "Stmt"
+      ]
+    ],
+    "s144": [
+      "Props",
+      3,
+      [
+        "Props",
+        ",",
+        "PropsDef"
+      ]
+    ],
+    "s143": [
+      "ArrayItems",
+      3,
+      [
+        "ArrayItems",
+        ",",
+        "Stmt"
+      ]
+    ],
+    "s156": [
+      "JsonKeyIndex",
+      3,
+      [
+        "(",
+        "JsonPath",
+        ")"
+      ]
+    ],
+    "s158": [
+      "JsonKeys",
+      3,
+      [
+        "JsonKeyIndex",
+        ",",
+        "JsonKeyIndex"
+      ]
+    ],
+    "s157": [
+      "JsonKeys",
+      3,
+      [
+        "JsonKeys",
+        ",",
+        "JsonKeyIndex"
+      ]
+    ],
+    "s155": [
+      "Params",
+      3,
+      [
+        "Params",
+        ",",
+        "Stmt"
+      ]
+    ],
+    "s154": [
+      "Cond",
+      5,
+      [
+        "Or",
+        "?",
+        "Stmt",
+        ":",
+        "Stmt"
+      ]
+    ]
+  }
+}
