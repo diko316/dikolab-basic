@@ -1,67 +1,214 @@
 {
   "root": "S`",
+  "initialState": "s1",
   "states": {
     "s1": {
-      "E": "s2",
-      "T": "s3",
-      "(": "s4",
-      "number": "s5"
+      "Term": "s2",
+      "Factor": "s3",
+      "Numeric": "s4",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
     },
-    "s2": {},
+    "s2": {
+      "-": "s11",
+      "+": "s12"
+    },
     "s3": {
-      "+": "s8"
+      "*": "s9",
+      "/": "s10"
     },
-    "s4": {
-      "E": "s7",
-      "T": "s3",
-      "(": "s4",
-      "number": "s5"
-    },
+    "s4": {},
     "s5": {
-      "*": "s6"
+      "Expression": "s8"
     },
-    "s6": {
-      "T": "s11",
-      "(": "s4",
-      "number": "s5"
-    },
-    "s7": {
-      ")": "s10"
-    },
+    "s6": {},
+    "s7": {},
     "s8": {
-      "E": "s9",
-      "T": "s3",
-      "(": "s4",
-      "number": "s5"
+      ")": "s17"
     },
-    "s9": {},
-    "s10": {},
-    "s11": {}
+    "s9": {
+      "Numeric": "s16",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s10": {
+      "Numeric": "s15",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s11": {
+      "Factor": "s14",
+      "Numeric": "s4",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s12": {
+      "Factor": "s13",
+      "Numeric": "s4",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s13": {
+      "*": "s20",
+      "/": "s21"
+    },
+    "s14": {
+      "*": "s18",
+      "/": "s19"
+    },
+    "s15": {},
+    "s16": {},
+    "s17": {},
+    "s18": {
+      "Numeric": "s25",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s19": {
+      "Numeric": "s24",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s20": {
+      "Numeric": "s23",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s21": {
+      "Numeric": "s22",
+      "(": "s5",
+      "Number": "s6",
+      "number": "s7"
+    },
+    "s22": {},
+    "s23": {},
+    "s24": {},
+    "s25": {}
   },
   "reduce": {
-    "s5": [
-      "T",
-      1
+    "s7": [
+      "Number",
+      1,
+      [
+        "number"
+      ]
+    ],
+    "s6": [
+      "Numeric",
+      1,
+      [
+        "Number"
+      ]
+    ],
+    "s4": [
+      "Factor",
+      1,
+      [
+        "Numeric"
+      ]
     ],
     "s3": [
-      "E",
-      1
+      "Term",
+      1,
+      [
+        "Factor"
+      ]
     ],
     "s2": [
       "S`",
-      1
+      1,
+      [
+        "Term"
+      ]
     ],
-    "s11": [
-      "T",
-      3
+    "s17": [
+      "Numeric",
+      3,
+      [
+        "(",
+        "Expression",
+        ")"
+      ]
     ],
-    "s10": [
-      "T",
-      3
+    "s16": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "*",
+        "Numeric"
+      ]
     ],
-    "s9": [
-      "E",
-      3
+    "s15": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "/",
+        "Numeric"
+      ]
+    ],
+    "s14": [
+      "Term",
+      3,
+      [
+        "Term",
+        "-",
+        "Factor"
+      ]
+    ],
+    "s13": [
+      "Term",
+      3,
+      [
+        "Term",
+        "+",
+        "Factor"
+      ]
+    ],
+    "s25": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "*",
+        "Numeric"
+      ]
+    ],
+    "s24": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "/",
+        "Numeric"
+      ]
+    ],
+    "s23": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "*",
+        "Numeric"
+      ]
+    ],
+    "s22": [
+      "Factor",
+      3,
+      [
+        "Factor",
+        "/",
+        "Numeric"
+      ]
     ]
   }
 }

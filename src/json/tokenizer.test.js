@@ -44,8 +44,7 @@ describe("tokenize()", () => {
     expect(tokenize("{a:2, b:1}", 4)).to.deep.equal([",", ",", 5, 0]);
   });
 
-  it("Should tokenize function call.", () => {
-    expect(tokenize("f(a,b)")).to.deep.equal(["call", "f(", 2, 0]);
-    expect(tokenize("fun(a)", 0)).to.deep.equal(["call", "fun(", 4, 0]);
+  it("Should tokenize with correct index", () => {
+    expect(tokenize("1 + ident * 1 ? a : b", 20)).to.deep.equal(["ident", "b", 21, 0]);
   });
 });

@@ -59,6 +59,8 @@ export function tokenize(input, startIndex) {
     return null;
   }
 
+  length -= c;
+
   for (; length--; c++) {
     char = input.charAt(c);
 
@@ -71,7 +73,6 @@ export function tokenize(input, startIndex) {
     if (found) {
       // change state
       state = states[found];
-
       if (found in ends) {
         nextIndex = c + 1;
         token = ends[found];

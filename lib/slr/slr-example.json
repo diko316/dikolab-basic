@@ -2,15 +2,23 @@
   "root": "S`",
   "grammar": {
     "S`": [
-      ["E"]
+      ["Term"]
     ],
-    "E": [
-      ["T"],
-      ["T", "+", "E"]
+    "Term": [
+      ["Term", "-", "Factor"],
+      ["Term", "+", "Factor"],
+      ["Factor"]
     ],
-    "T": [
-      ["(", "E", ")"],
-      ["number", "*", "T"],
+    "Factor": [
+      ["Factor", "*", "Numeric"],
+      ["Factor", "/", "Numeric"],
+      ["Numeric"]
+    ],
+    "Numeric": [
+      ["(", "Expression", ")"],
+      ["Number"]
+    ],
+    "Number": [
       ["number"]
     ]
   }
