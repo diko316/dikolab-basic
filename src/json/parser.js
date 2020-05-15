@@ -4,14 +4,15 @@ import { tokenize } from "./tokenizer";
 import PARSER_STATES from "./parse-states.json";
 
 const ACTION_TOKENIZE = 1;
-
 const ACTION_REDUCE = 2;
-
 const ACTION_FOLLOW = 3;
-
 const ACTION_END = 4;
 
 export function parse(subject) {
+  const tokenizeAction = ACTION_TOKENIZE;
+  const reduceAction = ACTION_REDUCE;
+  const followAction = ACTION_FOLLOW;
+  const endAction = ACTION_END;
   const manifest = PARSER_STATES;
   const states = manifest.states;
   const ends = manifest.reduce;
@@ -20,7 +21,7 @@ export function parse(subject) {
   let stateAccess = manifest.initialState;
   let state = states[stateAccess];
   let end;
-  let action = ACTION_TOKENIZE;
+  let action = tokenizeAction;
 
   let parseStack = null;
   let inStack = null;
@@ -34,9 +35,9 @@ export function parse(subject) {
   let length;
 
   /* eslint no-labels:0 */
-  mainLoop: for (; action !== ACTION_END;) {
+  mainLoop: for (; action !== endAction;) {
     switch (action) {
-    case ACTION_TOKENIZE:
+    case tokenizeAction:
       found = tokenize(subject, index);
 
       if (found) {
@@ -49,13 +50,13 @@ export function parse(subject) {
         // lines += found[3];
 
         // follow
-        action = ACTION_END;
+        action = endAction;
         if (token in state) {
-          action = ACTION_FOLLOW;
+          action = followAction;
         }
         // try reducing
         else if (stateAccess in ends) {
-          action = ACTION_REDUCE;
+          action = reduceAction;
         }
         // failed token
         else {
@@ -64,16 +65,16 @@ export function parse(subject) {
       }
       // reduce to root
       else if (parseStack && stateAccess in ends) {
-        action = ACTION_REDUCE;
+        action = reduceAction;
       }
       // parse failed!
       else {
-        action = ACTION_END;
+        action = endAction;
         console.log("Parse failed! ");
       }
       continue mainLoop;
 
-    case ACTION_FOLLOW:
+    case followAction:
       token = found[0];
 
       inStack = [
@@ -87,10 +88,10 @@ export function parse(subject) {
         inStack
       ];
       // tokenize
-      action = ACTION_TOKENIZE;
+      action = tokenizeAction;
       continue mainLoop;
 
-    case ACTION_REDUCE:
+    case reduceAction:
       end = ends[stateAccess];
       rule = end[0];
       length = end[1];
@@ -123,7 +124,7 @@ export function parse(subject) {
           }
           // unable to follow reduced state
           else if (rule === root) {
-            action = ACTION_END;
+            action = endAction;
             console.log("Parse Completed! ", rule);
             break mainLoop;
           }
@@ -138,11 +139,11 @@ export function parse(subject) {
       }
 
       // check if it should reduce back
-      action = ACTION_REDUCE;
+      action = reduceAction;
 
       // or follow
       if (token && token in state) {
-        action = ACTION_FOLLOW;
+        action = followAction;
       }
 
       continue mainLoop;
