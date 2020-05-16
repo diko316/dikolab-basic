@@ -245,7 +245,7 @@
     "question": "?",
     "colon": ":",
     "semicolon": ";",
-    "root": "@",
+    "reference": "@",
     "assign": "=",
     "slash": "/",
     "star": "*",

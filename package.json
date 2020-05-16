@@ -9,7 +9,7 @@
     "test:mocha": "mocha test/mocha-feed.js",
     "pretest": "clear",
     "test": "run-s build:parser test:rollup test:mocha",
-    "build:parser": "node lib/slr/generate-slr-states src/json/grammar.json src/json/parse-states.json",
+    "build:parser": "node lib/slr/generate-slr-states -o src/json/grammar.json src/json/parse-states.json",
     "test:parser": "node lib/slr/generate-slr-states lib/slr/slr-example.json lib/slr/slr-output.json",
     "build:source": "rollup --config",
     "build": "run-s build:parser build:source",

@@ -23,14 +23,13 @@ export function showErrors(show) {
   SHOW_ERRORS = show !== false;
 }
 
-export function reportParseError(error, lexeme, subject) {
-  const value = lexeme.value || EMPTY_STRING;
-  const length = value.length;
+export function reportParseError(errorMessage, subject, from, to, lineFrom, lineTo) {
+  const line = lineFrom === lineTo ? `${lineFrom}` : `${lineFrom} to ${lineTo}`;
   const near = subject.substring(
-    MATH_MAX(0, lexeme.from - length - 5),
-    MATH_MIN(subject.length, lexeme.to + length + 5)
+    MATH_MAX(0, from - 5),
+    MATH_MIN(subject.length, to + 5)
   );
-  const message = `Parse Error: ${error} (${value}) at line: ${lexeme.line} near: ${near}`;
+  const message = `Parse Error: ${errorMessage} at line: ${line} near: ${near}`;
   let errors = LAST_ERRORS;
 
   if (!errors) {

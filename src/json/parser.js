@@ -1,6 +1,8 @@
 
 import { tokenize } from "./tokenizer";
 
+import { reportParseError } from "./error-reporting";
+
 import PARSER_STATES from "./parse-states.json";
 import PARSER_REFERENCE from "./parse-reference.json";
 
@@ -57,6 +59,9 @@ export function parse(subject) {
   let total;
   let rpnFrom;
   let rpnTo;
+  let erroneous = false;
+  let lineBefore = 1;
+  let lines = 1;
   let rpnIndex = 0;
 
   /* eslint no-labels:0 */
@@ -64,11 +69,14 @@ export function parse(subject) {
     switch (action) {
     case tokenizeAction:
       found = tokenize(subject, index);
+
       if (found) {
         token = found[0];
         from = index;
         to = found[2];
         index = to;
+        lineBefore = lines;
+        lines += found[3];
 
         // tokenize again
         if (token in ignoreTokens) {
@@ -90,7 +98,16 @@ export function parse(subject) {
         }
         // failed token
         else {
-          console.log("Parse failed in token: ", token);
+          erroneous = true;
+          reportParseError(
+            "Syntax error",
+            subject,
+            from,
+            to,
+            lineBefore,
+            lines
+          );
+          break mainLoop;
         }
       }
       // reduce to root
@@ -99,8 +116,16 @@ export function parse(subject) {
       }
       // parse failed!
       else {
-        action = endAction;
-        console.log("Parse failed! ");
+        erroneous = true;
+        reportParseError(
+          "Syntax error",
+          subject,
+          from,
+          to,
+          lineBefore,
+          lines
+        );
+        break mainLoop;
       }
       continue mainLoop;
 
@@ -123,9 +148,11 @@ export function parse(subject) {
       // add to rpn
       rpn[rpnIndex++] = {
         lexeme: token,
-        params: 0,
+        reduce: 0,
         from,
         to,
+        lineFrom: lineBefore,
+        lineTo: lines,
         value
       };
 
@@ -144,15 +171,23 @@ export function parse(subject) {
       for (; parseStack && length--;) {
         inStack = parseStack[1];
         input = inStack[1];
-        if (input !== production[length]) {
-          console.log("Reduce production mismatch! ", input);
-          break mainLoop;
-        }
-
         rpnFrom = rpn[parseStack[2]];
 
         if (!rpnTo) {
           rpnTo = rpn[parseStack[2]];
+        }
+
+        if (input !== production[length]) {
+          erroneous = true;
+          reportParseError(
+            `Syntax error of ${input}`,
+            subject,
+            rpnFrom.from,
+            rpnTo.to,
+            rpnFrom.lineFrom,
+            rpnTo.lineTo
+          );
+          break mainLoop;
         }
 
         // resume, reduce did not end yet
@@ -161,15 +196,15 @@ export function parse(subject) {
           continue;
         }
 
-        // console.log(rpnFrom, rpnTo);
-
         // reduce successfull
         // add to rpn
         rpn[rpnIndex++] = {
           lexeme: rule,
-          params: total,
+          reduce: total,
           from: rpnFrom.from,
           to: rpnTo.to,
+          lineFrom: rpnFrom.lineFrom,
+          lineTo: rpnTo.lineTo,
           value: null
         };
 
@@ -191,14 +226,21 @@ export function parse(subject) {
           stateAccess = state[rule];
           state = states[stateAccess];
         }
-        // unable to follow reduced state
+        // parse complete!
         else if (rule === root) {
-          action = endAction;
-          console.log("Parse Completed! ", rule);
           break mainLoop;
         }
+        // unable to follow reduced state
         else {
-          console.log("Reduced rule is invalid! ", rule, state);
+          erroneous = true;
+          reportParseError(
+            `Syntax error in sequence ${rule}`,
+            subject,
+            rpnFrom.from,
+            rpnTo.to,
+            rpnFrom.lineFrom,
+            rpnTo.lineTo
+          );
           break mainLoop;
         }
       }
@@ -211,7 +253,27 @@ export function parse(subject) {
         action = followAction;
       }
       else if (!(stateAccess in ends)) {
-        console.log("Unable to reduce! ", stateAccess, " token ", token, value, states[stateAccess]);
+        erroneous = true;
+        if (token) {
+          reportParseError(
+            `Syntax error misplaced token: ${token}`,
+            subject,
+            from,
+            to,
+            lineBefore,
+            lines
+          );
+        }
+        else {
+          reportParseError(
+            "Syntax error",
+            subject,
+            from,
+            to,
+            lines,
+            lines
+          );
+        }
         break mainLoop;
       }
 
@@ -219,10 +281,7 @@ export function parse(subject) {
     }
   }
 
-  // for (let item, c = 0, length = rpn.length; length--; c++) {
-  //   item = rpn[c];
-  //   console.log("[", item.lexeme, "|", item.params, item.value ? item.value : "", "]");
-  // }
-  // console.log("rpn: ", rpn);
-  return rpn;
+  // console.log("partial ", JSON.stringify(rpn, null, 3));
+
+  return erroneous ? null : rpn;
 }

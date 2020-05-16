@@ -14,26 +14,38 @@
     ],
     "Stmt": [
       ["Assignment"],
-      ["Cond"],
-      ["Or"]
+      ["CondTern"],
+      ["Cond"]
     ],
 
     "Assignment": [
       ["JsonPath", "=", "Stmt"]
     ],
 
+    "CondTern": [
+      ["CondTern", "?", "CondOptions"],
+      ["Cond", "?", "CondOptions"]
+    ],
+
+    "CondOptions": [
+      ["Stmt", ":", "Stmt"]
+    ],
+
     "Cond": [
-      ["Or", "?", "Stmt", ":", "Stmt"]
+      ["Or"],
+      ["And"],
+      ["Logical"]
     ],
 
     "Or": [
-      ["Or", "||", "And"],
-      ["And"]
+      ["Or", "||", "OrLeft"],
+      ["And", "||", "OrLeft"],
+      ["Logical", "||", "OrLeft"]
     ],
 
     "And": [
       ["And", "&&", "Logical"],
-      ["Logical"]
+      ["Logical", "&&", "Logical"]
     ],
 
     "Logical": [
@@ -90,12 +102,6 @@
       ["Scalar", "<=", "Scalar"]
     ],
 
-    "Scalar": [
-      ["Term"],
-      ["string"],
-      ["Concat"]
-    ],
-
     "Object": [
       ["{", "Props", "}"],
       ["{", "}"]
@@ -121,39 +127,68 @@
     ],
 
     "Boolean": [
-      ["!", "Base"],
+      ["!", "Comp"],
       ["true"],
       ["false"]
     ],
 
-    "Concat": [
-      ["Concat", "+", "String"],
-      ["string", "+", "String"]
-    ],
-
-    "String": [
+    "Scalar": [
       ["Term"],
+      ["Concat"],
       ["string"]
     ],
 
+    "Concat": [
+      ["Concat", "+", "Term"],
+      ["Concat", "+", "string"],
+      ["Term", "+", "string"],
+      ["string", "+", "Term"]
+    ],
+
     "Term": [
-      ["Term", "+", "Factor"],
-      ["Term", "-", "Factor"],
+      ["Add"],
+      ["Sub"],
       ["Factor"]
     ],
 
+    "Add": [
+      ["Term", "+", "Factor"]
+    ],
+
+    "Sub": [
+      ["Term", "-", "Factor"]
+    ],
+
     "Factor": [
+      ["Mul"],
+      ["Div"],
+      ["Mod"],
+      ["Numeric"],
+      ["Variant"]
+    ],
+
+    "Mul": [
       ["Factor", "*", "Numeric"],
+      ["Factor", "*", "Variant"]
+    ],
+
+    "Div": [
       ["Factor", "/", "Numeric"],
+      ["Factor", "/", "Variant"]
+    ],
+
+    "Mod": [
       ["Factor", "%", "Numeric"],
-      ["Numeric", "^", "Factor"],
-      ["Numeric"]
+      ["Factor", "%", "Variant"]
+    ],
+
+    "Variant": [
+      ["(", "Stmt", ")"],
+      ["Call"],
+      ["JsonPath"]
     ],
 
     "Numeric": [
-      ["(", "Stmt", ")"],
-      ["Call"],
-      ["JsonPath"],
       ["Signed"],
       ["Number"]
     ],

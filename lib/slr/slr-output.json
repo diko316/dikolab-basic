@@ -1,4 +1,6 @@
 {
+  "optimized": true,
+  "symbols": {},
   "root": "S`",
   "initialState": "s1",
   "states": {
