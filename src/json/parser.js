@@ -69,7 +69,6 @@ export function parse(subject) {
     switch (action) {
     case tokenizeAction:
       found = tokenize(subject, index);
-
       if (found) {
         token = found[0];
         from = index;
@@ -282,6 +281,19 @@ export function parse(subject) {
   }
 
   // console.log("partial ", JSON.stringify(rpn, null, 3));
+  if (erroneous && rpn.length) {
+    console.log(
+      "last partial rpn: ",
+      JSON.stringify(
+        rpn.slice(
+          Math.max(rpn.length - 5, 0),
+          rpn.length
+        ),
+        null,
+        3
+      )
+    );
+  }
 
   return erroneous ? null : rpn;
 }
