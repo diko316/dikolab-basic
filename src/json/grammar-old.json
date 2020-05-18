@@ -1,196 +1,410 @@
 {
-  "root": "JsonQuery",
+  "root": "Query",
   "grammar": {
-    "JsonQuery": [
-      ["Refs", "Stmt", "$"],
-      ["Stmt", "$"]
-    ],
-    "Refs": [
-      ["Refs", "Ref", ";"],
-      ["Ref", ";"]
-    ],
-    "Ref": [
-      ["ident", "from", "Stmt"]
-    ],
-    "Stmt": [
-      ["Assignment"],
-      ["CondTern"],
-      ["Cond"]
+    "Query": [
+      ["Expr", "$"],
+      ["Vars", ";", "Expr", "$"]
     ],
 
-    "Assignment": [
-      ["JsonPath", "=", "Stmt"]
+    "Vars": [
+      ["Vars", ";", "Var"],
+      ["Var"]
     ],
 
-    "CondTern": [
-      ["CondTern", "?", "CondOptions"],
-      ["Cond", "?", "CondOptions"]
+    "Var": [
+      ["ident", "from", "Path"]
     ],
 
-    "CondOptions": [
-      ["Stmt", ":", "Stmt"]
+    "Expr": [
+      ["Variant"],
+      ["Numeric"],
+      ["Factor"],
+      ["Term"],
+      ["Concat"],
+      ["Comparison"],
+      ["And"],
+      ["Or"],
+      ["Cond"],
+      ["Assign"],
+      ["Object"],
+      ["Array"],
+      ["Boolean"],
+      ["string"],
+      ["null"],
+      ["Unset"]
+    ],
+
+    "Assign": [
+      ["Path", "=", "Expr"]
     ],
 
     "Cond": [
-      ["Or"],
-      ["And"],
-      ["Logical"]
+      ["PreCond", "Expr", ":", "Expr"]
+    ],
+
+    "Unset": [
+      ["delete", "Path"]
+    ],
+
+    "PreCond": [
+      ["Or", "?"],
+      ["And", "?"],
+      ["Comparison", "?"],
+      ["Variant", "?"],
+      ["Factor", "?"],
+      ["Term", "?"],
+      ["Concat", "?"],
+      ["string", "?"],
+      ["Numeric", "?"],
+      ["Object", "?"],
+      ["Array", "?"],
+      ["Boolean", "?"],
+      ["null", "?"]
     ],
 
     "Or": [
-      ["Or", "||", "OrLeft"],
-      ["And", "||", "OrLeft"],
-      ["Logical", "||", "OrLeft"]
+      ["PreOr", "LogicalOp"],
+      ["PreOr", "And"]
+    ],
+
+    "PreOr": [
+      ["Or", "||"],
+      ["And", "||"],
+      ["Comparison", "||"],
+      ["Variant", "||"],
+      ["Factor", "||"],
+      ["Term", "||"],
+      ["Concat", "||"],
+      ["string", "||"],
+      ["Numeric", "||"],
+      ["Object", "||"],
+      ["Array", "||"],
+      ["Boolean", "||"],
+      ["null", "||"]
     ],
 
     "And": [
-      ["And", "&&", "Logical"],
-      ["Logical", "&&", "Logical"]
+      ["PreAnd", "LogicalOp"]
     ],
 
-    "Logical": [
+    "PreAnd": [
+      ["And", "&&"],
+      ["Comparison", "&&"],
+      ["Variant", "&&"],
+      ["Factor", "&&"],
+      ["Term", "&&"],
+      ["Concat", "&&"],
+      ["string", "&&"],
+      ["Numeric", "&&"],
+      ["Object", "&&"],
+      ["Array", "&&"],
+      ["Boolean", "&&"],
+      ["null", "&&"]
+    ],
+
+    "LogicalOp": [
+      ["Comparison"],
+      ["Variant"],
+      ["Factor"],
+      ["Term"],
+      ["Concat"],
+      ["string"],
+      ["Numeric"],
+      ["Object"],
+      ["Array"]
+    ],
+
+    "Comparison": [
+      ["Match"],
       ["Eq"],
       ["Neq"],
-      ["Match"],
+      ["SNeq"],
+      ["Seq"],
       ["Gt"],
       ["Gte"],
       ["Lt"],
-      ["Lte"],
-      ["Comp"]
-    ],
-
-    "Eq": [
-      ["Comp", "==", "Comp"],
-      ["Comp", "===", "Comp"]
-    ],
-
-    "Neq": [
-      ["Comp", "!=", "Comp"],
-      ["Comp", "!==", "Comp"]
+      ["Lte"]
     ],
 
     "Match": [
-      ["Scalar", "~=", "Matcher"]
+      ["PreMatch", "MatchOp"]
     ],
 
-    "Matcher": [
-      ["Scalar"],
+    "PreMatch": [
+      ["Variant", "=~"],
+      ["Factor", "=~"],
+      ["Term", "=~"],
+      ["Concat", "=~"],
+      ["string", "=~"],
+      ["Numeric", "=~"]
+    ],
+
+    "MatchOp": [
+      ["string"],
       ["regex"]
     ],
 
-    "Comp": [
+    "Seq": [
+      ["PreSeq", "EqOp"]
+    ],
+
+    "PreSeq": [
+      ["Variant", "==="],
+      ["Factor", "==="],
+      ["Term", "==="],
+      ["Concat", "==="],
+      ["string", "==="],
+      ["Numeric", "==="],
+      ["Object", "==="],
+      ["Array", "==="],
+      ["Boolean", "==="],
+      ["null", "==="]
+    ],
+
+    "Eq": [
+      ["PreEq", "EqOp"]
+    ],
+
+    "PreEq": [
+      ["Variant", "=="],
+      ["Factor", "=="],
+      ["Term", "=="],
+      ["Concat", "=="],
+      ["string", "=="],
+      ["Numeric", "=="],
+      ["Object", "=="],
+      ["Array", "=="],
+      ["Boolean", "=="],
+      ["null", "=="]
+    ],
+
+    "Neq": [
+      ["PreNeq", "EqOp"]
+    ],
+
+    "PreNeq": [
+      ["Variant", "!="],
+      ["Factor", "!="],
+      ["Term", "!="],
+      ["Concat", "!="],
+      ["string", "!="],
+      ["Numeric", "!="],
+      ["Object", "!="],
+      ["Array", "!="],
+      ["Boolean", "!="],
+      ["null", "!="]
+    ],
+
+    "SNeq": [
+      ["SPreNeq", "EqOp"]
+    ],
+
+    "SPreNeq": [
+      ["Variant", "!=="],
+      ["Factor", "!=="],
+      ["Term", "!=="],
+      ["Concat", "!=="],
+      ["string", "!=="],
+      ["Numeric", "!=="],
+      ["Object", "!=="],
+      ["Array", "!=="],
+      ["Boolean", "!=="],
+      ["null", "!=="]
+    ],
+
+    "EqOp": [
+      ["Variant"],
+      ["Factor"],
+      ["Term"],
+      ["Concat"],
+      ["string"],
+      ["Numeric"],
       ["Object"],
       ["Array"],
-      ["regex"],
       ["Boolean"],
-      ["Scalar"]
-    ],
-
-    "Gt": [
-      ["Scalar", ">", "Scalar"]
-    ],
-
-    "Gte": [
-      ["Scalar", ">=", "Scalar"]
-    ],
-
-    "Lt": [
-      ["Scalar", "<", "Scalar"]
-    ],
-
-    "Lte": [
-      ["Scalar", "<=", "Scalar"]
-    ],
-
-    "Object": [
-      ["{", "Props", "}"],
-      ["{", "}"]
-    ],
-
-    "Props": [
-      ["Props", ",", "PropsDef"],
-      ["PropsDef"]
-    ],
-
-    "PropsDef": [
-      ["ident", ":", "Stmt"]
-    ],
-
-    "Array": [
-      ["[", "ArrayItems", "]"],
-      ["[", "]"]
-    ],
-
-    "ArrayItems": [
-      ["ArrayItems", ",", "Stmt"],
-      ["Stmt"]
+      ["null"]
     ],
 
     "Boolean": [
-      ["!", "Comp"],
       ["true"],
-      ["false"]
+      ["false"],
+      ["Not"]
     ],
 
-    "Scalar": [
+    "Not": [
+      ["!", "Expr"]
+    ],
+
+    "Array": [
+      ["[", "Params", "]"]
+    ],
+
+    "Object": [
+      ["{", "Props", "}"]
+    ],
+
+    "Props": [
+      ["Props", ",", "Prop"],
+      ["Prop"]
+    ],
+
+    "Prop": [
+      ["ident", ":", "Expr"]
+    ],
+
+    "Gt": [
+      ["PreGt", "CompOp"]
+    ],
+
+    "PreGt": [
+      ["Variant", ">"],
+      ["Factor", ">"],
+      ["Term", ">"],
+      ["Concat", ">"],
+      ["string", ">"],
+      ["Numeric", ">"]
+    ],
+
+    "Gte": [
+      ["PreGte", "CompOp"]
+    ],
+
+    "PreGte": [
+      ["Variant", ">="],
+      ["Factor", ">="],
+      ["Term", ">="],
+      ["Concat", ">="],
+      ["string", ">="],
+      ["Numeric", ">="]
+    ],
+
+    "Lt": [
+      ["PreLt", "CompOp"]
+    ],
+
+    "PreLt": [
+      ["Variant", "<"],
+      ["Factor", "<"],
+      ["Term", "<"],
+      ["Concat", "<"],
+      ["string", "<"],
+      ["Numeric", "<"]
+    ],
+
+    "Lte": [
+      ["PreLte", "CompOp"]
+    ],
+
+    "PreLte": [
+      ["Variant", "<="],
+      ["Factor", "<="],
+      ["Term", "<="],
+      ["Concat", "<="],
+      ["string", "<="],
+      ["Numeric", "<="]
+    ],
+
+    "CompOp": [
+      ["Variant"],
+      ["Factor"],
       ["Term"],
       ["Concat"],
-      ["string"]
+      ["string"],
+      ["Numeric"]
     ],
 
     "Concat": [
-      ["Concat", "+", "Term"],
-      ["Concat", "+", "string"],
-      ["Term", "+", "string"],
-      ["string", "+", "Term"]
+      ["Concat", "+", "ConcatOp"],
+      ["string", "+", "ConcatOp"],
+      ["PreAdd", "string"]
+    ],
+
+    "ConcatOp": [
+      ["Factor"],
+      ["Term"],
+      ["Variant"],
+      ["Numeric"]
     ],
 
     "Term": [
       ["Add"],
-      ["Sub"],
-      ["Factor"]
+      ["Sub"]
     ],
 
     "Add": [
-      ["Term", "+", "Factor"]
+      ["PreAdd", "TermOp"]
     ],
 
     "Sub": [
-      ["Term", "-", "Factor"]
+      ["PreSub", "TermOp"]
+    ],
+
+    "PreSub": [
+      ["Term", "-"],
+      ["Factor", "-"],
+      ["Variant", "-"],
+      ["Numeric", "-"]
+    ],
+
+    "PreAdd": [
+      ["Term", "+"],
+      ["Factor", "+"],
+      ["Variant", "+"],
+      ["Numeric", "+"]
+    ],
+
+    "TermOp": [
+      ["Factor"],
+      ["Variant"],
+      ["Numeric"]
     ],
 
     "Factor": [
       ["Mul"],
       ["Div"],
-      ["Mod"],
-      ["Numeric"],
-      ["Variant"]
+      ["Mod"]
     ],
 
     "Mul": [
-      ["Factor", "*", "Numeric"],
-      ["Factor", "*", "Variant"]
+      ["PreMul", "FactorOp"]
     ],
 
     "Div": [
-      ["Factor", "/", "Numeric"],
-      ["Factor", "/", "Variant"]
+      ["PreDiv", "FactorOp"]
     ],
 
     "Mod": [
-      ["Factor", "%", "Numeric"],
-      ["Factor", "%", "Variant"]
+      ["PreMod", "FactorOp"]
+    ],
+
+    "FactorOp": [
+      ["Variant"],
+      ["Numeric"]
+    ],
+
+    "PreMul": [
+      ["Factor", "*"],
+      ["Variant", "*"],
+      ["Numeric", "*"]
+    ],
+
+    "PreDiv": [
+      ["Factor", "/"],
+      ["Variant", "/"],
+      ["Numeric", "/"]
+    ],
+
+    "PreMod": [
+      ["Factor", "%"],
+      ["Variant", "%"],
+      ["Numeric", "%"]
     ],
 
     "Variant": [
-      ["(", "Stmt", ")"],
+      ["Path"],
+      ["RefIndex"],
       ["Call"],
-      ["JsonPath"]
-    ],
-
-    "Numeric": [
-      ["Signed"],
-      ["Number"]
+      ["(", "Expr", ")"]
     ],
 
     "Call": [
@@ -198,80 +412,89 @@
     ],
 
     "Params": [
-      ["Params", ",", "Stmt"],
-      ["Stmt"]
+      ["Params", ",", "Expr"],
+      ["Expr"]
     ],
 
-    "JsonPath": [
-      ["JsonListify"],
-      ["JsonFilter"],
-      ["JsonAccess"],
-      ["JsonProps"],
-      ["Variable"],
+    "Numeric": [
+      ["PosNum"],
+      ["NegNum"],
+      ["Num"]
+    ],
+
+    "PosNum": [
+      ["+", "Num"]
+    ],
+
+    "NegNum": [
+      ["-", "Num"]
+    ],
+
+    "Num": [
+      ["integer"],
+      ["float"],
+      ["percent"]
+    ],
+
+    "Path": [
+      ["Dot"],
+      ["Brace"],
+      ["Filter"],
+      ["Ref"],
+      ["Root"],
       ["ident"]
     ],
-
-    "JsonProps": [
-      ["JsonPath", ".", "*"]
+    "Dot": [
+      ["PreDot", "PostDot"],
+      ["PreDot", "integer"]
     ],
-    "JsonListify": [
-      ["JsonPath", "[", "]"]
+    "Brace": [
+      ["PreBrace", "PostDot", "]"],
+      ["PreBrace", "integer", "]"]
     ],
-
-    "JsonAccess": [
-      ["JsonPath", ".", "JsonKey"],
-      ["JsonPath", "[", "JsonKeyIndex", "]"]
+    "Filter": [
+      ["PreBrace", "]"],
+      ["PreBrace", "Ranges", "]"]
     ],
-
-    "JsonFilter": [
-      ["JsonPath", "[", "JsonKeys", "]"]
+    "PreDot": [
+      ["Path", "."],
+      ["."]
     ],
-
-    "JsonKey": [
+    "PreBrace": [
+      ["Path", "["],
+      [".", "["]
+    ],
+    "PostDot": [
       ["ident"],
       ["string"],
-      ["JsonKeyIndex"]
+      ["RefIndex"],
+      ["(", "Expr", ")"]
+    ],
+    "Ranges": [
+      ["Ranges", ",", "RangeOp"],
+      ["Ranges", ",", "Range"],
+      ["RangeOp"],
+      ["Range"]
+    ],
+    "Range": [
+      ["RangeOp", "..", "RangeOp"]
     ],
 
-    "JsonKeys": [
-      ["JsonKeys", ",", "JsonKeyIndex"],
-      ["JsonKeyIndex", ",", "JsonKeyIndex"]
-    ],
-
-    "JsonKeyIndex": [
+    "RangeOp": [
       ["integer"],
-      ["Variable"],
-      ["(", "JsonPath", ")"]
+      ["RefIndex"],
+      ["(", "Expr", ")"]
     ],
 
-    "Variable": [
-      ["VarRef"],
-      ["VarIndex"],
-      ["Root"]
-    ],
-
-    "VarRef": [
+    "Ref": [
       ["@", "ident"]
     ],
-
-    "VarIndex": [
-      ["@", "integer"],
-      ["?"]
-    ],
-
     "Root": [
       ["@"]
     ],
-
-    "Signed": [
-      ["-", "Number"],
-      ["+", "Number"]
-    ],
-
-    "Number": [
-      ["float"],
-      ["integer"],
-      ["percent"]
+    "RefIndex": [
+      ["@", "integer"],
+      ["?"]
     ]
   }
 }

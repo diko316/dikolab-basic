@@ -46,31 +46,49 @@ describe("parse()", () => {
   it("Should parse variables.", () => {
     expect(parseAndSerialize("@")).to.not.equal(null);
     expect(parseAndSerialize("@test")).to.not.equal(null);
+    expect(parseAndSerialize("?")).to.not.equal(null);
   });
 
-  it.only("Should parse variables.", () => {
-    expect(parseAndSerialize("@")).to.not.equal(null);
-    expect(parseAndSerialize("@test")).to.not.equal(null);
+  it("Should parse Json Path.", () => {
+    expect(parseAndSerialize("test.1")).to.not.equal(null);
+    expect(parseAndSerialize(".1")).to.not.equal(null);
+    expect(parseAndSerialize(".[1]")).to.not.equal(null);
+    expect(parseAndSerialize(".[1..10]")).to.not.equal(null);
+    expect(parseAndSerialize(".[2, 1..10]")).to.not.equal(null);
+    expect(parseAndSerialize("[test]")).to.not.equal(null);
   });
 
-  it.only("Should variables.", () => {
-    console.log(parseAndSerialize("test.1"));
-    console.log(parseAndSerialize(".1"));
-    console.log(parseAndSerialize(".[1]"));
-    console.log(parseAndSerialize(".[1..10]"));
-    console.log(parseAndSerialize(".[1,10]"));
-    console.log(parseAndSerialize(".[test]"));
-
-    console.log(parseAndSerialize("1 * 1 / 2"));
-    console.log(parseAndSerialize("1 - 1 / 2 + 3"));
-    console.log(parseAndSerialize("\"test\" + 1 + 3"));
-
-    console.log(parseAndSerialize("1 + \"test\" + 1"));
-    console.log(parseAndSerialize("1 + \"test\""));
-
-
-    console.log(parseAndSerialize("\"test\" + 10 > 1 + 2"));
-
-    console.log(parseAndSerialize("b = .a = ? ? -1 + 'b': 2"));
+  it("Should parse Arithmetic and concatenation.", () => {
+    expect(parseAndSerialize("1 * 1 / 2")).to.not.equal(null);
+    expect(parseAndSerialize("1 - 1 / 2 + 3")).to.not.equal(null);
+    expect(parseAndSerialize("\"test\" + 3")).to.not.equal(null);
+    expect(parseAndSerialize("1 + \"test\"")).to.not.equal(null);
+    // expect(parseAndSerialize("1 + \"test\" + 3")).to.not.equal(null);
   });
+
+  it("Should parse Comparison operator.", () => {
+    expect(parseAndSerialize("\"test\" > \"big\"")).to.not.equal(null);
+    expect(parseAndSerialize("\"test\" > 1")).to.not.equal(null);
+    expect(parseAndSerialize("22 > \"big\"")).to.not.equal(null);
+    expect(parseAndSerialize("\"test\" + 10 > 1 + 2")).to.not.equal(null);
+  });
+
+  it("Should parse Ternary operator.", () => {
+    expect(parseAndSerialize("test ? 1 + 'b': 2")).to.not.equal(null);
+    expect(parseAndSerialize("test ? -1 + 'b': 2")).to.not.equal(null);
+    expect(parseAndSerialize("true ? -1 : 2")).to.not.equal(null);
+    expect(parseAndSerialize("? ? -1 + 'b': 2")).to.not.equal(null);
+  });
+
+  it("Should parse Assignment operator.", () => {
+    expect(parseAndSerialize("a = \"test\" > \"big\"")).to.not.equal(null);
+    expect(parseAndSerialize("a = \"big\"")).to.not.equal(null);
+    expect(parseAndSerialize("b = .a = ? ? -1 + 'b': 2")).to.not.equal(null);
+  });
+
+  // it.only("Should parse Assignment operator.", () => {
+  //   // console.log(parseAndSerialize("\"test\" + 10 > 1 + 2"));
+  //   console.log(parseAndSerialize("1 * 2"));
+  //   console.log(parseAndSerialize("1 + 2"));
+  // });
 });

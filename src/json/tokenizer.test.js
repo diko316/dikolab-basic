@@ -13,12 +13,12 @@ describe("tokenize()", () => {
     expect(tokenize("+100", 1)).to.deep.equal(["integer", "100", 4, 0]);
     expect(tokenize("-100")).to.deep.equal(["-", "-", 1, 0]);
 
-    expect(tokenize(".1 +")).to.deep.equal(["float", ".1", 2, 0]);
-    expect(tokenize("+.1 +", 1)).to.deep.equal(["float", ".1", 3, 0]);
+    expect(tokenize("0.1 +")).to.deep.equal(["float", "0.1", 3, 0]);
+    expect(tokenize("+0.1 +", 1)).to.deep.equal(["float", "0.1", 4, 0]);
     expect(tokenize("-0.1 +", 1)).to.deep.equal(["float", "0.1", 4, 0]);
     expect(tokenize("0.1x")).to.deep.equal(["float", "0.1", 3, 0]);
 
-    expect(tokenize(".5% ni")).to.deep.equal(["percent", ".5%", 3, 0]);
+    expect(tokenize("0.5% ni")).to.deep.equal(["percent", "0.5%", 4, 0]);
   });
 
   it("Should tokenize quoted string.", () => {
