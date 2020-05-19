@@ -260,26 +260,23 @@
     "PathRoot": [
       ["DotKey"],
       ["DotFilter"],
-      ["Array", "KeyAccess"],
-      ["Array", "KeyFilter"],
-      ["Object", "KeyAccess"],
-      ["Object", "KeyFilter"],
       ["DotRoot", "BraceFilter"],
       ["DotRoot", "BraceKey"],
       ["ident"],
       ["Ref"],
       ["Root"],
-      ["RefIndex"]
+      ["RefIndex"],
+      ["InExpr", "RootKey"],
+      ["InExpr", "RootFilter"]
     ],
 
-    "KeyAccess": [
-      ["BraceKey"],
-      ["DotKey"]
+    "RootKey": [
+      ["DotKey"],
+      ["BraceKey"]
     ],
-
-    "KeyFilter": [
-      ["BraceFilter"],
-      ["DotFilter"]
+    "RootFilter": [
+      ["DotFilter"],
+      ["BraceFilter"]
     ],
 
     "DotKey": [
@@ -293,7 +290,7 @@
     "BraceFilter": [
       ["[", "]"],
       ["[", "*", "]"],
-      ["[", "Ranges", "]"]
+      ["[", "KeyFilter", "]"]
     ],
 
     "BraceKey": [
@@ -306,8 +303,8 @@
       ["RangeUnit"]
     ],
 
-    "Ranges": [
-      ["Ranges", ",", "RangeOp"],
+    "KeyFilter": [
+      ["KeyFilter", ",", "RangeOp"],
       ["RangeUnit", ",", "RangeOp"],
       ["Range"]
     ],

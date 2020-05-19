@@ -64,6 +64,8 @@ describe("parse()", () => {
     expect(parseAndSerialize("root[2, 1..10].diko")).to.not.equal(null);
     expect(parseAndSerialize("@root[2, 1..10].diko")).to.not.equal(null);
     expect(parseAndSerialize("[test]")).to.not.equal(null);
+
+    expect(parseAndSerialize("([test]).name")).to.not.equal(null);
   });
 
   it("Should parse Arithmetic and concatenation.", () => {
