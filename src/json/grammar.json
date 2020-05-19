@@ -206,7 +206,7 @@
     ],
 
     "InExpr": [
-      ["(", "Expr", ")"]
+      ["(", "Assignable", ")"]
     ],
 
     "Params": [
@@ -215,16 +215,16 @@
     ],
 
     "Numeric": [
-      ["PosNum"],
-      ["NegNum"],
+      ["Positive"],
+      ["Negative"],
       ["Num"]
     ],
 
-    "PosNum": [
+    "Positive": [
       ["+", "Num"]
     ],
 
-    "NegNum": [
+    "Negative": [
       ["-", "Num"]
     ],
 
@@ -239,48 +239,71 @@
       ["DotRoot"]
     ],
     "PathAccess": [
+      ["DotKeyAccess"],
       ["DotAccess"],
       ["BraceAccess"],
+      ["BraceKeyAccess"],
       ["PathRoot"]
     ],
-    "DotAccess": [
+    "DotKeyAccess": [
       ["PathAccess", "DotKey"]
+    ],
+    "DotAccess": [
+      ["PathAccess", "DotFilter"]
     ],
     "BraceAccess": [
       ["PathAccess", "BraceFilter"]
     ],
+    "BraceKeyAccess": [
+      ["PathAccess", "BraceKey"]
+    ],
     "PathRoot": [
       ["DotKey"],
+      ["DotFilter"],
+      ["Array", "KeyAccess"],
+      ["Array", "KeyFilter"],
+      ["Object", "KeyAccess"],
+      ["Object", "KeyFilter"],
       ["DotRoot", "BraceFilter"],
+      ["DotRoot", "BraceKey"],
       ["ident"],
       ["Ref"],
       ["Root"],
       ["RefIndex"]
     ],
+
+    "KeyAccess": [
+      ["BraceKey"],
+      ["DotKey"]
+    ],
+
+    "KeyFilter": [
+      ["BraceFilter"],
+      ["DotFilter"]
+    ],
+
     "DotKey": [
       [".", "Key"]
     ],
 
+    "DotFilter": [
+      [".", "*"]
+    ],
+
     "BraceFilter": [
       ["[", "]"],
-      ["[", "KeyFilter", "]"]
+      ["[", "*", "]"],
+      ["[", "Ranges", "]"]
+    ],
+
+    "BraceKey": [
+      ["[", "Key", "]"]
     ],
 
     "Key": [
-      ["KeyUnit"],
-      ["RangeUnit"]
-    ],
-
-    "KeyUnit": [
-      ["*"],
       ["ident"],
-      ["string"]
-    ],
-
-    "KeyFilter": [
-      ["KeyUnit"],
-      ["RangeUnit"],
-      ["Ranges"]
+      ["string"],
+      ["RangeUnit"]
     ],
 
     "Ranges": [

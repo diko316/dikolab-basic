@@ -49,7 +49,7 @@ describe("parse()", () => {
     expect(parseAndSerialize("?")).to.not.equal(null);
   });
 
-  it.only("Should parse Json Path.", () => {
+  it("Should parse Json Path.", () => {
     expect(parseAndSerialize(".")).to.not.equal(null);
     expect(parseAndSerialize(".test")).to.not.equal(null);
     expect(parseAndSerialize("test.1")).to.not.equal(null);
@@ -94,9 +94,16 @@ describe("parse()", () => {
     expect(parseAndSerialize("b = .a = ? ? -1 + 'b': 2")).to.not.equal(null);
   });
 
-  // it.only("Should parse Assignment operator.", () => {
+  it("Should parse Assignment operator.", () => {
+    expect(parseAndSerialize("a = \"test\" > \"big\"")).to.not.equal(null);
+    expect(parseAndSerialize("a = \"big\"")).to.not.equal(null);
+    expect(parseAndSerialize("b = .a = ? ? -1 + 'b': 2")).to.not.equal(null);
+  });
+
+  // it.only("Just trying out.", () => {
   //   // console.log(parseAndSerialize("\"test\" + 10 > 1 + 2"));
-  //   console.log(parseAndSerialize("1 * 2"));
-  //   console.log(parseAndSerialize("1 + 2"));
+  //   // console.log(parse("1"));
+  //   console.log(parseAndSerialize(".[1]"));
+  //   console.log(parseAndSerialize(".[1..10]"));
   // });
 });

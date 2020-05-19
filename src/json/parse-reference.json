@@ -1,5 +1,258 @@
 {
   "ignoreTokens": [
     "whitespace"
-  ]
+  ],
+  "reference": {
+    "integer": {
+      "type": "number",
+      "literal": true
+    },
+    "float": {
+      "type": "number",
+      "literal": true
+    },
+    "percent": {
+      "type": "number",
+      "literal": true
+    },
+    "string": {
+      "type": "string",
+      "literal": true
+    },
+    "regex": {
+      "type": "pattern",
+      "literal": true
+    },
+    "true": {
+      "type": "boolean",
+      "literal": true
+    },
+    "false": {
+      "type": "boolean",
+      "literal": true
+    },
+    "null": {
+      "type": "null",
+      "literal": true
+    },
+
+    "DotRoot-><.>": {
+      "type": "mixed"
+    },
+
+    "Ref-><@> <ident>": {
+      "type": "mixed"
+    },
+    "RefIndex-><@> <integer>": {
+      "type": "mixed"
+    },
+    "RefIndex-><?>": {
+      "type": "mixed"
+    },
+    "InExpr-><(> Assignable <)>": {
+      "type": "mixed"
+    },
+
+    "RangeUnit-><integer>": {
+      "type": "number"
+    },
+    "Range->RangeUnit <..> RangeUnit": {
+      "type": "list"
+    },
+
+    "KeyFilter->KeyFilter <,> RangeOp": {
+      "type": "list"
+    },
+    "KeyFilter->RangeUnit <,> RangeOp": {
+      "type": "list"
+    },
+
+    "Key-><ident>": {
+      "type": "string"
+    },
+    "Key-><string>": {
+      "type": "string"
+    },
+
+    "DotKey-><.> Key": {
+      "type": "keyref"
+    },
+    "BraceKey-><[> Key <]>": {
+      "type": "keyref"
+    },
+
+    "DotFilter-><.> <*>": {
+      "type": "keylist"
+    },
+    "BraceFilter-><[> <]>": {
+      "type": "keylist"
+    },
+    "BraceFilter-><[> <*> <]>": {
+      "type": "keylist"
+    },
+    "BraceFilter-><[> KeyFilter <]>": {
+      "type": "keylist"
+    },
+
+    "PathRoot-><ident>": {
+      "type": "keyref"
+    },
+    "PathRoot->DotRoot BraceKey": {
+      "type": "keyref"
+    },
+    "PathRoot->Object NativeKey": {
+      "type": "keyref"
+    },
+    "PathRoot->Array NativeKey": {
+      "type": "keyref"
+    },
+
+    "PathRoot->DotRoot BraceFilter": {
+      "type": "keylist"
+    },
+    "PathRoot->Object NativeFilter": {
+      "type": "keylist"
+    },
+    "PathRoot->Array NativeFilter": {
+      "type": "keylist"
+    },
+
+    "DotKeyAccess->PathAccess DotKey": {
+      "type": "keyref"
+    },
+    "BraceKeyAccess->PathAccess BraceKey": {
+      "type": "keyref"
+    },
+
+    "DotAccess->PathAccess DotFilter": {
+      "type": "keylist"
+    },
+    "BraceAccess->PathAccess BraceFilter": {
+      "type": "keylist"
+    },
+
+    "Path->PathAccess": {
+      "type": "mixed"
+    },
+
+    "Negative-><-> Num": {
+      "type": "number"
+    },
+    "Positive-><+> Num": {
+      "type": "number"
+    },
+
+    "Params->Params <,> Assignable": {
+      "type": "list"
+    },
+
+    "Call-><ident> <(> Params <)>": {
+      "type": "mixed"
+    },
+
+    "FactorOp->Variant": {
+      "type": "number"
+    },
+
+    "Mod->Factor <%> FactorOp": {
+      "type": "number"
+    },
+
+    "Div->Factor </> FactorOp": {
+      "type": "number"
+    },
+
+    "Mul->Factor <*> FactorOp": {
+      "type": "number"
+    },
+
+    "Add->Term <+> Factor": {
+      "type": "number"
+    },
+
+    "Sub->Term <-> Factor": {
+      "type": "number"
+    },
+
+    "Concat->Concat <+> Scalar": {
+      "type": "string"
+    },
+    "Concat->string <+> string": {
+      "type": "string"
+    },
+    "Concat->Term <+> string": {
+      "type": "string"
+    },
+    "Concat->string <+> Term": {
+      "type": "string"
+    },
+
+    "Lt->Scalar <<> Scalar": {
+      "type": "boolean"
+    },
+    "Lte->Scalar <<=> Scalar": {
+      "type": "boolean"
+    },
+    "Gt->Scalar <>> Scalar": {
+      "type": "boolean"
+    },
+    "Gte->Scalar <>=> Scalar": {
+      "type": "boolean"
+    },
+
+    "Prop-><ident> <:> Assignable": {
+      "type": "hash"
+    },
+
+    "Props->Props <,> Prop": {
+      "type": "hashlist"
+    },
+
+    "Object-><{> Props <}>": {
+      "type": "object"
+    },
+
+    "Array-><[> Params <]>": {
+      "type": "list"
+    },
+
+    "Not-><!> Compound": {
+      "type": "boolean"
+    },
+
+    "SNeq->Compound <!==> Compound": {
+      "type": "boolean"
+    },
+    "Neq->Compound <!=> Compound": {
+      "type": "boolean"
+    },
+    "Seq->Compound <===> Compound": {
+      "type": "boolean"
+    },
+    "Eq->Compound <==> Compound": {
+      "type": "boolean"
+    },
+    "Match->Scalar <=~> MatchOp": {
+      "type": "boolean"
+    },
+
+    "Or->Logical <||> Comparable": {
+      "type": "boolean"
+    },
+    "And->Logical <&&> Comparable": {
+      "type": "boolean"
+    },
+
+    "Unset-><delete> Path": {
+      "type": "boolean"
+    },
+    "Cond->Logical <?> Assignable <:> Assignable": {
+      "type": "mixed"
+    },
+
+    "Assign->Path <=> Assignable": {
+      "type": "mixed"
+    }
+
+  }
 }

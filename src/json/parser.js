@@ -147,6 +147,7 @@ export function parse(subject) {
       // add to rpn
       rpn[rpnIndex++] = {
         lexeme: token,
+        ruleId: token,
         reduce: 0,
         from,
         to,
@@ -199,6 +200,7 @@ export function parse(subject) {
         // add to rpn
         rpn[rpnIndex++] = {
           lexeme: rule,
+          ruleId: end[3],
           reduce: total,
           from: rpnFrom.from,
           to: rpnTo.to,
