@@ -49,12 +49,20 @@ describe("parse()", () => {
     expect(parseAndSerialize("?")).to.not.equal(null);
   });
 
-  it("Should parse Json Path.", () => {
+  it.only("Should parse Json Path.", () => {
+    expect(parseAndSerialize(".")).to.not.equal(null);
+    expect(parseAndSerialize(".test")).to.not.equal(null);
     expect(parseAndSerialize("test.1")).to.not.equal(null);
+    
     expect(parseAndSerialize(".1")).to.not.equal(null);
     expect(parseAndSerialize(".[1]")).to.not.equal(null);
     expect(parseAndSerialize(".[1..10]")).to.not.equal(null);
     expect(parseAndSerialize(".[2, 1..10]")).to.not.equal(null);
+    expect(parseAndSerialize(".[2, 1..10].diko")).to.not.equal(null);
+
+    expect(parseAndSerialize("@[2, 1..10].diko")).to.not.equal(null);
+    expect(parseAndSerialize("root[2, 1..10].diko")).to.not.equal(null);
+    expect(parseAndSerialize("@root[2, 1..10].diko")).to.not.equal(null);
     expect(parseAndSerialize("[test]")).to.not.equal(null);
   });
 
@@ -63,7 +71,7 @@ describe("parse()", () => {
     expect(parseAndSerialize("1 - 1 / 2 + 3")).to.not.equal(null);
     expect(parseAndSerialize("\"test\" + 3")).to.not.equal(null);
     expect(parseAndSerialize("1 + \"test\"")).to.not.equal(null);
-    // expect(parseAndSerialize("1 + \"test\" + 3")).to.not.equal(null);
+    expect(parseAndSerialize("1 + \"test\" + 3")).to.not.equal(null);
   });
 
   it("Should parse Comparison operator.", () => {

@@ -197,13 +197,16 @@
 
     "Variant": [
       ["Path"],
-      ["RefIndex"],
       ["Call"],
       ["InExpr"]
     ],
 
     "Call": [
       ["ident", "(", "Params", ")"]
+    ],
+
+    "InExpr": [
+      ["(", "Expr", ")"]
     ],
 
     "Params": [
@@ -232,59 +235,78 @@
     ],
 
     "Path": [
-      ["Dot"],
-      ["Brace"],
-      ["Filter"],
+      ["PathAccess"],
+      ["DotRoot"]
+    ],
+    "PathAccess": [
+      ["DotAccess"],
+      ["BraceAccess"],
+      ["PathRoot"]
+    ],
+    "DotAccess": [
+      ["PathAccess", "DotKey"]
+    ],
+    "BraceAccess": [
+      ["PathAccess", "BraceFilter"]
+    ],
+    "PathRoot": [
+      ["DotKey"],
+      ["DotRoot", "BraceFilter"],
+      ["ident"],
       ["Ref"],
       ["Root"],
-      ["ident"]
+      ["RefIndex"]
     ],
-    "Dot": [
-      ["PreDot", "PostDot"],
-      ["PreDot", "integer"]
+    "DotKey": [
+      [".", "Key"]
     ],
-    "Brace": [
-      ["PreBrace", "PostDot", "]"],
-      ["PreBrace", "integer", "]"]
+
+    "BraceFilter": [
+      ["[", "]"],
+      ["[", "KeyFilter", "]"]
     ],
-    "Filter": [
-      ["PreBrace", "]"],
-      ["PreBrace", "Ranges", "]"]
+
+    "Key": [
+      ["KeyUnit"],
+      ["RangeUnit"]
     ],
-    "PreDot": [
-      ["Path", "."],
-      ["."]
-    ],
-    "PreBrace": [
-      ["Path", "["],
-      [".", "["]
-    ],
-    "PostDot": [
+
+    "KeyUnit": [
+      ["*"],
       ["ident"],
-      ["string"],
-      ["RefIndex"],
-      ["RecExpr"]
+      ["string"]
     ],
+
+    "KeyFilter": [
+      ["KeyUnit"],
+      ["RangeUnit"],
+      ["Ranges"]
+    ],
+
     "Ranges": [
       ["Ranges", ",", "RangeOp"],
-      ["Ranges", ",", "Range"],
-      ["RangeOp"],
+      ["RangeUnit", ",", "RangeOp"],
       ["Range"]
-    ],
-    "Range": [
-      ["RangeOp", "..", "RangeOp"]
     ],
 
     "RangeOp": [
+      ["RangeUnit"],
+      ["Range"]
+    ],
+
+    "Range": [
+      ["RangeUnit", "..", "RangeUnit"]
+    ],
+
+    "RangeUnit": [
       ["integer"],
       ["RefIndex"],
-      ["RecExpr"]
+      ["InExpr"]
     ],
 
-    "RecExpr": [
-      ["(", "Expr", ")"]
+    "DotRoot": [
+      ["."]
     ],
-
     "Ref": [
       ["@", "ident"]
     ],
