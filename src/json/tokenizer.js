@@ -105,8 +105,15 @@ export function tokenize(input, startIndex) {
         doubleQuote
       ]).join(emptyString);
       break;
+
     case ":call(":
       found = found.substring(1, found.length - 1);
+      break;
+
+    case "percent":
+      found = (
+        found.substring(0, found.length - 1)
+      );
       break;
     }
 

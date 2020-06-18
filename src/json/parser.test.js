@@ -36,7 +36,7 @@ function parseAndSerialize(subject) {
 
 showErrors(true);
 
-describe("parse()", () => {
+describe("parse(subject)", () => {
   it("Should parse number, float, and percent.", () => {
     expect(parseAndSerialize("1")).to.not.equal(null);
     expect(parseAndSerialize("    +2")).to.not.equal(null);
@@ -100,6 +100,10 @@ describe("parse()", () => {
     expect(parseAndSerialize("a = \"test\" > \"big\"")).to.not.equal(null);
     expect(parseAndSerialize("a = \"big\"")).to.not.equal(null);
     expect(parseAndSerialize("b = .a = ? ? -1 + 'b': 2")).to.not.equal(null);
+  });
+
+  it("Just trying out.", () => {
+    expect(parseAndSerialize("\"diko\" =~ /regex/")).to.not.equal(null);
   });
 
   // it.only("Just trying out.", () => {

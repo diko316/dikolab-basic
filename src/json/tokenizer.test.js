@@ -18,7 +18,7 @@ describe("tokenize()", () => {
     expect(tokenize("-0.1 +", 1)).to.deep.equal(["float", "0.1", 4, 0]);
     expect(tokenize("0.1x")).to.deep.equal(["float", "0.1", 3, 0]);
 
-    expect(tokenize("0.5% ni")).to.deep.equal(["percent", "0.5%", 4, 0]);
+    expect(tokenize("0.5% ni")).to.deep.equal(["percent", "0.5", 4, 0]);
   });
 
   it("Should tokenize quoted string.", () => {
@@ -46,5 +46,14 @@ describe("tokenize()", () => {
 
   it("Should tokenize with correct index", () => {
     expect(tokenize("1 + ident * 1 ? a : b", 20)).to.deep.equal(["ident", "b", 21, 0]);
+  });
+
+  it("Should tokenize regex", () => {
+    expect(tokenize("/[a-b]/", 0)).to.deep.equal(["regex", "/[a-b]/", 7, 0]);
+    expect(tokenize("/a-b/ig", 0)).to.deep.equal(["regex", "/a-b/ig", 7, 0]);
+  });
+
+  it("Should tokenize matcher =~ operator", () => {
+    expect(tokenize("=~ /[a-b]/g", 0)).to.deep.equal(["=~", "=~", 2, 0]);
   });
 });

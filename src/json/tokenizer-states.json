@@ -24,7 +24,6 @@
       "+": "plus",
       "-": "minus",
       "%": "modulo",
-      "~": "tilde",
       "!": "exclamation",
       ">": "gt",
       "<": "lt",
@@ -65,7 +64,6 @@
       "+": false,
       "-": false,
       "%": false,
-      "~": false,
       "!": false,
       ">": false,
       "<": false,
@@ -112,7 +110,64 @@
     "patternEscape": {
       ":*": "pattern"
     },
-    "regex": {},
+    "regex": {
+      "g": "regexg",
+      "i": "regexi",
+      "m": "regexm",
+      "s": "regexs"
+    },
+    "regexg": {
+      "i": "regexgi",
+      "m": "regexgm",
+      "s": "regexgs"
+    },
+    "regexgi": {
+      "m": "regexgim",
+      "s": "regexgis"
+    },
+    "regexgim": {
+      "s": "regexgis"
+    },
+    "regexgis": {},
+    "regexi": {
+      "g": "regexig",
+      "m": "regexim",
+      "s": "regexis"
+    },
+    "regexig": {
+      "m": "regexigm",
+      "s": "regexigs"
+    },
+    "regexigm": {
+      "s": "regexgigs"
+    },
+    "regexgigs": {},
+    "regexm": {
+      "g": "regexmg",
+      "i": "regexmi",
+      "s": "regexms"
+    },
+    "regexmg": {
+      "i": "regexmgi",
+      "s": "regexmgs"
+    },
+    "regexmgi": {
+      "s": "regexmgis"
+    },
+    "regexmgis": {},
+    "regexs": {
+      "g": "regexsg",
+      "i": "regexsi",
+      "m": "regexsm"
+    },
+    "regexsg": {
+      "i": "regexsgi",
+      "m": "regexsms"
+    },
+    "regexsgi": {
+      "m": "regexsgim"
+    },
+    "regexsgim": {},
     "scomment1": {
       ":*": "scomment2",
       "\n": "scomment2"
@@ -139,13 +194,11 @@
     "colon": {},
     "semicolon": {},
     "assign": {
-      "=": "equal"
+      "=": "equal",
+      "~": "match"
     },
     "equal": {
       "=": "strictEqual"
-    },
-    "tilde": {
-      "=": "match"
     },
     "match": {},
     "exclamation": {
@@ -244,7 +297,7 @@
     "plus": "+",
     "minus": "-",
     "modulo": "%",
-    "match": "~=",
+    "match": "=~",
     "equal": "==",
     "strictEqual": "===",
     "not": "!=",
@@ -257,6 +310,22 @@
     "float": "float",
     "whitespace": "whitespace",
     "percent": "percent",
-    "regex": "regex"
+    "regex": "regex",
+    "regexg": "regex",
+    "regexgi": "regex",
+    "regexgim": "regex",
+    "regexgis": "regex",
+    "regexi": "regex",
+    "regexig": "regex",
+    "regexigm": "regex",
+    "regexgigs": "regex",
+    "regexm": "regex",
+    "regexmg": "regex",
+    "regexmgi": "regex",
+    "regexmgis": "regex",
+    "regexs": "regex",
+    "regexsg": "regex",
+    "regexsgi": "regex",
+    "regexsgim": "regex"
   }
 }

@@ -33,7 +33,11 @@
     ],
 
     "Cond": [
-      ["Logical", "?", "Assignable", ":", "Assignable"]
+      ["TernCond", "Assignable", ":", "Assignable"]
+    ],
+
+    "TernCond": [
+      ["Logical", "?"]
     ],
 
     "Unset": [

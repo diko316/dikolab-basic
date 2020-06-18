@@ -1,0 +1,1 @@
+export { access } from "./path";

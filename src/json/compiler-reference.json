@@ -1,0 +1,896 @@
+{
+  "reference": {
+    "integer": {
+      "type": "number",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+    "float": {
+      "type": "number",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+    "percent": {
+      "type": "number",
+      "code": "percent",
+      "params": [
+        0
+      ]
+    },
+    "string": {
+      "type": "string",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+    "regex": {
+      "type": "pattern",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+    "true": {
+      "type": "boolean",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+    "false": {
+      "type": "boolean",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+    "null": {
+      "type": "null",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+
+    "ident": {
+      "type": "reference",
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+
+    "?": {
+      "type": "reference",
+      "code": "literal",
+      "params": [
+        {
+          "source": 0,
+          "as": "autofill"
+        }
+      ]
+    },
+
+    "DotRoot-><.>": {
+      "code": "literal",
+      "params": [
+        0
+      ]
+    },
+
+    "Ref-><@> <ident>": {
+      "type": "mixed",
+      "code": "varget",
+      "params": [
+        {
+          "source": 2,
+          "as": "id"
+        }
+      ]
+    },
+    "RefIndex-><@> <integer>": {
+      "type": "mixed",
+      "code": "varget",
+      "params": [
+        {
+          "source": 2,
+          "as": "id"
+        }
+      ]
+    },
+    "RefIndex-><?>": {
+      "type": "mixed",
+      "code": "varget",
+      "params": [
+        1
+      ]
+    },
+    "InExpr-><(> Assignable <)>": {
+      "useChild": 1
+    },
+
+    "RangeUnit-><integer>": {
+      "useChild": 0
+    },
+    "RangeUnit->RefIndex": {
+      "useChild": 0
+    },
+    "RangeUnit->InExpr": {
+      "useChild": 0
+    },
+    "Range->RangeUnit <..> RangeUnit": {
+      "type": "keyrange"
+    },
+
+    "KeyFilter->KeyFilter <,> RangeOp": {
+      "type": "list"
+    },
+    "KeyFilter->RangeUnit <,> RangeOp": {
+      "type": "list"
+    },
+    "KeyFilter->Range": {
+      "type": "list"
+    },
+
+    "Key-><ident>": {
+      "type": "string"
+    },
+    "Key-><string>": {
+      "type": "string"
+    },
+
+    "DotKey-><.> Key": {
+      "type": "keyaccess"
+    },
+    "BraceKey-><[> Key <]>": {
+      "type": "keyaccess"
+    },
+
+    "DotFilter-><.> <*>": {
+      "type": "keyfilter"
+    },
+    "BraceFilter-><[> <]>": {
+      "type": "keyfilter"
+    },
+    "BraceFilter-><[> <*> <]>": {
+      "type": "keyfilter"
+    },
+    "BraceFilter-><[> KeyFilter <]>": {
+      "type": "keyfilter"
+    },
+
+    "PathRoot-><ident>": {
+      "type": "keyaccess"
+    },
+    "PathRoot->Root": {
+      "type": "keyaccess"
+    },
+    "PathRoot->Ref": {
+      "type": "keyaccess"
+    },
+    "PathRoot->RefIndex": {
+      "type": "keyaccess"
+    },
+    "PathRoot->DotRoot BraceKey": {
+      "type": "keyaccess"
+    },
+    "PathRoot->InExpr RootKey": {
+      "type": "keyaccess"
+    },
+
+    "PathRoot->DotRoot BraceFilter": {
+      "type": "keyfilter"
+    },
+    "PathRoot->InExpr RootFilter": {
+      "type": "keyfilter"
+    },
+
+    "DotKeyAccess->PathAccess DotKey": {
+      "type": "keyaccess"
+    },
+    "BraceKeyAccess->PathAccess BraceKey": {
+      "type": "keyaccess"
+    },
+
+    "DotAccess->PathAccess DotFilter": {
+      "type": "keyfilter"
+    },
+    "BraceAccess->PathAccess BraceFilter": {
+      "type": "keyfilter"
+    },
+
+    "Path->PathAccess": {
+      "type": "mixed"
+    },
+
+    "Num-><integer>": {
+      "useChild": 0
+    },
+    "Num-><float>": {
+      "useChild": 0
+    },
+    "Num-><percent>": {
+      "useChild": 0
+    },
+
+    "Negative-><-> Num": {
+      "type": "number",
+      "code": "negative",
+      "params": [
+        2
+      ]
+    },
+    "Positive-><+> Num": {
+      "useChild": 1
+    },
+
+    "Variant->Path": {
+      "useChild": 0
+    },
+    "Variant->Call": {
+      "useChild": 0
+    },
+    "Variant->InExpr": {
+      "useChild": 0
+    },
+
+    "Params->Params <,> Assignable": {
+      "type": "list"
+    },
+
+    "Call-><ident> <(> Params <)>": {
+      "type": "mixed"
+    },
+
+    "Numeric->Num": {
+      "useChild": 0
+    },
+    "Numeric->Negative": {
+      "useChild": 0
+    },
+    "Numeric->Positive": {
+      "useChild": 0
+    },
+
+    "FactorOp->Numeric": {
+      "useChild": 0
+    },
+    "FactorOp->Variant": {
+      "type": "number",
+      "code": "numberify",
+      "params": [
+        1
+      ]
+    },
+
+    "Factor->Mul": {
+      "useChild": 0
+    },
+    "Factor->Div": {
+      "useChild": 0
+    },
+    "Factor->Mode": {
+      "useChild": 0
+    },
+    "Factor->Numeric": {
+      "useChild": 0
+    },
+    "Factor->Variant": {
+      "useChild": 0
+    },
+
+    "Mod->Factor <%> FactorOp": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "number"
+        },
+        2,
+        3
+      ]
+    },
+
+    "Div->Factor </> FactorOp": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "number"
+        },
+        2,
+        3
+      ]
+    },
+
+    "Mul->Factor <*> FactorOp": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "number"
+        },
+        2,
+        3
+      ]
+    },
+
+    "Term->Factor": {
+      "useChild": 0
+    },
+    "Term->Add": {
+      "useChild": 0
+    },
+    "Term->Sub": {
+      "useChild": 0
+    },
+
+    "Add->Term <+> Factor": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "source": 3,
+          "cast": "number"
+        }
+      ]
+    },
+
+    "Sub->Term <-> Factor": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "source": 3,
+          "cast": "number"
+        }
+      ]
+    },
+
+    "Concat->Concat <+> Scalar": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1
+        },
+        2,
+        {
+          "source": 3,
+          "cast": "string"
+        }
+      ]
+    },
+    "Concat-><string> <+> <string>": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+    "Concat->Term <+> <string>": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "string"
+        },
+        2,
+        3
+      ]
+    },
+    "Concat-><string> <+> Term": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+
+    "Scalar->Term": {
+      "useChild": 0
+    },
+    "Scalar->Concat": {
+      "useChild": 0
+    },
+    "Scalar-><string>": {
+      "useChild": 0
+    },
+
+    "Lt->Scalar <<> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+    "Lte->Scalar <<=> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+    "Gt->Scalar <>> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+    "Gte->Scalar <>=> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+
+    "Prop-><ident> <:> Assignable": {
+      "type": "hash"
+    },
+
+    "Props->Props <,> Prop": {
+      "type": "hashlist"
+    },
+
+    "Object-><{> Props <}>": {
+      "type": "object"
+    },
+
+    "Array-><[> Params <]>": {
+      "type": "list"
+    },
+
+    "Compound->Scalar": {
+      "useChild": 0
+    },
+    "Compound->Object": {
+      "useChild": 0
+    },
+    "Compound->Array": {
+      "useChild": 0
+    },
+    "Compound->Boolean": {
+      "useChild": 0
+    },
+    "Compound-><null>": {
+      "useChild": 0
+    },
+    "Compound->Not": {
+      "useChild": 0
+    },
+
+    "Not-><!> Compound": {
+      "type": "boolean",
+      "code": "not",
+      "params": [
+        2
+      ]
+    },
+
+    "SNeq->Compound <!==> Compound": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "boolean"
+        },
+        {
+          "source": 2,
+          "use": "rule"
+        },
+        {
+          "source": 3,
+          "cast": "boolean"
+        }
+      ]
+    },
+    "Neq->Compound <!=> Compound": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "boolean"
+        },
+        2,
+        {
+          "source": 3,
+          "cast": "boolean"
+        }
+      ]
+    },
+    "Seq->Compound <===> Compound": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "boolean"
+        },
+        2,
+        {
+          "source": 3,
+          "cast": "boolean"
+        }
+      ]
+    },
+    "Eq->Compound <==> Compound": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "source": 1,
+          "cast": "boolean"
+        },
+        2,
+        {
+          "source": 3,
+          "cast": "boolean"
+        }
+      ]
+    },
+    "MatchOp-><string>": {
+      "useChild": 0
+    },
+    "MatchOp-><regex>": {
+      "useChild": 0
+    },
+    "Match->Scalar <=~> MatchOp": {
+      "type": "boolean",
+      "code": "match",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "Comparable->Compound": {
+      "useChild": 0
+    },
+    "Comparable->Match": {
+      "useChild": 0
+    },
+    "Comparable->Eq": {
+      "useChild": 0
+    },
+    "Comparable->Neq": {
+      "useChild": 0
+    },
+    "Comparable->SNeq": {
+      "useChild": 0
+    },
+    "Comparable->Seq": {
+      "useChild": 0
+    },
+    "Comparable->Gt": {
+      "useChild": 0
+    },
+    "Comparable->Gte": {
+      "useChild": 0
+    },
+    "Comparable->Lt": {
+      "useChild": 0
+    },
+    "Comparable->Lte": {
+      "useChild": 0
+    },
+
+    "Logical->Comparable": {
+      "useChild": 0
+    },
+    "Logical->Or": {
+      "useChild": 0
+    },
+    "Logical->And": {
+      "useChild": 0
+    },
+
+    "Or->Logical <||> Comparable": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        {
+          "source": 3,
+          "cast": "boolean"
+        }
+      ]
+    },
+    "And->Logical <&&> Comparable": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        {
+          "source": 3,
+          "cast": "boolean"
+        }
+      ]
+    },
+
+    "Unset-><delete> Path": {
+      "type": "boolean"
+    },
+    "TernCond->Logical <?>": {
+      "useChild": 0
+    },
+    "Assignable->Assign": {
+      "useChild": 0
+    },
+    "Assignable->Logical": {
+      "useChild": 0
+    },
+    "Assignable->Cond": {
+      "useChild": 0
+    },
+    "Cond->TernCond Assignable <:> Assignable": {
+      "type": "mixed",
+      "code": "ternaryIf",
+      "params": [
+        {
+          "source": 1,
+          "cast": "boolean"
+        },
+        2,
+        4
+      ]
+    },
+
+    "Assign->Path <=> Assignable": {
+      "type": "mixed"
+    },
+
+    "Expr->Logical": {
+      "useChild": 0
+    },
+    "Expr->Cond": {
+      "useChild": 0
+    },
+
+    "Var-><ident> <from> Path": {
+      "type": "mixed",
+      "code": "varset",
+      "params": [
+        {
+          "source": 1,
+          "as": "id"
+        },
+        {
+          "source": 3
+        }
+      ]
+    },
+    "Vars->Var": {
+      "useChild": 0
+    },
+    "Vars->Vars <;> Var": {
+      "code": "combine",
+      "params": [
+        1,
+        2
+      ]
+    },
+
+    "Query->Expr <$>": {
+      "type": "mixed",
+      "code": "returnone",
+      "params": [
+        1
+      ]
+    },
+    "Query->Vars <;> Expr <$>": {
+      "type": "mixed",
+      "code": "return",
+      "params": [
+        3,
+        1
+      ]
+    }
+  },
+  "typecast": {
+    "number": {
+      "*": "numberify",
+      "boolean": "ifnumberify"
+    },
+    "string": {
+      "*": "stringify"
+    },
+    "boolean": {
+      "*": "booleanify"
+    }
+  },
+  "template": {
+    "literal": {
+      "return": [0]
+    },
+    "symbolize": {
+      "symbols": 1,
+      "return": [0],
+      "body": [
+        "$1",
+        0, " = ", 1, ";"
+      ]
+    },
+    "percent": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "(", 0, " / 100)"
+      ]
+    },
+    "numberify": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "(", 0, "parseFloat(", 0, ") || 0)"
+      ]
+    },
+    "ifnumberify": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "(", 0, " ? 1 : 0)"
+      ]
+    },
+    "booleanify": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "!!(", 0, ")"
+      ]
+    },
+    "stringify": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "String(", 0, ")"
+      ]
+    },
+    "varset": {
+      "symbols": 1,
+      "return": [
+        0
+      ],
+      "body": [
+        "$1",
+        "$2",
+        0, " = vars[", 1, "] = ", 2, ";"
+      ]
+    },
+    "varget": {
+      "symbols": 1,
+      "return": [
+        0
+      ],
+      "body": [
+        "$1",
+        0, " = ", 1, " in vars ? vars[", 1, "] : undefined;"
+      ]
+    },
+    "define": {
+      "body": [
+        "$0",
+        "$1",
+        0, " = ", 1, ";"
+      ],
+      "return": [
+        0
+      ]
+    },
+    "combine": {
+      "body": [
+        "$0",
+        "$1"
+      ],
+      "return": [
+        2
+      ]
+    },
+    "negative": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "(0 - ", 0, ")"
+      ]
+    },
+    "not": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "!(", 0, ")"
+      ]
+    },
+    "binary": {
+      "body": [
+        "$0",
+        "$2"
+      ],
+      "return": [
+        0, " ", 1, " ", 2
+      ]
+    },
+    "match": {
+      "symbols": 1,
+      "return": [0],
+      "body": [
+        "$1",
+        "$2",
+        0, " = typeof ", 1, " === 'string'\n",
+          "? String(", 2, ").indexOf(", 1, ") !== -1\n",
+          ": (", 1, ").test(", 2, ");"
+      ]
+    },
+    "ternaryIf": {
+      "symbols": 1,
+      "return": [0],
+      "body": [
+        "$1",
+        "if (", 1, ") {\n",
+          "$2",
+          0, " = ", 2, ";\n",
+        "// else ----------------- \n",
+        "} else {\n",
+          "$3",
+          0, " = ", 3, ";\n",
+        "}"
+      ]
+    },
+    "return": {
+      "body": [
+        "$1",
+        "$0",
+        "return ", 0, ";"
+      ]
+    },
+    "returnone": {
+      "body": [
+        "$0",
+        "return ", 0, ";"
+      ]
+    }
+  }
+}
+
