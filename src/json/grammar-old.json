@@ -16,105 +16,50 @@
     ],
 
     "Expr": [
-      ["Variant"],
-      ["Numeric"],
-      ["Factor"],
-      ["Term"],
-      ["Concat"],
-      ["Comparison"],
-      ["And"],
-      ["Or"],
+      ["Logical"],
       ["Cond"],
       ["Assign"],
-      ["Object"],
-      ["Array"],
-      ["Boolean"],
-      ["string"],
-      ["null"],
       ["Unset"]
     ],
 
     "Assign": [
-      ["Path", "=", "Expr"]
+      ["Path", "=", "Assignable"]
+    ],
+
+    "Assignable": [
+      ["Assign"],
+      ["Logical"],
+      ["Cond"]
     ],
 
     "Cond": [
-      ["PreCond", "Expr", ":", "Expr"]
+      ["TernCond", "Assignable", ":", "Assignable"]
+    ],
+
+    "TernCond": [
+      ["Logical", "?"]
     ],
 
     "Unset": [
       ["delete", "Path"]
     ],
 
-    "PreCond": [
-      ["Or", "?"],
-      ["And", "?"],
-      ["Comparison", "?"],
-      ["Variant", "?"],
-      ["Factor", "?"],
-      ["Term", "?"],
-      ["Concat", "?"],
-      ["string", "?"],
-      ["Numeric", "?"],
-      ["Object", "?"],
-      ["Array", "?"],
-      ["Boolean", "?"],
-      ["null", "?"]
+    "Logical": [
+      ["Or"],
+      ["And"],
+      ["Comparable"]
     ],
 
     "Or": [
-      ["PreOr", "LogicalOp"],
-      ["PreOr", "And"]
-    ],
-
-    "PreOr": [
-      ["Or", "||"],
-      ["And", "||"],
-      ["Comparison", "||"],
-      ["Variant", "||"],
-      ["Factor", "||"],
-      ["Term", "||"],
-      ["Concat", "||"],
-      ["string", "||"],
-      ["Numeric", "||"],
-      ["Object", "||"],
-      ["Array", "||"],
-      ["Boolean", "||"],
-      ["null", "||"]
+      ["Logical", "||", "Comparable"]
     ],
 
     "And": [
-      ["PreAnd", "LogicalOp"]
+      ["Logical", "&&", "Comparable"]
     ],
 
-    "PreAnd": [
-      ["And", "&&"],
-      ["Comparison", "&&"],
-      ["Variant", "&&"],
-      ["Factor", "&&"],
-      ["Term", "&&"],
-      ["Concat", "&&"],
-      ["string", "&&"],
-      ["Numeric", "&&"],
-      ["Object", "&&"],
-      ["Array", "&&"],
-      ["Boolean", "&&"],
-      ["null", "&&"]
-    ],
-
-    "LogicalOp": [
-      ["Comparison"],
-      ["Variant"],
-      ["Factor"],
-      ["Term"],
-      ["Concat"],
-      ["string"],
-      ["Numeric"],
-      ["Object"],
-      ["Array"]
-    ],
-
-    "Comparison": [
+    "Comparable": [
+      ["Compound"],
       ["Match"],
       ["Eq"],
       ["Neq"],
@@ -127,16 +72,7 @@
     ],
 
     "Match": [
-      ["PreMatch", "MatchOp"]
-    ],
-
-    "PreMatch": [
-      ["Variant", "=~"],
-      ["Factor", "=~"],
-      ["Term", "=~"],
-      ["Concat", "=~"],
-      ["string", "=~"],
-      ["Numeric", "=~"]
+      ["Scalar", "=~", "MatchOp"]
     ],
 
     "MatchOp": [
@@ -145,94 +81,37 @@
     ],
 
     "Seq": [
-      ["PreSeq", "EqOp"]
-    ],
-
-    "PreSeq": [
-      ["Variant", "==="],
-      ["Factor", "==="],
-      ["Term", "==="],
-      ["Concat", "==="],
-      ["string", "==="],
-      ["Numeric", "==="],
-      ["Object", "==="],
-      ["Array", "==="],
-      ["Boolean", "==="],
-      ["null", "==="]
+      ["Compound", "===", "Compound"]
     ],
 
     "Eq": [
-      ["PreEq", "EqOp"]
-    ],
-
-    "PreEq": [
-      ["Variant", "=="],
-      ["Factor", "=="],
-      ["Term", "=="],
-      ["Concat", "=="],
-      ["string", "=="],
-      ["Numeric", "=="],
-      ["Object", "=="],
-      ["Array", "=="],
-      ["Boolean", "=="],
-      ["null", "=="]
+      ["Compound", "==", "Compound"]
     ],
 
     "Neq": [
-      ["PreNeq", "EqOp"]
-    ],
-
-    "PreNeq": [
-      ["Variant", "!="],
-      ["Factor", "!="],
-      ["Term", "!="],
-      ["Concat", "!="],
-      ["string", "!="],
-      ["Numeric", "!="],
-      ["Object", "!="],
-      ["Array", "!="],
-      ["Boolean", "!="],
-      ["null", "!="]
+      ["Compound", "!=", "Compound"]
     ],
 
     "SNeq": [
-      ["SPreNeq", "EqOp"]
+      ["Compound", "!==", "Compound"]
     ],
 
-    "SPreNeq": [
-      ["Variant", "!=="],
-      ["Factor", "!=="],
-      ["Term", "!=="],
-      ["Concat", "!=="],
-      ["string", "!=="],
-      ["Numeric", "!=="],
-      ["Object", "!=="],
-      ["Array", "!=="],
-      ["Boolean", "!=="],
-      ["null", "!=="]
-    ],
-
-    "EqOp": [
-      ["Variant"],
-      ["Factor"],
-      ["Term"],
-      ["Concat"],
-      ["string"],
-      ["Numeric"],
+    "Compound": [
+      ["Scalar"],
       ["Object"],
       ["Array"],
       ["Boolean"],
-      ["null"]
+      ["null"],
+      ["Not"]
     ],
 
     "Boolean": [
       ["true"],
-      ["false"],
-      ["Not"]
+      ["false"]
     ],
 
     "Not": [
-      ["!", "Expr"]
+      ["!", "Compound"]
     ],
 
     "Array": [
@@ -249,132 +128,70 @@
     ],
 
     "Prop": [
-      ["ident", ":", "Expr"]
+      ["ident", ":", "Assignable"]
     ],
 
     "Gt": [
-      ["PreGt", "CompOp"]
-    ],
-
-    "PreGt": [
-      ["Variant", ">"],
-      ["Factor", ">"],
-      ["Term", ">"],
-      ["Concat", ">"],
-      ["string", ">"],
-      ["Numeric", ">"]
+      ["Scalar", ">", "Scalar"]
     ],
 
     "Gte": [
-      ["PreGte", "CompOp"]
-    ],
-
-    "PreGte": [
-      ["Variant", ">="],
-      ["Factor", ">="],
-      ["Term", ">="],
-      ["Concat", ">="],
-      ["string", ">="],
-      ["Numeric", ">="]
+      ["Scalar", ">=", "Scalar"]
     ],
 
     "Lt": [
-      ["PreLt", "CompOp"]
-    ],
-
-    "PreLt": [
-      ["Variant", "<"],
-      ["Factor", "<"],
-      ["Term", "<"],
-      ["Concat", "<"],
-      ["string", "<"],
-      ["Numeric", "<"]
+      ["Scalar", "<", "Scalar"]
     ],
 
     "Lte": [
-      ["PreLte", "CompOp"]
+      ["Scalar", "<=", "Scalar"]
     ],
 
-    "PreLte": [
-      ["Variant", "<="],
-      ["Factor", "<="],
-      ["Term", "<="],
-      ["Concat", "<="],
-      ["string", "<="],
-      ["Numeric", "<="]
-    ],
-
-    "CompOp": [
-      ["Variant"],
-      ["Factor"],
-      ["Term"],
+    "Scalar": [
       ["Concat"],
-      ["string"],
-      ["Numeric"]
+      ["Term"],
+      ["string"]
     ],
 
     "Concat": [
-      ["Concat", "+", "ConcatOp"],
-      ["string", "+", "ConcatOp"],
-      ["PreAdd", "string"]
-    ],
-
-    "ConcatOp": [
-      ["Factor"],
-      ["Term"],
-      ["Variant"],
-      ["Numeric"]
+      ["Concat", "+", "Scalar"],
+      ["string", "+", "string"],
+      ["Term", "+", "string"],
+      ["string", "+", "Term"]
     ],
 
     "Term": [
       ["Add"],
-      ["Sub"]
+      ["Sub"],
+      ["Factor"]
     ],
 
     "Add": [
-      ["PreAdd", "TermOp"]
+      ["Term", "+", "Factor"]
     ],
 
     "Sub": [
-      ["PreSub", "TermOp"]
-    ],
-
-    "PreSub": [
-      ["Term", "-"],
-      ["Factor", "-"],
-      ["Variant", "-"],
-      ["Numeric", "-"]
-    ],
-
-    "PreAdd": [
-      ["Term", "+"],
-      ["Factor", "+"],
-      ["Variant", "+"],
-      ["Numeric", "+"]
-    ],
-
-    "TermOp": [
-      ["Factor"],
-      ["Variant"],
-      ["Numeric"]
+      ["Term", "-", "Factor"]
     ],
 
     "Factor": [
       ["Mul"],
       ["Div"],
-      ["Mod"]
+      ["Mod"],
+      ["Variant"],
+      ["Numeric"]
     ],
 
     "Mul": [
-      ["PreMul", "FactorOp"]
+      ["Factor", "*", "FactorOp"]
     ],
 
     "Div": [
-      ["PreDiv", "FactorOp"]
+      ["Factor", "/", "FactorOp"]
     ],
 
     "Mod": [
-      ["PreMod", "FactorOp"]
+      ["Factor", "%", "FactorOp"]
     ],
 
     "FactorOp": [
@@ -382,51 +199,36 @@
       ["Numeric"]
     ],
 
-    "PreMul": [
-      ["Factor", "*"],
-      ["Variant", "*"],
-      ["Numeric", "*"]
-    ],
-
-    "PreDiv": [
-      ["Factor", "/"],
-      ["Variant", "/"],
-      ["Numeric", "/"]
-    ],
-
-    "PreMod": [
-      ["Factor", "%"],
-      ["Variant", "%"],
-      ["Numeric", "%"]
-    ],
-
     "Variant": [
       ["Path"],
-      ["RefIndex"],
       ["Call"],
-      ["(", "Expr", ")"]
+      ["InExpr"]
     ],
 
     "Call": [
       ["ident", "(", "Params", ")"]
     ],
 
+    "InExpr": [
+      ["(", "Assignable", ")"]
+    ],
+
     "Params": [
-      ["Params", ",", "Expr"],
-      ["Expr"]
+      ["Params", ",", "Assignable"],
+      ["Assignable"]
     ],
 
     "Numeric": [
-      ["PosNum"],
-      ["NegNum"],
+      ["Positive"],
+      ["Negative"],
       ["Num"]
     ],
 
-    "PosNum": [
+    "Positive": [
       ["+", "Num"]
     ],
 
-    "NegNum": [
+    "Negative": [
       ["-", "Num"]
     ],
 
@@ -437,55 +239,98 @@
     ],
 
     "Path": [
-      ["Dot"],
-      ["Brace"],
-      ["Filter"],
+      ["PathAccess"],
+      ["DotRoot"]
+    ],
+    "PathAccess": [
+      ["DotKeyAccess"],
+      ["DotAccess"],
+      ["BraceAccess"],
+      ["BraceKeyAccess"],
+      ["PathRoot"]
+    ],
+    "DotKeyAccess": [
+      ["PathAccess", "DotKey"]
+    ],
+    "DotAccess": [
+      ["PathAccess", "DotFilter"]
+    ],
+    "BraceAccess": [
+      ["PathAccess", "BraceFilter"]
+    ],
+    "BraceKeyAccess": [
+      ["PathAccess", "BraceKey"]
+    ],
+    "PathRoot": [
+      ["DotKey"],
+      ["DotFilter"],
+      ["DotRoot", "BraceFilter"],
+      ["DotRoot", "BraceKey"],
+      ["ident"],
       ["Ref"],
       ["Root"],
-      ["ident"]
+      ["RefIndex"],
+      ["InExpr", "RootKey"],
+      ["InExpr", "RootFilter"]
     ],
-    "Dot": [
-      ["PreDot", "PostDot"],
-      ["PreDot", "integer"]
+
+    "RootKey": [
+      ["DotKey"],
+      ["BraceKey"]
     ],
-    "Brace": [
-      ["PreBrace", "PostDot", "]"],
-      ["PreBrace", "integer", "]"]
+    "RootFilter": [
+      ["DotFilter"],
+      ["BraceFilter"]
     ],
-    "Filter": [
-      ["PreBrace", "]"],
-      ["PreBrace", "Ranges", "]"]
+
+    "DotKey": [
+      [".", "Key"]
     ],
-    "PreDot": [
-      ["Path", "."],
-      ["."]
+
+    "DotFilter": [
+      [".", "*"]
     ],
-    "PreBrace": [
-      ["Path", "["],
-      [".", "["]
+
+    "BraceFilter": [
+      ["[", "]"],
+      ["[", "*", "]"],
+      ["[", "KeyFilter", "]"]
     ],
-    "PostDot": [
+
+    "BraceKey": [
+      ["[", "Key", "]"]
+    ],
+
+    "Key": [
       ["ident"],
       ["string"],
-      ["RefIndex"],
-      ["(", "Expr", ")"]
+      ["RangeUnit"]
     ],
-    "Ranges": [
-      ["Ranges", ",", "RangeOp"],
-      ["Ranges", ",", "Range"],
-      ["RangeOp"],
+
+    "KeyFilter": [
+      ["KeyFilter", ",", "RangeOp"],
+      ["RangeUnit", ",", "RangeOp"],
       ["Range"]
-    ],
-    "Range": [
-      ["RangeOp", "..", "RangeOp"]
     ],
 
     "RangeOp": [
-      ["integer"],
-      ["RefIndex"],
-      ["(", "Expr", ")"]
+      ["RangeUnit"],
+      ["Range"]
     ],
 
+    "Range": [
+      ["RangeUnit", "..", "RangeUnit"]
+    ],
+
+    "RangeUnit": [
+      ["integer"],
+      ["RefIndex"],
+      ["InExpr"]
+    ],
+
+    "DotRoot": [
+      ["."]
+    ],
     "Ref": [
       ["@", "ident"]
     ],

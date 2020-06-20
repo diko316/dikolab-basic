@@ -1,1 +1,5 @@
-export { access } from "./path";
+import { access } from "./path";
+
+export default {
+  access
+};

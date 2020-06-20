@@ -1,0 +1,35 @@
+{
+  "grammar": {
+    "Ternary": [
+      ["Logical", "?", "Assignable", ":", "Assignable"]
+    ],
+
+    "Logical": [
+      ["Logical", "&&", "Comparable"],
+      ["Logical", "||", "Comparable"],
+      ["Comparable"],
+      ["Compare"]
+    ],
+
+    "Comparable": [
+      ["Object"],
+      ["Array"],
+      ["Scalar"],
+      ["Boolean"],
+      ["!", "Comparable"]
+    ],
+
+    "Compare": [
+      ["Comparable", "===", "Comparable"],
+      ["Comparable", "!==", "Comparable"],
+      ["Comparable", "==", "Comparable"],
+      ["Comparable", "!=", "Comparable"],
+      ["Scalar", "=~", "string"],
+      ["Scalar", "=~", "regex"],
+      ["Scalar", ">", "Scalar"],
+      ["Scalar", ">=", "Scalar"],
+      ["Scalar", "<", "Scalar"],
+      ["Scalar", "<=", "Scalar"]
+    ]
+  }
+}

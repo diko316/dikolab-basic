@@ -176,7 +176,7 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     expect(subject.data[1]).to.not.have.property("name");
   });
 
-  it.only("Should delete data[1] using expression: unset data[1]", () => {
+  it("Should delete data[1] using expression: unset data[1]", () => {
     access(
       subject,
       [

@@ -1,18 +1,10 @@
 {
   "reference": {
     "integer": {
-      "type": "number",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "number"
     },
     "float": {
-      "type": "number",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "number"
     },
     "percent": {
       "type": "number",
@@ -22,58 +14,27 @@
       ]
     },
     "string": {
-      "type": "string",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "string"
     },
     "regex": {
-      "type": "pattern",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "pattern"
     },
     "true": {
-      "type": "boolean",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "boolean"
     },
     "false": {
-      "type": "boolean",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "boolean"
     },
     "null": {
-      "type": "null",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "null"
     },
 
     "ident": {
-      "type": "reference",
-      "code": "literal",
-      "params": [
-        0
-      ]
+      "type": "ident"
     },
 
     "?": {
-      "type": "reference",
-      "code": "literal",
-      "params": [
-        {
-          "source": 0,
-          "as": "autofill"
-        }
-      ]
+      "type": "var"
     },
 
     "DotRoot-><.>": {
@@ -88,7 +49,7 @@
       "code": "varget",
       "params": [
         {
-          "source": 2,
+          "child": 2,
           "as": "id"
         }
       ]
@@ -98,7 +59,7 @@
       "code": "varget",
       "params": [
         {
-          "source": 2,
+          "child": 2,
           "as": "id"
         }
       ]
@@ -111,17 +72,17 @@
       ]
     },
     "InExpr-><(> Assignable <)>": {
-      "useChild": 1
+      "code": 1
     },
 
     "RangeUnit-><integer>": {
-      "useChild": 0
+      "code": 0
     },
     "RangeUnit->RefIndex": {
-      "useChild": 0
+      "code": 0
     },
     "RangeUnit->InExpr": {
-      "useChild": 0
+      "code": 0
     },
     "Range->RangeUnit <..> RangeUnit": {
       "type": "keyrange"
@@ -209,13 +170,13 @@
     },
 
     "Num-><integer>": {
-      "useChild": 0
+      "code": 0
     },
     "Num-><float>": {
-      "useChild": 0
+      "code": 0
     },
     "Num-><percent>": {
-      "useChild": 0
+      "code": 0
     },
 
     "Negative-><-> Num": {
@@ -226,17 +187,17 @@
       ]
     },
     "Positive-><+> Num": {
-      "useChild": 1
+      "code": 1
     },
 
     "Variant->Path": {
-      "useChild": 0
+      "code": 0
     },
     "Variant->Call": {
-      "useChild": 0
+      "code": 0
     },
     "Variant->InExpr": {
-      "useChild": 0
+      "code": 0
     },
 
     "Params->Params <,> Assignable": {
@@ -248,17 +209,17 @@
     },
 
     "Numeric->Num": {
-      "useChild": 0
+      "code": 0
     },
     "Numeric->Negative": {
-      "useChild": 0
+      "code": 0
     },
     "Numeric->Positive": {
-      "useChild": 0
+      "code": 0
     },
 
     "FactorOp->Numeric": {
-      "useChild": 0
+      "code": 0
     },
     "FactorOp->Variant": {
       "type": "number",
@@ -269,19 +230,19 @@
     },
 
     "Factor->Mul": {
-      "useChild": 0
+      "code": 0
     },
     "Factor->Div": {
-      "useChild": 0
+      "code": 0
     },
     "Factor->Mode": {
-      "useChild": 0
+      "code": 0
     },
     "Factor->Numeric": {
-      "useChild": 0
+      "code": 0
     },
     "Factor->Variant": {
-      "useChild": 0
+      "code": 0
     },
 
     "Mod->Factor <%> FactorOp": {
@@ -289,7 +250,7 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "number"
         },
         2,
@@ -302,7 +263,7 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "number"
         },
         2,
@@ -315,7 +276,7 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "number"
         },
         2,
@@ -324,13 +285,13 @@
     },
 
     "Term->Factor": {
-      "useChild": 0
+      "code": 0
     },
     "Term->Add": {
-      "useChild": 0
+      "code": 0
     },
     "Term->Sub": {
-      "useChild": 0
+      "code": 0
     },
 
     "Add->Term <+> Factor": {
@@ -338,12 +299,12 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "number"
         },
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "number"
         }
       ]
@@ -354,12 +315,12 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "number"
         },
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "number"
         }
       ]
@@ -370,11 +331,11 @@
       "code": "binary",
       "params": [
         {
-          "source": 1
+          "child": 1
         },
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "string"
         }
       ]
@@ -393,7 +354,7 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "string"
         },
         2,
@@ -411,13 +372,13 @@
     },
 
     "Scalar->Term": {
-      "useChild": 0
+      "code": 0
     },
     "Scalar->Concat": {
-      "useChild": 0
+      "code": 0
     },
     "Scalar-><string>": {
-      "useChild": 0
+      "code": 0
     },
 
     "Lt->Scalar <<> Scalar": {
@@ -474,22 +435,22 @@
     },
 
     "Compound->Scalar": {
-      "useChild": 0
+      "code": 0
     },
     "Compound->Object": {
-      "useChild": 0
+      "code": 0
     },
     "Compound->Array": {
-      "useChild": 0
+      "code": 0
     },
     "Compound->Boolean": {
-      "useChild": 0
+      "code": 0
     },
     "Compound-><null>": {
-      "useChild": 0
+      "code": 0
     },
     "Compound->Not": {
-      "useChild": 0
+      "code": 0
     },
 
     "Not-><!> Compound": {
@@ -505,15 +466,15 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "boolean"
         },
         {
-          "source": 2,
+          "child": 2,
           "use": "rule"
         },
         {
-          "source": 3,
+          "child": 3,
           "cast": "boolean"
         }
       ]
@@ -523,12 +484,12 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "boolean"
         },
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "boolean"
         }
       ]
@@ -538,12 +499,12 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "boolean"
         },
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "boolean"
         }
       ]
@@ -553,21 +514,21 @@
       "code": "binary",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "boolean"
         },
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "boolean"
         }
       ]
     },
     "MatchOp-><string>": {
-      "useChild": 0
+      "code": 0
     },
     "MatchOp-><regex>": {
-      "useChild": 0
+      "code": 0
     },
     "Match->Scalar <=~> MatchOp": {
       "type": "boolean",
@@ -579,44 +540,44 @@
     },
 
     "Comparable->Compound": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Match": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Eq": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Neq": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->SNeq": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Seq": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Gt": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Gte": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Lt": {
-      "useChild": 0
+      "code": 0
     },
     "Comparable->Lte": {
-      "useChild": 0
+      "code": 0
     },
 
     "Logical->Comparable": {
-      "useChild": 0
+      "code": 0
     },
     "Logical->Or": {
-      "useChild": 0
+      "code": 0
     },
     "Logical->And": {
-      "useChild": 0
+      "code": 0
     },
 
     "Or->Logical <||> Comparable": {
@@ -626,7 +587,7 @@
         1,
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "boolean"
         }
       ]
@@ -638,7 +599,7 @@
         1,
         2,
         {
-          "source": 3,
+          "child": 3,
           "cast": "boolean"
         }
       ]
@@ -648,23 +609,23 @@
       "type": "boolean"
     },
     "TernCond->Logical <?>": {
-      "useChild": 0
+      "code": 0
     },
     "Assignable->Assign": {
-      "useChild": 0
+      "code": 0
     },
     "Assignable->Logical": {
-      "useChild": 0
+      "code": 0
     },
     "Assignable->Cond": {
-      "useChild": 0
+      "code": 0
     },
     "Cond->TernCond Assignable <:> Assignable": {
       "type": "mixed",
       "code": "ternaryIf",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "cast": "boolean"
         },
         2,
@@ -677,10 +638,10 @@
     },
 
     "Expr->Logical": {
-      "useChild": 0
+      "code": 0
     },
     "Expr->Cond": {
-      "useChild": 0
+      "code": 0
     },
 
     "Var-><ident> <from> Path": {
@@ -688,16 +649,16 @@
       "code": "varset",
       "params": [
         {
-          "source": 1,
+          "child": 1,
           "as": "id"
         },
         {
-          "source": 3
+          "child": 3
         }
       ]
     },
     "Vars->Var": {
-      "useChild": 0
+      "code": 0
     },
     "Vars->Vars <;> Var": {
       "code": "combine",
@@ -721,6 +682,11 @@
         3,
         1
       ]
+    }
+  },
+  "preprocess": {
+    "getter": {
+      "jsonpath": "pathgetter"
     }
   },
   "typecast": {
@@ -760,7 +726,7 @@
         "$0"
       ],
       "return": [
-        "(", 0, "parseFloat(", 0, ") || 0)"
+        "(parseFloat(", 0, ") || 0)"
       ]
     },
     "ifnumberify": {
@@ -806,6 +772,14 @@
       "body": [
         "$1",
         0, " = ", 1, " in vars ? vars[", 1, "] : undefined;"
+      ]
+    },
+    "pathgetter": {
+      "symbols": 1,
+      "return": [0],
+      "body": [
+        "$1",
+        0, " = helper_path(", 1, "[0], ", 1, "[1]);"
       ]
     },
     "define": {

@@ -1,0 +1,50 @@
+{
+  "root": "Query",
+  "grammar": {
+    "Query": [
+      ["Def", "$"],
+      ["Stmt", "$"],
+      ["Def", ";", "Stmt", "$"]
+    ],
+
+    "Def": [
+      ["Def", ";", "Var"],
+      ["Def", ";"],
+      ["Var"]
+    ],
+
+    "Var": [
+      ["ident", "from", "Path"]
+    ],
+
+    "Stmt": [
+      ["Stmt", ";", "Expr"],
+      ["Stmt", ";"],
+      ["Expr"]
+    ],
+
+    "Expr": [
+      ["Assignable"],
+      ["Unset"]
+    ],
+
+    "Assignable": [
+      ["Ternary"],
+      ["Logical"],
+      ["Assign"]
+    ],
+
+    "Assign": [
+      ["Path", "=", "Assignable"]
+    ],
+
+    "Unset": [
+      ["delete", "Paths"]
+    ],
+
+    "Paths": [
+      ["Paths", ",", "Path"],
+      ["Path"]
+    ]
+  }
+}

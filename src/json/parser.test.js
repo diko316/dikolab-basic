@@ -53,6 +53,7 @@ describe("parse(subject)", () => {
     expect(parseAndSerialize(".")).to.not.equal(null);
     expect(parseAndSerialize(".test")).to.not.equal(null);
     expect(parseAndSerialize("test.1")).to.not.equal(null);
+    expect(parseAndSerialize("test")).to.not.equal(null);
     
     expect(parseAndSerialize(".1")).to.not.equal(null);
     expect(parseAndSerialize(".[1]")).to.not.equal(null);
@@ -81,6 +82,9 @@ describe("parse(subject)", () => {
     expect(parseAndSerialize("\"test\" > 1")).to.not.equal(null);
     expect(parseAndSerialize("22 > \"big\"")).to.not.equal(null);
     expect(parseAndSerialize("\"test\" + 10 > 1 + 2")).to.not.equal(null);
+
+    expect(parseAndSerialize("\"diko\" =~ /regex/")).to.not.equal(null);
+    expect(parseAndSerialize("\"diko\" =~ \"diko\"")).to.not.equal(null);
   });
 
   it("Should parse Ternary operator.", () => {

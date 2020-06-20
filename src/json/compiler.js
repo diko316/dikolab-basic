@@ -3,7 +3,8 @@ import { parse } from "./parser";
 import {
   EMPTY_FUNCTION,
   TYPE_STRING,
-  TYPE_NUMBER
+  TYPE_NUMBER,
+  EMPTY_STRING
 } from "../native/constants";
 
 import { quoteEscapify } from "../string/format";
@@ -13,205 +14,213 @@ import COMPILER_REFERENCE from "./compiler-reference.json";
 const TEMPLATES = COMPILER_REFERENCE.template;
 const COMPILE_ACCEPT_RPN = 1;
 const COMPILE_CREATE_CODEREF = 2;
-const COMPILE_INSERT_CODEREF = 3;
-const COMPILE_PROCESS_CODEREF = 4;
+const COMPILE_REUSE_CODEREF = 3;
+const COMPILE_UPDATE_CODEREF = 4;
+const COMPILE_INSERT_CODEREF = 5;
 
 const SYMBOL_PREFIX = "v";
-const REF_PREFIX = "r";
-const CAST_REFERENCE = COMPILER_REFERENCE.typecast;
-const CAST_PARAMS = [
+const WILD_CHAR = "*";
+const CODE_PROCESS = [
   {
-    source: 0
+    name: "getter",
+    reference: COMPILER_REFERENCE.preprocess
+  },
+  {
+    name: "cast",
+    valueResolve: true,
+    reference: COMPILER_REFERENCE.typecast
   }
 ];
 
-function createCode(template, args) {
-  let symbol = "";
-  let code = "";
+const CODE_TEMPLATE_PROCESS = [
+  // ref
+  {
+    source: "return"
+  },
+  // get
+  {
+    source: "getter"
+  },
+  // code
+  {
+    source: "body",
+    ln: true
+  }
+];
+
+function createCode(settings, templateName, params) {
+  const template = TEMPLATES[templateName];
+  const processors = CODE_TEMPLATE_PROCESS;
+  const empty = EMPTY_STRING;
+  const result = [];
+
+  let c = 0;
+  let length = processors.length;
+  let processor;
   let codes;
-  let codeLength;
-  let process;
-  let c;
-  let length;
+  let code;
+  let cc;
+  let clength;
+  let generated;
+  let glength;
+  let source;
+
   let value;
 
-  // generate code
-  process = template.body;
-  if (process) {
-    codes = [];
-    codeLength = 0;
-    c = 0;
-    length = process.length;
-    for (; length--; c++) {
-      value = process[c];
-      value = value in args ? args[value] : value;
-      if (value) {
-        codes[codeLength++] = value;
+  for (; length--; c++) {
+    processor = processors[c];
+    source = processor.source;
+    value = empty;
+
+    if (source in template) {
+      generated = [];
+      glength = 0;
+
+      codes = template[source];
+      cc = 0;
+      clength = codes.length;
+      for (; clength--; cc++) {
+        code = codes[cc];
+        generated[glength++] = code in params ? params[code] : code;
       }
+
+      value = glength ? generated.join(empty) : empty;
     }
-    if (codeLength) {
-      code = codes.join("") + "\n";
-    }
+
+    result[c] = value;
   }
 
-  // generate return reference
-  process = template.return;
-  if (process) {
-    codes = [];
-    codeLength = 0;
-    c = 0;
-    length = process.length;
-    for (; length--; c++) {
-      value = process[c];
-      value = value in args ? args[value] : value;
-      if (value) {
-        codes[codeLength++] = value;
-      }
-    }
-    if (codeLength) {
-      symbol = codes.join("");
-    }
-  }
-
-  return [symbol, code];
+  return result;
 }
 
-function createCodeParams(settings, symbolCount, params, nodes) {
-  const symbolPrefix = SYMBOL_PREFIX;
-  const refPrefix = REF_PREFIX;
-  const templates = TEMPLATES;
-  const castReference = CAST_REFERENCE;
-  const typeNumber = TYPE_NUMBER;
-  const castParams = CAST_PARAMS;
-  const symbols = settings.symbols;
-  const vars = settings.reference;
+function createArguments(settings, symbolCount, params, children, prime) {
   const args = {};
+  const symbols = settings.symbols;
+  const processors = CODE_PROCESS;
+  const totalProcessors = processors.length;
+  const symbolPrefix = SYMBOL_PREFIX;
+  const subjects = prime
+    ? children
+      ? [prime].concat(children)
+      : [prime]
+    : children
+      ? children.slice(0)
+      : [];
 
+  let argsCount = 0;
   let symbolLength = symbols.length;
-  let key;
-  let argsLength = 0;
-  let codeLength = 0;
+  let counter;
+
+  let vars = settings.vars;
   let c;
   let length;
-  let param;
-  let symbol;
-  let node;
-  let code;
-  let cast;
-  let type;
-  let codes;
-  let reference;
+  let definition;
   let source;
-  let paramType;
-  let codeKey;
+  let subject;
+  let type;
+  let symbol;
+  let get;
   let ref;
+  let code;
 
-  // generate symbols
-  if (symbolCount) {
-    length = symbolCount;
-    for (; length--;) {
-      symbol = `${symbolPrefix}${symbolLength + 1}`;
-      symbols[symbolLength++] = symbol;
-      key = argsLength++;
-      args[`$${key}`] = "";
-      args[key] = symbol;
+  let processor;
+  let pc;
+  let plength;
+  let name;
+  let value;
+  let typeMatch;
+  let matcher;
+  let result;
+
+  // apply symbols
+  for (length = symbolCount; length--;) {
+    symbol = symbols[symbolLength++] = `${symbolPrefix}${++vars}`;
+    counter = argsCount++;
+
+    args[`$${counter}`] = EMPTY_STRING;
+    args[counter] = symbol;
+
+    // save vars count
+    if (!length) {
+      settings.vars = vars;
     }
   }
 
-  // generate parameters
-  c = 0;
-  length = params.length;
-  for (; length--; c++) {
-    param = source = params[c];
-    paramType = cast = null;
-    if (typeof param !== typeNumber) {
-      source = param.source;
-      paramType = param.as;
-      cast = param.cast;
-    }
-    key = argsLength++;
-    codeKey = `$${key}`;
+  for (c = 0, length = params.length; length--; c++) {
+    definition = params[c];
+    counter = argsCount++;
 
-    // find parameter source
-    if ((source === 0 || source) && source in nodes) {
-      node = nodes[source];
+    // expand parameter index
+    if (typeof definition === TYPE_NUMBER) {
+      definition = {
+        child: definition
+      };
     }
-    // undefined fill in
-    else {
-      args[codeKey] = "";
-      args[key] = "undefined /* child not found */";
+
+    // resolve source
+    source = definition.child;
+    if (!(source in subjects)) {
+      console.warn(`Parameter source not found ${source}`);
+      args[`$${counter}`] =
+        args[`$${counter}|get`] = EMPTY_STRING;
+      args[counter] = "undefined";
       continue;
     }
 
-    type = node.type;
+    subject = subjects[source];
 
-    // finalize reference to use
-    ref = node.ref;
+    type = subject.type;
+    ref = subject.ref;
+    get = subject.get;
+    code = subject.code;
 
-    switch (paramType) {
-    case "autofill":
-      ref = ++settings.vars;
+    pc = 0;
+    plength = totalProcessors;
 
-    // falls through
-    case "id":
-      ref = String(ref) || "undefined";
-      symbol = quoteEscapify(ref);
-      ref = ref in vars
-        ? vars[ref]
-        : (vars[ref] = `"${symbol}"`);
-      break;
-    }
+    // preprocess
+    for (; plength--; pc++) {
+      processor = processors[pc];
+      name = processor.name;
 
-    // create initial code
-    codeLength = 0;
-    codes = [];
-    code = node.code;
-    if (code) {
-      codes[codeLength++] = code;
-    }
-
-    // typecast if needed
-    reference = cast && cast !== type &&
-      cast in castReference &&
-      castReference[cast];
-
-    if (reference) {
-      // finalize type if type not found
-      if (!(type in reference)) {
-        // use wildcard
-        type = "*";
+      if (!(name in definition)) {
+        continue;
       }
 
-      // type cast if found
-      if (type in reference) {
-        cast = createCode(
-          templates[
-            reference[type]
-          ],
-          createCodeParams(
-            settings,
-            0,
-            castParams,
-            [node]
-          )
-        );
-
-        // replace!
-        symbol = cast[0];
-        if (symbol) {
-          ref = symbol;
-        }
-
-        // add code
-        code = cast[1];
-        if (code) {
-          codes[codeLength++] = code;
-        }
+      // get process reference
+      value = processor.valueResolve ? definition[name] : name;
+      matcher = processor.reference;
+      if (!(value in matcher)) {
+        continue;
       }
+
+      // get template by type match
+      matcher = matcher[value];
+      typeMatch = type in matcher ? type : WILD_CHAR;
+      if (!(typeMatch in matcher)) {
+        continue;
+      }
+
+      // console.log(" processing args: ", name, " template ", matcher[typeMatch]);
+
+      result = createCode(
+        settings,
+        matcher[typeMatch],
+        {
+          0: ref,
+          "$0|get": get || ref,
+          $0: code
+        }
+      );
+
+      ref = result[0];
+      get = result[1];
+      code = result[2];
     }
 
-    args[codeKey] = codeLength ? codes.join("") : "";
-    args[key] = ref;
+    // add to args
+    args[counter] = ref;
+    args[`$${counter}|get`] = get || ref;
+    args[`$${counter}`] = code && `${code}\n`;
   }
 
   return args;
@@ -220,20 +229,23 @@ function createCodeParams(settings, symbolCount, params, nodes) {
 export function compile(subject, params) {
   const emptyFunction = EMPTY_FUNCTION;
   const compilerReference = COMPILER_REFERENCE;
-  const templates = COMPILER_REFERENCE.template;
+  const templates = TEMPLATES;
   const definitions = compilerReference.reference;
 
   const actionAcceptRpn = COMPILE_ACCEPT_RPN;
   const actionCreateCodeRef = COMPILE_CREATE_CODEREF;
+  const actionReuseCodeRef = COMPILE_REUSE_CODEREF;
+  const actionUpdateCodeRef = COMPILE_UPDATE_CODEREF;
   const actionInsertCodeRef = COMPILE_INSERT_CODEREF;
-  const actionProcessCodeRef = COMPILE_PROCESS_CODEREF;
 
   const stack = [];
   const symbols = [];
   const settings = {
     vars: 0,
     reference: {},
-    symbols: symbols
+    symbols: symbols,
+    functions: [],
+    functionIndex: {}
   };
 
   let action = actionAcceptRpn;
@@ -246,12 +258,8 @@ export function compile(subject, params) {
   let reduce;
   let children;
   let child;
-  let childIndex;
   let definition;
   let ruleId;
-  let symbol;
-  let template;
-  let templateParams;
   let type;
   let stackLength = 0;
 
@@ -291,69 +299,77 @@ export function compile(subject, params) {
         rule: ruleId,
         type: null,
         ref: unprocessed.value || "undefined",
+        get: "",
         code: ""
       };
 
       // process by definition
       definition = null;
 
+      // default action if no definition
+      action = actionInsertCodeRef;
+
       if (ruleId in definitions) {
         definition = definitions[ruleId];
-        action = actionProcessCodeRef;
+        // set type
+        type = definition.type;
+        if (type) {
+          codeRef.type = definition.type;
+        }
+        code = definition.code;
+
+        switch (typeof code) {
+        case TYPE_STRING:
+          action = actionUpdateCodeRef;
+          break;
+
+        case TYPE_NUMBER:
+          action = actionReuseCodeRef;
+        }
       }
-      else {
-        // console.log("no definition! ", ruleId);
-        action = actionInsertCodeRef;
+    }
+
+    // reuse codeRef
+    if (action === actionReuseCodeRef) {
+      if (!(code in children)) {
+        throw new Error(`Invalid child to reuse ${code}`);
       }
-      // console.log("rule ", ruleId, " definition: ", definition);
+
+      child = children[code];
+      type = child.type;
+      if (type) {
+        codeRef.type = type;
+      }
+      codeRef.ref = child.ref;
+      codeRef.get = child.get;
+      codeRef.code = child.code;
+
+      action = actionInsertCodeRef;
     }
 
     // process codeRef
-    if (action === actionProcessCodeRef) {
-      type = definition.type;
-      code = unprocessed.value;
-      symbol = "";
-
-      // process child reuse
-      if ("useChild" in definition) {
-        childIndex = definition.useChild;
-        if (!(childIndex in children)) {
-          throw new Error(`Invalid child to reuse ${childIndex}`);
-        }
-        child = children[childIndex];
-        code = child.code;
-        type = child.type;
-        symbol = child.ref;
-      }
-      // process code
-      else if ("code" in definition) {
-        // set generated code
-        template = templates[definition.code];
-        templateParams = [
-          {
-            type,
-            code: "",
-            ref: code
-          }
-        ];
-        templateParams.push.apply(templateParams, children);
-        code = createCode(
-          template,
-          createCodeParams(
-            settings,
-            template.symbols,
-            definition.params,
-            templateParams
-          )
-        );
-
-        symbol = code[0];
-        code = code[1];
+    if (action === actionUpdateCodeRef) {
+      if (!(code in templates)) {
+        throw new Error(`Invalid unable to find template ${code}`);
       }
 
-      codeRef.type = type;
-      codeRef.code = code || "";
-      codeRef.ref = symbol || "";
+      code = createCode(
+        settings,
+        code,
+        createArguments(
+          settings,
+          templates[code].symbols || 0,
+          definition.params || [],
+          children,
+          codeRef
+        )
+      );
+
+      if (code) {
+        codeRef.ref = code[0];
+        codeRef.get = code[1];
+        codeRef.code = code[2];
+      }
 
       action = actionInsertCodeRef;
     }
@@ -362,7 +378,6 @@ export function compile(subject, params) {
     if (action === actionInsertCodeRef) {
       stack[stackLength++] = codeRef;
       action = actionAcceptRpn;
-      console.log("ref ", codeRef);
     }
 
     if (!--limit) {

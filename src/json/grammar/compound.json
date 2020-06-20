@@ -1,0 +1,47 @@
+{
+  "grammar": {
+    "Object": [
+      ["{", "}"],
+      ["{", "Props", "}"]
+    ],
+    "Props": [
+      ["Props", ",", "Prop"],
+      ["Prop"]
+    ],
+    "Prop": [
+      ["ident", ":", "Assignable"],
+      ["string", ":", "Assignable"]
+    ],
+    "Array": [
+      ["[", "]"],
+      ["[", "Values", "]"]
+    ],
+    "Values": [
+      ["Values", ",", "Assignable"],
+      ["Expr"]
+    ],
+    "Call": [
+      ["ident", "(", ")"],
+      ["ident", "(", "Values", ")"]
+    ],
+    "Variant": [
+      ["."],
+      ["Path"],
+      ["Mixed"]
+    ],
+    "Mixed": [
+      ["Call"],
+      ["Ref"],
+      ["RefNum"],
+      ["(", "Expr", ")"]
+    ],
+    "Ref": [
+      ["@"],
+      ["@", "ident"]
+    ],
+    "RefNum": [
+      ["?"],
+      ["@", "integer"]
+    ]
+  }
+}

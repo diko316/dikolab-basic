@@ -1,0 +1,47 @@
+{
+  "grammar": {
+    "Path": [
+      ["Path", "Access"],
+      ["Mixed", "Access"],
+      [".", "BraceAccess"],
+      ["DotAccess"],
+      ["ident"]
+    ],
+    "Access": [
+      ["DotAccess"],
+      ["BraceAccess"]
+    ],
+    "DotAccess": [
+      [".", "Key"],
+      [".", "*"]
+    ],
+    "BraceAccess": [
+      ["[", "]"],
+      ["[", "*", "]"],
+      ["[", "RangeKeys", "]"]
+    ],
+    "RangeKeys": [
+      ["RangeKeys", ",", "RangeKey"],
+      ["RangeKey"]
+    ],
+    "RangeKey": [
+      ["Key"],
+      ["VarNumKey", "..", "VarNumKey"]
+    ],
+    "Key": [
+      ["StringKey"],
+      ["VarNumKey"]
+    ],
+    "StringKey": [
+      ["ident"],
+      ["string"]
+    ],
+    "VarNumKey": [
+      ["Mixed"],
+      ["NumKey"]
+    ],
+    "NumKey": [
+      ["integer"]
+    ]
+  }
+}

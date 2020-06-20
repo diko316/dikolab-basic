@@ -31,22 +31,68 @@ const TYPE_SINGLE = 1;
 const TYPE_FILTER = 2;
 const TYPE_ALL = 3;
 
-/*
-types:
-  - 1: single, key
-  - 2: filter, key
-  - 3: all, flag: true(equivalent to [*]), false(any value)
+// types:
+//   - 1: single, key
+//   - 2: filter, key
+//   - 3: all, flag: true(equivalent to [*]), false(any value)
 
-isNumeric:
-  - true: if data or all items in data is integer
-  - false: if data or one of the items in data is not integer.
+// isNumeric:
+//   - true: if data or all items in data is integer
+//   - false: if data or one of the items in data is not integer.
 
-access:
-[
-  [type, isNumeric, data]
-]
-*/
+// access:
+// [
+//   [type, isNumeric, data]
+// ]
 
+/**
+ * Acess Path Type {number}:
+ * 1 -  single key access. treats access path data as
+ *      object/array property/key.
+ *
+ * 2 -  filter keys access. treats access path data as collection of
+ *      object/array properties/keys.
+ *
+ * 3 -  all source keys. treats access path data as
+ *      {boolean} flag for strict or not strict enumerate source properties/keys
+ *
+ * @typedef {(1|2|3)} JsonHelperAccessPathType
+ */
+
+/**
+ * Acess Path Struct
+ *
+ * @typedef {Array} JsonHelperAccessPath
+ * @property {JsonHelperAccessPathType} 0 - Access type to use.
+ * @property {boolean}                  1 - true if numeric keys, or false if not.
+ * @property {*}                        2 - scalar key if access type is 1.
+ *                                          array of keys if access type is 2.
+ *                                          boolean if access type is 3.
+ */
+
+/**
+ * Access Path Fill Option
+ *
+ * - true if intent is to set value.
+ * - null if intent is to delete key/property.
+ * - false or leave out if intent is to fetch/select properties/keys.
+ *
+ * @typedef {boolean|null} JsonHelperAccessPathFill
+ */
+
+/**
+ * Get and Set {subject} properties based from accessPath.
+ * Update/Populate {subject} property/key values based from accessPath.
+ *
+ * @param {*} subject - The target object to process
+ * @param {JsonHelperAccessPath[]} accessPath - Access path to traverse properties/keys
+ * @param {JsonHelperAccessPathFill} [fill] - Required if intent is to set or unset properties/keys
+ * @param {*} [value] - Value for setting properties/keys. May omit this parameter if {fill} is not true.
+ * @returns {*} - Access process result based on the following intents:
+ *              get/extract intent -      returns {mixed|mixed[]} type.
+ *              set property/key value -  returns {mixed} type the "value" itself.
+ *              unset property/key -      returns {boolean} where true if successfully deleted. Or false otherwise.
+ */
 export function access(subject, accessPath, fill, value) {
   const toString = OBJECT_TO_STRING;
   const hasOwn = OBJECT_HAS_OWN;
