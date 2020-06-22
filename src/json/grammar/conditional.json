@@ -1,12 +1,16 @@
 {
   "grammar": {
     "Ternary": [
-      ["Logical", "?", "Assignable", ":", "Assignable"]
+      ["Condition", "?", "Assignable", ":", "Assignable"]
+    ],
+
+    "Condition": [
+      ["Condition", "&&", "Logical"],
+      ["Condition", "||", "Logical"],
+      ["Logical"]
     ],
 
     "Logical": [
-      ["Logical", "&&", "Comparable"],
-      ["Logical", "||", "Comparable"],
       ["Comparable"],
       ["Compare"]
     ],
@@ -16,6 +20,7 @@
       ["Array"],
       ["Scalar"],
       ["Boolean"],
+      ["null"],
       ["!", "Comparable"]
     ],
 

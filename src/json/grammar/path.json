@@ -26,22 +26,18 @@
     ],
     "RangeKey": [
       ["Key"],
-      ["VarNumKey", "..", "VarNumKey"]
+      ["Mixed", "..", "NumKey"],
+      ["integer", "..", "NumKey"]
     ],
     "Key": [
-      ["StringKey"],
-      ["VarNumKey"]
-    ],
-    "StringKey": [
       ["ident"],
-      ["string"]
-    ],
-    "VarNumKey": [
-      ["Mixed"],
-      ["NumKey"]
+      ["string"],
+      ["integer"],
+      ["Mixed"]
     ],
     "NumKey": [
-      ["integer"]
+      ["integer"],
+      ["Mixed"]
     ]
   }
 }

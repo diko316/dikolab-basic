@@ -54,11 +54,11 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     const value = access(
       subject,
       [
-        [1, false, "data"],
-        [1, true, 1],
-        [1, false, "country"],
-        [1, true, 1],
-        [1, false, "label"]
+        [1, false, ["data"]],
+        [1, true, [1]],
+        [1, false, ["country"]],
+        [1, true, [1]],
+        [1, false, ["label"]]
       ]
     );
 
@@ -70,9 +70,9 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     const value = access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, null],
-        [1, false, "id"]
+        [1, false, ["id"]]
       ]
     );
 
@@ -84,11 +84,11 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     const value = access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, null],
-        [1, false, "country"],
+        [1, false, ["country"]],
         [3, true, null],
-        [1, false, "value"]
+        [1, false, ["value"]]
       ]
     );
 
@@ -100,11 +100,11 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     const value = access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, null],
-        [1, false, "country"],
+        [1, false, ["country"]],
         [2, true, [0, 1, 2]],
-        [1, false, "value"]
+        [1, false, ["value"]]
       ]
     );
 
@@ -116,11 +116,11 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     const value = access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, null],
-        [1, false, "country"],
+        [1, false, ["country"]],
         [2, true, [[0, 2]]],
-        [1, false, "value"]
+        [1, false, ["value"]]
       ]
     );
 
@@ -131,9 +131,9 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, true],
-        [1, false, "country"],
+        [1, false, ["country"]],
         [3, true, false]
       ],
       true,
@@ -150,9 +150,9 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, true],
-        [1, false, "name"]
+        [1, false, ["name"]]
       ],
       true,
       "same"
@@ -161,15 +161,15 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     expect(subject.data[1].name).to.equal("same");
   });
 
-  it("Should de;ete name using expression: unset data[*].name", () => {
+  it("Should delete name using expression: unset data[*].name", () => {
     access(
       subject,
       [
-        [1, false, "data"],
+        [1, false, ["data"]],
         [3, true, true],
-        [1, false, "name"]
+        [1, false, ["name"]]
       ],
-      null
+      false
     );
 
     expect(subject.data[0]).to.not.have.property("name");
@@ -180,10 +180,10 @@ describe("JSON query helper access(subject, accesPath, fill, value)", () => {
     access(
       subject,
       [
-        [1, false, "data"],
-        [1, true, 1]
+        [1, false, ["data"]],
+        [1, true, [1]]
       ],
-      null
+      false
     );
 
     expect(subject.data.length).to.equal(1);

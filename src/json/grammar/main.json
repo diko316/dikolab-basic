@@ -2,19 +2,17 @@
   "root": "Query",
   "grammar": {
     "Query": [
-      ["Def", "$"],
       ["Stmt", "$"],
       ["Def", ";", "Stmt", "$"]
     ],
 
     "Def": [
       ["Def", ";", "Var"],
-      ["Def", ";"],
       ["Var"]
     ],
 
     "Var": [
-      ["ident", "from", "Path"]
+      ["ident", "from", "Assignable"]
     ],
 
     "Stmt": [
@@ -30,7 +28,7 @@
 
     "Assignable": [
       ["Ternary"],
-      ["Logical"],
+      ["Condition"],
       ["Assign"]
     ],
 
@@ -39,11 +37,11 @@
     ],
 
     "Unset": [
-      ["delete", "Paths"]
+      ["delete", "UnsetPaths"]
     ],
 
-    "Paths": [
-      ["Paths", ",", "Path"],
+    "UnsetPaths": [
+      ["UnsetPaths", ",", "Path"],
       ["Path"]
     ]
   }

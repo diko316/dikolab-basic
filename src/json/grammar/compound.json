@@ -5,12 +5,14 @@
       ["{", "Props", "}"]
     ],
     "Props": [
-      ["Props", ",", "Prop"],
-      ["Prop"]
+      ["Props", ",", "Name", ":", "Assignable"],
+      ["Name", ":", "Assignable"]
     ],
-    "Prop": [
-      ["ident", ":", "Assignable"],
-      ["string", ":", "Assignable"]
+    "Name": [
+      ["ident"],
+      ["string"],
+      ["integer"],
+      ["Mixed"]
     ],
     "Array": [
       ["[", "]"],
@@ -18,7 +20,7 @@
     ],
     "Values": [
       ["Values", ",", "Assignable"],
-      ["Expr"]
+      ["Assignable"]
     ],
     "Call": [
       ["ident", "(", ")"],
@@ -33,7 +35,7 @@
       ["Call"],
       ["Ref"],
       ["RefNum"],
-      ["(", "Expr", ")"]
+      ["(", "Assignable", ")"]
     ],
     "Ref": [
       ["@"],

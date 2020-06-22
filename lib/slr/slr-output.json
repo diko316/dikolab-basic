@@ -101,35 +101,40 @@
       1,
       [
         "number"
-      ]
+      ],
+      "Number-><number>"
     ],
     "s6": [
       "Numeric",
       1,
       [
         "Number"
-      ]
+      ],
+      "Numeric->Number"
     ],
     "s4": [
       "Factor",
       1,
       [
         "Numeric"
-      ]
+      ],
+      "Factor->Numeric"
     ],
     "s3": [
       "Term",
       1,
       [
         "Factor"
-      ]
+      ],
+      "Term->Factor"
     ],
     "s2": [
       "S`",
       1,
       [
         "Term"
-      ]
+      ],
+      "S`->Term"
     ],
     "s17": [
       "Numeric",
@@ -138,7 +143,8 @@
         "(",
         "Expression",
         ")"
-      ]
+      ],
+      "Numeric-><(> <Expression> <)>"
     ],
     "s16": [
       "Factor",
@@ -147,7 +153,8 @@
         "Factor",
         "*",
         "Numeric"
-      ]
+      ],
+      "Factor->Factor <*> Numeric"
     ],
     "s15": [
       "Factor",
@@ -156,7 +163,8 @@
         "Factor",
         "/",
         "Numeric"
-      ]
+      ],
+      "Factor->Factor </> Numeric"
     ],
     "s14": [
       "Term",
@@ -165,7 +173,8 @@
         "Term",
         "-",
         "Factor"
-      ]
+      ],
+      "Term->Term <-> Factor"
     ],
     "s13": [
       "Term",
@@ -174,7 +183,8 @@
         "Term",
         "+",
         "Factor"
-      ]
+      ],
+      "Term->Term <+> Factor"
     ],
     "s25": [
       "Factor",
@@ -183,7 +193,8 @@
         "Factor",
         "*",
         "Numeric"
-      ]
+      ],
+      "Factor->Factor <*> Numeric"
     ],
     "s24": [
       "Factor",
@@ -192,7 +203,8 @@
         "Factor",
         "/",
         "Numeric"
-      ]
+      ],
+      "Factor->Factor </> Numeric"
     ],
     "s23": [
       "Factor",
@@ -201,7 +213,8 @@
         "Factor",
         "*",
         "Numeric"
-      ]
+      ],
+      "Factor->Factor <*> Numeric"
     ],
     "s22": [
       "Factor",
@@ -210,7 +223,8 @@
         "Factor",
         "/",
         "Numeric"
-      ]
+      ],
+      "Factor->Factor </> Numeric"
     ]
   }
 }

@@ -74,10 +74,10 @@ const TYPE_ALL = 3;
  * Access Path Fill Option
  *
  * - true if intent is to set value.
- * - null if intent is to delete key/property.
- * - false or leave out if intent is to fetch/select properties/keys.
+ * - false if intent is to delete key/property.
+ * - undefined or leave out if intent is to fetch/select properties/keys.
  *
- * @typedef {boolean|null} JsonHelperAccessPathFill
+ * @typedef {boolean|undefined} JsonHelperAccessPathFill
  */
 
 /**
@@ -87,7 +87,7 @@ const TYPE_ALL = 3;
  * @param {*} subject - The target object to process
  * @param {JsonHelperAccessPath[]} accessPath - Access path to traverse properties/keys
  * @param {JsonHelperAccessPathFill} [fill] - Required if intent is to set or unset properties/keys
- * @param {*} [value] - Value for setting properties/keys. May omit this parameter if {fill} is not true.
+ * @param {*} [value] - Value for setting properties/keys. May omit this parameter if {fill} is undefined or left out.
  * @returns {*} - Access process result based on the following intents:
  *              get/extract intent -      returns {mixed|mixed[]} type.
  *              set property/key value -  returns {mixed} type the "value" itself.
@@ -106,7 +106,7 @@ export function access(subject, accessPath, fill, value) {
   const typeObject = TYPE_OBJECT;
 
   const isPopulate = fill === true;
-  const isDeleteMode = fill === null;
+  const isDeleteMode = fill === false;
 
   const actionEnd = ACTION_END;
   const actionGetPath = ACTION_GET_PATH;
@@ -244,7 +244,7 @@ export function access(subject, accessPath, fill, value) {
             // switch to set target value
             switch (pathType) {
             case typeSingle:
-              key = path[2];
+              key = path[2][0];
 
               // may run unset if delete mode
               action = isLastPath && isDeleteMode
