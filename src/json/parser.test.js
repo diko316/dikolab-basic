@@ -83,6 +83,8 @@ describe("parse(subject)", () => {
     expect(parseAndSerialize("22 > \"big\"")).to.not.equal(null);
     expect(parseAndSerialize("\"test\" + 10 > 1 + 2")).to.not.equal(null);
 
+    expect(parseAndSerialize("\"diko\" || 1 && 2 || 3 && null")).to.not.equal(null);
+
     expect(parseAndSerialize("\"diko\" =~ /regex/")).to.not.equal(null);
     expect(parseAndSerialize("\"diko\" =~ \"diko\"")).to.not.equal(null);
   });
@@ -104,6 +106,17 @@ describe("parse(subject)", () => {
     expect(parseAndSerialize("a = \"test\" > \"big\"")).to.not.equal(null);
     expect(parseAndSerialize("a = \"big\"")).to.not.equal(null);
     expect(parseAndSerialize("b = .a = ? ? -1 + 'b': 2")).to.not.equal(null);
+  });
+
+  it("Should parse Function call operator.", () => {
+    expect(parseAndSerialize("call(a = \"test\" > \"big\")")).to.not.equal(null);
+    expect(parseAndSerialize("customFunction(1, \"test\" > \"big\")")).to.not.equal(null);
+    expect(parseAndSerialize("filter()")).to.not.equal(null);
+  });
+
+  it("Should parse Filter operator.", () => {
+    expect(parseAndSerialize("1 == \"test\" | enlarge | set: a, b")).to.not.equal(null);
+    expect(parseAndSerialize("nul | enlarge")).to.not.equal(null);
   });
 
   it("Just trying out.", () => {

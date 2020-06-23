@@ -11,24 +11,15 @@
     ],
 
     "Logical": [
-      ["Comparable"],
+      ["Compound"],
       ["Compare"]
     ],
 
-    "Comparable": [
-      ["Object"],
-      ["Array"],
-      ["Scalar"],
-      ["Boolean"],
-      ["null"],
-      ["!", "Comparable"]
-    ],
-
     "Compare": [
-      ["Comparable", "===", "Comparable"],
-      ["Comparable", "!==", "Comparable"],
-      ["Comparable", "==", "Comparable"],
-      ["Comparable", "!=", "Comparable"],
+      ["Compound", "===", "Compound"],
+      ["Compound", "!==", "Compound"],
+      ["Compound", "==", "Compound"],
+      ["Compound", "!=", "Compound"],
       ["Scalar", "=~", "string"],
       ["Scalar", "=~", "regex"],
       ["Scalar", ">", "Scalar"],

@@ -1,5 +1,13 @@
 {
   "grammar": {
+    "Compound": [
+      ["Object"],
+      ["Array"],
+      ["Scalar"],
+      ["Boolean"],
+      ["!", "Compound"],
+      ["null"]
+    ],
     "Object": [
       ["{", "}"],
       ["{", "Props", "}"]

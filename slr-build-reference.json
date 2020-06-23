@@ -198,8 +198,7 @@
     "Mixed->RefNum": {
       "code": 0
     },
-    "Mixed-><(> Expr <)>": {
-      "type": 1,
+    "Mixed-><(> Assignable <)>": {
       "code": 1
     },
 
@@ -247,7 +246,7 @@
     "RangeKey->Key": {
       "code": 0
     },
-    "RangeKey->Mixed <..> Numkey": {
+    "RangeKey->Mixed <..> NumKey": {
       "type": "number",
       "code": "rangekey",
       "params": [
@@ -258,7 +257,7 @@
         3
       ]
     },
-    "RangeKey-><integer> <..> Numkey": {
+    "RangeKey-><integer> <..> NumKey": {
       "type": "number",
       "code": "rangekey",
       "params": [
@@ -528,22 +527,29 @@
       ]
     },
 
-    "Comparable->Boolean": {
+    "Boolean-><true>": {
       "code": 0
     },
-    "Comparable->Scalar": {
+    "Boolean-><false>": {
       "code": 0
     },
-    "Comparable->Array": {
+
+    "Compound->Boolean": {
       "code": 0
     },
-    "Comparable->Object": {
+    "Compound->Scalar": {
       "code": 0
     },
-    "Comparable-><null>": {
+    "Compound->Array": {
       "code": 0
     },
-    "Comparable-><!> Comparable": {
+    "Compound->Object": {
+      "code": 0
+    },
+    "Compound-><null>": {
+      "code": 0
+    },
+    "Compound-><!> Compound": {
       "type": "boolean",
       "code": "not",
       "params": [2]
@@ -632,7 +638,7 @@
       ]
     },
 
-    "Compare->Comparable <===> Comparable": {
+    "Compare->Compound <===> Compound": {
       "type": "boolean",
       "code": "equal",
       "params": [
@@ -640,7 +646,7 @@
         3
       ]
     },
-    "Compare->Comparable <==> Comparable": {
+    "Compare->Compound <==> Compound": {
       "type": "boolean",
       "code": "equal",
       "params": [
@@ -648,7 +654,7 @@
         3
       ]
     },
-    "Compare->Comparable <!==> Comparable": {
+    "Compare->Compound <!==> Compound": {
       "type": "boolean",
       "code": "notequal",
       "params": [
@@ -656,7 +662,7 @@
         3
       ]
     },
-    "Compare->Comparable <!=> Comparable": {
+    "Compare->Compound <!=> Compound": {
       "type": "boolean",
       "code": "notequal",
       "params": [
@@ -665,7 +671,7 @@
       ]
     },
 
-    "Logical->Comparable": {
+    "Logical->Compound": {
       "code": 0
     },
     "Logical->Compare": {
@@ -702,10 +708,35 @@
       ]
     },
 
-    "Assignable->Ternary": {
+    "Filter->Ternary": {
       "code": 0
     },
-    "Assignable->Logical": {
+    "Filter->Condition": {
+      "code": 0
+    },
+    "Filter->Filter <|> <ident>": {
+      "type": "mixed",
+      "code": "filter",
+      "params": [{
+          "child": 3,
+          "as": "function"
+        },
+        1
+      ]
+    },
+    "Filter->Filter <|> <ident> <:> Values": {
+      "type": "mixed",
+      "code": "filterwithparams",
+      "params": [{
+          "child": 3,
+          "as": "function"
+        },
+        1,
+        5
+      ]
+    },
+
+    "Assignable->Filter": {
       "code": 0
     },
     "Assignable->Assign": {
@@ -725,7 +756,7 @@
       "type": "boolean",
       "code": "unsetpathvalue",
       "params": [
-        2
+        1
       ]
     },
     "UnsetPaths->UnsetPaths <,> Path": {
@@ -733,18 +764,15 @@
       "code": "unsetnextpathvalue",
       "params": [
         1,
-        2
+        3
       ]
-    },
-    "Unset->UnsetPaths": {
-      "code": 0
     },
 
     "Expr->Assignable": {
       "code": 0
     },
-    "Expr->Unset": {
-      "code": 0
+    "Expr-><delete> UnsetPaths": {
+      "code": 1
     },
 
     "Var-><ident> <from> Assignable": {
@@ -1145,7 +1173,9 @@
         "$1",
         "$2",
         "var ", 0, " = {};\n",
-        0, "[", 1, "] = ", 2, ";"
+        "if (typeof ", 2, " !== \"undefined\") {\n",
+        0, "[", 1, "] = ", 2, ";\n",
+        "}"
       ],
       "return": [0]
     },
@@ -1154,7 +1184,9 @@
         "$0",
         "$1",
         "$2",
-        0, "[", 1, "] = ", 2, ";"
+        "if (typeof ", 2, " !== \"undefined\") {\n",
+        0, "[", 1, "] = ", 2, ";\n",
+        "}"
       ],
       "return": [0]
     },
@@ -1163,12 +1195,13 @@
       "symbols": 1,
       "requires": [
         "data",
-        "root"
+        "root",
+        "util"
       ],
       "body": [
         "var ", 0, " = undefined;\n",
         "if (typeof ", 1, " === \"function\") {\n",
-          0, " = ", 1, "();\n",
+          0, " = ", 1, ".call(root);\n",
         "}"
       ],
       "return": [0]
@@ -1177,13 +1210,51 @@
       "symbols": 1,
       "requires": [
         "data",
-        "root"
+        "root",
+        "util"
       ],
       "body": [
         "$2",
         "var ", 0, " = undefined;\n",
         "if (typeof ", 1, " === \"function\") {\n",
-          0, " = ", 1, ".apply(null, ", 2, ");\n",
+          0, " = ", 1, ".apply(root, ", 2, ");\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "filter": {
+      "symbols": 1,
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$2",
+        "$1",
+        "var ", 0, " = undefined;\n",
+        "if (typeof ", 1, " === \"function\") {\n",
+        0, " = ", 1, ".call(root, ", 2, ");\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "filterwithparams": {
+      "symbols": 1,
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$2",
+        "$3",
+        "var ", 0, " = undefined;\n",
+        "if (typeof ", 1, " === \"function\") {\n",
+          3, ".splice(0, 0, ", 2, ");\n",
+          0, " = ", 1, ".apply(root, ", 3,");\n",
         "}"
       ],
       "return": [0]
@@ -1203,7 +1274,10 @@
       "body": [
         "$1",
         "$3",
-        "var ", 0, " = ", 3, " && ", 1, " ", 2, " ", 3, ";"
+        "var ", 0, " = ", 3, ";\n",
+        "if (", 0, ") {\n",
+          0, " = ", 1, " ", 2, " ", 3, ";\n",
+        "}"
       ],
       "return": [0]
     },

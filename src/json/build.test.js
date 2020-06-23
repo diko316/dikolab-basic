@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { build } from "./build";
 
 const F = Function;
+const show = false;
 
 function tryBuild(code) {
   const result = build(code);
@@ -10,6 +11,9 @@ function tryBuild(code) {
   if (result) {
     try {
       func = new F(result[0], result[1]);
+      if (show) {
+        console.log(result);
+      }
     }
     catch (error) {
       console.error("Error evaluating code");
@@ -152,5 +156,12 @@ describe("build()", () => {
     expect(tryBuild("1 && @ >= 1 ? ? : null")).to.not.equal(null);
     expect(tryBuild("1 < ? && @ >= 1 ? @ : .")).to.not.equal(null);
     expect(tryBuild("1 < ? && @ >= 1 || null ? 1 : 0")).to.not.equal(null);
+  });
+
+  it("Should build filtered query!.", () => {
+    expect(tryBuild("1 | buang")).to.not.equal(null);
+    expect(tryBuild(". | buang | test")).to.not.equal(null);
+    expect(tryBuild("(.) | filter: 1, 3")).to.not.equal(null);
+    expect(tryBuild("data[] | select: 3, true, null")).to.not.equal(null);
   });
 });

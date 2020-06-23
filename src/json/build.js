@@ -475,6 +475,7 @@ export function build(subject) {
     if (action === actionInsertCodeRef) {
       stack[stackLength++] = codeRef;
       action = actionAcceptRpn;
+      // console.log(codeRef);
     }
   }
 

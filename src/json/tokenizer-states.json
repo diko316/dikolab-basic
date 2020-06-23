@@ -27,8 +27,8 @@
       "!": "exclamation",
       ">": "gt",
       "<": "lt",
-      "&": "and",
-      "|": "or",
+      "&": "andbit",
+      "|": "pipe",
       "0": "whole",
       "1": "whole",
       "2": "whole",
@@ -221,14 +221,14 @@
       "=": "lte"
     },
     "lte": {},
-    "and": {
-      "&": "and1"
+    "andbit": {
+      "&": "and"
     },
-    "and1": {},
-    "or": {
-      "|": "or1"
+    "and": {},
+    "pipe": {
+      "|": "or"
     },
-    "or1": {},
+    "or": {},
     "plus": {},
     "minus": {},
     "whole": {
@@ -318,8 +318,9 @@
     "gte": ">=",
     "lt": "<",
     "lte": "<=",
-    "and1": "&&",
-    "or1": "||",
+    "and": "&&",
+    "or": "||",
+    "pipe": "|",
     "whole": "integer",
     "float": "float",
     "whitespace": "whitespace",

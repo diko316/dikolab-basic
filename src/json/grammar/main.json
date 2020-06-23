@@ -23,12 +23,11 @@
 
     "Expr": [
       ["Assignable"],
-      ["Unset"]
+      ["delete", "UnsetPaths"]
     ],
 
     "Assignable": [
-      ["Ternary"],
-      ["Condition"],
+      ["Filter"],
       ["Assign"]
     ],
 
@@ -36,8 +35,11 @@
       ["Path", "=", "Assignable"]
     ],
 
-    "Unset": [
-      ["delete", "UnsetPaths"]
+    "Filter": [
+      ["Filter", "|", "ident", ":", "Values"],
+      ["Filter", "|", "ident"],
+      ["Ternary"],
+      ["Condition"]
     ],
 
     "UnsetPaths": [
