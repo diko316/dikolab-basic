@@ -22,6 +22,8 @@ export function compile(subject) {
   }
 
   result = build(subject);
+  // console.log("param ", result[0]);
+  // console.log("result ", result[1]);
   if (!result) {
     return emptyFunction;
   }

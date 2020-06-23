@@ -1224,37 +1224,66 @@
     },
 
     "filter": {
-      "symbols": 1,
+      "symbols": 5,
       "requires": [
         "data",
         "root",
         "util"
       ],
       "body": [
-        "$2",
-        "$1",
-        "var ", 0, " = undefined;\n",
-        "if (typeof ", 1, " === \"function\") {\n",
-        0, " = ", 1, ".call(root, ", 2, ");\n",
+        "$5",
+        "$6",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ";\n",
+
+        "if (typeof ", 5, " === \"function\") {\n",
+          1, " = ", 2, " = 0;\n",
+          3, " = Object.prototype.toString.call(", 6, ") === \"[object Array]\"",
+            " ? ", 6, " : [", 6, "];\n",
+
+          4, " = ", 3, ".length;\n",
+
+          "for (; ", 4, "--; ", 1, "++) {\n",
+            "if (", 5, ".call(root, ", 3, "[", 1,"]) !== false) {\n",
+              0, "[", 2, "++] = ", 3, "[", 1, "];\n",
+            "}",
+          "}",
         "}"
       ],
       "return": [0]
     },
 
     "filterwithparams": {
-      "symbols": 1,
+      "symbols": 5,
       "requires": [
         "data",
         "root",
         "util"
       ],
       "body": [
-        "$2",
-        "$3",
-        "var ", 0, " = undefined;\n",
-        "if (typeof ", 1, " === \"function\") {\n",
-          3, ".splice(0, 0, ", 2, ");\n",
-          0, " = ", 1, ".apply(root, ", 3,");\n",
+        "$5",
+        "$6",
+        "$7",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ";\n",
+
+        "if (typeof ", 5, " === \"function\") {\n",
+          1, " = ", 2, " = 0;\n",
+          3, " = Object.prototype.toString.call(", 6, ") === \"[object Array]\"",
+            " ? ", 6, " : [", 6, "];\n",
+
+          4, " = ", 3, ".length;\n",
+
+          7, ".splice(0,0, null);\n",
+
+          "for (; ", 4, "--; ", 1, "++) {\n",
+            7, "[0] = ", 3, "[", 1, "];\n",
+            "if (", 5, ".apply(root, ", 7, ") !== false) {\n",
+              0, "[", 2, "++] = ", 3, "[", 1, "];\n",
+            "}",
+          "}",
         "}"
       ],
       "return": [0]

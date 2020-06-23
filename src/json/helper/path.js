@@ -267,7 +267,7 @@ export function access(subject, accessPath, fill, value) {
               flength = filters.length;
 
               // add additional item if expression is "[]" instead of strict "[*]"
-              if (isPopulate && isArraySource && path[2] !== true) {
+              if (isLastPath && isPopulate && isArraySource) { // path[2] !== true) {
                 filters[flength] = flength++;
 
                 // don't overwrite if this is the last path access item

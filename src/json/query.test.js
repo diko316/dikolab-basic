@@ -63,7 +63,46 @@ describe("query(subject, querycode)", () => {
     expect(query("'my ' + func()", subject)).to.equal("my secret value");
   });
 
+  it("Should be able to run custom filter using pipe | expression.", () => {
+    function removeCountriesFilter (item, removedCountries) {
+      // return false if country to remove is the current item
+      return removedCountries.indexOf(item) === -1;
+    }
+
+    subject.filter = removeCountriesFilter;
+
+    expect(query("data[].country[].value | filter: [\"US\", \"UK\"]", subject)).to.deep.equal(["PH", "HK", "CH"]);
+  });
+
   it("Should extract all data[].country[].value items from test data.", () => {
     expect(query("data[*].country[].value", subject)).to.deep.equal(["PH", "US", "UK", "HK", "CH"]);
   });
+
+  it("Should add array item when setter query ends with [] expression.", () => {
+    query(`
+      data[].country[] = {
+        value: "AL",
+        "label": "Albania"
+      }
+    `, subject);
+
+    expect(subject.data[0].country[3].value).to.equal("AL");
+    expect(subject.data[1].country[2].value).to.equal("AL");
+  });
+
+  it("Should replace object properties that matches the query.", () => {
+    query(`
+      data[].country[].label = "replaced"
+    `, subject);
+
+    expect(subject.data[0].country[0].label).to.equal("replaced");
+    expect(subject.data[0].country[1].label).to.equal("replaced");
+    expect(subject.data[0].country[2].label).to.equal("replaced");
+    expect(subject.data[1].country[0].label).to.equal("replaced");
+    expect(subject.data[1].country[1].label).to.equal("replaced");
+
+    // console.log(JSON.stringify(subject, null, 3));
+  });
+
+  // it("Should replace object properties that matches the query.", () => {
 });
