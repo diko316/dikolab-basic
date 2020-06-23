@@ -33,6 +33,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-IteratableObject">IteratableObject</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json-helper">json/helper</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-access">access</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPath">JsonHelperAccessPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathFill">JsonHelperAccessPathFill</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathType">JsonHelperAccessPathType</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
@@ -95,7 +99,11 @@ export {
 } from &quot;./number&quot;;
 
 export {
-  repeat
+  stringify,
+  repeat,
+  trim,
+  trimStart,
+  trimEnd
 } from &quot;./string&quot;;
 
 export {
@@ -110,6 +118,22 @@ export {
   unicodeCount,
   codepoints2Utf
 } from &quot;./unicode&quot;;
+
+export {
+  each,
+  assign,
+  contains
+} from &quot;./object&quot;;
+
+export {
+  listPadStart,
+  listPadEnd
+} from &quot;./array&quot;;
+
+export {
+  compile,
+  query
+} from &quot;./json&quot;;
 
 export {
   destructor

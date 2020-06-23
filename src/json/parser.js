@@ -1,201 +1,301 @@
-import MANIFEST from "./parser-reference.json";
 
 import { tokenize } from "./tokenizer";
 
-const LINE_REGEXP = /\n/g;
+import { reportParseError } from "./error-reporting";
 
-let LAST_PARSE_ERRORS = null;
+import PARSER_STATES from "./parse-states.json";
+import PARSER_REFERENCE from "./parse-reference.json";
 
-function reportParseError(error, subject, line, from, to) {
-  let errors = LAST_PARSE_ERRORS;
+const ACTION_TOKENIZE = 1;
+const ACTION_REDUCE = 2;
+const ACTION_FOLLOW = 3;
+const ACTION_END = 4;
+const IGNORE_TOKENS = {};
 
-  if (!errors) {
-    LAST_PARSE_ERRORS = errors = [];
+function initialize() {
+  const index = IGNORE_TOKENS;
+  const list = PARSER_REFERENCE.ignoreTokens;
+  let c = 0;
+  let length = list.length;
+
+  // ignore tokens
+  for (; length--; c++) {
+    index[list[c]] = true;
   }
-
-  errors[errors.length] = error;
-  console.log(error);
 }
 
+initialize();
+
 export function parse(subject) {
-  const manifest = MANIFEST;
-  const types = manifest.types;
-  const reference = manifest.reference;
-  const parseStack = [];
+  const tokenizeAction = ACTION_TOKENIZE;
+  const reduceAction = ACTION_REDUCE;
+  const followAction = ACTION_FOLLOW;
+  const endAction = ACTION_END;
+  const manifest = PARSER_STATES;
+  const ignoreTokens = IGNORE_TOKENS;
+
+  const states = manifest.states;
+  const ends = manifest.reduce;
+  const root = manifest.root;
   const rpn = [];
-  const tokens = [];
-  const enclosureStack = [];
-  let tokensLength = 0;
-  let tokenIndex = 0;
-  let parseStackLength = 0;
-  let rpnLength = 0;
-  let line = 1;
-  let from = 0;
-  let to = 0;
-  let result = null;
-  let token = null;
-  let tokenValue = null;
-  let definition = null;
-  let node = null;
-  let type = null;
-  let lineMatch = LINE_REGEXP;
-  let stackNode = null;
-  let stackPrecedence = 0;
-  let precedence = 0;
-  let enclosureLength = 0;
-  let enclosure = null;
-  let ended = false;
 
-  LAST_PARSE_ERRORS = null;
+  let stateAccess = manifest.initialState;
+  let state = states[stateAccess];
+  let end;
+  let action = tokenizeAction;
 
-  result = tokenize(subject, tokenIndex);
-  for (; result; result = tokenize(subject, tokenIndex)) {
-    lineMatch = result[1].match(LINE_REGEXP);
-    if (lineMatch) {
-      line += lineMatch.length - 1;
-    }
-    tokens[tokensLength++] = result;
-    result[3] = tokenIndex = result[2];
-    result[4] = line;
-  }
+  let parseStack = null;
+  let inStack = null;
+  let index = 0;
+  let found;
+  let token;
+  let value;
+  let from;
+  let to;
+  let production;
+  let rule;
+  let input;
+  let length;
+  let total;
+  let rpnFrom;
+  let rpnTo;
+  let erroneous = false;
+  let lineBefore = 1;
+  let lines = 1;
+  let rpnIndex = 0;
 
-  /* eslint no-labels: 0 */
-  loop: for (let c = 0, length = tokens.length; length--; c++) {
-    result = tokens[c];
-    token = result[0];
-    tokenValue = result[1];
-    from = result[2];
-    to = result[3];
+  /* eslint no-labels:0 */
+  mainLoop: for (; action !== endAction;) {
+    switch (action) {
+    case tokenizeAction:
+      found = tokenize(subject, index);
+      if (found) {
+        token = found[0];
+        from = index;
+        to = found[2];
+        index = to;
+        lineBefore = lines;
+        lines += found[3];
 
-    if (!(token in reference)) {
-      reportParseError(
-        "Token has no definition",
-        subject,
-        line,
+        // tokenize again
+        if (token in ignoreTokens) {
+          action = tokenizeAction;
+          continue mainLoop;
+        }
+
+        // for RPN
+        value = found[1];
+
+        // follow
+        action = endAction;
+        if (token in state) {
+          action = followAction;
+        }
+        // try reducing
+        else if (stateAccess in ends) {
+          action = reduceAction;
+        }
+        // failed token
+        else {
+          erroneous = true;
+          reportParseError(
+            "Syntax error",
+            subject,
+            from,
+            to,
+            lineBefore,
+            lines
+          );
+          break mainLoop;
+        }
+      }
+      // reduce to root
+      else if (parseStack && stateAccess in ends) {
+        action = reduceAction;
+      }
+      // parse failed!
+      else {
+        erroneous = true;
+        reportParseError(
+          "Syntax error",
+          subject,
+          from,
+          to,
+          lineBefore,
+          lines
+        );
+        break mainLoop;
+      }
+      continue mainLoop;
+
+    case followAction:
+      token = found[0];
+
+      inStack = [
+        stateAccess,
+        token
+      ];
+      // console.log("follow! ", stateAccess, token, " -> ", state[token], ":", value);
+      stateAccess = state[token];
+      state = states[stateAccess];
+      parseStack = [
+        parseStack,
+        inStack,
+        rpnIndex
+      ];
+
+      // add to rpn
+      rpn[rpnIndex++] = {
+        lexeme: token,
+        ruleId: token,
+        reduce: 0,
         from,
-        to
-      );
-      return null;
-    }
+        to,
+        lineFrom: lineBefore,
+        lineTo: lines,
+        value
+      };
 
-    definition = reference[token];
-    type = types[definition[0]];
+      // tokenize
+      action = tokenizeAction;
+      continue mainLoop;
 
-    node = {
-      type,
-      tokenId: token,
-      token: tokenValue,
-      from,
-      to
-    };
+    case reduceAction:
+      // console.log("reducing ", stateAccess, ends[stateAccess]);
+      end = ends[stateAccess];
+      rule = end[0];
+      length = total = end[1];
+      production = end[2];
+      rpnTo = null;
 
-    switch (type) {
-    case "operator":
-      node.precedence = precedence = definition[1];
-      node.operands = definition[2];
-      node.leftAssociative = definition[3] === 2;
+      for (; parseStack && length--;) {
+        inStack = parseStack[1];
+        input = inStack[1];
+        rpnFrom = rpn[parseStack[2]];
 
-      // pop stack to rpn
-      stackNode = parseStackLength ? parseStack[parseStackLength - 1] : null;
-      while (stackNode && stackNode.type !== "enclosure_start") {
-        stackPrecedence = stackNode.precedence;
-
-        if (stackPrecedence > precedence ||
-          (
-            stackPrecedence === precedence &&
-            node.leftAssociative
-          )
-        ) {
-          rpn[rpnLength++] = stackNode;
-          stackNode = parseStack[--parseStackLength];
+        if (!rpnTo) {
+          rpnTo = rpn[parseStack[2]];
         }
-        break;
-      }
 
-      parseStack[parseStackLength++] = node;
-      if (enclosureLength && enclosure.separator === node.tokenId) {
-        enclosure.parameters++;
-      }
-      break;
-
-    // push to stack
-    case "operand":
-      if (enclosureLength && !enclosure.parameters) {
-        enclosure.parameters++;
-      }
-      rpn[rpnLength++] = node;
-      break;
-
-    case "enclosure_start":
-      if (enclosureLength && !enclosure.parameters) {
-        enclosure.parameters++;
-      }
-      node.ender = definition[1];
-      node.production = definition[2];
-      node.separator = definition[3];
-      node.parameters = 0;
-      parseStack[parseStackLength++] =
-        enclosureStack[enclosureLength++] =
-        enclosure = node;
-      break;
-
-    case "enclosure_end":
-      stackNode = parseStackLength ? parseStack[parseStackLength - 1] : null;
-      if (stackNode) {
-        parseStackLength--;
-      }
-
-      while (stackNode) {
-        ended = stackNode.type === "enclosure_start";
-        if (ended && stackNode.ender !== node.tokenId) {
+        if (input !== production[length]) {
+          erroneous = true;
           reportParseError(
-            "Invalid enclosure pair",
+            `Syntax error of ${input}`,
             subject,
-            line,
-            from,
-            to
+            rpnFrom.from,
+            rpnTo.to,
+            rpnFrom.lineFrom,
+            rpnTo.lineTo
           );
-          return null;
+          break mainLoop;
         }
 
-        rpn[rpnLength++] = !ended ? stackNode
-          : {
-            type: "enclosure",
-            tokenId: stackNode.tokenId,
-            token: stackNode.production,
-            from: stackNode.from,
-            to: node.to,
-            parameters: stackNode.parameters
-          };
-
-        if (ended) {
-          enclosure = enclosureLength--
-            ? enclosureStack[enclosureLength]
-            : null;
-          break;
+        // resume, reduce did not end yet
+        if (length !== 0) {
+          parseStack = parseStack[0];
+          continue;
         }
 
-        if (!parseStackLength) {
+        // reduce successfull
+        // add to rpn
+        rpn[rpnIndex++] = {
+          lexeme: rule,
+          ruleId: end[3],
+          reduce: total,
+          from: rpnFrom.from,
+          to: rpnTo.to,
+          lineFrom: rpnFrom.lineFrom,
+          lineTo: rpnTo.lineTo,
+          value: null
+        };
+
+        stateAccess = inStack[0];
+        state = states[stateAccess];
+
+        // console.log("reduced! ", stateAccess, rule, ": ", production, " pending ", token, "=", value);
+
+        // follow new state
+        if (rule in state) {
+          parseStack = [
+            parseStack[0],
+            [
+              stateAccess,
+              rule
+            ],
+            rpnIndex - 1
+          ];
+          stateAccess = state[rule];
+          state = states[stateAccess];
+        }
+        // parse complete!
+        else if (rule === root) {
+          break mainLoop;
+        }
+        // unable to follow reduced state
+        else {
+          erroneous = true;
           reportParseError(
-            "Invalid enclosure pair",
+            `Syntax error in sequence ${rule}`,
             subject,
-            line,
-            from,
-            to
+            rpnFrom.from,
+            rpnTo.to,
+            rpnFrom.lineFrom,
+            rpnTo.lineTo
           );
-          return null;
+          break mainLoop;
         }
-        stackNode = parseStack[--parseStackLength];
       }
-      break;
-    case "ignored": continue loop;
-    }
 
-    // console.log(token, ": ", type, ": ", definition);
+      // check if it should reduce back
+      action = reduceAction;
+
+      // or follow
+      if (token && token in state) {
+        action = followAction;
+      }
+      else if (!(stateAccess in ends)) {
+        erroneous = true;
+        if (token) {
+          reportParseError(
+            `Syntax error misplaced token: ${token}`,
+            subject,
+            from,
+            to,
+            lineBefore,
+            lines
+          );
+        }
+        else {
+          reportParseError(
+            "Syntax error",
+            subject,
+            from,
+            to,
+            lines,
+            lines
+          );
+        }
+        break mainLoop;
+      }
+
+      continue mainLoop;
+    }
   }
 
-  parseStack.length = parseStackLength;
+  // console.log("partial ", JSON.stringify(rpn, null, 3));
+  if (erroneous && rpn.length) {
+    console.log(
+      "last partial rpn: ",
+      JSON.stringify(
+        rpn.slice(
+          Math.max(rpn.length - 5, 0),
+          rpn.length
+        ),
+        null,
+        3
+      )
+    );
+  }
 
-  console.log("rpn ", rpn);
-  console.log("stack ", parseStack);
+  return erroneous ? null : rpn;
 }

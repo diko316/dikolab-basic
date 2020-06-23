@@ -7,13 +7,16 @@ import pluginDelete from "./delete";
 import pluginEslint from "./eslint";
 import pluginJson from "./json";
 import pluginMultiEntry from "./multi-entry";
-
+import pluginCleanup from "./cleanup";
+import pluginStrip from "./strip";
 
 
 export default {
   "node-resolve": pluginNodeResolve,
   "commonjs": pluginCommonjs,
   // "babel": pluginBabel,
+  "cleanup": pluginCleanup,
+  "strip": pluginStrip,
   "json": pluginJson,
   "buble": pluginBuble,
   "terser": pluginTerser,

@@ -20,7 +20,11 @@ export {
 } from "./number";
 
 export {
-  repeat
+  stringify,
+  repeat,
+  trim,
+  trimStart,
+  trimEnd
 } from "./string";
 
 export {
@@ -35,6 +39,22 @@ export {
   unicodeCount,
   codepoints2Utf
 } from "./unicode";
+
+export {
+  each,
+  assign,
+  contains
+} from "./object";
+
+export {
+  listPadStart,
+  listPadEnd
+} from "./array";
+
+export {
+  compile,
+  query
+} from "./json";
 
 export {
   destructor

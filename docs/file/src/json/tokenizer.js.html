@@ -33,6 +33,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-IteratableObject">IteratableObject</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json-helper">json/helper</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-access">access</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPath">JsonHelperAccessPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathFill">JsonHelperAccessPathFill</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathType">JsonHelperAccessPathType</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
@@ -78,31 +82,63 @@
 } from &quot;../native/math&quot;;
 
 import {
-  TOKENIZER_START_STATE,
+  EMPTY_STRING
+} from &quot;../native/constants&quot;;
+
+import {
   TOKENIZER_WILDCARD,
-  TOKENIZER_KEYWORD_LIST
+  LINE_CHARACTER,
+  DOUBLE_QUOTE,
+  ESCAPED_DOUBLE_QUOTE,
+  SINGLE_QUOTE,
+  ESCAPED_SINGLE_QUOTE,
+  QUOTE_ESCAPE_REGEXP
 } from &quot;./constants&quot;;
 
 import STATES from &quot;./tokenizer-states.json&quot;;
 
+function replaceQuote(all) {
+  switch (all) {
+  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
+  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
+  }
+  return all;
+}
+
 export function tokenize(input, startIndex) {
-  const keywords = TOKENIZER_KEYWORD_LIST;
+  const emptyString = EMPTY_STRING;
+  const doubleQuote = DOUBLE_QUOTE;
+  const quoteRegexp = QUOTE_ESCAPE_REGEXP;
   const wildcard = TOKENIZER_WILDCARD;
   const reference = STATES;
+  const keywords = reference.keywords;
   const states = reference.state;
   const ends = reference.ends;
   const anchor = MATH_MAX(0, 1 * startIndex || 0);
-  let state = states[TOKENIZER_START_STATE];
+  const lineCharacter = LINE_CHARACTER;
+
+  let state = states[reference.startState];
   let length = input.length;
   let c = anchor;
   let nextIndex = c;
   let token = null;
   let char = null;
   let found = null;
+  let line = 0;
 
-  if (anchor &gt;= length) {
+  if (anchor === length) {
+    return [
+      reference.endToken,
+      emptyString,
+      nextIndex + 1,
+      line
+    ];
+  }
+  else if (anchor &gt; length) {
     return null;
   }
+
+  length -= c;
 
   for (; length--; c++) {
     char = input.charAt(c);
@@ -116,7 +152,6 @@ export function tokenize(input, startIndex) {
     if (found) {
       // change state
       state = states[found];
-
       if (found in ends) {
         nextIndex = c + 1;
         token = ends[found];
@@ -130,6 +165,7 @@ export function tokenize(input, startIndex) {
   // postprocess token
   if (token) {
     found = input.substring(anchor, nextIndex);
+    line = found.split(lineCharacter).length - 1;
 
     switch (token) {
     case &quot;ident&quot;:
@@ -137,12 +173,34 @@ export function tokenize(input, startIndex) {
         token = found;
       }
       break;
+    case &quot;string&quot;:
+      found = ([
+        doubleQuote,
+        found.substring(1, found.length - 1)
+          .replace(
+            quoteRegexp,
+            replaceQuote
+          ),
+        doubleQuote
+      ]).join(emptyString);
+      break;
+
+    case &quot;:call(&quot;:
+      found = found.substring(1, found.length - 1);
+      break;
+
+    case &quot;percent&quot;:
+      found = (
+        found.substring(0, found.length - 1)
+      );
+      break;
     }
 
     return [
       token,
       found,
-      nextIndex
+      nextIndex,
+      line
     ];
   }
 

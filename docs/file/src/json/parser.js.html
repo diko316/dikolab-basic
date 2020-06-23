@@ -33,6 +33,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-IteratableObject">IteratableObject</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json-helper">json/helper</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-access">access</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPath">JsonHelperAccessPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathFill">JsonHelperAccessPathFill</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathType">JsonHelperAccessPathType</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
@@ -73,8 +77,309 @@
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/json/parser.js</h1>
-<pre class="source-code line-number raw-source-code"></pre>
-<p data-ice="emptySourceCode">Sorry, this documentation does not provide source code.</p>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+import { tokenize } from &quot;./tokenizer&quot;;
+
+import { reportParseError } from &quot;./error-reporting&quot;;
+
+import PARSER_STATES from &quot;./parse-states.json&quot;;
+import PARSER_REFERENCE from &quot;./parse-reference.json&quot;;
+
+const ACTION_TOKENIZE = 1;
+const ACTION_REDUCE = 2;
+const ACTION_FOLLOW = 3;
+const ACTION_END = 4;
+const IGNORE_TOKENS = {};
+
+function initialize() {
+  const index = IGNORE_TOKENS;
+  const list = PARSER_REFERENCE.ignoreTokens;
+  let c = 0;
+  let length = list.length;
+
+  // ignore tokens
+  for (; length--; c++) {
+    index[list[c]] = true;
+  }
+}
+
+initialize();
+
+export function parse(subject) {
+  const tokenizeAction = ACTION_TOKENIZE;
+  const reduceAction = ACTION_REDUCE;
+  const followAction = ACTION_FOLLOW;
+  const endAction = ACTION_END;
+  const manifest = PARSER_STATES;
+  const ignoreTokens = IGNORE_TOKENS;
+
+  const states = manifest.states;
+  const ends = manifest.reduce;
+  const root = manifest.root;
+  const rpn = [];
+
+  let stateAccess = manifest.initialState;
+  let state = states[stateAccess];
+  let end;
+  let action = tokenizeAction;
+
+  let parseStack = null;
+  let inStack = null;
+  let index = 0;
+  let found;
+  let token;
+  let value;
+  let from;
+  let to;
+  let production;
+  let rule;
+  let input;
+  let length;
+  let total;
+  let rpnFrom;
+  let rpnTo;
+  let erroneous = false;
+  let lineBefore = 1;
+  let lines = 1;
+  let rpnIndex = 0;
+
+  /* eslint no-labels:0 */
+  mainLoop: for (; action !== endAction;) {
+    switch (action) {
+    case tokenizeAction:
+      found = tokenize(subject, index);
+      if (found) {
+        token = found[0];
+        from = index;
+        to = found[2];
+        index = to;
+        lineBefore = lines;
+        lines += found[3];
+
+        // tokenize again
+        if (token in ignoreTokens) {
+          action = tokenizeAction;
+          continue mainLoop;
+        }
+
+        // for RPN
+        value = found[1];
+
+        // follow
+        action = endAction;
+        if (token in state) {
+          action = followAction;
+        }
+        // try reducing
+        else if (stateAccess in ends) {
+          action = reduceAction;
+        }
+        // failed token
+        else {
+          erroneous = true;
+          reportParseError(
+            &quot;Syntax error&quot;,
+            subject,
+            from,
+            to,
+            lineBefore,
+            lines
+          );
+          break mainLoop;
+        }
+      }
+      // reduce to root
+      else if (parseStack &amp;&amp; stateAccess in ends) {
+        action = reduceAction;
+      }
+      // parse failed!
+      else {
+        erroneous = true;
+        reportParseError(
+          &quot;Syntax error&quot;,
+          subject,
+          from,
+          to,
+          lineBefore,
+          lines
+        );
+        break mainLoop;
+      }
+      continue mainLoop;
+
+    case followAction:
+      token = found[0];
+
+      inStack = [
+        stateAccess,
+        token
+      ];
+      // console.log(&quot;follow! &quot;, stateAccess, token, &quot; -&gt; &quot;, state[token], &quot;:&quot;, value);
+      stateAccess = state[token];
+      state = states[stateAccess];
+      parseStack = [
+        parseStack,
+        inStack,
+        rpnIndex
+      ];
+
+      // add to rpn
+      rpn[rpnIndex++] = {
+        lexeme: token,
+        ruleId: token,
+        reduce: 0,
+        from,
+        to,
+        lineFrom: lineBefore,
+        lineTo: lines,
+        value
+      };
+
+      // tokenize
+      action = tokenizeAction;
+      continue mainLoop;
+
+    case reduceAction:
+      // console.log(&quot;reducing &quot;, stateAccess, ends[stateAccess]);
+      end = ends[stateAccess];
+      rule = end[0];
+      length = total = end[1];
+      production = end[2];
+      rpnTo = null;
+
+      for (; parseStack &amp;&amp; length--;) {
+        inStack = parseStack[1];
+        input = inStack[1];
+        rpnFrom = rpn[parseStack[2]];
+
+        if (!rpnTo) {
+          rpnTo = rpn[parseStack[2]];
+        }
+
+        if (input !== production[length]) {
+          erroneous = true;
+          reportParseError(
+            `Syntax error of ${input}`,
+            subject,
+            rpnFrom.from,
+            rpnTo.to,
+            rpnFrom.lineFrom,
+            rpnTo.lineTo
+          );
+          break mainLoop;
+        }
+
+        // resume, reduce did not end yet
+        if (length !== 0) {
+          parseStack = parseStack[0];
+          continue;
+        }
+
+        // reduce successfull
+        // add to rpn
+        rpn[rpnIndex++] = {
+          lexeme: rule,
+          ruleId: end[3],
+          reduce: total,
+          from: rpnFrom.from,
+          to: rpnTo.to,
+          lineFrom: rpnFrom.lineFrom,
+          lineTo: rpnTo.lineTo,
+          value: null
+        };
+
+        stateAccess = inStack[0];
+        state = states[stateAccess];
+
+        // console.log(&quot;reduced! &quot;, stateAccess, rule, &quot;: &quot;, production, &quot; pending &quot;, token, &quot;=&quot;, value);
+
+        // follow new state
+        if (rule in state) {
+          parseStack = [
+            parseStack[0],
+            [
+              stateAccess,
+              rule
+            ],
+            rpnIndex - 1
+          ];
+          stateAccess = state[rule];
+          state = states[stateAccess];
+        }
+        // parse complete!
+        else if (rule === root) {
+          break mainLoop;
+        }
+        // unable to follow reduced state
+        else {
+          erroneous = true;
+          reportParseError(
+            `Syntax error in sequence ${rule}`,
+            subject,
+            rpnFrom.from,
+            rpnTo.to,
+            rpnFrom.lineFrom,
+            rpnTo.lineTo
+          );
+          break mainLoop;
+        }
+      }
+
+      // check if it should reduce back
+      action = reduceAction;
+
+      // or follow
+      if (token &amp;&amp; token in state) {
+        action = followAction;
+      }
+      else if (!(stateAccess in ends)) {
+        erroneous = true;
+        if (token) {
+          reportParseError(
+            `Syntax error misplaced token: ${token}`,
+            subject,
+            from,
+            to,
+            lineBefore,
+            lines
+          );
+        }
+        else {
+          reportParseError(
+            &quot;Syntax error&quot;,
+            subject,
+            from,
+            to,
+            lines,
+            lines
+          );
+        }
+        break mainLoop;
+      }
+
+      continue mainLoop;
+    }
+  }
+
+  // console.log(&quot;partial &quot;, JSON.stringify(rpn, null, 3));
+  if (erroneous &amp;&amp; rpn.length) {
+    console.log(
+      &quot;last partial rpn: &quot;,
+      JSON.stringify(
+        rpn.slice(
+          Math.max(rpn.length - 5, 0),
+          rpn.length
+        ),
+        null,
+        3
+      )
+    );
+  }
+
+  return erroneous ? null : rpn;
+}
+</code></pre>
+
 </div>
 
 <footer class="footer">

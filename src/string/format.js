@@ -9,6 +9,12 @@ import {
   STRING_TRIM_LEFT_REGEXP,
   STRING_TRIM_RIGHT_REGEXP,
   TRIM_ERROR_NOT_STRING,
+  ESCAPED_SINGLE_QUOTE,
+  SINGLE_QUOTE,
+  ESCAPED_DOUBLE_QUOTE,
+  DOUBLE_QUOTE_ESCAPE,
+  DOUBLE_QUOTE,
+  DOUBLE_QUOTE_ESCAPE_ERROR,
   DEFAULT_PADSTRING
 } from "./constants";
 
@@ -130,4 +136,19 @@ export function trimEnd(subject) {
   }
 
   return subject && subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);
+}
+
+function quoteReplace(all) {
+  switch (all) {
+  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
+  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
+  }
+  return all;
+}
+export function quoteEscapify(subject) {
+  if (typeof subject !== TYPE_STRING) {
+    throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);
+  }
+
+  return subject && subject.replace(DOUBLE_QUOTE_ESCAPE, quoteReplace);
 }
