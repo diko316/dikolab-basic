@@ -54,6 +54,27 @@ describe("query(subject, querycode)", () => {
     expect(query("1 + 2 * 3 / 4 - data[0].id", subject)).to.equal(1.5);
   });
 
+  it("Should be able to run query on vars, numeric var, and (?) autofill vars.", () => {
+    query(
+      `
+          .3.one = ?;
+          @3.fortyFive = ?;
+          .[3].diko = ?;
+          .
+        `,
+      [
+        1,
+        45,
+        "diko",
+        subject
+      ]
+    );
+
+    expect(subject.one).to.equal(1);
+    expect(subject.fortyFive).to.equal(45);
+    expect(subject.diko).to.equal("diko");
+  });
+
   it("Should be able to do a function call and return value.", () => {
     function sampleFunction () {
       return "secret value"
@@ -100,9 +121,5 @@ describe("query(subject, querycode)", () => {
     expect(subject.data[0].country[2].label).to.equal("replaced");
     expect(subject.data[1].country[0].label).to.equal("replaced");
     expect(subject.data[1].country[1].label).to.equal("replaced");
-
-    // console.log(JSON.stringify(subject, null, 3));
   });
-
-  // it("Should replace object properties that matches the query.", () => {
 });

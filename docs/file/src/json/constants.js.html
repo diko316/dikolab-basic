@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/index.js | @dikotech/basic</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/json/constants.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -76,48 +76,39 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export {
-  string,
-  number,
-  boolean,
-  numeric,
-  bigint,
-  symbol,
-  scalar,
-  date,
-  regexp,
-  object,
-  array,
-  method,
-  promise,
-  signature
-} from &quot;./native&quot;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/constants.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export const TOKENIZER_START_STATE = &quot;initial&quot;;
 
-export {
-  numberify
-} from &quot;./number&quot;;
+export const TOKENIZER_WILDCARD = &quot;:*&quot;;
 
-export {
-  repeat
-} from &quot;./string&quot;;
+export const TOKENIZER_KEYWORD_LIST = [
+  &quot;get&quot;,
+  &quot;set&quot;,
+  &quot;unset&quot;,
+  &quot;is&quot;,
+  &quot;as&quot;,
+  &quot;only&quot;
+];
 
-export {
-  Utf,
+export const DOUBLE_QUOTE = &quot;\&quot;&quot;;
 
-  eachUnicode,
-  string2unicodes,
-  string2codePoints,
-  codePoint2string,
+export const SINGLE_QUOTE = &quot;&apos;&quot;;
 
-  unicodify,
-  unicodeCount,
-  codepoints2Utf
-} from &quot;./unicode&quot;;
+export const ESCAPED_DOUBLE_QUOTE = &quot;\\\&quot;&quot;;
 
-export {
-  destructor
-} from &quot;./lifecycle&quot;;
+export const ESCAPED_SINGLE_QUOTE = &quot;\\&apos;&quot;;
+
+export const LINE_CHARACTER = &quot;\n&quot;;
+
+export const SINGLE_TO_DOUBLE_QUOTE = /&quot;|\\&apos;/g;
+
+export const QUOTE_ESCAPE_REGEXP = /\\&apos;|&quot;/g;
+
+export const INVALID_TOKEN = &quot;Invalid token&quot;;
+
+export const INVALID_OPERAND_TOKEN = &quot;Invalid operand&quot;;
+
+export const INVALID_SEPARATOR_TOKEN = &quot;Invalid arguments separator&quot;;
 </code></pre>
 
 </div>

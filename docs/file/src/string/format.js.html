@@ -33,6 +33,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-IteratableObject">IteratableObject</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json-helper">json/helper</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-access">access</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPath">JsonHelperAccessPath</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathFill">JsonHelperAccessPathFill</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathType">JsonHelperAccessPathType</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
@@ -84,6 +88,12 @@ import {
   STRING_TRIM_LEFT_REGEXP,
   STRING_TRIM_RIGHT_REGEXP,
   TRIM_ERROR_NOT_STRING,
+  ESCAPED_SINGLE_QUOTE,
+  SINGLE_QUOTE,
+  ESCAPED_DOUBLE_QUOTE,
+  DOUBLE_QUOTE_ESCAPE,
+  DOUBLE_QUOTE,
+  DOUBLE_QUOTE_ESCAPE_ERROR,
   DEFAULT_PADSTRING
 } from &quot;./constants&quot;;
 
@@ -205,6 +215,21 @@ export function trimEnd(subject) {
   }
 
   return subject &amp;&amp; subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);
+}
+
+function quoteReplace(all) {
+  switch (all) {
+  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
+  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
+  }
+  return all;
+}
+export function quoteEscapify(subject) {
+  if (typeof subject !== TYPE_STRING) {
+    throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);
+  }
+
+  return subject &amp;&amp; subject.replace(DOUBLE_QUOTE_ESCAPE, quoteReplace);
 }
 </code></pre>
 

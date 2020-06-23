@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">src/index.js | @dikotech/basic</title>
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/json/query.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -76,48 +76,52 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">export {
-  string,
-  number,
-  boolean,
-  numeric,
-  bigint,
-  symbol,
-  scalar,
-  date,
-  regexp,
-  object,
-  array,
-  method,
-  promise,
-  signature
-} from &quot;./native&quot;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/query.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+  TYPE_STRING,
+  TYPE_NUMBER
+} from &quot;../native/constants&quot;;
 
-export {
-  numberify
-} from &quot;./number&quot;;
+import { compile } from &quot;./compile&quot;;
 
-export {
-  repeat
-} from &quot;./string&quot;;
+const COMPILED = [];
+let COMPILED_LENGTH = 0;
+let COMPILED_INDEX = {};
+let MAX_COMPILED = 100;
 
-export {
-  Utf,
+export function updateMaxCompiled(max) {
+  if (typeof max === TYPE_NUMBER &amp;&amp; max &gt; 0) {
+    MAX_COMPILED = max;
+    return true;
+  }
 
-  eachUnicode,
-  string2unicodes,
-  string2codePoints,
-  codePoint2string,
+  return false;
+}
 
-  unicodify,
-  unicodeCount,
-  codepoints2Utf
-} from &quot;./unicode&quot;;
+export function query(querycode, subject) {
+  const max = MAX_COMPILED;
+  const compiledList = COMPILED;
+  let indexed = COMPILED_INDEX;
+  let length = COMPILED_LENGTH;
 
-export {
-  destructor
-} from &quot;./lifecycle&quot;;
+  if (typeof querycode !== TYPE_STRING) {
+    return undefined;
+  }
+
+  if (querycode in indexed) {
+    return compiledList[indexed[querycode]](subject);
+  }
+
+  // clear
+  if (length + 1 &gt; max) {
+    COMPILED_LENGTH = length = compiledList.length = 0;
+    COMPILED_INDEX = indexed = {};
+  }
+
+  indexed[querycode] = length = COMPILED_LENGTH++;
+
+  return (compiledList[length] = compile(querycode))(subject);
+}
 </code></pre>
 
 </div>

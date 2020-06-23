@@ -149,16 +149,16 @@ query(
 query(
   `
   [
-    data[0].id = ?,
-    data[1].name = ?,
-    data[1].language[] = ?
+    .3.data[0].id = ?,
+    @3.data[1].name = ?,
+    .[3].data[1].language[] = ?
   ]
   `,
-  object,
   [
     42,
     "updated name",
-    "en"
+    "en",
+    object
   ]
 );
 
@@ -168,16 +168,16 @@ query(
 query(
   `
   {
-    updatedId: data[0].id = ?,
-    updatedName: data[1].name = ?,
-    updatedLanguage: data[1].language[] = ?
+    updatedId: @3.data[0].id = ?,
+    updatedName: @3.data[1].name = ?,
+    updatedLanguage: @3.data[1].language[] = ?
   }
   `,
-  object,
   [
     42,
     "updated name",
-    "en"
+    "en",
+    object
   ]
 );
 
@@ -187,16 +187,16 @@ query(
 query(
   `
   {
-    updatedId: data[2].id = ?,
-    updatedName: data[2].name = ?,
-    updatedLanguage: data[2].language[] = ?
+    updatedId: .3.data[2].id = ?,
+    updatedName: .[3].data[2].name = ?,
+    updatedLanguage: @3.data[2].language[] = ?
   }
   `,
-  object,
   [
     42,
     "updated name",
-    "en"
+    "en",
+    object
   ]
 );
 ```
@@ -207,25 +207,26 @@ query(
 ```js
 
 // removes "message" property.
-// returns last value "Ok".
+// returns true if successfully deleted "message" property.
 query(
   "delete message",
   object
 );
 
+
+**Multiple remove property**
+
 // removes "message" property.
 //  then, removes "name" property in data[0].
 //  then, removes "language" property in data[0].
 //  then, pops "0" index in data[0].language array.
-// returns old values [ "Ok", "name1", "en" ].
+// returns true if last delete expression is successful.
 query(
   `
-  [
     delete message,
-    delete data[0].name,
-    delete data[0].language,
-    delete data[0]
-  ]
+          data[0].name,
+          data[0].language,
+          data[0];
   `,
   object
 );
@@ -254,21 +255,19 @@ Supported Lexical Structures.
 # return result of `expression`
 `expression`
 
-  # or, return composed array
+  # or, multiple expression separated by `;`
   |
-    `[`
-      `expression`
-      [, `expression`]
-      [, `expression`]
-    `]`
+    `expression`;
 
-  # or, return composed object
-  |
-    `{`
-      `identifier`: `expression`
-      [, `identifier`: `expression`]
-      [, `identifier`: `expression`]
-    `}`
+      [
+        ... `expression`;
+        [`expression`]
+      ]
+
+  # the last expression
+  #   1. may or may not omit `;`
+  #   2. and will be returned as query result.
+
 
 
 ```
@@ -280,8 +279,8 @@ Supported Lexical Structures.
 ```
 // reference declaration
 
-myReference from data[1].value;
-firstElement from data[0];
+myReference from @1.data[1].value;
+firstElement from .[1].data[0];
 customValue from ?;
 
 // using reference with @
@@ -342,8 +341,25 @@ Object | { first: 1, seconds: 2 , third: 3 }<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp
 
 Result Type | Operator | Example | Description
 --- | --- | --- | ---
-Mixed | **`?`** | data[**?**]<br><br>data[0].id = **?** | Question mark **?** contains any value defined outside the query.<br>Value in **?** contains value listed in **variables** Array argument when calling `query(myquery, targetobject, `**variables**`)` function in order they appear in the query code.<br><br>For example, the first question mark will contain **"my value"** string if function is executed like this `query("data.?", target, [`**"my value"**`, 1])`
-Mixed | **`@`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br>another *from* ?;<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;name: **@myReference**.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;value: 1 + **@value**,<br>&nbsp;&nbsp;&nbsp;&nbsp;scope: **@**,<br>&nbsp;&nbsp;&nbsp;&nbsp;custom: **@1**<br>} | Uses value referenced from **from** declaration. <br><br>**@** can also be used to reference root object if not followed by identifier.<br><br>**@** can represent **?** variable when it's followed by numeric identifier such as **@1**, or **@3**.
+Mixed | **`.`** | `myFunction(.); .property = 1; .` | Contains `targetObject` as `root` object which is passed when calling `query(myquery, targetObject)` function.
+Mixed | **`?`** | data[**?**]<br><br>data[0].id = **?** | Question mark **?** contains any value defined outside the query.<br>Value in **?** contains value listed in **targetobject** Array argument when calling `query(myquery, `**targetobject**`)` function in order they appear in the query code.<br><br>For example, the first question mark will contain **"my value"** string if function is executed like this `query(".[1].data = ?", [`**"my value"**`, object])`
+Mixed | **`@`**<br><br>**`@reference`**<br><br>**`@number`** | myReference *from* data[1];<br>value *from* **@myReference**.value;<br>another *from* ?;<br><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;name: **@myReference**.name,<br>&nbsp;&nbsp;&nbsp;&nbsp;value: 1 + **@value**,<br>&nbsp;&nbsp;&nbsp;&nbsp;scope: **@**,<br>&nbsp;&nbsp;&nbsp;&nbsp;custom: **@1**<br>} | Uses value referenced from **from** declaration. <br><br>**@** can also be used to reference root object if not followed by identifier.<br><br>**@** can represent **?** variable when it's followed by numeric identifier such as **@1**, or **@3**.
+
+
+### Function Call
+
+
+Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Mixed | **`ident()`**<br>**`ident(expression[, ...expression])`** | `func(., .rows[])` |Calls custom function from `root` object property.
+
+
+### Filters
+
+
+Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Array | **`expression`** &#124; **`ident`**<br>**`expression`** &#124; **`ident : expression[, ...expression]`** | `.` &#124; ` myfilter: ?` | Calls custom filter from `root` object property.
 
 
 ### Arithmetic
@@ -356,15 +372,36 @@ Number | **`*`** | 1 **`*`** 2 | Multiplication.
 Number | **`/`** | 1 **`/`** 2 | Division.
 Number | **`%`** | 1 **`%`** 2 | Modulo Division. Resturns remainder of division operation
 
+
 ### Conditional
 
  Result Type | Operator | Example | Description
 --- | --- | --- | ---
-Boolean | **`==`** | 1 **`==`** 2 | Modulo Division.
-Boolean | **`>`** | 1 **`>`** 2 | Addition.
-Boolean | **`>=`** | 1 **`>=`** 2 | Subtraction.
-Boolean | **`<`** | 1 **`<`** 2 | Multiplication.
-Boolean | **`<=`** | 1 **`<=`** 2 | Division.
+Boolean | **`==`** | 1 **`==`** 2 | Equal.
+Boolean | **`===`** | 1 **`===`** 2 | Strict Equal.
+Boolean | **`!=`** | 1 **`!=`** 2 | Not Equal.
+Boolean | **`!==`** | 1 **`!==`** 2 | Strict Not Equal.
+Boolean | **`>`** | 1 **`>`** 2 | Greater than.
+Boolean | **`>=`** | 1 **`>=`** 2 | Greater than or equal to.
+Boolean | **`<`** | 1 **`<`** 2 | Lesser than.
+Boolean | **`<=`** | 1 **`<=`** 2 | Lesser than or equal to.
+Boolean | **`=~`** | name **`=~`** /^diko/<br><br>name **`=~`** "diko" | String pattern search.
+
+
+### Logical Operators
+
+ Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Boolean | **`&&`** | 1 **`&&`** 2 | Logical And.
+Boolean | **&#124;&#124;** | name **&#124;&#124;** ? | Logical Or.
+
+
+
+### Ternary Condition Operator
+
+ Result Type | Operator | Example | Description
+--- | --- | --- | ---
+Mixed | ***condition*** **`?`** ***expression1*** **`:`** ***expression2*** | `.data.id === 3` <br> **`?`** `rows[0..5]` <br>**`:`** `rows[0, 6..10]` | Ternary condition where expression after `?` is returned if condition is truthy. Returns expression after `:` if condition is falsy.
 
 ### Assignment
 
@@ -372,10 +409,12 @@ Result Type | Operator | Example | Description
 --- | --- | --- | ---
 Mixed | **`=`** | data[0].value **`=`** "value" | Assigns **"value"** to **data[0].value** expression. <br>Take note that if zero "0" don't exist, zero index will be created with empty object.
 
-### Object Query
+### Json Path
 
-Result Type | Operator | Example | Description
---- | --- | --- | ---
-Mixed | **`.`** | data **`.`** propertyName<br>data **`.`** "propertyName" **`.`** target = ? | **Extract mode:**<br>Retrieves property of Object.<br><br>**Assign mode:**<br>Assign/Populate property value of the Object.
-Mixed | **`[]`** | data **`[1]`**<br><br>data **`[propertyName]`** = ?<br><br>data **`[1..10, 20]`**<br><br>data **`[]`** is ? | **Extract mode:**<br>Retrieves property of an object or item of an Array list if there is only one value or identifier inside **`[]`**.<br><br>It can also act as object property or list index filter if **`[]`** contains none (e.g. **`[]`**), or two or more values (e.g. **`[1, 5, name]`**), or number range (e.g. **`[10..25]`**).<br>The result of list index or object property filter with **`[]`** operator end up as list array.<br><br>**Assign mode:**<br>Assign/populate list item or object property value. May also do multiple assignment of values when **`[]`** operator results in object property or list index filter.
-Mixed | **`:`** | propertyName **:** data[0] | **Compose mode:**<br>Assign property value of an object with the given identifier.
+ Operator | Example | Description
+--- | --- | ---
+**`.key`**<br>**`key`** | **`@.name`**<br>**`.1`**<br>**`id`**<br>**`."mydata"`** | Selects a value based on object property or array index defined by `key`.
+**`.*`** | **`.*`** | Selects all object properties or array items.
+**`[]`**<br>**`[*]`** | **`.[*]`**<br>**`rows[]`** | Selects all object properties or array items.<br><br>**Setter query** that ends with this operator will append an item to context array. (e.g. `rows[]={id: 2}` appends `{id:2}` to `rows` array.)
+**`[key]`** | **`.[data]`**<br>**`@["id"]`**<br>**`.rows[?]`** | Selects a value based on object property or array index defined by `key`. also an alternative to `.key` operator.
+**`[key, range, ...]`** | **`?[name, id, 0..10]`**<br>**`.[0,2,4..9]`** | Selects matching object properties or array index defined by multiple combination of `key`, and `range`.<br><br>**Range** is expressed in **`[start index] .. [end index]`** that may be useful for slicing arrays.

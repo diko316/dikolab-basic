@@ -54,10 +54,14 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#array-list" data-ice="link">Array/List</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#object" data-ice="link">Object</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#variables" data-ice="link">Variables</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#function-call" data-ice="link">Function Call</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#filters" data-ice="link">Filters</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#arithmetic" data-ice="link">Arithmetic</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#conditional" data-ice="link">Conditional</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#logical-operators" data-ice="link">Logical Operators</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#ternary-condition-operator" data-ice="link">Ternary Condition Operator</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#assignment" data-ice="link">Assignment</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#object-query" data-ice="link">Object Query</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#json-path" data-ice="link">Json Path</a></li>
 </ul>
   </div>
 </div>
@@ -170,16 +174,16 @@ query(
 query(
   `
   [
-    data[0].id = ?,
-    data[1].name = ?,
-    data[1].language[] = ?
+    .3.data[0].id = ?,
+    @3.data[1].name = ?,
+    .[3].data[1].language[] = ?
   ]
   `,
-  object,
   [
     42,
     &quot;updated name&quot;,
-    &quot;en&quot;
+    &quot;en&quot;,
+    object
   ]
 );
 
@@ -189,16 +193,16 @@ query(
 query(
   `
   {
-    updatedId: data[0].id = ?,
-    updatedName: data[1].name = ?,
-    updatedLanguage: data[1].language[] = ?
+    updatedId: @3.data[0].id = ?,
+    updatedName: @3.data[1].name = ?,
+    updatedLanguage: @3.data[1].language[] = ?
   }
   `,
-  object,
   [
     42,
     &quot;updated name&quot;,
-    &quot;en&quot;
+    &quot;en&quot;,
+    object
   ]
 );
 
@@ -208,41 +212,42 @@ query(
 query(
   `
   {
-    updatedId: data[2].id = ?,
-    updatedName: data[2].name = ?,
-    updatedLanguage: data[2].language[] = ?
+    updatedId: .3.data[2].id = ?,
+    updatedName: .[3].data[2].name = ?,
+    updatedLanguage: @3.data[2].language[] = ?
   }
   `,
-  object,
   [
     42,
     &quot;updated name&quot;,
-    &quot;en&quot;
+    &quot;en&quot;,
+    object
   ]
 );</code>
 </code></pre>
 <h4 id="unset-value">Unset value</h4><p><strong>Simple remove property</strong></p>
 <pre><code class="lang-js"><code class="source-code prettyprint">
 // removes &quot;message&quot; property.
-// returns last value &quot;Ok&quot;.
+// returns true if successfully deleted &quot;message&quot; property.
 query(
   &quot;delete message&quot;,
   object
 );
 
+
+**Multiple remove property**
+
 // removes &quot;message&quot; property.
 //  then, removes &quot;name&quot; property in data[0].
 //  then, removes &quot;language&quot; property in data[0].
 //  then, pops &quot;0&quot; index in data[0].language array.
-// returns old values [ &quot;Ok&quot;, &quot;name1&quot;, &quot;en&quot; ].
+// returns true if last delete expression is successful.
 query(
   `
-  [
     delete message,
-    delete data[0].name,
-    delete data[0].language,
-    delete data[0]
-  ]
+          data[0].name,
+          data[0].language,
+          data[0];
   `,
   object
 );</code>
@@ -264,28 +269,26 @@ query(
 # return result of `expression`
 `expression`
 
-  # or, return composed array
+  # or, multiple expression separated by `;`
   |
-    `[`
-      `expression`
-      [, `expression`]
-      [, `expression`]
-    `]`
+    `expression`;
 
-  # or, return composed object
-  |
-    `{`
-      `identifier`: `expression`
-      [, `identifier`: `expression`]
-      [, `identifier`: `expression`]
-    `}`
+      [
+        ... `expression`;
+        [`expression`]
+      ]
+
+  # the last expression
+  #   1. may or may not omit `;`
+  #   2. and will be returned as query result.
+
 
 </code>
 </code></pre><h3 id="references">References</h3><p><strong>Using references</strong></p>
 <pre><code><code class="source-code prettyprint">// reference declaration
 
-myReference from data[1].value;
-firstElement from data[0];
+myReference from @1.data[1].value;
+firstElement from .[1].data[0];
 customValue from ?;
 
 // using reference with @
@@ -381,15 +384,57 @@ customValue from ?;
 <tbody>
 <tr>
 <td>Mixed</td>
-<td><strong><code>?</code></strong></td>
-<td>data[<strong>?</strong>]<br><br>data[0].id = <strong>?</strong></td>
-<td>Question mark <strong>?</strong> contains any value defined outside the query.<br>Value in <strong>?</strong> contains value listed in <strong>variables</strong> Array argument when calling <code>query(myquery, targetobject,</code><strong>variables</strong><code>)</code> function in order they appear in the query code.<br><br>For example, the first question mark will contain <strong>&quot;my value&quot;</strong> string if function is executed like this <code>query(&quot;data.?&quot;, target, [</code><strong>&quot;my value&quot;</strong><code>, 1])</code></td>
+<td><strong><code>.</code></strong></td>
+<td><code>myFunction(.); .property = 1; .</code></td>
+<td>Contains <code>targetObject</code> as <code>root</code> object which is passed when calling <code>query(myquery, targetObject)</code> function.</td>
 </tr>
 <tr>
 <td>Mixed</td>
-<td><strong><code>@</code></strong></td>
+<td><strong><code>?</code></strong></td>
+<td>data[<strong>?</strong>]<br><br>data[0].id = <strong>?</strong></td>
+<td>Question mark <strong>?</strong> contains any value defined outside the query.<br>Value in <strong>?</strong> contains value listed in <strong>targetobject</strong> Array argument when calling <code>query(myquery,</code><strong>targetobject</strong><code>)</code> function in order they appear in the query code.<br><br>For example, the first question mark will contain <strong>&quot;my value&quot;</strong> string if function is executed like this <code>query(&quot;.[1].data = ?&quot;, [</code><strong>&quot;my value&quot;</strong><code>, object])</code></td>
+</tr>
+<tr>
+<td>Mixed</td>
+<td><strong><code>@</code></strong><br><br><strong><code>@reference</code></strong><br><br><strong><code>@number</code></strong></td>
 <td>myReference <em>from</em> data[1];<br>value <em>from</em> <strong>@myReference</strong>.value;<br>another <em>from</em> ?;<br><br>{<br>&#xA0;&#xA0;&#xA0;&#xA0;name: <strong>@myReference</strong>.name,<br>&#xA0;&#xA0;&#xA0;&#xA0;value: 1 + <strong>@value</strong>,<br>&#xA0;&#xA0;&#xA0;&#xA0;scope: <strong>@</strong>,<br>&#xA0;&#xA0;&#xA0;&#xA0;custom: <strong>@1</strong><br>}</td>
 <td>Uses value referenced from <strong>from</strong> declaration. <br><br><strong>@</strong> can also be used to reference root object if not followed by identifier.<br><br><strong>@</strong> can represent <strong>?</strong> variable when it&apos;s followed by numeric identifier such as <strong>@1</strong>, or <strong>@3</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="function-call">Function Call</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mixed</td>
+<td><strong><code>ident()</code></strong><br><strong><code>ident(expression[, ...expression])</code></strong></td>
+<td><code>func(., .rows[])</code></td>
+<td>Calls custom function from <code>root</code> object property.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="filters">Filters</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Array</td>
+<td><strong><code>expression</code></strong> | <strong><code>ident</code></strong><br><strong><code>expression</code></strong> | <strong><code>ident : expression[, ...expression]</code></strong></td>
+<td><code>.</code> | <code>myfilter: ?</code></td>
+<td>Calls custom filter from <code>root</code> object property.</td>
 </tr>
 </tbody>
 </table>
@@ -449,31 +494,97 @@ customValue from ?;
 <td>Boolean</td>
 <td><strong><code>==</code></strong></td>
 <td>1 <strong><code>==</code></strong> 2</td>
-<td>Modulo Division.</td>
+<td>Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>===</code></strong></td>
+<td>1 <strong><code>===</code></strong> 2</td>
+<td>Strict Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>!=</code></strong></td>
+<td>1 <strong><code>!=</code></strong> 2</td>
+<td>Not Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>!==</code></strong></td>
+<td>1 <strong><code>!==</code></strong> 2</td>
+<td>Strict Not Equal.</td>
 </tr>
 <tr>
 <td>Boolean</td>
 <td><strong><code>&gt;</code></strong></td>
 <td>1 <strong><code>&gt;</code></strong> 2</td>
-<td>Addition.</td>
+<td>Greater than.</td>
 </tr>
 <tr>
 <td>Boolean</td>
 <td><strong><code>&gt;=</code></strong></td>
 <td>1 <strong><code>&gt;=</code></strong> 2</td>
-<td>Subtraction.</td>
+<td>Greater than or equal to.</td>
 </tr>
 <tr>
 <td>Boolean</td>
 <td><strong><code>&lt;</code></strong></td>
 <td>1 <strong><code>&lt;</code></strong> 2</td>
-<td>Multiplication.</td>
+<td>Lesser than.</td>
 </tr>
 <tr>
 <td>Boolean</td>
 <td><strong><code>&lt;=</code></strong></td>
 <td>1 <strong><code>&lt;=</code></strong> 2</td>
-<td>Division.</td>
+<td>Lesser than or equal to.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>=~</code></strong></td>
+<td>name <strong><code>=~</code></strong> /^diko/<br><br>name <strong><code>=~</code></strong> &quot;diko&quot;</td>
+<td>String pattern search.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="logical-operators">Logical Operators</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boolean</td>
+<td><strong><code>&amp;&amp;</code></strong></td>
+<td>1 <strong><code>&amp;&amp;</code></strong> 2</td>
+<td>Logical And.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong>||</strong></td>
+<td>name <strong>||</strong> ?</td>
+<td>Logical Or.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ternary-condition-operator">Ternary Condition Operator</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mixed</td>
+<td><strong><em>condition</em></strong> <strong><code>?</code></strong> <strong><em>expression1</em></strong> <strong><code>:</code></strong> <strong><em>expression2</em></strong></td>
+<td><code>.data.id === 3</code> <br> <strong><code>?</code></strong> <code>rows[0..5]</code> <br><strong><code>:</code></strong> <code>rows[0, 6..10]</code></td>
+<td>Ternary condition where expression after <code>?</code> is returned if condition is truthy. Returns expression after <code>:</code> if condition is falsy.</td>
 </tr>
 </tbody>
 </table>
@@ -495,10 +606,9 @@ customValue from ?;
 </tr>
 </tbody>
 </table>
-<h3 id="object-query">Object Query</h3><table>
+<h3 id="json-path">Json Path</h3><table>
 <thead>
 <tr>
-<th>Result Type</th>
 <th>Operator</th>
 <th>Example</th>
 <th>Description</th>
@@ -506,22 +616,29 @@ customValue from ?;
 </thead>
 <tbody>
 <tr>
-<td>Mixed</td>
-<td><strong><code>.</code></strong></td>
-<td>data <strong><code>.</code></strong> propertyName<br>data <strong><code>.</code></strong> &quot;propertyName&quot; <strong><code>.</code></strong> target = ?</td>
-<td><strong>Extract mode:</strong><br>Retrieves property of Object.<br><br><strong>Assign mode:</strong><br>Assign/Populate property value of the Object.</td>
+<td><strong><code>.key</code></strong><br><strong><code>key</code></strong></td>
+<td><strong><code>@.name</code></strong><br><strong><code>.1</code></strong><br><strong><code>id</code></strong><br><strong><code>.&quot;mydata&quot;</code></strong></td>
+<td>Selects a value based on object property or array index defined by <code>key</code>.</td>
 </tr>
 <tr>
-<td>Mixed</td>
-<td><strong><code>[]</code></strong></td>
-<td>data <strong><code>[1]</code></strong><br><br>data <strong><code>[propertyName]</code></strong> = ?<br><br>data <strong><code>[1..10, 20]</code></strong><br><br>data <strong><code>[]</code></strong> is ?</td>
-<td><strong>Extract mode:</strong><br>Retrieves property of an object or item of an Array list if there is only one value or identifier inside <strong><code>[]</code></strong>.<br><br>It can also act as object property or list index filter if <strong><code>[]</code></strong> contains none (e.g. <strong><code>[]</code></strong>), or two or more values (e.g. <strong><code>[1, 5, name]</code></strong>), or number range (e.g. <strong><code>[10..25]</code></strong>).<br>The result of list index or object property filter with <strong><code>[]</code></strong> operator end up as list array.<br><br><strong>Assign mode:</strong><br>Assign/populate list item or object property value. May also do multiple assignment of values when <strong><code>[]</code></strong> operator results in object property or list index filter.</td>
+<td><strong><code>.*</code></strong></td>
+<td><strong><code>.*</code></strong></td>
+<td>Selects all object properties or array items.</td>
 </tr>
 <tr>
-<td>Mixed</td>
-<td><strong><code>:</code></strong></td>
-<td>propertyName <strong>:</strong> data[0]</td>
-<td><strong>Compose mode:</strong><br>Assign property value of an object with the given identifier.</td>
+<td><strong><code>[]</code></strong><br><strong><code>[*]</code></strong></td>
+<td><strong><code>.[*]</code></strong><br><strong><code>rows[]</code></strong></td>
+<td>Selects all object properties or array items.<br><br><strong>Setter query</strong> that ends with this operator will append an item to context array. (e.g. <code>rows[]={id: 2}</code> appends <code>{id:2}</code> to <code>rows</code> array.)</td>
+</tr>
+<tr>
+<td><strong><code>[key]</code></strong></td>
+<td><strong><code>.[data]</code></strong><br><strong><code>@[&quot;id&quot;]</code></strong><br><strong><code>.rows[?]</code></strong></td>
+<td>Selects a value based on object property or array index defined by <code>key</code>. also an alternative to <code>.key</code> operator.</td>
+</tr>
+<tr>
+<td><strong><code>[key, range, ...]</code></strong></td>
+<td><strong><code>?[name, id, 0..10]</code></strong><br><strong><code>.[0,2,4..9]</code></strong></td>
+<td>Selects matching object properties or array index defined by multiple combination of <code>key</code>, and <code>range</code>.<br><br><strong>Range</strong> is expressed in <strong><code>[start index] .. [end index]</code></strong> that may be useful for slicing arrays.</td>
 </tr>
 </tbody>
 </table>

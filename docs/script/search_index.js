@@ -6,6 +6,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "@dikotech/basic/src/json/helper/path.js~access",
+    "function/index.html#static-function-access",
+    "<span>access</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/helper/path.js</span>",
+    "function"
+  ],
+  [
     "@dikotech/basic/src/native/type.js~array",
     "function/index.html#static-function-array",
     "<span>array</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
@@ -546,15 +552,81 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/build.js",
+    "file/src/json/build.js.html",
+    "src/json/build.js",
+    "file"
+  ],
+  [
+    "src/json/compile.js",
+    "file/src/json/compile.js.html",
+    "src/json/compile.js",
+    "file"
+  ],
+  [
+    "src/json/constants.js",
+    "file/src/json/constants.js.html",
+    "src/json/constants.js",
+    "file"
+  ],
+  [
     "src/json/error-reporting.js",
     "file/src/json/error-reporting.js.html",
     "src/json/error-reporting.js",
     "file"
   ],
   [
+    "src/json/helper/index.js",
+    "file/src/json/helper/index.js.html",
+    "src/json/helper/index.js",
+    "file"
+  ],
+  [
+    "src/json/helper/path.js",
+    "file/src/json/helper/path.js.html",
+    "src/json/helper/path.js",
+    "file"
+  ],
+  [
+    "src/json/helper/path.js~jsonhelperaccesspath",
+    "typedef/index.html#static-typedef-JsonHelperAccessPath",
+    "src/json/helper/path.js~JsonHelperAccessPath",
+    "typedef"
+  ],
+  [
+    "src/json/helper/path.js~jsonhelperaccesspathfill",
+    "typedef/index.html#static-typedef-JsonHelperAccessPathFill",
+    "src/json/helper/path.js~JsonHelperAccessPathFill",
+    "typedef"
+  ],
+  [
+    "src/json/helper/path.js~jsonhelperaccesspathtype",
+    "typedef/index.html#static-typedef-JsonHelperAccessPathType",
+    "src/json/helper/path.js~JsonHelperAccessPathType",
+    "typedef"
+  ],
+  [
     "src/json/index.js",
     "file/src/json/index.js.html",
     "src/json/index.js",
+    "file"
+  ],
+  [
+    "src/json/old-compiler.js",
+    "file/src/json/old-compiler.js.html",
+    "src/json/old-compiler.js",
+    "file"
+  ],
+  [
+    "src/json/parser.js",
+    "file/src/json/parser.js.html",
+    "src/json/parser.js",
+    "file"
+  ],
+  [
+    "src/json/query.js",
+    "file/src/json/query.js.html",
+    "src/json/query.js",
     "file"
   ],
   [
