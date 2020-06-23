@@ -38,6 +38,22 @@ console: container-console-cleanup
 			-v '$(PWD):$(DOCKER_MOUNT)' \
 			'$(DOCKER_IMAGE_NAME)'
 
+build: container-test-cleanup
+	@docker run \
+			--name '$(DOCKER_TEST_NAME)' \
+			-ti \
+			-v '$(PWD):$(DOCKER_MOUNT)' \
+			'$(DOCKER_IMAGE_NAME)' \
+			build
+
+test: container-test-cleanup
+	@docker run \
+			--name '$(DOCKER_TEST_NAME)' \
+			-ti \
+			-v '$(PWD):$(DOCKER_MOUNT)' \
+			'$(DOCKER_IMAGE_NAME)' \
+			test
+
 tdd: container-test-cleanup
 	@docker run \
 			--name '$(DOCKER_TEST_NAME)' \

@@ -1,6 +1,6 @@
 {
-  "coverage": "33.48%",
-  "expectCount": 224,
+  "coverage": "35.37%",
+  "expectCount": 212,
   "actualCount": 75,
   "files": {
     "src/array/contants.js": {
@@ -92,24 +92,6 @@
         30,
         31,
         32
-      ]
-    },
-    "src/json/old-compiler.js": {
-      "expectCount": 12,
-      "actualCount": 0,
-      "undocumentLines": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        19,
-        20,
-        21,
-        22,
-        28,
-        79,
-        231
       ]
     },
     "src/json/parser.js": {

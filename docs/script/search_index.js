@@ -612,12 +612,6 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/json/old-compiler.js",
-    "file/src/json/old-compiler.js.html",
-    "src/json/old-compiler.js",
-    "file"
-  ],
-  [
     "src/json/parser.js",
     "file/src/json/parser.js.html",
     "src/json/parser.js",

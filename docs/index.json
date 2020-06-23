@@ -867,7 +867,7 @@
     "__docId__": 58,
     "kind": "file",
     "name": "src/index.js",
-    "content": "export {\n  string,\n  number,\n  boolean,\n  numeric,\n  bigint,\n  symbol,\n  scalar,\n  date,\n  regexp,\n  object,\n  array,\n  method,\n  promise,\n  signature\n} from \"./native\";\n\nexport {\n  numberify\n} from \"./number\";\n\nexport {\n  repeat\n} from \"./string\";\n\nexport {\n  Utf,\n\n  eachUnicode,\n  string2unicodes,\n  string2codePoints,\n  codePoint2string,\n\n  unicodify,\n  unicodeCount,\n  codepoints2Utf\n} from \"./unicode\";\n\nexport {\n  destructor\n} from \"./lifecycle\";\n",
+    "content": "export {\n  string,\n  number,\n  boolean,\n  numeric,\n  bigint,\n  symbol,\n  scalar,\n  date,\n  regexp,\n  object,\n  array,\n  method,\n  promise,\n  signature\n} from \"./native\";\n\nexport {\n  numberify\n} from \"./number\";\n\nexport {\n  stringify,\n  repeat,\n  trim,\n  trimStart,\n  trimEnd\n} from \"./string\";\n\nexport {\n  Utf,\n\n  eachUnicode,\n  string2unicodes,\n  string2codePoints,\n  codePoint2string,\n\n  unicodify,\n  unicodeCount,\n  codepoints2Utf\n} from \"./unicode\";\n\nexport {\n  each,\n  assign,\n  contains\n} from \"./object\";\n\nexport {\n  listPadStart,\n  listPadEnd\n} from \"./array\";\n\nexport {\n  compile,\n  query\n} from \"./json\";\n\nexport {\n  destructor\n} from \"./lifecycle\";\n",
     "static": true,
     "longname": "/opt/app/source/src/index.js",
     "access": "public",
@@ -2269,7 +2269,7 @@
     "__docId__": 118,
     "kind": "file",
     "name": "src/json/index.js",
-    "content": "",
+    "content": "export {\n  compile\n} from \"./compile\";\n\nexport {\n  query\n} from \"./query\";\n",
     "static": true,
     "longname": "/opt/app/source/src/json/index.js",
     "access": "public",
@@ -2278,335 +2278,6 @@
   },
   {
     "__docId__": 119,
-    "kind": "file",
-    "name": "src/json/old-compiler.js",
-    "content": "import { parse } from \"./parser\";\n\nimport {\n  EMPTY_FUNCTION,\n  TYPE_STRING,\n  TYPE_NUMBER\n} from \"../native/constants\";\n\nimport { quoteEscapify } from \"../string/format\";\n\nimport COMPILER_REFERENCE from \"./compiler-reference.json\";\n\nconst TEMPLATES = COMPILER_REFERENCE.template;\nconst COMPILE_ACCEPT_RPN = 1;\nconst COMPILE_CREATE_CODEREF = 2;\nconst COMPILE_INSERT_CODEREF = 3;\nconst COMPILE_PROCESS_CODEREF = 4;\n\nconst SYMBOL_PREFIX = \"v\";\nconst REF_PREFIX = \"r\";\nconst CAST_REFERENCE = COMPILER_REFERENCE.typecast;\nconst CAST_PARAMS = [\n  {\n    source: 0\n  }\n];\n\nfunction createCode(settings, template, args) {\n  let symbol = \"\";\n  let code = \"\";\n  let codes;\n  let codeLength;\n  let process;\n  let c;\n  let length;\n  let value;\n\n  // generate code\n  process = template.body;\n  if (process) {\n    codes = [];\n    codeLength = 0;\n    c = 0;\n    length = process.length;\n    for (; length--; c++) {\n      value = process[c];\n      value = value in args ? args[value] : value;\n      if (value) {\n        codes[codeLength++] = value;\n      }\n    }\n    if (codeLength) {\n      code = codes.join(\"\") + \"\\n\";\n    }\n  }\n\n  // generate return reference\n  process = template.return;\n  if (process) {\n    codes = [];\n    codeLength = 0;\n    c = 0;\n    length = process.length;\n    for (; length--; c++) {\n      value = process[c];\n      value = value in args ? args[value] : value;\n      if (value) {\n        codes[codeLength++] = value;\n      }\n    }\n    if (codeLength) {\n      symbol = codes.join(\"\");\n    }\n  }\n\n  return [symbol, code];\n}\n\nfunction createCodeParams(settings, symbolCount, params, nodes) {\n  const symbolPrefix = SYMBOL_PREFIX;\n  const refPrefix = REF_PREFIX;\n  const templates = TEMPLATES;\n  const castReference = CAST_REFERENCE;\n  const typeNumber = TYPE_NUMBER;\n  const castParams = CAST_PARAMS;\n  const symbols = settings.symbols;\n  const vars = settings.reference;\n  const args = {};\n\n  let symbolLength = symbols.length;\n  let key;\n  let argsLength = 0;\n  let codeLength = 0;\n  let c;\n  let length;\n  let param;\n  let symbol;\n  let node;\n  let code;\n  let cast;\n  let type;\n  let codes;\n  let reference;\n  let source;\n  let paramType;\n  let codeKey;\n  let ref;\n  let resolve;\n\n  // generate symbols\n  if (symbolCount) {\n    length = symbolCount;\n    for (; length--;) {\n      symbol = `${symbolPrefix}${symbolLength + 1}`;\n      symbols[symbolLength++] = symbol;\n      key = argsLength++;\n      args[`$${key}`] = \"\";\n      args[key] = symbol;\n    }\n  }\n\n  // generate parameters\n  c = 0;\n  length = params.length;\n  for (; length--; c++) {\n    param = source = params[c];\n    paramType = cast = null;\n    if (typeof param !== typeNumber) {\n      source = param.source;\n      paramType = param.as;\n      cast = param.cast;\n      resolve = param.resolve;\n    }\n    key = argsLength++;\n    codeKey = `$${key}`;\n\n    // find parameter source\n    if ((source === 0 || source) && source in nodes) {\n      node = nodes[source];\n    }\n    // undefined fill in\n    else {\n      args[codeKey] = \"\";\n      args[key] = \"undefined /* child not found */\";\n      continue;\n    }\n\n    type = node.type;\n\n    // finalize reference to use\n    ref = node.ref;\n\n    switch (paramType) {\n    case \"autofill\":\n      ref = ++settings.vars;\n\n    // falls through\n    case \"id\":\n      ref = String(ref) || \"undefined\";\n      symbol = quoteEscapify(ref);\n      ref = ref in vars\n        ? vars[ref]\n        : (vars[ref] = `\"${symbol}\"`);\n      break;\n    }\n\n    // create initial code\n    codeLength = 0;\n    codes = [];\n    code = node.code;\n    if (code) {\n      codes[codeLength++] = code;\n    }\n\n    // resolve or typecast\n    if (resolve || cast) {\n      // typecast if needed\n      reference = cast && cast !== type &&\n        cast in castReference &&\n        castReference[cast];\n    }\n\n    // typecast if needed\n    reference = cast && cast !== type &&\n      cast in castReference &&\n      castReference[cast];\n\n    if (reference) {\n      // finalize type if type not found\n      if (!(type in reference)) {\n        // use wildcard\n        type = \"*\";\n      }\n\n      // type cast if found\n      if (type in reference) {\n        cast = createCode(\n          settings,\n          templates[\n            reference[type]\n          ],\n          createCodeParams(\n            settings,\n            0,\n            castParams,\n            [node]\n          )\n        );\n\n        // replace!\n        symbol = cast[0];\n        if (symbol) {\n          ref = symbol;\n        }\n\n        // add code\n        code = cast[1];\n        if (code) {\n          codes[codeLength++] = code;\n        }\n      }\n    }\n\n    args[codeKey] = codeLength ? codes.join(\"\") : \"\";\n    args[key] = ref;\n  }\n\n  return args;\n}\n\nexport function compile(subject, params) {\n  const emptyFunction = EMPTY_FUNCTION;\n  const compilerReference = COMPILER_REFERENCE;\n  const templates = COMPILER_REFERENCE.template;\n  const definitions = compilerReference.reference;\n\n  const actionAcceptRpn = COMPILE_ACCEPT_RPN;\n  const actionCreateCodeRef = COMPILE_CREATE_CODEREF;\n  const actionInsertCodeRef = COMPILE_INSERT_CODEREF;\n  const actionProcessCodeRef = COMPILE_PROCESS_CODEREF;\n\n  const stack = [];\n  const symbols = [];\n  const settings = {\n    vars: 0,\n    reference: {},\n    symbols: symbols\n  };\n\n  let action = actionAcceptRpn;\n  let rpnIndex = 0;\n  let rpn = null;\n  let rpnCount;\n  let unprocessed;\n  let codeRef;\n  let code;\n  let reduce;\n  let children;\n  let child;\n  let childIndex;\n  let definition;\n  let ruleId;\n  let symbol;\n  let template;\n  let templateParams;\n  let type;\n  let stackLength = 0;\n\n  let limit = 50;\n\n  if (typeof subject !== TYPE_STRING) {\n    return emptyFunction;\n  }\n\n  rpn = parse(subject);\n\n  if (!rpn) {\n    return emptyFunction;\n  }\n\n  rpnCount = rpn.length;\n\n  for (; rpnCount;) {\n    // get one rpn item\n    if (action === actionAcceptRpn) {\n      rpnCount--;\n      unprocessed = rpn[rpnIndex++];\n      action = actionCreateCodeRef;\n    }\n\n    // create coderef\n    if (action === actionCreateCodeRef) {\n      // reduce\n      reduce = unprocessed.reduce;\n      ruleId = unprocessed.ruleId;\n      stackLength -= reduce;\n      children = reduce\n        ? stack.splice(stackLength, reduce)\n        : [];\n\n      codeRef = {\n        rule: ruleId,\n        type: null,\n        ref: unprocessed.value || \"undefined\",\n        code: \"\"\n      };\n\n      // process by definition\n      definition = null;\n\n      if (ruleId in definitions) {\n        definition = definitions[ruleId];\n        action = actionProcessCodeRef;\n      }\n      else {\n        // console.log(\"no definition! \", ruleId);\n        action = actionInsertCodeRef;\n      }\n      // console.log(\"rule \", ruleId, \" definition: \", definition);\n    }\n\n    // process codeRef\n    if (action === actionProcessCodeRef) {\n      type = definition.type;\n      code = unprocessed.value;\n      symbol = \"\";\n\n      // process child reuse\n      if (\"useChild\" in definition) {\n        childIndex = definition.useChild;\n        if (!(childIndex in children)) {\n          throw new Error(`Invalid child to reuse ${childIndex}`);\n        }\n        child = children[childIndex];\n        code = child.code;\n        type = child.type;\n        symbol = child.ref;\n      }\n      // process code\n      else if (\"code\" in definition) {\n        // set generated code\n        template = templates[definition.code];\n        templateParams = [\n          {\n            type,\n            code: \"\",\n            ref: code\n          }\n        ];\n        templateParams.push.apply(templateParams, children);\n        code = createCode(\n          settings,\n          template,\n          createCodeParams(\n            settings,\n            template.symbols,\n            definition.params,\n            templateParams\n          )\n        );\n\n        symbol = code[0];\n        code = code[1];\n      }\n\n      codeRef.type = type;\n      codeRef.code = code || \"\";\n      codeRef.ref = symbol || \"\";\n\n      action = actionInsertCodeRef;\n    }\n\n    // insert codeRef\n    if (action === actionInsertCodeRef) {\n      stack[stackLength++] = codeRef;\n      action = actionAcceptRpn;\n      console.log(\"ref \", codeRef);\n    }\n\n    if (!--limit) {\n      console.log(\"reached limit!\");\n      break;\n    }\n  }\n\n  // console.log(JSON.stringify(stack, null, 3));\n\n  if (stackLength) {\n    console.log(\"code:\\n\\n\" + stack[0].code);\n  }\n\n  return emptyFunction;\n}\n",
-    "static": true,
-    "longname": "/opt/app/source/src/json/old-compiler.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 120,
-    "kind": "variable",
-    "name": "TEMPLATES",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~TEMPLATES",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 13,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 121,
-    "kind": "variable",
-    "name": "COMPILE_ACCEPT_RPN",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~COMPILE_ACCEPT_RPN",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 14,
-    "undocument": true,
-    "type": {
-      "types": [
-        "number"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 122,
-    "kind": "variable",
-    "name": "COMPILE_CREATE_CODEREF",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~COMPILE_CREATE_CODEREF",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 15,
-    "undocument": true,
-    "type": {
-      "types": [
-        "number"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 123,
-    "kind": "variable",
-    "name": "COMPILE_INSERT_CODEREF",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~COMPILE_INSERT_CODEREF",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 16,
-    "undocument": true,
-    "type": {
-      "types": [
-        "number"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 124,
-    "kind": "variable",
-    "name": "COMPILE_PROCESS_CODEREF",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~COMPILE_PROCESS_CODEREF",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 17,
-    "undocument": true,
-    "type": {
-      "types": [
-        "number"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 125,
-    "kind": "variable",
-    "name": "SYMBOL_PREFIX",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~SYMBOL_PREFIX",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 19,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 126,
-    "kind": "variable",
-    "name": "REF_PREFIX",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~REF_PREFIX",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 20,
-    "undocument": true,
-    "type": {
-      "types": [
-        "string"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 127,
-    "kind": "variable",
-    "name": "CAST_REFERENCE",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~CAST_REFERENCE",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 21,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 128,
-    "kind": "variable",
-    "name": "CAST_PARAMS",
-    "memberof": "src/json/old-compiler.js",
-    "static": true,
-    "longname": "src/json/old-compiler.js~CAST_PARAMS",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 22,
-    "undocument": true,
-    "type": {
-      "types": [
-        "undefined[]"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 129,
-    "kind": "function",
-    "name": "createCode",
-    "memberof": "src/json/old-compiler.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/old-compiler.js~createCode",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 28,
-    "undocument": true,
-    "params": [
-      {
-        "name": "settings",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "template",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "args",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "undefined[]"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 130,
-    "kind": "function",
-    "name": "createCodeParams",
-    "memberof": "src/json/old-compiler.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/old-compiler.js~createCodeParams",
-    "access": "public",
-    "export": false,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 79,
-    "undocument": true,
-    "params": [
-      {
-        "name": "settings",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "symbolCount",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "params",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "nodes",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 131,
-    "kind": "function",
-    "name": "compile",
-    "memberof": "src/json/old-compiler.js",
-    "generator": false,
-    "async": false,
-    "static": true,
-    "longname": "src/json/old-compiler.js~compile",
-    "access": "public",
-    "export": true,
-    "importPath": "@dikotech/basic/src/json/old-compiler.js",
-    "importStyle": "{compile}",
-    "description": null,
-    "lineNumber": 231,
-    "undocument": true,
-    "params": [
-      {
-        "name": "subject",
-        "types": [
-          "*"
-        ]
-      },
-      {
-        "name": "params",
-        "types": [
-          "*"
-        ]
-      }
-    ],
-    "return": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 132,
     "kind": "file",
     "name": "src/json/parser.js",
     "content": "\nimport { tokenize } from \"./tokenizer\";\n\nimport { reportParseError } from \"./error-reporting\";\n\nimport PARSER_STATES from \"./parse-states.json\";\nimport PARSER_REFERENCE from \"./parse-reference.json\";\n\nconst ACTION_TOKENIZE = 1;\nconst ACTION_REDUCE = 2;\nconst ACTION_FOLLOW = 3;\nconst ACTION_END = 4;\nconst IGNORE_TOKENS = {};\n\nfunction initialize() {\n  const index = IGNORE_TOKENS;\n  const list = PARSER_REFERENCE.ignoreTokens;\n  let c = 0;\n  let length = list.length;\n\n  // ignore tokens\n  for (; length--; c++) {\n    index[list[c]] = true;\n  }\n}\n\ninitialize();\n\nexport function parse(subject) {\n  const tokenizeAction = ACTION_TOKENIZE;\n  const reduceAction = ACTION_REDUCE;\n  const followAction = ACTION_FOLLOW;\n  const endAction = ACTION_END;\n  const manifest = PARSER_STATES;\n  const ignoreTokens = IGNORE_TOKENS;\n\n  const states = manifest.states;\n  const ends = manifest.reduce;\n  const root = manifest.root;\n  const rpn = [];\n\n  let stateAccess = manifest.initialState;\n  let state = states[stateAccess];\n  let end;\n  let action = tokenizeAction;\n\n  let parseStack = null;\n  let inStack = null;\n  let index = 0;\n  let found;\n  let token;\n  let value;\n  let from;\n  let to;\n  let production;\n  let rule;\n  let input;\n  let length;\n  let total;\n  let rpnFrom;\n  let rpnTo;\n  let erroneous = false;\n  let lineBefore = 1;\n  let lines = 1;\n  let rpnIndex = 0;\n\n  /* eslint no-labels:0 */\n  mainLoop: for (; action !== endAction;) {\n    switch (action) {\n    case tokenizeAction:\n      found = tokenize(subject, index);\n      if (found) {\n        token = found[0];\n        from = index;\n        to = found[2];\n        index = to;\n        lineBefore = lines;\n        lines += found[3];\n\n        // tokenize again\n        if (token in ignoreTokens) {\n          action = tokenizeAction;\n          continue mainLoop;\n        }\n\n        // for RPN\n        value = found[1];\n\n        // follow\n        action = endAction;\n        if (token in state) {\n          action = followAction;\n        }\n        // try reducing\n        else if (stateAccess in ends) {\n          action = reduceAction;\n        }\n        // failed token\n        else {\n          erroneous = true;\n          reportParseError(\n            \"Syntax error\",\n            subject,\n            from,\n            to,\n            lineBefore,\n            lines\n          );\n          break mainLoop;\n        }\n      }\n      // reduce to root\n      else if (parseStack && stateAccess in ends) {\n        action = reduceAction;\n      }\n      // parse failed!\n      else {\n        erroneous = true;\n        reportParseError(\n          \"Syntax error\",\n          subject,\n          from,\n          to,\n          lineBefore,\n          lines\n        );\n        break mainLoop;\n      }\n      continue mainLoop;\n\n    case followAction:\n      token = found[0];\n\n      inStack = [\n        stateAccess,\n        token\n      ];\n      // console.log(\"follow! \", stateAccess, token, \" -> \", state[token], \":\", value);\n      stateAccess = state[token];\n      state = states[stateAccess];\n      parseStack = [\n        parseStack,\n        inStack,\n        rpnIndex\n      ];\n\n      // add to rpn\n      rpn[rpnIndex++] = {\n        lexeme: token,\n        ruleId: token,\n        reduce: 0,\n        from,\n        to,\n        lineFrom: lineBefore,\n        lineTo: lines,\n        value\n      };\n\n      // tokenize\n      action = tokenizeAction;\n      continue mainLoop;\n\n    case reduceAction:\n      // console.log(\"reducing \", stateAccess, ends[stateAccess]);\n      end = ends[stateAccess];\n      rule = end[0];\n      length = total = end[1];\n      production = end[2];\n      rpnTo = null;\n\n      for (; parseStack && length--;) {\n        inStack = parseStack[1];\n        input = inStack[1];\n        rpnFrom = rpn[parseStack[2]];\n\n        if (!rpnTo) {\n          rpnTo = rpn[parseStack[2]];\n        }\n\n        if (input !== production[length]) {\n          erroneous = true;\n          reportParseError(\n            `Syntax error of ${input}`,\n            subject,\n            rpnFrom.from,\n            rpnTo.to,\n            rpnFrom.lineFrom,\n            rpnTo.lineTo\n          );\n          break mainLoop;\n        }\n\n        // resume, reduce did not end yet\n        if (length !== 0) {\n          parseStack = parseStack[0];\n          continue;\n        }\n\n        // reduce successfull\n        // add to rpn\n        rpn[rpnIndex++] = {\n          lexeme: rule,\n          ruleId: end[3],\n          reduce: total,\n          from: rpnFrom.from,\n          to: rpnTo.to,\n          lineFrom: rpnFrom.lineFrom,\n          lineTo: rpnTo.lineTo,\n          value: null\n        };\n\n        stateAccess = inStack[0];\n        state = states[stateAccess];\n\n        // console.log(\"reduced! \", stateAccess, rule, \": \", production, \" pending \", token, \"=\", value);\n\n        // follow new state\n        if (rule in state) {\n          parseStack = [\n            parseStack[0],\n            [\n              stateAccess,\n              rule\n            ],\n            rpnIndex - 1\n          ];\n          stateAccess = state[rule];\n          state = states[stateAccess];\n        }\n        // parse complete!\n        else if (rule === root) {\n          break mainLoop;\n        }\n        // unable to follow reduced state\n        else {\n          erroneous = true;\n          reportParseError(\n            `Syntax error in sequence ${rule}`,\n            subject,\n            rpnFrom.from,\n            rpnTo.to,\n            rpnFrom.lineFrom,\n            rpnTo.lineTo\n          );\n          break mainLoop;\n        }\n      }\n\n      // check if it should reduce back\n      action = reduceAction;\n\n      // or follow\n      if (token && token in state) {\n        action = followAction;\n      }\n      else if (!(stateAccess in ends)) {\n        erroneous = true;\n        if (token) {\n          reportParseError(\n            `Syntax error misplaced token: ${token}`,\n            subject,\n            from,\n            to,\n            lineBefore,\n            lines\n          );\n        }\n        else {\n          reportParseError(\n            \"Syntax error\",\n            subject,\n            from,\n            to,\n            lines,\n            lines\n          );\n        }\n        break mainLoop;\n      }\n\n      continue mainLoop;\n    }\n  }\n\n  // console.log(\"partial \", JSON.stringify(rpn, null, 3));\n  if (erroneous && rpn.length) {\n    console.log(\n      \"last partial rpn: \",\n      JSON.stringify(\n        rpn.slice(\n          Math.max(rpn.length - 5, 0),\n          rpn.length\n        ),\n        null,\n        3\n      )\n    );\n  }\n\n  return erroneous ? null : rpn;\n}\n",
@@ -2617,7 +2288,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 133,
+    "__docId__": 120,
     "kind": "variable",
     "name": "ACTION_TOKENIZE",
     "memberof": "src/json/parser.js",
@@ -2638,7 +2309,7 @@
     "ignore": true
   },
   {
-    "__docId__": 134,
+    "__docId__": 121,
     "kind": "variable",
     "name": "ACTION_REDUCE",
     "memberof": "src/json/parser.js",
@@ -2659,7 +2330,7 @@
     "ignore": true
   },
   {
-    "__docId__": 135,
+    "__docId__": 122,
     "kind": "variable",
     "name": "ACTION_FOLLOW",
     "memberof": "src/json/parser.js",
@@ -2680,7 +2351,7 @@
     "ignore": true
   },
   {
-    "__docId__": 136,
+    "__docId__": 123,
     "kind": "variable",
     "name": "ACTION_END",
     "memberof": "src/json/parser.js",
@@ -2701,7 +2372,7 @@
     "ignore": true
   },
   {
-    "__docId__": 137,
+    "__docId__": 124,
     "kind": "variable",
     "name": "IGNORE_TOKENS",
     "memberof": "src/json/parser.js",
@@ -2722,7 +2393,7 @@
     "ignore": true
   },
   {
-    "__docId__": 138,
+    "__docId__": 125,
     "kind": "function",
     "name": "initialize",
     "memberof": "src/json/parser.js",
@@ -2742,7 +2413,7 @@
     "ignore": true
   },
   {
-    "__docId__": 139,
+    "__docId__": 126,
     "kind": "function",
     "name": "parse",
     "memberof": "src/json/parser.js",
@@ -2773,7 +2444,7 @@
     "ignore": true
   },
   {
-    "__docId__": 140,
+    "__docId__": 127,
     "kind": "file",
     "name": "src/json/query.js",
     "content": "import {\n  TYPE_STRING,\n  TYPE_NUMBER\n} from \"../native/constants\";\n\nimport { compile } from \"./compile\";\n\nconst COMPILED = [];\nlet COMPILED_LENGTH = 0;\nlet COMPILED_INDEX = {};\nlet MAX_COMPILED = 100;\n\nexport function updateMaxCompiled(max) {\n  if (typeof max === TYPE_NUMBER && max > 0) {\n    MAX_COMPILED = max;\n    return true;\n  }\n\n  return false;\n}\n\nexport function query(querycode, subject) {\n  const max = MAX_COMPILED;\n  const compiledList = COMPILED;\n  let indexed = COMPILED_INDEX;\n  let length = COMPILED_LENGTH;\n\n  if (typeof querycode !== TYPE_STRING) {\n    return undefined;\n  }\n\n  if (querycode in indexed) {\n    return compiledList[indexed[querycode]](subject);\n  }\n\n  // clear\n  if (length + 1 > max) {\n    COMPILED_LENGTH = length = compiledList.length = 0;\n    COMPILED_INDEX = indexed = {};\n  }\n\n  indexed[querycode] = length = COMPILED_LENGTH++;\n\n  return (compiledList[length] = compile(querycode))(subject);\n}\n",
@@ -2784,7 +2455,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 141,
+    "__docId__": 128,
     "kind": "variable",
     "name": "COMPILED",
     "memberof": "src/json/query.js",
@@ -2805,7 +2476,7 @@
     "ignore": true
   },
   {
-    "__docId__": 142,
+    "__docId__": 129,
     "kind": "variable",
     "name": "COMPILED_LENGTH",
     "memberof": "src/json/query.js",
@@ -2826,7 +2497,7 @@
     "ignore": true
   },
   {
-    "__docId__": 143,
+    "__docId__": 130,
     "kind": "variable",
     "name": "COMPILED_INDEX",
     "memberof": "src/json/query.js",
@@ -2847,7 +2518,7 @@
     "ignore": true
   },
   {
-    "__docId__": 144,
+    "__docId__": 131,
     "kind": "variable",
     "name": "MAX_COMPILED",
     "memberof": "src/json/query.js",
@@ -2868,7 +2539,7 @@
     "ignore": true
   },
   {
-    "__docId__": 145,
+    "__docId__": 132,
     "kind": "function",
     "name": "updateMaxCompiled",
     "memberof": "src/json/query.js",
@@ -2899,7 +2570,7 @@
     "ignore": true
   },
   {
-    "__docId__": 146,
+    "__docId__": 133,
     "kind": "function",
     "name": "query",
     "memberof": "src/json/query.js",
@@ -2936,7 +2607,7 @@
     "ignore": true
   },
   {
-    "__docId__": 147,
+    "__docId__": 134,
     "kind": "file",
     "name": "src/json/tokenizer.js",
     "content": "import {\n  MATH_MAX\n} from \"../native/math\";\n\nimport {\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport {\n  TOKENIZER_WILDCARD,\n  LINE_CHARACTER,\n  DOUBLE_QUOTE,\n  ESCAPED_DOUBLE_QUOTE,\n  SINGLE_QUOTE,\n  ESCAPED_SINGLE_QUOTE,\n  QUOTE_ESCAPE_REGEXP\n} from \"./constants\";\n\nimport STATES from \"./tokenizer-states.json\";\n\nfunction replaceQuote(all) {\n  switch (all) {\n  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;\n  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;\n  }\n  return all;\n}\n\nexport function tokenize(input, startIndex) {\n  const emptyString = EMPTY_STRING;\n  const doubleQuote = DOUBLE_QUOTE;\n  const quoteRegexp = QUOTE_ESCAPE_REGEXP;\n  const wildcard = TOKENIZER_WILDCARD;\n  const reference = STATES;\n  const keywords = reference.keywords;\n  const states = reference.state;\n  const ends = reference.ends;\n  const anchor = MATH_MAX(0, 1 * startIndex || 0);\n  const lineCharacter = LINE_CHARACTER;\n\n  let state = states[reference.startState];\n  let length = input.length;\n  let c = anchor;\n  let nextIndex = c;\n  let token = null;\n  let char = null;\n  let found = null;\n  let line = 0;\n\n  if (anchor === length) {\n    return [\n      reference.endToken,\n      emptyString,\n      nextIndex + 1,\n      line\n    ];\n  }\n  else if (anchor > length) {\n    return null;\n  }\n\n  length -= c;\n\n  for (; length--; c++) {\n    char = input.charAt(c);\n\n    found = char in state\n      ? state[char]\n      : wildcard in state\n        ? state[wildcard]\n        : false;\n\n    if (found) {\n      // change state\n      state = states[found];\n      if (found in ends) {\n        nextIndex = c + 1;\n        token = ends[found];\n      }\n      continue;\n    }\n\n    break;\n  }\n\n  // postprocess token\n  if (token) {\n    found = input.substring(anchor, nextIndex);\n    line = found.split(lineCharacter).length - 1;\n\n    switch (token) {\n    case \"ident\":\n      if (keywords.indexOf(found) !== -1) {\n        token = found;\n      }\n      break;\n    case \"string\":\n      found = ([\n        doubleQuote,\n        found.substring(1, found.length - 1)\n          .replace(\n            quoteRegexp,\n            replaceQuote\n          ),\n        doubleQuote\n      ]).join(emptyString);\n      break;\n\n    case \":call(\":\n      found = found.substring(1, found.length - 1);\n      break;\n\n    case \"percent\":\n      found = (\n        found.substring(0, found.length - 1)\n      );\n      break;\n    }\n\n    return [\n      token,\n      found,\n      nextIndex,\n      line\n    ];\n  }\n\n  return null;\n}\n",
@@ -2947,7 +2618,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 148,
+    "__docId__": 135,
     "kind": "function",
     "name": "replaceQuote",
     "memberof": "src/json/tokenizer.js",
@@ -2978,7 +2649,7 @@
     "ignore": true
   },
   {
-    "__docId__": 149,
+    "__docId__": 136,
     "kind": "function",
     "name": "tokenize",
     "memberof": "src/json/tokenizer.js",
@@ -3015,7 +2686,7 @@
     "ignore": true
   },
   {
-    "__docId__": 150,
+    "__docId__": 137,
     "kind": "file",
     "name": "src/lifecycle/destructor.js",
     "content": "import { method } from \"../native\";\n\nconst DESTRUCTORS = [];\nlet INITIALIZED = false;\nlet DESTROYED = false;\n\n/**\n * @private\n */\nfunction onDestroy() {\n  let list = null;\n\n  if (!DESTROYED) {\n    list = DESTRUCTORS.slice(0);\n    DESTROYED = true;\n\n    for (let c = 0, length = list.length; length--; c++) {\n      try {\n        list[c]();\n      }\n      catch (error) {\n        console.warn(error);\n      }\n    }\n\n    DESTRUCTORS.length = list.length = 0;\n  }\n}\n\n/**\n * @private\n */\nfunction onBrowserDestroy() {\n  window.removeEventListener(\"beforeunload\", onDestroy);\n  window.removeEventListener(\"unload\", onDestroy);\n}\n\n/**\n * @private\n */\nfunction onProcessDestroy() {\n  process.removeListener(\"beforeExit\", onDestroy);\n}\n\n/**\n * @private\n */\nfunction initialize() {\n  const list = DESTRUCTORS;\n\n  if (!INITIALIZED) {\n    INITIALIZED = true;\n\n    if (typeof window !== \"undefined\") {\n      window.addEventListener(\"beforeunload\", onDestroy, false);\n      window.addEventListener(\"unload\", onDestroy, false);\n      list[list.length] = onBrowserDestroy;\n    }\n\n    if (typeof process !== \"undefined\") {\n      process.on(\"beforeExit\", onDestroy);\n      list[list.length] = onProcessDestroy;\n    }\n  }\n}\n\n/**\n * Registers a destructor handler. Very useful for NodeJS and browser.\n *\n * @param {Function} callback Function to call when app shutsdown or browser document is unloaded.\n */\nexport function destructor(callback) {\n  const list = DESTRUCTORS;\n\n  if (method(callback)) {\n    initialize();\n    list[list.length] = callback;\n  }\n}\n",
@@ -3026,7 +2697,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 151,
+    "__docId__": 138,
     "kind": "variable",
     "name": "DESTRUCTORS",
     "memberof": "src/lifecycle/destructor.js",
@@ -3047,7 +2718,7 @@
     "ignore": true
   },
   {
-    "__docId__": 152,
+    "__docId__": 139,
     "kind": "variable",
     "name": "INITIALIZED",
     "memberof": "src/lifecycle/destructor.js",
@@ -3068,7 +2739,7 @@
     "ignore": true
   },
   {
-    "__docId__": 153,
+    "__docId__": 140,
     "kind": "variable",
     "name": "DESTROYED",
     "memberof": "src/lifecycle/destructor.js",
@@ -3089,7 +2760,7 @@
     "ignore": true
   },
   {
-    "__docId__": 154,
+    "__docId__": 141,
     "kind": "function",
     "name": "onDestroy",
     "memberof": "src/lifecycle/destructor.js",
@@ -3108,7 +2779,7 @@
     "ignore": true
   },
   {
-    "__docId__": 155,
+    "__docId__": 142,
     "kind": "function",
     "name": "onBrowserDestroy",
     "memberof": "src/lifecycle/destructor.js",
@@ -3127,7 +2798,7 @@
     "ignore": true
   },
   {
-    "__docId__": 156,
+    "__docId__": 143,
     "kind": "function",
     "name": "onProcessDestroy",
     "memberof": "src/lifecycle/destructor.js",
@@ -3146,7 +2817,7 @@
     "ignore": true
   },
   {
-    "__docId__": 157,
+    "__docId__": 144,
     "kind": "function",
     "name": "initialize",
     "memberof": "src/lifecycle/destructor.js",
@@ -3165,7 +2836,7 @@
     "ignore": true
   },
   {
-    "__docId__": 158,
+    "__docId__": 145,
     "kind": "function",
     "name": "destructor",
     "memberof": "src/lifecycle/destructor.js",
@@ -3194,7 +2865,7 @@
     "return": null
   },
   {
-    "__docId__": 159,
+    "__docId__": 146,
     "kind": "file",
     "name": "src/lifecycle/index.js",
     "content": "export {\n  destructor\n} from \"./destructor\";\n",
@@ -3205,7 +2876,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 160,
+    "__docId__": 147,
     "kind": "file",
     "name": "src/native/array.js",
     "content": "const ArrayPrototype = Array.prototype;\n\nexport const ARRAY_SLICE = ArrayPrototype.slice;\n\nexport const ARRAY_PUSH = ArrayPrototype.push;\n\nexport const ARRAY_SPLICE = ArrayPrototype.splice;\n\nexport const ARRAY_JOIN = ArrayPrototype.join;\n",
@@ -3216,7 +2887,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 161,
+    "__docId__": 148,
     "kind": "variable",
     "name": "ArrayPrototype",
     "memberof": "src/native/array.js",
@@ -3237,7 +2908,7 @@
     "ignore": true
   },
   {
-    "__docId__": 162,
+    "__docId__": 149,
     "kind": "variable",
     "name": "ARRAY_SLICE",
     "memberof": "src/native/array.js",
@@ -3258,7 +2929,7 @@
     "ignore": true
   },
   {
-    "__docId__": 163,
+    "__docId__": 150,
     "kind": "variable",
     "name": "ARRAY_PUSH",
     "memberof": "src/native/array.js",
@@ -3279,7 +2950,7 @@
     "ignore": true
   },
   {
-    "__docId__": 164,
+    "__docId__": 151,
     "kind": "variable",
     "name": "ARRAY_SPLICE",
     "memberof": "src/native/array.js",
@@ -3300,7 +2971,7 @@
     "ignore": true
   },
   {
-    "__docId__": 165,
+    "__docId__": 152,
     "kind": "variable",
     "name": "ARRAY_JOIN",
     "memberof": "src/native/array.js",
@@ -3321,7 +2992,7 @@
     "ignore": true
   },
   {
-    "__docId__": 166,
+    "__docId__": 153,
     "kind": "file",
     "name": "src/native/constants.js",
     "content": "export const TYPE_NUMBER = \"number\";\n\nexport const TYPE_BIGINT = \"bigint\";\n\nexport const TYPE_STRING = \"string\";\n\nexport const TYPE_BOOLEAN = \"boolean\";\n\nexport const TYPE_UNDEFINED = \"undefined\";\n\nexport const TYPE_FUNCTION = \"function\";\n\nexport const TYPE_OBJECT = \"object\";\n\nexport const TYPE_SYMBOL = \"symbol\";\n\nexport const BIGINT_SIGNATURE = \"[object BigInt]\";\nexport const SYMBOL_SIGNATURE = \"[object Symbol]\";\nexport const OBJECT_SIGNATURE = \"[object Object]\";\nexport const FUNCTION_SIGNATURE = \"[object Function]\";\nexport const ARRAY_SIGNATURE = \"[object Array]\";\nexport const DATE_SIGNATURE = \"[object Date]\";\nexport const REGEXP_SIGNATURE = \"[object RegExp]\";\nexport const PROMISE_SIGNATURE = \"[object Promise]\";\nexport const UNDEFINED_SIGNATURE = \"[object Undefined]\";\nexport const NULL_SIGNATURE = \"[object Null]\";\n\nexport const NOT_NUMBER = undefined + null;\nexport const EMPTY_STRING = \"\";\nexport const BOOLEAN_TRUE = \"true\";\nexport const BOOLEAN_FALSE = \"false\";\n\n/**\n * @ignore\n */\nexport function EMPTY_FUNCTION() {\n}\n",
@@ -3332,7 +3003,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 167,
+    "__docId__": 154,
     "kind": "variable",
     "name": "TYPE_NUMBER",
     "memberof": "src/native/constants.js",
@@ -3353,7 +3024,7 @@
     "ignore": true
   },
   {
-    "__docId__": 168,
+    "__docId__": 155,
     "kind": "variable",
     "name": "TYPE_BIGINT",
     "memberof": "src/native/constants.js",
@@ -3374,7 +3045,7 @@
     "ignore": true
   },
   {
-    "__docId__": 169,
+    "__docId__": 156,
     "kind": "variable",
     "name": "TYPE_STRING",
     "memberof": "src/native/constants.js",
@@ -3395,7 +3066,7 @@
     "ignore": true
   },
   {
-    "__docId__": 170,
+    "__docId__": 157,
     "kind": "variable",
     "name": "TYPE_BOOLEAN",
     "memberof": "src/native/constants.js",
@@ -3416,7 +3087,7 @@
     "ignore": true
   },
   {
-    "__docId__": 171,
+    "__docId__": 158,
     "kind": "variable",
     "name": "TYPE_UNDEFINED",
     "memberof": "src/native/constants.js",
@@ -3437,7 +3108,7 @@
     "ignore": true
   },
   {
-    "__docId__": 172,
+    "__docId__": 159,
     "kind": "variable",
     "name": "TYPE_FUNCTION",
     "memberof": "src/native/constants.js",
@@ -3458,7 +3129,7 @@
     "ignore": true
   },
   {
-    "__docId__": 173,
+    "__docId__": 160,
     "kind": "variable",
     "name": "TYPE_OBJECT",
     "memberof": "src/native/constants.js",
@@ -3479,7 +3150,7 @@
     "ignore": true
   },
   {
-    "__docId__": 174,
+    "__docId__": 161,
     "kind": "variable",
     "name": "TYPE_SYMBOL",
     "memberof": "src/native/constants.js",
@@ -3500,7 +3171,7 @@
     "ignore": true
   },
   {
-    "__docId__": 175,
+    "__docId__": 162,
     "kind": "variable",
     "name": "BIGINT_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3521,7 +3192,7 @@
     "ignore": true
   },
   {
-    "__docId__": 176,
+    "__docId__": 163,
     "kind": "variable",
     "name": "SYMBOL_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3542,7 +3213,7 @@
     "ignore": true
   },
   {
-    "__docId__": 177,
+    "__docId__": 164,
     "kind": "variable",
     "name": "OBJECT_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3563,7 +3234,7 @@
     "ignore": true
   },
   {
-    "__docId__": 178,
+    "__docId__": 165,
     "kind": "variable",
     "name": "FUNCTION_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3584,7 +3255,7 @@
     "ignore": true
   },
   {
-    "__docId__": 179,
+    "__docId__": 166,
     "kind": "variable",
     "name": "ARRAY_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3605,7 +3276,7 @@
     "ignore": true
   },
   {
-    "__docId__": 180,
+    "__docId__": 167,
     "kind": "variable",
     "name": "DATE_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3626,7 +3297,7 @@
     "ignore": true
   },
   {
-    "__docId__": 181,
+    "__docId__": 168,
     "kind": "variable",
     "name": "REGEXP_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3647,7 +3318,7 @@
     "ignore": true
   },
   {
-    "__docId__": 182,
+    "__docId__": 169,
     "kind": "variable",
     "name": "PROMISE_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3668,7 +3339,7 @@
     "ignore": true
   },
   {
-    "__docId__": 183,
+    "__docId__": 170,
     "kind": "variable",
     "name": "UNDEFINED_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3689,7 +3360,7 @@
     "ignore": true
   },
   {
-    "__docId__": 184,
+    "__docId__": 171,
     "kind": "variable",
     "name": "NULL_SIGNATURE",
     "memberof": "src/native/constants.js",
@@ -3710,7 +3381,7 @@
     "ignore": true
   },
   {
-    "__docId__": 185,
+    "__docId__": 172,
     "kind": "variable",
     "name": "NOT_NUMBER",
     "memberof": "src/native/constants.js",
@@ -3731,7 +3402,7 @@
     "ignore": true
   },
   {
-    "__docId__": 186,
+    "__docId__": 173,
     "kind": "variable",
     "name": "EMPTY_STRING",
     "memberof": "src/native/constants.js",
@@ -3752,7 +3423,7 @@
     "ignore": true
   },
   {
-    "__docId__": 187,
+    "__docId__": 174,
     "kind": "variable",
     "name": "BOOLEAN_TRUE",
     "memberof": "src/native/constants.js",
@@ -3773,7 +3444,7 @@
     "ignore": true
   },
   {
-    "__docId__": 188,
+    "__docId__": 175,
     "kind": "variable",
     "name": "BOOLEAN_FALSE",
     "memberof": "src/native/constants.js",
@@ -3794,7 +3465,7 @@
     "ignore": true
   },
   {
-    "__docId__": 189,
+    "__docId__": 176,
     "kind": "function",
     "name": "EMPTY_FUNCTION",
     "memberof": "src/native/constants.js",
@@ -3813,7 +3484,7 @@
     "return": null
   },
   {
-    "__docId__": 190,
+    "__docId__": 177,
     "kind": "file",
     "name": "src/native/function.js",
     "content": "export const FUNCTION = Function;\n",
@@ -3824,7 +3495,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 191,
+    "__docId__": 178,
     "kind": "variable",
     "name": "FUNCTION",
     "memberof": "src/native/function.js",
@@ -3845,7 +3516,7 @@
     "ignore": true
   },
   {
-    "__docId__": 192,
+    "__docId__": 179,
     "kind": "file",
     "name": "src/native/index.js",
     "content": "export {\n  TYPE_BIGINT,\n  TYPE_NUMBER,\n  TYPE_STRING,\n  TYPE_BOOLEAN,\n  TYPE_UNDEFINED,\n  TYPE_SYMBOL,\n  TYPE_FUNCTION,\n  TYPE_OBJECT,\n\n  OBJECT_SIGNATURE,\n  FUNCTION_SIGNATURE,\n  ARRAY_SIGNATURE,\n  DATE_SIGNATURE,\n  REGEXP_SIGNATURE,\n  PROMISE_SIGNATURE,\n  UNDEFINED_SIGNATURE,\n  NULL_SIGNATURE,\n\n  NOT_NUMBER,\n  EMPTY_STRING,\n  BOOLEAN_TRUE,\n  BOOLEAN_FALSE,\n  EMPTY_FUNCTION\n} from \"./constants\";\n\nexport {\n  string,\n  number,\n  boolean,\n  numeric,\n  bigint,\n  symbol,\n  scalar,\n  date,\n  regexp,\n  object,\n  array,\n  method,\n  promise,\n  signature\n} from \"./type\";\n\nexport {\n  MATH_MIN,\n  MATH_MAX\n} from \"./math\";\n\nexport {\n  STRING_FROM_CHARCODE\n} from \"./string\";\n\nexport {\n  OBJECT_DEFINE_PROPERTY,\n  OBJECT_TO_STRING\n} from \"./object\";\n\nexport {\n  ARRAY_JOIN,\n  ARRAY_PUSH,\n  ARRAY_SLICE,\n  ARRAY_SPLICE\n} from \"./array\";\n",
@@ -3856,7 +3527,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 193,
+    "__docId__": 180,
     "kind": "file",
     "name": "src/native/math.js",
     "content": "export const MATH = Math;\n\nexport const MATH_MIN = MATH.min;\nexport const MATH_MAX = MATH.max;\n\nexport const MATH_RANDOM = MATH.random;\nexport const MATH_ROUND = MATH.round;\nexport const MATH_FLOOR = MATH.floor;\nexport const MATH_CEIL = MATH.ceil;\n",
@@ -3867,7 +3538,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 194,
+    "__docId__": 181,
     "kind": "variable",
     "name": "MATH",
     "memberof": "src/native/math.js",
@@ -3888,7 +3559,7 @@
     "ignore": true
   },
   {
-    "__docId__": 195,
+    "__docId__": 182,
     "kind": "variable",
     "name": "MATH_MIN",
     "memberof": "src/native/math.js",
@@ -3909,7 +3580,7 @@
     "ignore": true
   },
   {
-    "__docId__": 196,
+    "__docId__": 183,
     "kind": "variable",
     "name": "MATH_MAX",
     "memberof": "src/native/math.js",
@@ -3930,7 +3601,7 @@
     "ignore": true
   },
   {
-    "__docId__": 197,
+    "__docId__": 184,
     "kind": "variable",
     "name": "MATH_RANDOM",
     "memberof": "src/native/math.js",
@@ -3951,7 +3622,7 @@
     "ignore": true
   },
   {
-    "__docId__": 198,
+    "__docId__": 185,
     "kind": "variable",
     "name": "MATH_ROUND",
     "memberof": "src/native/math.js",
@@ -3972,7 +3643,7 @@
     "ignore": true
   },
   {
-    "__docId__": 199,
+    "__docId__": 186,
     "kind": "variable",
     "name": "MATH_FLOOR",
     "memberof": "src/native/math.js",
@@ -3993,7 +3664,7 @@
     "ignore": true
   },
   {
-    "__docId__": 200,
+    "__docId__": 187,
     "kind": "variable",
     "name": "MATH_CEIL",
     "memberof": "src/native/math.js",
@@ -4014,7 +3685,7 @@
     "ignore": true
   },
   {
-    "__docId__": 201,
+    "__docId__": 188,
     "kind": "file",
     "name": "src/native/number.js",
     "content": "\nexport const IS_FINITE = isFinite;\n",
@@ -4025,7 +3696,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 202,
+    "__docId__": 189,
     "kind": "variable",
     "name": "IS_FINITE",
     "memberof": "src/native/number.js",
@@ -4046,7 +3717,7 @@
     "ignore": true
   },
   {
-    "__docId__": 203,
+    "__docId__": 190,
     "kind": "file",
     "name": "src/native/object.js",
     "content": "const OBJECT = Object;\n\nconst ObjectPrototype = OBJECT.prototype;\n\nexport const OBJECT_DEFINE_PROPERTY = OBJECT.defineProperty;\n\nexport const OBJECT_TO_STRING = ObjectPrototype.toString;\n\nexport const OBJECT_HAS_OWN = ObjectPrototype.hasOwnProperty;\n\nexport const OBJECT_KEYS = OBJECT.keys;\n",
@@ -4057,7 +3728,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 204,
+    "__docId__": 191,
     "kind": "variable",
     "name": "OBJECT",
     "memberof": "src/native/object.js",
@@ -4078,7 +3749,7 @@
     "ignore": true
   },
   {
-    "__docId__": 205,
+    "__docId__": 192,
     "kind": "variable",
     "name": "ObjectPrototype",
     "memberof": "src/native/object.js",
@@ -4099,7 +3770,7 @@
     "ignore": true
   },
   {
-    "__docId__": 206,
+    "__docId__": 193,
     "kind": "variable",
     "name": "OBJECT_DEFINE_PROPERTY",
     "memberof": "src/native/object.js",
@@ -4120,7 +3791,7 @@
     "ignore": true
   },
   {
-    "__docId__": 207,
+    "__docId__": 194,
     "kind": "variable",
     "name": "OBJECT_TO_STRING",
     "memberof": "src/native/object.js",
@@ -4141,7 +3812,7 @@
     "ignore": true
   },
   {
-    "__docId__": 208,
+    "__docId__": 195,
     "kind": "variable",
     "name": "OBJECT_HAS_OWN",
     "memberof": "src/native/object.js",
@@ -4162,7 +3833,7 @@
     "ignore": true
   },
   {
-    "__docId__": 209,
+    "__docId__": 196,
     "kind": "variable",
     "name": "OBJECT_KEYS",
     "memberof": "src/native/object.js",
@@ -4183,7 +3854,7 @@
     "ignore": true
   },
   {
-    "__docId__": 210,
+    "__docId__": 197,
     "kind": "file",
     "name": "src/native/regexp.js",
     "content": "export const REGEXP = RegExp;\n",
@@ -4194,7 +3865,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 211,
+    "__docId__": 198,
     "kind": "variable",
     "name": "REGEXP",
     "memberof": "src/native/regexp.js",
@@ -4215,7 +3886,7 @@
     "ignore": true
   },
   {
-    "__docId__": 212,
+    "__docId__": 199,
     "kind": "file",
     "name": "src/native/string.js",
     "content": "export const STRING = String;\n\n/**\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n */\nexport const STRING_FROM_CHARCODE = STRING.fromCharCode;\n",
@@ -4226,7 +3897,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 213,
+    "__docId__": 200,
     "kind": "variable",
     "name": "STRING",
     "memberof": "src/native/string.js",
@@ -4247,7 +3918,7 @@
     "ignore": true
   },
   {
-    "__docId__": 214,
+    "__docId__": 201,
     "kind": "variable",
     "name": "STRING_FROM_CHARCODE",
     "memberof": "src/native/string.js",
@@ -4311,7 +3982,7 @@
     }
   },
   {
-    "__docId__": 215,
+    "__docId__": 202,
     "kind": "file",
     "name": "src/native/type.js",
     "content": "import {\n  TYPE_NUMBER,\n  TYPE_STRING,\n  TYPE_BOOLEAN,\n  TYPE_UNDEFINED,\n  TYPE_BIGINT,\n  TYPE_SYMBOL,\n\n  OBJECT_SIGNATURE,\n  FUNCTION_SIGNATURE,\n  ARRAY_SIGNATURE,\n  DATE_SIGNATURE,\n  REGEXP_SIGNATURE,\n  PROMISE_SIGNATURE,\n  UNDEFINED_SIGNATURE,\n  NULL_SIGNATURE,\n  TYPE_OBJECT\n} from \"./constants\";\n\nimport { IS_FINITE } from \"./number\";\n\nimport { OBJECT_TO_STRING } from \"./object\";\n\n/**\n * Returns true. if \"subject\" parameter is String.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function string(subject) {\n  return typeof subject === TYPE_STRING;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Number.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function number(subject) {\n  return typeof subject === TYPE_NUMBER && IS_FINITE(subject);\n}\n\n/**\n * Returns true. if \"subject\" parameter is BigInt.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function bigint(subject) {\n  return typeof subject === TYPE_BIGINT;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Boolean.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function boolean(subject) {\n  return typeof subject === TYPE_BOOLEAN;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Symbol.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function symbol(subject) {\n  return typeof subject === TYPE_SYMBOL;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Numeric string, number, or bigint.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function numeric(subject) {\n  let result = subject;\n\n  switch (typeof result) {\n  case TYPE_STRING:\n    result = parseInt(result, 10);\n\n  // falls through\n  case TYPE_NUMBER:\n    return IS_FINITE(result);\n\n  case TYPE_BIGINT: return true;\n  }\n\n  return false;\n}\n\n/**\n * Returns true. if \"subject\" parameter is Scalar string, number, boolean, symbol, or bigint.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function scalar(subject) {\n  switch (typeof subject) {\n  case TYPE_BIGINT:\n  case TYPE_SYMBOL:\n  case TYPE_STRING:\n  case TYPE_BOOLEAN: return true;\n\n  case TYPE_NUMBER: return IS_FINITE(subject);\n  }\n\n  return false;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an instance of Date.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function date(subject) {\n  return OBJECT_TO_STRING.call(subject) === DATE_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an instance of RegExp.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function regexp(subject) {\n  return OBJECT_TO_STRING.call(subject) === REGEXP_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an instance of User defined Object.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function object(subject) {\n  return subject !== null && OBJECT_TO_STRING.call(subject) === OBJECT_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is a Function.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function method(subject) {\n  return OBJECT_TO_STRING.call(subject) === FUNCTION_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is an Array.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function array(subject) {\n  return OBJECT_TO_STRING.call(subject) === ARRAY_SIGNATURE;\n}\n\n/**\n * Returns true. if \"subject\" parameter is a thenable Object or Promise.\n *\n * @param {*} subject value to test\n * @returns {boolean} result\n */\nexport function promise(subject) {\n  switch (OBJECT_TO_STRING.call(subject)) {\n  case OBJECT_SIGNATURE: return subject !== null && method(subject.then);\n\n  case PROMISE_SIGNATURE: return true;\n  }\n\n  return false;\n}\n\n/**\n * Returns true if [subject] is an object with zero-based index properties and length.\n *\n * @param {*} subject value to test.\n * @returns {boolean} result\n */\nexport function iteratable(subject) {\n  switch (typeof subject) {\n  case TYPE_STRING: return true;\n  case TYPE_OBJECT:\n    return subject !== null && IS_FINITE(subject.length);\n  }\n\n  return false;\n}\n\n/**\n * Returns Object signature of \"subject\" parameter.\n * The Object signature in `[object ${ObjectName}]` syntax.\n * The value is extracted by using the value from Object.prototype.toString.call(subject) call.\n *\n * @param {*} subject value to test\n * @returns {string} resolved Object signature `[object ${ObjectName}]`\n */\nexport function signature(subject) {\n  if (typeof subject === TYPE_UNDEFINED) {\n    return UNDEFINED_SIGNATURE;\n  }\n\n  if (subject === null) {\n    return NULL_SIGNATURE;\n  }\n\n  if (subject && method(subject.then)) {\n    return PROMISE_SIGNATURE;\n  }\n\n  return OBJECT_TO_STRING.call(subject);\n}\n",
@@ -4322,7 +3993,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 216,
+    "__docId__": 203,
     "kind": "function",
     "name": "string",
     "memberof": "src/native/type.js",
@@ -4364,7 +4035,7 @@
     }
   },
   {
-    "__docId__": 217,
+    "__docId__": 204,
     "kind": "function",
     "name": "number",
     "memberof": "src/native/type.js",
@@ -4406,7 +4077,7 @@
     }
   },
   {
-    "__docId__": 218,
+    "__docId__": 205,
     "kind": "function",
     "name": "bigint",
     "memberof": "src/native/type.js",
@@ -4448,7 +4119,7 @@
     }
   },
   {
-    "__docId__": 219,
+    "__docId__": 206,
     "kind": "function",
     "name": "boolean",
     "memberof": "src/native/type.js",
@@ -4490,7 +4161,7 @@
     }
   },
   {
-    "__docId__": 220,
+    "__docId__": 207,
     "kind": "function",
     "name": "symbol",
     "memberof": "src/native/type.js",
@@ -4532,7 +4203,7 @@
     }
   },
   {
-    "__docId__": 221,
+    "__docId__": 208,
     "kind": "function",
     "name": "numeric",
     "memberof": "src/native/type.js",
@@ -4574,7 +4245,7 @@
     }
   },
   {
-    "__docId__": 222,
+    "__docId__": 209,
     "kind": "function",
     "name": "scalar",
     "memberof": "src/native/type.js",
@@ -4616,7 +4287,7 @@
     }
   },
   {
-    "__docId__": 223,
+    "__docId__": 210,
     "kind": "function",
     "name": "date",
     "memberof": "src/native/type.js",
@@ -4658,7 +4329,7 @@
     }
   },
   {
-    "__docId__": 224,
+    "__docId__": 211,
     "kind": "function",
     "name": "regexp",
     "memberof": "src/native/type.js",
@@ -4700,7 +4371,7 @@
     }
   },
   {
-    "__docId__": 225,
+    "__docId__": 212,
     "kind": "function",
     "name": "object",
     "memberof": "src/native/type.js",
@@ -4742,7 +4413,7 @@
     }
   },
   {
-    "__docId__": 226,
+    "__docId__": 213,
     "kind": "function",
     "name": "method",
     "memberof": "src/native/type.js",
@@ -4784,7 +4455,7 @@
     }
   },
   {
-    "__docId__": 227,
+    "__docId__": 214,
     "kind": "function",
     "name": "array",
     "memberof": "src/native/type.js",
@@ -4826,7 +4497,7 @@
     }
   },
   {
-    "__docId__": 228,
+    "__docId__": 215,
     "kind": "function",
     "name": "promise",
     "memberof": "src/native/type.js",
@@ -4868,7 +4539,7 @@
     }
   },
   {
-    "__docId__": 229,
+    "__docId__": 216,
     "kind": "function",
     "name": "iteratable",
     "memberof": "src/native/type.js",
@@ -4910,7 +4581,7 @@
     }
   },
   {
-    "__docId__": 230,
+    "__docId__": 217,
     "kind": "function",
     "name": "signature",
     "memberof": "src/native/type.js",
@@ -4952,7 +4623,7 @@
     }
   },
   {
-    "__docId__": 231,
+    "__docId__": 218,
     "kind": "file",
     "name": "src/number/format.js",
     "content": "import {\n  TYPE_STRING,\n  TYPE_NUMBER,\n  TYPE_BOOLEAN\n} from \"../native\";\n\n/**\n * Convert any type \"subject\" parameter to number.\n *\n * @param {*} subject data to convert to number.\n * @param {*} [defaultValue=0] default return value.\n * @returns {number|*} Uses defaultValue if not converted to number.\n */\nexport function numberify(subject, defaultValue = 0) {\n  let value = subject;\n\n  switch (typeof value) {\n  case TYPE_STRING:\n    value = 1 * value;\n\n  // falls through\n  case TYPE_NUMBER: return isFinite(value) ? value : defaultValue;\n\n  case TYPE_BOOLEAN: return value ? 1 : 0;\n  }\n\n  return defaultValue;\n}\n",
@@ -4963,7 +4634,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 232,
+    "__docId__": 219,
     "kind": "function",
     "name": "numberify",
     "memberof": "src/number/format.js",
@@ -5018,7 +4689,7 @@
     }
   },
   {
-    "__docId__": 233,
+    "__docId__": 220,
     "kind": "file",
     "name": "src/number/index.js",
     "content": "export {\n  numberify\n} from \"./format\";\n",
@@ -5029,7 +4700,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 234,
+    "__docId__": 221,
     "kind": "file",
     "name": "src/object/constants.js",
     "content": "\nexport const EACH_ERROR_INVALID_SUBJECT = \"Unable to each() iterate non-object [subject] parameter.\";\n\nexport const EACH_ERROR_INVALID_CALLBACK = \"Unable to each() iterate object with invalid [callback] parameter.\";\n\nexport const ASSIGN_ERROR_INVALID_SUBJECT = \"Unable to assign() properties to non-object [subject] parameter.\";\n\nexport const ASSIGN_ERROR_INVALID_SOURCE = \"Unable to assign() properties from non-object [source] parameter.\";\n\nexport const TOKENIZER_START_STATE = \"initial\";\n\nexport const TOKENIZER_WILDCARD = \":*\";\n",
@@ -5040,7 +4711,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 235,
+    "__docId__": 222,
     "kind": "variable",
     "name": "EACH_ERROR_INVALID_SUBJECT",
     "memberof": "src/object/constants.js",
@@ -5061,7 +4732,7 @@
     "ignore": true
   },
   {
-    "__docId__": 236,
+    "__docId__": 223,
     "kind": "variable",
     "name": "EACH_ERROR_INVALID_CALLBACK",
     "memberof": "src/object/constants.js",
@@ -5082,7 +4753,7 @@
     "ignore": true
   },
   {
-    "__docId__": 237,
+    "__docId__": 224,
     "kind": "variable",
     "name": "ASSIGN_ERROR_INVALID_SUBJECT",
     "memberof": "src/object/constants.js",
@@ -5103,7 +4774,7 @@
     "ignore": true
   },
   {
-    "__docId__": 238,
+    "__docId__": 225,
     "kind": "variable",
     "name": "ASSIGN_ERROR_INVALID_SOURCE",
     "memberof": "src/object/constants.js",
@@ -5124,7 +4795,7 @@
     "ignore": true
   },
   {
-    "__docId__": 239,
+    "__docId__": 226,
     "kind": "variable",
     "name": "TOKENIZER_START_STATE",
     "memberof": "src/object/constants.js",
@@ -5145,7 +4816,7 @@
     "ignore": true
   },
   {
-    "__docId__": 240,
+    "__docId__": 227,
     "kind": "variable",
     "name": "TOKENIZER_WILDCARD",
     "memberof": "src/object/constants.js",
@@ -5166,7 +4837,7 @@
     "ignore": true
   },
   {
-    "__docId__": 241,
+    "__docId__": 228,
     "kind": "file",
     "name": "src/object/index.js",
     "content": "/**\n * Object Module\n *\n * @module object\n */\n\nexport {\n  each,\n  assign\n} from \"./properties\";\n\nexport {\n  contains\n} from \"./validate\";\n",
@@ -5177,7 +4848,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 242,
+    "__docId__": 229,
     "kind": "file",
     "name": "src/object/properties.js",
     "content": "import { method } from \"../native/type\";\n\nimport {\n  OBJECT_SIGNATURE,\n  ARRAY_SIGNATURE,\n  TYPE_NUMBER\n} from \"../native/constants\";\n\nimport {\n  OBJECT_KEYS,\n  OBJECT_TO_STRING\n} from \"../native/object\";\n\nimport {\n  EACH_ERROR_INVALID_CALLBACK,\n  EACH_ERROR_INVALID_SUBJECT,\n  ASSIGN_ERROR_INVALID_SOURCE,\n  ASSIGN_ERROR_INVALID_SUBJECT\n} from \"./constants\";\n\n/**\n * Used for each(subject, callback) callback parameter.\n *\n * @callback eachObjectPropertyCallback\n * @param {*} item value of item with given object key or iteratable index\n * @param {string|number} index key of object or index of iteratable\n * @returns {boolean|undefined} optionally, return false to stop iteration.\n */\n\n/**\n * Iterates object properties or iteratable items calling [callback].\n *\n * @param {object|Array} subject object or iteratable to iterate.\n * @param {eachObjectPropertyCallback} callback function to call on each iteration.\n * @returns {number|string} last iteratable index or property name iterated.\n */\nexport function each(subject, callback) {\n  let c = 0;\n  let length = 0;\n  let key = null;\n  let properties = null;\n\n  if (!method(callback)) {\n    throw new Error(EACH_ERROR_INVALID_CALLBACK);\n  }\n\n  switch (OBJECT_TO_STRING.call(subject)) {\n  case OBJECT_SIGNATURE:\n    length = subject.length;\n    // iterate object\n    if (typeof length !== TYPE_NUMBER || length < 0 || !isFinite(length)) {\n      properties = OBJECT_KEYS(subject);\n\n      for (; length--; c++) {\n        key = properties[c];\n        if (callback(subject[key], key) === false) {\n          return key;\n        }\n      }\n    }\n    // at this point object is iteratable\n\n  // falls through\n  case ARRAY_SIGNATURE:\n    length = subject.length;\n    for (; length--; c++) {\n      if (callback(subject[c], c) === false) {\n        return c;\n      }\n    }\n\n    break;\n\n  default:\n    throw new Error(EACH_ERROR_INVALID_SUBJECT);\n  }\n}\n\n/**\n * Assign own properties of [source] to [subject].\n *\n * @param {object} subject target object to populate with [source] properties.\n * @param {object} source source of properties to populate [subject].\n * @returns {object} the [subject] parameter.\n */\nexport function assign(subject, source) {\n  const toSignature = OBJECT_TO_STRING;\n  const objectSignature = OBJECT_SIGNATURE;\n  let properties = null;\n  let c = 0;\n  let length = 0;\n  let key = null;\n\n  if (toSignature.call(subject) !== objectSignature) {\n    throw new Error(ASSIGN_ERROR_INVALID_SUBJECT);\n  }\n\n  if (toSignature.call(source) !== objectSignature) {\n    throw new Error(ASSIGN_ERROR_INVALID_SOURCE);\n  }\n\n  properties = OBJECT_KEYS(source);\n  length = properties.length;\n\n  for (; length--; c++) {\n    key = properties[c];\n    subject[key] = source[key];\n  }\n\n  return subject;\n}\n",
@@ -5188,7 +4859,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 243,
+    "__docId__": 230,
     "kind": "function",
     "name": "each",
     "memberof": "src/object/properties.js",
@@ -5242,7 +4913,7 @@
     }
   },
   {
-    "__docId__": 244,
+    "__docId__": 231,
     "kind": "function",
     "name": "assign",
     "memberof": "src/object/properties.js",
@@ -5294,7 +4965,7 @@
     }
   },
   {
-    "__docId__": 245,
+    "__docId__": 232,
     "kind": "file",
     "name": "src/object/validate.js",
     "content": "/**\n * @module object/validate\n */\nimport { object } from \"../native/type\";\n\nimport { OBJECT_HAS_OWN } from \"../native/object\";\n\n/**\n * Returns true. if \"subject\" object contains property.\n *\n * @param {object} subject object to inspect.\n * @param {string} property property name to inspect\n * @returns {boolean} true if \"subject\" contains property. false otherwise.\n */\nexport function contains(subject, property) {\n  return object(subject) && OBJECT_HAS_OWN.call(subject, property);\n}\n",
@@ -5305,7 +4976,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 246,
+    "__docId__": 233,
     "kind": "function",
     "name": "contains",
     "memberof": "src/object/validate.js",
@@ -5357,7 +5028,7 @@
     }
   },
   {
-    "__docId__": 247,
+    "__docId__": 234,
     "kind": "file",
     "name": "src/string/constants.js",
     "content": "export const STRING_TRIM_LEFT_REGEXP = /^[\\s\\uFEFF\\xA0]+/;\n\nexport const STRING_TRIM_RIGHT_REGEXP = /[\\s\\uFEFF\\xA0]+$/;\n\nexport const STRING_TRIM_REGEXP = /^[\\s\\uFEFF\\xA0]+|[\\s\\uFEFF\\xA0]+$/g;\n\nexport const TRIM_ERROR_NOT_STRING = \"Unable to trim invalid string.\";\n\nexport const SINGLE_QUOTE = \"'\";\n\nexport const ESCAPED_SINGLE_QUOTE = \"\\\\'\";\n\nexport const DOUBLE_QUOTE = \"\\\"\";\n\nexport const ESCAPED_DOUBLE_QUOTE = \"\\\\\\\"\";\n\nexport const DOUBLE_QUOTE_ESCAPE = /\\\\'|\\\\\"|\"/g;\n\nexport const DOUBLE_QUOTE_ESCAPE_ERROR = \"Unable to escape invalid string.\";\n\nexport const DEFAULT_PADSTRING = \" \";\n",
@@ -5368,7 +5039,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 248,
+    "__docId__": 235,
     "kind": "variable",
     "name": "STRING_TRIM_LEFT_REGEXP",
     "memberof": "src/string/constants.js",
@@ -5389,7 +5060,7 @@
     "ignore": true
   },
   {
-    "__docId__": 249,
+    "__docId__": 236,
     "kind": "variable",
     "name": "STRING_TRIM_RIGHT_REGEXP",
     "memberof": "src/string/constants.js",
@@ -5410,7 +5081,7 @@
     "ignore": true
   },
   {
-    "__docId__": 250,
+    "__docId__": 237,
     "kind": "variable",
     "name": "STRING_TRIM_REGEXP",
     "memberof": "src/string/constants.js",
@@ -5431,7 +5102,7 @@
     "ignore": true
   },
   {
-    "__docId__": 251,
+    "__docId__": 238,
     "kind": "variable",
     "name": "TRIM_ERROR_NOT_STRING",
     "memberof": "src/string/constants.js",
@@ -5452,7 +5123,7 @@
     "ignore": true
   },
   {
-    "__docId__": 252,
+    "__docId__": 239,
     "kind": "variable",
     "name": "SINGLE_QUOTE",
     "memberof": "src/string/constants.js",
@@ -5473,7 +5144,7 @@
     "ignore": true
   },
   {
-    "__docId__": 253,
+    "__docId__": 240,
     "kind": "variable",
     "name": "ESCAPED_SINGLE_QUOTE",
     "memberof": "src/string/constants.js",
@@ -5494,7 +5165,7 @@
     "ignore": true
   },
   {
-    "__docId__": 254,
+    "__docId__": 241,
     "kind": "variable",
     "name": "DOUBLE_QUOTE",
     "memberof": "src/string/constants.js",
@@ -5515,7 +5186,7 @@
     "ignore": true
   },
   {
-    "__docId__": 255,
+    "__docId__": 242,
     "kind": "variable",
     "name": "ESCAPED_DOUBLE_QUOTE",
     "memberof": "src/string/constants.js",
@@ -5536,7 +5207,7 @@
     "ignore": true
   },
   {
-    "__docId__": 256,
+    "__docId__": 243,
     "kind": "variable",
     "name": "DOUBLE_QUOTE_ESCAPE",
     "memberof": "src/string/constants.js",
@@ -5557,7 +5228,7 @@
     "ignore": true
   },
   {
-    "__docId__": 257,
+    "__docId__": 244,
     "kind": "variable",
     "name": "DOUBLE_QUOTE_ESCAPE_ERROR",
     "memberof": "src/string/constants.js",
@@ -5578,7 +5249,7 @@
     "ignore": true
   },
   {
-    "__docId__": 258,
+    "__docId__": 245,
     "kind": "variable",
     "name": "DEFAULT_PADSTRING",
     "memberof": "src/string/constants.js",
@@ -5599,7 +5270,7 @@
     "ignore": true
   },
   {
-    "__docId__": 259,
+    "__docId__": 246,
     "kind": "file",
     "name": "src/string/format.js",
     "content": "import {\n  TYPE_STRING,\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport { numberify } from \"../number/format\";\n\nimport {\n  STRING_TRIM_LEFT_REGEXP,\n  STRING_TRIM_RIGHT_REGEXP,\n  TRIM_ERROR_NOT_STRING,\n  ESCAPED_SINGLE_QUOTE,\n  SINGLE_QUOTE,\n  ESCAPED_DOUBLE_QUOTE,\n  DOUBLE_QUOTE_ESCAPE,\n  DOUBLE_QUOTE,\n  DOUBLE_QUOTE_ESCAPE_ERROR,\n  DEFAULT_PADSTRING\n} from \"./constants\";\n\nimport {\n  stringify\n} from \"./type\";\n\nimport {\n  listPadStart,\n  listPadEnd\n} from \"../array/service\";\n\n/**\n * Returns repeated string \"subject\" in \"count\" number of times.\n *\n * @param {string} subject any data convertible to string.\n * @param {number} count number of times to repeat.\n * @returns {string} Returns empty string if unable to repeat.\n */\nexport function repeat(subject, count) {\n  const empty = EMPTY_STRING;\n  const value = stringify(subject, empty);\n  let length = numberify(count, 0);\n  let list = null;\n\n  if (!value || length < 1) {\n    return value;\n  }\n\n  list = [];\n  length++;\n\n  for (let c = 0; length--; c++) {\n    list[c] = value;\n  }\n\n  return list.join(empty);\n}\n\n/**\n * Creates a padded string with another string (multiple times, if needed)\n * until the resulting string reaches the given length.\n * The padding is applied from the start of the string.\n *\n * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}\n * @param {string} subject The string to pad.\n * @param {number} length The length of the resulting string once it has been padded.\n * @param {string} padString The string to pad the current string with.\n * @returns {string} string of the specified length with the pad string applied from the start.\n */\nexport function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {\n  return listPadStart(\n    stringify(subject),\n    length,\n    padString\n  ).join(EMPTY_STRING);\n}\n\n/**\n * Creates a padded string with another string (multiple times, if needed)\n * until the resulting string reaches the given length.\n * The padding is applied from the end of the string.\n *\n * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}\n * @param {string} subject The string to pad.\n * @param {number} length The length of the resulting stringe once it has been padded.\n * @param {string} padString The string to pad the current string with.\n * @returns {string} string of the specified length with the pad string applied from the end.\n */\nexport function padEnd(subject, length = 0, padString = DEFAULT_PADSTRING) {\n  return listPadEnd(\n    stringify(subject),\n    length,\n    padString\n  ).join(EMPTY_STRING);\n}\n\n/**\n * Removes starting and ending white spaces.\n *\n * @param {string} subject The string to trim.\n * @returns {string} Whitespace trimmed string.\n */\nexport function trim(subject) {\n  const empty = EMPTY_STRING;\n\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(TRIM_ERROR_NOT_STRING);\n  }\n\n  return subject && subject\n    .replace(STRING_TRIM_LEFT_REGEXP, empty)\n    .replace(STRING_TRIM_RIGHT_REGEXP, empty);\n}\n\n/**\n * Removes starting white spaces.\n *\n * @param {string} subject The string to trim.\n * @returns {string} Whitespace trimmed string.\n */\nexport function trimStart(subject) {\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(TRIM_ERROR_NOT_STRING);\n  }\n\n  return subject && subject.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING);\n}\n\n/**\n * Removes ending whitespace.\n *\n * @param {string} subject The string to trim.\n * @returns {string} Whitespace trimmed string.\n */\nexport function trimEnd(subject) {\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(TRIM_ERROR_NOT_STRING);\n  }\n\n  return subject && subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);\n}\n\nfunction quoteReplace(all) {\n  switch (all) {\n  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;\n  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;\n  }\n  return all;\n}\nexport function quoteEscapify(subject) {\n  if (typeof subject !== TYPE_STRING) {\n    throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);\n  }\n\n  return subject && subject.replace(DOUBLE_QUOTE_ESCAPE, quoteReplace);\n}\n",
@@ -5610,7 +5281,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 260,
+    "__docId__": 247,
     "kind": "function",
     "name": "repeat",
     "memberof": "src/string/format.js",
@@ -5662,7 +5333,7 @@
     }
   },
   {
-    "__docId__": 261,
+    "__docId__": 248,
     "kind": "function",
     "name": "padStart",
     "memberof": "src/string/format.js",
@@ -5727,7 +5398,7 @@
     }
   },
   {
-    "__docId__": 262,
+    "__docId__": 249,
     "kind": "function",
     "name": "padEnd",
     "memberof": "src/string/format.js",
@@ -5792,7 +5463,7 @@
     }
   },
   {
-    "__docId__": 263,
+    "__docId__": 250,
     "kind": "function",
     "name": "trim",
     "memberof": "src/string/format.js",
@@ -5834,7 +5505,7 @@
     }
   },
   {
-    "__docId__": 264,
+    "__docId__": 251,
     "kind": "function",
     "name": "trimStart",
     "memberof": "src/string/format.js",
@@ -5876,7 +5547,7 @@
     }
   },
   {
-    "__docId__": 265,
+    "__docId__": 252,
     "kind": "function",
     "name": "trimEnd",
     "memberof": "src/string/format.js",
@@ -5918,7 +5589,7 @@
     }
   },
   {
-    "__docId__": 266,
+    "__docId__": 253,
     "kind": "function",
     "name": "quoteReplace",
     "memberof": "src/string/format.js",
@@ -5949,7 +5620,7 @@
     "ignore": true
   },
   {
-    "__docId__": 267,
+    "__docId__": 254,
     "kind": "function",
     "name": "quoteEscapify",
     "memberof": "src/string/format.js",
@@ -5980,7 +5651,7 @@
     "ignore": true
   },
   {
-    "__docId__": 268,
+    "__docId__": 255,
     "kind": "file",
     "name": "src/string/index.js",
     "content": "export {\n  stringify\n} from \"./type\";\n\nexport {\n  repeat,\n  trim,\n  trimStart,\n  trimEnd\n} from \"./format\";\n",
@@ -5991,7 +5662,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 269,
+    "__docId__": 256,
     "kind": "file",
     "name": "src/string/type.js",
     "content": "import {\n  TYPE_NUMBER,\n  TYPE_STRING,\n  TYPE_BOOLEAN,\n  TYPE_SYMBOL,\n\n  BOOLEAN_TRUE,\n  BOOLEAN_FALSE,\n  EMPTY_STRING\n} from \"../native/constants\";\n\nimport {\n  MATH_RANDOM,\n  MATH_ROUND\n} from \"../native/math\";\n\nimport {\n  STRING\n} from \"../native/string\";\n\n/**\n * Convert Any value to string. Or return \"defaultValue\" parameter.\n *\n * @category String\n * @param {*} subject data to convert to string.\n * @param {*} [defaultValue=\"\"] fallback value to return if conversion fails.\n * @returns {string|*} returns defaultValue if unable to convert to string.\n */\nexport function stringify(subject, defaultValue = EMPTY_STRING) {\n  const empty = EMPTY_STRING;\n\n  switch (typeof subject) {\n  case TYPE_BOOLEAN: return subject ? BOOLEAN_TRUE : BOOLEAN_FALSE;\n  case TYPE_NUMBER:\n    return isFinite(subject) ? empty + subject : defaultValue;\n\n  case TYPE_STRING: return subject;\n  case TYPE_SYMBOL:\n    return [\n      STRING(subject),\n      \"[\",\n      (new Date()).getTime().toString(16),\n      MATH_ROUND(MATH_RANDOM() * 1000).toString(16),\n      \"]\"\n    ].join(empty);\n  }\n\n  return defaultValue;\n}\n",
@@ -6002,7 +5673,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 270,
+    "__docId__": 257,
     "kind": "function",
     "name": "stringify",
     "memberof": "src/string/type.js",
@@ -6061,7 +5732,7 @@
     }
   },
   {
-    "__docId__": 271,
+    "__docId__": 258,
     "kind": "file",
     "name": "src/unicode/Utf.js",
     "content": "import {\n  TYPE_NUMBER,\n  TYPE_UNDEFINED,\n  EMPTY_STRING,\n  NOT_NUMBER,\n  TYPE_STRING\n} from \"../native/constants\";\n\nimport { OBJECT_DEFINE_PROPERTY } from \"../native/object\";\n\nimport {\n  IS_FINITE\n} from \"../native/number\";\n\nimport {\n  MATH_MAX,\n  MATH_MIN,\n  MATH_FLOOR\n} from \"../native/math\";\n\nimport {\n  ARRAY_PUSH,\n  ARRAY_SLICE\n} from \"../native/array\";\n\nimport {\n  REGEXP\n} from \"../native/regexp\";\n\nimport {\n  regexp,\n  method\n} from \"../native/type\";\n\nimport {\n  listPadStart,\n  listPadEnd\n} from \"../array/service\";\n\nimport {\n  STRING_TRIM_REGEXP,\n  STRING_TRIM_LEFT_REGEXP,\n  STRING_TRIM_RIGHT_REGEXP,\n  DEFAULT_PADSTRING\n} from \"../string/constants\";\n\nimport { stringify } from \"../string/type\";\n\nimport {\n  INVALID_REPEAT_COUNT_ERROR\n} from \"./constants\";\n\nimport {\n  eachUnicode,\n  string2codePoints,\n  string2unicodes\n} from \"./service\";\n\n/**\n * String.prototype.replace() callback.\n *\n * @callback stringReplaceCallback\n * @param {string} matched string matched by replace() pattern.\n * @param {...string} captures string match captures in pattern.\n * @param {number} offset the zero-based index position of the current match.\n * @param {string} subject the string calling replace(pattern, callback).\n */\n\n/**\n * Utf Class for unicode representation of String.\n */\nexport class Utf {\n  /**\n   * Creates Utf instance based from string or Utf16 (cloning).\n   *\n   * @param {string|Utf} subject The string to create from.\n   */\n  constructor(subject) {\n    const empty = EMPTY_STRING;\n    const defineProperty = OBJECT_DEFINE_PROPERTY;\n    let points = [];\n    let text = null;\n    let length = 0;\n\n    // create clone\n    if (subject instanceof Utf) {\n      text = subject.text;\n      length = subject.length;\n\n      if (text !== empty) {\n        ARRAY_PUSH.apply(this, subject);\n        points = subject.points.slice(0);\n      }\n    }\n    else {\n      text = stringify(subject);\n      length = eachUnicode(\n        subject,\n        (codePoint, char, index) => {\n          this[index] = char;\n          points[index] = codePoint;\n        }\n      );\n    }\n\n    /**\n     * @property {number} length\n     */\n    defineProperty(\n      this,\n      \"length\",\n      {\n        writable: false,\n        enumerable: false,\n        configurable: true,\n        value: length\n      }\n    );\n\n    /**\n     * @property {number[]} points\n     */\n    defineProperty(\n      this,\n      \"points\",\n      {\n        writable: false,\n        enumerable: false,\n        configurable: true,\n        value: points\n      }\n    );\n\n    /**\n     * @property {string} text\n     */\n    defineProperty(\n      this,\n      \"text\",\n      {\n        writable: false,\n        enumerable: false,\n        configurable: true,\n        value: text\n      }\n    );\n  }\n\n  /**\n   * Extracts Unicode code point at givent [index] position.\n   *\n   * @param {number} index The character position to extract Unicode code point.\n   * @returns {number} The extracted Unicode code point.\n   */\n  codePointAt(index) {\n    if (typeof index === TYPE_NUMBER && index > -1 && index < this.length) {\n      return this.points[index];\n    }\n\n    return NOT_NUMBER;\n  }\n\n  /**\n   * Extracts string at given [index] position.\n   * Please note that length of string is possibly greater than 1 characters.\n   *\n   * @param {number} index The character position to extract.\n   * @returns {string} The extracted string\n   */\n  charAt(index) {\n    if (typeof index === TYPE_NUMBER && index > -1 && index < this.length) {\n      return this[index];\n    }\n\n    return EMPTY_STRING;\n  }\n\n  /**\n   * Creates new Utf instance with only extracted section of the string.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice}\n   * @param {*} begin The zero-based index at which to begin extraction. If negative, it is treated as str.length + beginIndex.\n   * @param {*} end The zero-based index before which to end extraction. The character at this index will not be included.\n   * @returns {Utf} Utf instance with containing extracted string.\n   */\n  slice(begin, end) {\n    const min = MATH_MIN;\n    const max = MATH_MAX;\n    const empty = EMPTY_STRING;\n    const length = this.length;\n\n    let start = min(begin, length) || 0;\n    let limit = typeof end === TYPE_UNDEFINED ? length : min(end, length) || 0;\n\n    if (start < 0) {\n      start = max(length + start, 0);\n    }\n\n    if (limit < 0) {\n      limit = max(length + limit, 0);\n    }\n\n    if (start >= limit) {\n      return new Utf(empty);\n    }\n\n    return new Utf(\n      ARRAY_SLICE.call(this, start, limit).join(empty)\n    );\n  }\n\n  /**\n   * Creates Utf instance containing part of string between [begin] and [end].\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring}\n   * @param {number} begin The index of the first Unicode character to include in the returned substring.\n   * @param {number} [end] The index of the first Unicode character to exclude from the returned substring.\n   * @returns {Utf} Utf instance containing extracted string.\n   */\n  substring(begin, end = undefined) {\n    const min = MATH_MIN;\n    const max = MATH_MAX;\n    const empty = EMPTY_STRING;\n    const length = this.length;\n\n    let start = min(max(begin, 0) || 0, length);\n    let limit = typeof end === TYPE_UNDEFINED ? length : min(max(end, 0) || 0, length);\n\n    if (start === limit) {\n      return new Utf(empty);\n    }\n\n    // swap\n    if (start > limit) {\n      start -= limit;\n      limit += start;\n      start = limit - start;\n    }\n\n    return new Utf(\n      ARRAY_SLICE.call(this, start, limit).join(empty)\n    );\n  }\n\n  /**\n   * Creates Utf instance by concatenating Utf instances or strings.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/concat}\n   * @param {...(string|Utf)} subject strings or Ut16 instances to concatentate.\n   * @returns {Utf} Utf instance containing concatenated strings and Utf16s\n   */\n  concat(...subject) {\n    const toString = stringify;\n    const Me = Utf;\n    const empty = EMPTY_STRING;\n    const strings = [];\n    let c = 0;\n\n    for (let length = subject.length; length--; c++) {\n      const value = subject[c];\n\n      strings[c] = value instanceof Me ? value.text : toString(value);\n    }\n\n    return new Me(\n      c ? strings.join(empty) : empty\n    );\n  }\n\n  /**\n   * Retrieves zero-based index position that first matches the FIRST occurence\n   * of [searchValue] in Utf instance starting from zero or [fromIndex] if specified.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf}\n   * @param {string|Utf} searchValue The string or Utf instance to search.\n   * @param {number} [fromIndex=0] The index to start the search.\n   * @returns {number} Returns the zero-based index. Or, -1 if not found.\n   */\n  indexOf(searchValue, fromIndex = 0) {\n    const subject = this.points;\n    const searchPoints = searchValue instanceof Utf ? searchValue.points\n      : string2codePoints(\n        stringify(searchValue, EMPTY_STRING)\n      );\n    const searchLength = searchPoints.length;\n    const subjectLength = subject.length;\n    let anchor = fromIndex;\n    let length = subjectLength;\n    let slength = 0;\n\n    if (!subjectLength ||\n      searchLength > subjectLength ||\n      typeof anchor !== TYPE_NUMBER ||\n      !IS_FINITE(anchor)\n    ) {\n      return -1;\n    }\n\n    // empty string rules from MDN\n    if (!searchLength) {\n      return MATH_MAX(0, MATH_MIN(anchor, subjectLength));\n    }\n    // more than length\n    else if (anchor >= subjectLength) {\n      return -1;\n    }\n    // finalize iteration anchor\n    else if (anchor < 0) {\n      anchor = 0;\n    }\n    else if (anchor > 0) {\n      length = subjectLength - anchor;\n    }\n\n    /* eslint no-labels: 0 */\n    mainLoop: for (; length--; anchor++) {\n      if (anchor + searchLength - 1 > subjectLength) {\n        return -1;\n      }\n\n      slength = searchLength;\n      for (; slength--;) {\n        if (searchPoints[slength] !== subject[anchor + slength]) {\n          continue mainLoop;\n        }\n      }\n\n      // found!\n      return anchor;\n    }\n\n    return -1;\n  }\n\n  /**\n   * Retrieves zero-based index position that first matches the LAST occurence\n   * of [searchValue] in Utf instance starting from zero or [fromIndex] if specified.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/lastIndexOf}\n   * @param {string|Utf} searchValue The string or Utf instance to search.\n   * @param {number} [fromIndex] The index to start the search.\n   * @returns {number} Returns the zero-based index. Or, -1 if not found.\n   */\n  lastIndexOf(searchValue, fromIndex = null) {\n    const min = MATH_MIN;\n    const subject = this.points;\n    const searchPoints = searchValue instanceof Utf ? searchValue.points\n      : string2codePoints(\n        stringify(searchValue, EMPTY_STRING)\n      );\n    const searchLength = searchPoints.length;\n    const subjectLength = subject.length;\n    let anchor = fromIndex === null ? subjectLength : fromIndex;\n    let length = 0;\n\n    if (!subjectLength ||\n      searchLength > subjectLength ||\n      typeof anchor !== TYPE_NUMBER ||\n      !IS_FINITE(anchor)\n    ) {\n      return -1;\n    }\n\n    anchor = MATH_MAX(0, min(anchor, subjectLength));\n    if (!searchLength) {\n      return anchor;\n    }\n\n    anchor = min(anchor, subjectLength - searchLength);\n    if (anchor < 0) {\n      return -1;\n    }\n\n    /* eslint no-labels: 0 */\n    mainLoop: for (; anchor + 1; anchor--) {\n      length = searchLength;\n      for (; length--;) {\n        if (searchPoints[length] !== subject[anchor + length]) {\n          continue mainLoop;\n        }\n      }\n      return anchor;\n    }\n\n    return -1;\n  }\n\n  /**\n   * Searches the Utf string with given RegExp [pattern] and\n   * returns the zero-based index position of the first occurence.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search}\n   * @param {RegExp} pattern The RegExp pattern to match.\n   * @returns {number} Returns zero-based index if found. Returns -1 otherwise.\n   */\n  search(pattern) {\n    const matches = this.text.match(REGEXP(pattern));\n\n    // correct the index\n    if (!matches) {\n      return -1;\n    }\n\n    return this.indexOf(matches[0]);\n  }\n\n  /**\n   * Determines if Utf or string [keyword] is found in this instance.\n   *\n   * @see {@link http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode}\n   * @param {string|Utf} keyword The search keyword to match.\n   * @param {number} position The zero-based index position to start the search.\n   * @returns {boolean} Returns true if match is found. Returns false otherwise.\n   */\n  includes(keyword, position) {\n    return this.indexOf(keyword, position) !== -1;\n  }\n\n  /**\n   * The method returns a number indicating whether a reference string comes before or after\n   * or is the same as the given string in sort order.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare}\n   * @param {string|Utf} compareString The string or Utf16 against which the referring Utf is compared.\n   * @param {string} [locales] A string with a BCP 47 language tag, or an array of such strings.\n   * @param {object} [options] An object with some or all of the following properties:\n   * @param {string} [options.localeMatcher=\"best fit\"] Possible values: \"lookup\" or \"best fit\"\n   * @param {string} [options.usage=\"sort\"] Possible values: \"sort\" and \"search\"\n   * @param {string} [options.sensitivity=\"variant\"] Possible values: \"variant\", \"case\", \"accent\", and \"base\"\n   * @param {boolean} [options.ignorePunctuation=false] Should ignore punctation or not.\n   * @param {boolean} [options.numeric=false] Whether numeric collation should be used, such that \"1\" < \"2\" < \"10\".\n   * @param {string} [options.caseFirst=\"false\"] Whether upper case or lower case should sort first.\n   *                    Possible values are \"upper\", \"lower\", or \"false\" (use the locale's default).\n   * @returns {number} Returns negative number if Utf occurs before [compareString].\n   *                    Returns positive number if Utf occurs after [compareString].\n   *                    Returns zero (0) if equivalent.\n   */\n  localeCompare(compareString, locales, options) {\n    const subject = compareString instanceof Utf ? compareString.text : compareString;\n    const length = arguments.length;\n    const string = this.text;\n\n    return length < 2 ? string.localeCompare(subject)\n      : length < 3 ? string.localeCompare(subject, locales)\n        : string.localeCompare(subject, locales, options);\n  }\n\n  /**\n   * Retrieves the result of matching a string against a regular expression.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match}\n   * @param {RegExp} pattern A regular expression object.\n   * @returns {Utf[]|null} Returns Array of Utf matches. Or, null of not matches.\n   */\n  match(pattern) {\n    const Me = Utf;\n    const found = this.text.match(pattern);\n    let c = 0;\n    let length = 0;\n\n    if (found) {\n      for (; length--; c++) {\n        found[c] = new Me(found[c]);\n      }\n    }\n\n    return found;\n  }\n\n  /**\n   * Creates a padded Utf instance with another string (multiple times, if needed)\n   * until the resulting string reaches the given length.\n   * The padding is applied from the start of the current Utf instance.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}\n   * @param {number} targetLength The length of the resulting Utf instance once it has been padded.\n   * @param {string|Utf} padString The string to pad the current Utf instance with.\n   * @returns {Utf} Utf instance of the specified length with the pad string applied from the start.\n   */\n  padStart(targetLength, padString = DEFAULT_PADSTRING) {\n    const empty = EMPTY_STRING;\n    const pad = padString instanceof Utf ? padString\n      : string2unicodes(\n        stringify(padString, empty)\n      );\n    const result = listPadStart(this, targetLength, pad);\n\n    return new Utf(\n      result.join(empty)\n    );\n  }\n\n  /**\n   * Creates a padded Utf instance with another string (multiple times, if needed)\n   * until the resulting string reaches the given length.\n   * The padding is applied from the end of the Utf instance.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}\n   * @param {number} targetLength The length of the resulting Utf instance once it has been padded.\n   * @param {string|Utf} padString The string to pad the current Utf instance with.\n   * @returns {Utf} Utf instance of the specified length with the pad string applied from the start.\n   */\n  padEnd(targetLength, padString = DEFAULT_PADSTRING) {\n    const empty = EMPTY_STRING;\n    const pad = padString instanceof Utf ? padString\n      : string2unicodes(\n        stringify(padString, empty)\n      );\n    const result = listPadEnd(this, targetLength, pad);\n\n    return new Utf(\n      result.join(empty)\n    );\n  }\n\n  /**\n   * Creates Utf instance with repeated unicode text.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat}\n   * @param {number} count Number of repeats.\n   * @returns {Utf} Returns instance with repeated text.\n   */\n  repeat(count) {\n    const string = this.text;\n    let result = null;\n    let c = 0;\n    let length = 0;\n\n    if (typeof count !== TYPE_NUMBER || !IS_FINITE(count) || count < 0) {\n      throw new RangeError(INVALID_REPEAT_COUNT_ERROR);\n    }\n\n    length = MATH_FLOOR(count);\n    result = [];\n    for (; length--; c++) {\n      result[c] = string;\n    }\n\n    return new Utf(\n      result.join(EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Safely splits unicode characters into list of Utf instances using a [separator] pattern.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split}\n   * @param {string|RegExp|Utf} separator Separator pattern used for splitting.\n   * @param {number} [limit] Limit number of splits.\n   * @returns {Utf[]} Collection of Utf instances.\n   */\n  split(separator, limit) {\n    const Me = Utf;\n    const me = this;\n    const empty = EMPTY_STRING;\n    const subjectLength = me.length;\n    const isRegex = regexp(separator);\n    const isUtfInstance = separator instanceof Me;\n    let limiter = typeof limit === TYPE_NUMBER && IS_FINITE(limit) && limit > -1\n      ? limit\n      : limit === null\n        ? 0\n        : undefined;\n    let stringSeparator = isUtfInstance\n      ? separator.text\n      : isRegex || typeof separator === TYPE_STRING\n        ? separator\n        : stringify(separator);\n    // safely return split version\n    let result = null;\n    let resultLength = 0;\n    let buffer = null;\n    let bufferLength = 0;\n    let separatorLength = 0;\n    let slength = 0;\n    let c = 0;\n    let length = 0;\n    let matchPointer = 0;\n    let isLast = false;\n    let pos = null;\n\n    // usual split\n    if (isRegex || stringSeparator === empty) {\n      result = isRegex\n        ? me.text.split(stringSeparator, limiter)\n        : ARRAY_SLICE.call(\n          me,\n          0,\n          limiter\n        );\n      length = result.length;\n      // replace\n      for (; length--; c++) {\n        result[c] = new Me(result[c]);\n      }\n      return result;\n    }\n\n    // manual split\n    length = subjectLength;\n\n    stringSeparator = isUtfInstance ? separator : string2unicodes(separator);\n    separatorLength = stringSeparator.length;\n\n    // replace\n    buffer = [];\n    result = [];\n    if (typeof limiter === TYPE_UNDEFINED) {\n      limiter = subjectLength;\n    }\n    mainLoop: for (; length--; c++) {\n      isLast = length === 0;\n\n      // check if separator matches\n      slength = separatorLength;\n      matchPointer = 0;\n\n      for (; slength--; matchPointer++) {\n        pos = c + matchPointer;\n        // failed!\n        if (pos >= subjectLength ||\n          stringSeparator[matchPointer] !== me[pos]\n        ) {\n          buffer[bufferLength++] = me[c];\n          if (!isLast) {\n            continue mainLoop;\n          }\n        }\n      }\n\n      // generate result from buffer\n      result[resultLength++] = new Me(\n        bufferLength ? buffer.join(empty) : empty\n      );\n\n      // stop!\n      if (resultLength === limiter) {\n        break mainLoop;\n      }\n      // reset buffer\n      else if (!isLast) {\n        buffer = [];\n        bufferLength = 0;\n      }\n    }\n\n    return result;\n  }\n\n  /**\n   * Creates new Utf instance with replacing unicode characters with [replacement] using [pattern].\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace}\n   * @param {string|Utf|RegExp} pattern The pattern to match for replacement.\n   * @param {string|Utf|stringReplaceCallback} replacement function callback or string replacement.\n   * @returns {Utf} Utf instance with replaced unicode characters.\n   */\n  replace(pattern, replacement) {\n    const Me = Utf;\n\n    return new Me(\n      this.text.replace(\n        pattern instanceof Me\n          ? pattern.text\n          : regexp(pattern)\n            ? pattern\n            : stringify(pattern),\n        replacement instanceof Me\n          ? replacement.text\n          : method(replacement)\n            ? replacement\n            : stringify(replacement)\n      )\n    );\n  }\n\n  /**\n   * Removes whitespace characters prefix and suffix.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim}\n   * @returns {Utf} new Utf instance with whitespaces removed.\n   */\n  trim() {\n    return new Utf(\n      this.text.replace(STRING_TRIM_REGEXP, EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Removes whitespace characters prefix.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart}\n   * @returns {Utf} new Utf instance with whitespaces removed.\n   */\n  trimStart() {\n    return new Utf(\n      this.text.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Removes whitespace characters suffix.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd}\n   * @returns {Utf} new Utf instance with whitespaces removed.\n   */\n  trimEnd() {\n    return new Utf(\n      this.text.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING)\n    );\n  }\n\n  /**\n   * Clones Utf instance.\n   *\n   * @returns {Utf} cloned Utf instance.\n   */\n  clone() {\n    return new Utf(this);\n  }\n\n  /**\n   * Generates list of Utf code points.\n   *\n   * @returns {number[]} List of Unicode code points.\n   */\n  toPoints() {\n    return this.points.slice(0);\n  }\n\n  /**\n   * Creates Utf instance with string converted to upper-case.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase}\n   * @returns {Utf} Utf instance with upper-case string.\n   */\n  toUpperCase() {\n    return new Utf(\n      this.text.toUpperCase()\n    );\n  }\n\n  /**\n   * Creates Utf instance with string converted to upper-case according to any locale-specific case mappings.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase}\n   * @param {string|string[]} [locale] The locale/s to be used to convert to upper case according to any locale-specific case mappings.\n   * @returns {Utf} Utf Instance with upper-case string.\n   */\n  toLocaleUpperCase(locale) {\n    return new Utf(\n      this.text.toLocaleUpperCase(locale)\n    );\n  }\n\n  /**\n   * Creates Utf instance with string converted to lower-case.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase}\n   * @returns {Utf} Utf instance with lower-case string.\n   */\n  toLowerCase() {\n    return new Utf(\n      this.text.toLowerCase()\n    );\n  }\n\n  /**\n   * Creates Utf instance with string converted to lower-case according to any locale-specific case mappings.\n   *\n   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase}\n   * @param {string|string[]} [locale] The locale/s to be used to convert to upper case according to any locale-specific case mappings.\n   * @returns {Utf} Utf instance with lower-case string.\n   */\n  toLocaleLowerCase(locale) {\n    return new Utf(\n      this.text.toLocaleLowerCase(locale)\n    );\n  }\n\n  /**\n   * Returns the JSON representation.\n   *\n   * @returns {string} JSON representation of Utf instance.\n   */\n  toJSON() {\n    return this.text;\n  }\n\n  /**\n   * Returns the Array representation of Utf instance.\n   *\n   * @returns {string[]} Array representation.\n   */\n  toArray() {\n    return ARRAY_SLICE.call(this, 0);\n  }\n\n  /**\n   * Returns the String representation of Uft instance.\n   *\n   * @returns {string} String representation of Utf intance.\n   */\n  toString() {\n    return this.text;\n  }\n\n  /**\n   * Returns the primitive value of this instance which is a string.\n   *\n   * @returns {string} String primitive value.\n   */\n  valueOf() {\n    return this.text;\n  }\n}\n\nexport const EMPTY_UNICODE = new Utf(EMPTY_STRING);\n",
@@ -6072,7 +5743,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 272,
+    "__docId__": 259,
     "kind": "class",
     "name": "Utf",
     "memberof": "src/unicode/Utf.js",
@@ -6087,7 +5758,7 @@
     "interface": false
   },
   {
-    "__docId__": 273,
+    "__docId__": 260,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6113,7 +5784,7 @@
     ]
   },
   {
-    "__docId__": 274,
+    "__docId__": 261,
     "kind": "member",
     "name": "[index]",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6131,7 +5802,7 @@
     "ignore": true
   },
   {
-    "__docId__": 275,
+    "__docId__": 262,
     "kind": "method",
     "name": "codePointAt",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6170,7 +5841,7 @@
     }
   },
   {
-    "__docId__": 276,
+    "__docId__": 263,
     "kind": "method",
     "name": "charAt",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6209,7 +5880,7 @@
     }
   },
   {
-    "__docId__": 277,
+    "__docId__": 264,
     "kind": "method",
     "name": "slice",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6261,7 +5932,7 @@
     }
   },
   {
-    "__docId__": 278,
+    "__docId__": 265,
     "kind": "method",
     "name": "substring",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6313,7 +5984,7 @@
     }
   },
   {
-    "__docId__": 279,
+    "__docId__": 266,
     "kind": "method",
     "name": "concat",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6355,7 +6026,7 @@
     }
   },
   {
-    "__docId__": 280,
+    "__docId__": 267,
     "kind": "method",
     "name": "indexOf",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6410,7 +6081,7 @@
     }
   },
   {
-    "__docId__": 281,
+    "__docId__": 268,
     "kind": "method",
     "name": "lastIndexOf",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6463,7 +6134,7 @@
     }
   },
   {
-    "__docId__": 282,
+    "__docId__": 269,
     "kind": "method",
     "name": "search",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6505,7 +6176,7 @@
     }
   },
   {
-    "__docId__": 283,
+    "__docId__": 270,
     "kind": "method",
     "name": "includes",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6558,7 +6229,7 @@
     }
   },
   {
-    "__docId__": 284,
+    "__docId__": 271,
     "kind": "method",
     "name": "localeCompare",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6693,7 +6364,7 @@
     }
   },
   {
-    "__docId__": 285,
+    "__docId__": 272,
     "kind": "method",
     "name": "match",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6736,7 +6407,7 @@
     }
   },
   {
-    "__docId__": 286,
+    "__docId__": 273,
     "kind": "method",
     "name": "padStart",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6789,7 +6460,7 @@
     }
   },
   {
-    "__docId__": 287,
+    "__docId__": 274,
     "kind": "method",
     "name": "padEnd",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6842,7 +6513,7 @@
     }
   },
   {
-    "__docId__": 288,
+    "__docId__": 275,
     "kind": "method",
     "name": "repeat",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6884,7 +6555,7 @@
     }
   },
   {
-    "__docId__": 289,
+    "__docId__": 276,
     "kind": "method",
     "name": "split",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6938,7 +6609,7 @@
     }
   },
   {
-    "__docId__": 290,
+    "__docId__": 277,
     "kind": "method",
     "name": "replace",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -6994,7 +6665,7 @@
     }
   },
   {
-    "__docId__": 291,
+    "__docId__": 278,
     "kind": "method",
     "name": "trim",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7025,7 +6696,7 @@
     "params": []
   },
   {
-    "__docId__": 292,
+    "__docId__": 279,
     "kind": "method",
     "name": "trimStart",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7056,7 +6727,7 @@
     "params": []
   },
   {
-    "__docId__": 293,
+    "__docId__": 280,
     "kind": "method",
     "name": "trimEnd",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7087,7 +6758,7 @@
     "params": []
   },
   {
-    "__docId__": 294,
+    "__docId__": 281,
     "kind": "method",
     "name": "clone",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7115,7 +6786,7 @@
     "params": []
   },
   {
-    "__docId__": 295,
+    "__docId__": 282,
     "kind": "method",
     "name": "toPoints",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7143,7 +6814,7 @@
     "params": []
   },
   {
-    "__docId__": 296,
+    "__docId__": 283,
     "kind": "method",
     "name": "toUpperCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7174,7 +6845,7 @@
     "params": []
   },
   {
-    "__docId__": 297,
+    "__docId__": 284,
     "kind": "method",
     "name": "toLocaleUpperCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7217,7 +6888,7 @@
     }
   },
   {
-    "__docId__": 298,
+    "__docId__": 285,
     "kind": "method",
     "name": "toLowerCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7248,7 +6919,7 @@
     "params": []
   },
   {
-    "__docId__": 299,
+    "__docId__": 286,
     "kind": "method",
     "name": "toLocaleLowerCase",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7291,7 +6962,7 @@
     }
   },
   {
-    "__docId__": 300,
+    "__docId__": 287,
     "kind": "method",
     "name": "toJSON",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7319,7 +6990,7 @@
     "params": []
   },
   {
-    "__docId__": 301,
+    "__docId__": 288,
     "kind": "method",
     "name": "toArray",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7347,7 +7018,7 @@
     "params": []
   },
   {
-    "__docId__": 302,
+    "__docId__": 289,
     "kind": "method",
     "name": "toString",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7375,7 +7046,7 @@
     "params": []
   },
   {
-    "__docId__": 303,
+    "__docId__": 290,
     "kind": "method",
     "name": "valueOf",
     "memberof": "src/unicode/Utf.js~Utf",
@@ -7403,7 +7074,7 @@
     "params": []
   },
   {
-    "__docId__": 304,
+    "__docId__": 291,
     "kind": "variable",
     "name": "EMPTY_UNICODE",
     "memberof": "src/unicode/Utf.js",
@@ -7424,7 +7095,7 @@
     "ignore": true
   },
   {
-    "__docId__": 305,
+    "__docId__": 292,
     "kind": "file",
     "name": "src/unicode/constants.js",
     "content": "export const UNICODE_CODEPOINT_MATCH_REGEXP = /[\\uD800-\\uDBFF][\\uDC00-\\uDFFF]|./g;\n\nexport const CODE_POINTS_TO_UTF_ERROR = \"Invalid Code Points parameter.\";\n\nexport const CODE_POINT_TO_STRING_ERROR = \"Invalid Code Point item while generating [Utf].\";\n\nexport const INVALID_REPEAT_COUNT_ERROR = \"Invalid repeat [count] parameter.\";\n",
@@ -7435,7 +7106,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 306,
+    "__docId__": 293,
     "kind": "variable",
     "name": "UNICODE_CODEPOINT_MATCH_REGEXP",
     "memberof": "src/unicode/constants.js",
@@ -7456,7 +7127,7 @@
     "ignore": true
   },
   {
-    "__docId__": 307,
+    "__docId__": 294,
     "kind": "variable",
     "name": "CODE_POINTS_TO_UTF_ERROR",
     "memberof": "src/unicode/constants.js",
@@ -7477,7 +7148,7 @@
     "ignore": true
   },
   {
-    "__docId__": 308,
+    "__docId__": 295,
     "kind": "variable",
     "name": "CODE_POINT_TO_STRING_ERROR",
     "memberof": "src/unicode/constants.js",
@@ -7498,7 +7169,7 @@
     "ignore": true
   },
   {
-    "__docId__": 309,
+    "__docId__": 296,
     "kind": "variable",
     "name": "INVALID_REPEAT_COUNT_ERROR",
     "memberof": "src/unicode/constants.js",
@@ -7519,7 +7190,7 @@
     "ignore": true
   },
   {
-    "__docId__": 310,
+    "__docId__": 297,
     "kind": "file",
     "name": "src/unicode/format.js",
     "content": "import {\n  stringify\n} from \"../string/type\";\n\nimport { array } from \"../native/type\";\n\nimport {\n  CODE_POINTS_TO_UTF_ERROR,\n  UNICODE_CODEPOINT_MATCH_REGEXP\n} from \"./constants\";\n\nimport { codePoint2string } from \"./service\";\n\nimport {\n  Utf,\n  EMPTY_UNICODE\n} from \"./Utf\";\n\n/**\n * Convert Scalar value to Unicode.\n *\n * @param {*} subject Scalar value to convert.\n * @param {*} [defaultValue=Utf] optional defaultValue to return if failed.\n * @returns {Utf|*} Unicode string when successful, or [defaultValue] parameter is returned if failed.\n */\nexport function unicodify(subject, defaultValue = EMPTY_UNICODE) {\n  const stringified = stringify(subject, null);\n\n  return stringified === null ? defaultValue : new Utf(stringified);\n}\n\n/**\n * Create Utf based on Array of code points parameter.\n * Error will be thrown if parameter is invalid.\n *\n * @param {number[]} codes Array of code points.\n * @returns {Utf} Utf instance.\n */\nexport function codepoints2Utf(codes) {\n  if (!array(codes)) {\n    throw new Error(CODE_POINTS_TO_UTF_ERROR);\n  }\n\n  return new Utf(\n    codePoint2string(...codes)\n  );\n}\n\n/**\n * Safely counts number of Utf characters.\n *\n * @param {string|Utf} subject String or Utf to count.\n * @returns {number} returns number of resolved Utf characters. or zero (0)\n */\nexport function unicodeCount(subject) {\n  let string = null;\n\n  if (subject instanceof Utf) {\n    return subject.length;\n  }\n\n  string = stringify(subject);\n  if (string) {\n    return string.replace(UNICODE_CODEPOINT_MATCH_REGEXP, \"-\").length;\n  }\n\n  return 0;\n}\n",
@@ -7530,7 +7201,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 311,
+    "__docId__": 298,
     "kind": "function",
     "name": "unicodify",
     "memberof": "src/unicode/format.js",
@@ -7585,7 +7256,7 @@
     }
   },
   {
-    "__docId__": 312,
+    "__docId__": 299,
     "kind": "function",
     "name": "codepoints2Utf",
     "memberof": "src/unicode/format.js",
@@ -7627,7 +7298,7 @@
     }
   },
   {
-    "__docId__": 313,
+    "__docId__": 300,
     "kind": "function",
     "name": "unicodeCount",
     "memberof": "src/unicode/format.js",
@@ -7670,7 +7341,7 @@
     }
   },
   {
-    "__docId__": 314,
+    "__docId__": 301,
     "kind": "file",
     "name": "src/unicode/index.js",
     "content": "export {\n  Utf\n} from \"./Utf\";\n\nexport {\n  eachUnicode,\n  string2unicodes,\n  string2codePoints,\n  codePoint2string\n} from \"./service\";\n\nexport {\n  unicodify,\n  unicodeCount,\n  codepoints2Utf\n} from \"./format\";\n",
@@ -7681,7 +7352,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 315,
+    "__docId__": 302,
     "kind": "file",
     "name": "src/unicode/service.js",
     "content": "import { method } from \"../native/type\";\n\nimport { IS_FINITE } from \"../native/number\";\n\nimport { EMPTY_STRING } from \"../native/constants\";\n\nimport {\n  STRING_FROM_CHARCODE\n} from \"../native/string\";\n\nimport { stringify } from \"../string/type\";\n\nimport {\n  UNICODE_CODEPOINT_MATCH_REGEXP\n} from \"./constants\";\n\n/**\n * Splits string into collection of Unicode characters.\n *\n * @param {string} subject String to split.\n * @returns {string[]} list of unicode characters.\n */\nexport function string2unicodes(subject) {\n  const string = stringify(subject);\n  const found = [];\n  let length = 0;\n\n  if (string) {\n    string.replace(\n      UNICODE_CODEPOINT_MATCH_REGEXP,\n      (char) => {\n        found[length++] = char;\n      }\n    );\n  }\n\n  return found;\n}\n\n/**\n * Splits string into collection of Unicode code points.\n *\n * @param {string} subject String to split.\n * @returns {number[]} list of codePoints.\n */\nexport function string2codePoints(subject) {\n  const string = stringify(subject);\n  const found = [];\n  let length = 0;\n\n  if (string) {\n    string.replace(\n      UNICODE_CODEPOINT_MATCH_REGEXP,\n      (char) => {\n        found[length++] = char.length === 1 ? char.charCodeAt(0)\n          : (char.charCodeAt(0) - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000;\n      }\n    );\n  }\n\n  return found;\n}\n\n/**\n * The callback used on each Unicode codePoint found.\n *\n * @callback eachCodePointCallback\n * @param {number} codePoint Unicode codePoint.\n * @param {string} chars string representation of codePoint.\n * @param {number} index Unicode character zero based index position.\n */\n\n/**\n * Iterates Unicode codePoints of string that executes callback on each codePoint found.\n *\n * @param {string} subject string to iterate.\n * @param {eachCodePointCallback} callback The callback to execute on each codePoint.\n * @returns {number} number of codePoints found\n */\nexport function eachUnicode(subject, callback) {\n  let char = null;\n  let c = 0;\n  let length = 0;\n  let foundLength = 0;\n  let string = null;\n\n  if (!method(callback)) {\n    return length;\n  }\n\n  string = string2unicodes(subject);\n  length = foundLength = string.length;\n\n  for (; length--; c++) {\n    char = string[c];\n    callback(\n      char.length === 1 ? char.charCodeAt(0)\n        : (char.charCodeAt(0) - 0xD800) * 0x400 + char.charCodeAt(1) - 0xDC00 + 0x10000,\n      char,\n      c\n    );\n  }\n\n  return foundLength;\n}\n\n/**\n * Creates string with given list of codePoints.\n *\n * @param {...number[]} codes codePoint to convert to string.\n * @returns {string} the string created based from codePoints list.\n */\nexport function codePoint2string(...codes) {\n  const fromCharCode = STRING_FROM_CHARCODE;\n  const finite = IS_FINITE;\n  const empty = EMPTY_STRING;\n  const found = [];\n  let foundLength = 0;\n  let c = 0;\n  let length = codes.length;\n  let value = null;\n  let code = null;\n\n  if (!length) {\n    return empty;\n  }\n\n  for (; length--; c++) {\n    code = codes[c];\n    value = 1 * code;\n\n    if (!finite(value) || value < 0 || value > 0x10FFFF) {\n      console.warn(RangeError(`Invalid code point: ${code}`));\n      return empty;\n    }\n\n    if (value > 0xFFFF) {\n      value -= 0x10000;\n      found[foundLength++] = fromCharCode(\n        (value >> 10) + 0xD800,\n        (value % 0x400) + 0xDC00\n      );\n    }\n    else {\n      found[foundLength++] = fromCharCode(value);\n    }\n  }\n\n  return found.join(empty);\n}\n",
@@ -7692,7 +7363,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 316,
+    "__docId__": 303,
     "kind": "function",
     "name": "string2unicodes",
     "memberof": "src/unicode/service.js",
@@ -7734,7 +7405,7 @@
     }
   },
   {
-    "__docId__": 317,
+    "__docId__": 304,
     "kind": "function",
     "name": "string2codePoints",
     "memberof": "src/unicode/service.js",
@@ -7776,7 +7447,7 @@
     }
   },
   {
-    "__docId__": 318,
+    "__docId__": 305,
     "kind": "function",
     "name": "eachUnicode",
     "memberof": "src/unicode/service.js",
@@ -7828,7 +7499,7 @@
     }
   },
   {
-    "__docId__": 319,
+    "__docId__": 306,
     "kind": "function",
     "name": "codePoint2string",
     "memberof": "src/unicode/service.js",
@@ -7879,7 +7550,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"@dikotech/basic\",\n  \"version\": \"0.0.1\",\n  \"description\": \"Basic Javascript helpers\",\n  \"main\": \"cjs/index.js\",\n  \"module\": \"esm/index.js\",\n  \"scripts\": {\n    \"test:rollup\": \"rollup --config rollup.config.test.js\",\n    \"test:mocha\": \"mocha test/mocha-feed.js\",\n    \"pretest\": \"clear\",\n    \"test\": \"run-s build:parser test:rollup test:mocha\",\n    \"build:parser\": \"node lib/slr/generate-slr-states -o -c slr-config.json\",\n    \"postbuild:parser\": \"node lib/slr/generate-build-reference slr-build-reference.json src/json/build-reference.json\",\n    \"build:source\": \"rollup --config\",\n    \"build\": \"run-s build:parser build:source\",\n    \"prepare\": \"run-s build\",\n    \"lint\": \"eslint 'src/**/*.js'\",\n    \"tdd\": \"nodemon --ignore 'src/json/parse-states.json' --ignore 'src/json/build-reference.json' --watch src --watch slr-build-reference.json --exec 'npm run test'\",\n    \"tdb:parser\": \"nodemon --ignore 'src/json/parse-states.json' --ignore 'src/json/build-reference.json' --watch 'src/json/grammar/*.json' --exec 'npm run build:parser'\",\n    \"jsdoc:build\": \"jsdoc -c jsdoc.json src\",\n    \"doc:build\": \"esdoc -c esdoc.json\",\n    \"docdoc:build\": \"documentation build src/** -f html -o docs\",\n    \"doc\": \"run-s clean:doc doc:build\",\n    \"doc-dev:build\": \"nodemon -V --watch src --watch esdoc.json --ignore 'src/**/*.json' --watch README.md --watch manual --ext js,md,json --exec 'npm run doc:build'\",\n    \"doc-dev:serve\": \"browser-sync start --config browsersync.doc.js\",\n    \"predoc-dev\": \"npm run clean:doc\",\n    \"doc-dev\": \"run-p doc-dev:build doc-dev:serve\",\n    \"clean:doc\": \"del 'docs/*'\",\n    \"clean:output\": \"del umd system cjs esm 'test'\",\n    \"clean\": \"run-p clean:doc clean:output\"\n  },\n  \"files\": [\n    \"cjs/*\",\n    \"esm/*\",\n    \"umd/*\",\n    \"system/*\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/diko316/dikotech-basic.git\"\n  },\n  \"keywords\": [\n    \"NodeJS\",\n    \"core\",\n    \"basic\",\n    \"Javascript\"\n  ],\n  \"author\": \"Diko Tech Slave\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/diko316/dikotech-basic/issues\"\n  },\n  \"homepage\": \"https://github.com/diko316/dikotech-basic#readme\",\n  \"devDependencies\": {},\n  \"dependencies\": {\n    \"@rollup/plugin-buble\": \"^0.21.3\",\n    \"@rollup/plugin-commonjs\": \"^13.0.0\",\n    \"@rollup/plugin-json\": \"^4.1.0\",\n    \"@rollup/plugin-multi-entry\": \"^3.0.1\",\n    \"@rollup/plugin-node-resolve\": \"^8.0.1\",\n    \"better-docs\": \"^2.0.1\",\n    \"browser-sync\": \"^2.26.7\",\n    \"chai\": \"^4.2.0\",\n    \"clear-cli\": \"^1.0.1\",\n    \"del-cli\": \"^3.0.1\",\n    \"documentation\": \"^13.0.1\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^7.3.0\",\n    \"eslint-config-standard\": \"^14.1.1\",\n    \"eslint-config-strict\": \"^14.0.1\",\n    \"eslint-plugin-import\": \"^2.21.2\",\n    \"eslint-plugin-jsdoc\": \"^27.1.2\",\n    \"eslint-plugin-node\": \"^11.1.0\",\n    \"eslint-plugin-promise\": \"^4.2.1\",\n    \"eslint-plugin-standard\": \"^4.0.1\",\n    \"ink-docstrap\": \"^1.3.2\",\n    \"jsdoc\": \"^3.6.4\",\n    \"jsdoc-babel\": \"^0.5.0\",\n    \"mocha\": \"^8.0.1\",\n    \"nodemon\": \"^2.0.4\",\n    \"npm-run-all\": \"^4.1.5\",\n    \"rollup\": \"^2.17.1\",\n    \"rollup-plugin-delete\": \"^2.0.0\",\n    \"rollup-plugin-eslint\": \"^7.0.0\",\n    \"rollup-plugin-terser\": \"^6.1.0\",\n    \"unexpected\": \"^11.14.0\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"@dikotech/basic\",\n  \"version\": \"0.0.1\",\n  \"description\": \"Basic Javascript helpers\",\n  \"main\": \"cjs/index.js\",\n  \"module\": \"esm/index.js\",\n  \"scripts\": {\n    \"test:rollup\": \"rollup --config rollup.config.test.js\",\n    \"test:mocha\": \"mocha test/mocha-feed.js\",\n    \"pretest\": \"clear\",\n    \"test\": \"run-s build:parser test:rollup test:mocha\",\n    \"build:parser\": \"node lib/slr/generate-slr-states -o -c slr-config.json\",\n    \"postbuild:parser\": \"node lib/slr/generate-build-reference slr-build-reference.json src/json/build-reference.json\",\n    \"build:source\": \"rollup --config\",\n    \"build\": \"run-s build:parser build:source\",\n    \"prepare\": \"run-s build\",\n    \"lint\": \"eslint 'src/**/*.js'\",\n    \"tdd\": \"nodemon --ignore 'src/json/parse-states.json' --ignore 'src/json/build-reference.json' --watch src --watch slr-build-reference.json --exec 'npm run test'\",\n    \"tdb:parser\": \"nodemon --ignore 'src/json/parse-states.json' --ignore 'src/json/build-reference.json' --watch 'src/json/grammar/*.json' --exec 'npm run build:parser'\",\n    \"jsdoc:build\": \"jsdoc -c jsdoc.json src\",\n    \"doc:build\": \"esdoc -c esdoc.json\",\n    \"docdoc:build\": \"documentation build src/** -f html -o docs\",\n    \"doc\": \"run-s clean:doc doc:build\",\n    \"doc-dev:build\": \"nodemon -V --watch src --watch esdoc.json --ignore 'src/**/*.json' --watch README.md --watch manual --ext js,md,json --exec 'npm run doc:build'\",\n    \"doc-dev:serve\": \"browser-sync start --config browsersync.doc.js\",\n    \"predoc-dev\": \"npm run clean:doc\",\n    \"doc-dev\": \"run-p doc-dev:build doc-dev:serve\",\n    \"clean:doc\": \"del 'docs/*'\",\n    \"clean:test\": \"del test\",\n    \"clean:output\": \"del umd system cjs esm 'test'\",\n    \"clean\": \"run-p clean:doc clean:output\"\n  },\n  \"files\": [\n    \"cjs/*\",\n    \"esm/*\",\n    \"umd/*\",\n    \"system/*\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/diko316/dikotech-basic.git\"\n  },\n  \"keywords\": [\n    \"NodeJS\",\n    \"core\",\n    \"basic\",\n    \"Javascript\"\n  ],\n  \"author\": \"Diko Tech Slave\",\n  \"license\": \"MIT\",\n  \"bugs\": {\n    \"url\": \"https://github.com/diko316/dikotech-basic/issues\"\n  },\n  \"homepage\": \"https://github.com/diko316/dikotech-basic#readme\",\n  \"devDependencies\": {\n    \"@rollup/plugin-strip\": \"^1.3.3\",\n    \"rollup-plugin-cleanup\": \"^3.1.1\"\n  },\n  \"dependencies\": {\n    \"@rollup/plugin-buble\": \"^0.21.3\",\n    \"@rollup/plugin-commonjs\": \"^13.0.0\",\n    \"@rollup/plugin-json\": \"^4.1.0\",\n    \"@rollup/plugin-multi-entry\": \"^3.0.1\",\n    \"@rollup/plugin-node-resolve\": \"^8.0.1\",\n    \"better-docs\": \"^2.0.1\",\n    \"browser-sync\": \"^2.26.7\",\n    \"chai\": \"^4.2.0\",\n    \"clear-cli\": \"^1.0.1\",\n    \"del-cli\": \"^3.0.1\",\n    \"documentation\": \"^13.0.1\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^7.3.0\",\n    \"eslint-config-standard\": \"^14.1.1\",\n    \"eslint-config-strict\": \"^14.0.1\",\n    \"eslint-plugin-import\": \"^2.21.2\",\n    \"eslint-plugin-jsdoc\": \"^27.1.2\",\n    \"eslint-plugin-node\": \"^11.1.0\",\n    \"eslint-plugin-promise\": \"^4.2.1\",\n    \"eslint-plugin-standard\": \"^4.0.1\",\n    \"ink-docstrap\": \"^1.3.2\",\n    \"jsdoc\": \"^3.6.4\",\n    \"jsdoc-babel\": \"^0.5.0\",\n    \"mocha\": \"^8.0.1\",\n    \"nodemon\": \"^2.0.4\",\n    \"npm-run-all\": \"^4.1.5\",\n    \"rollup\": \"^2.17.1\",\n    \"rollup-plugin-delete\": \"^2.0.0\",\n    \"rollup-plugin-eslint\": \"^7.0.0\",\n    \"rollup-plugin-terser\": \"^6.1.0\",\n    \"unexpected\": \"^11.14.0\"\n  }\n}\n",
     "longname": "/opt/app/source/package.json",
     "name": "package.json",
     "static": true,
