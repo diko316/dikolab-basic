@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { query } from "./query";
 
 describe("query(subject, querycode)", () => {
@@ -47,8 +48,22 @@ describe("query(subject, querycode)", () => {
       };
     }
   );
-  it.only("Should parse number, float, and percent.", () => {
-    console.log(query("data[*].country[].name = \"diko\"; data[].country[]", subject));
-    console.log(JSON.stringify(subject, null, 3));
+
+  it("Should be able to do math equations and return results.", () => {
+    expect(query("10% * 100", subject)).to.equal(10);
+    expect(query("1 + 2 * 3 / 4 - data[0].id", subject)).to.equal(1.5);
+  });
+
+  it("Should be able to do a function call and return value.", () => {
+    function sampleFunction () {
+      return "secret value"
+    }
+
+    subject.func = sampleFunction;
+    expect(query("'my ' + func()", subject)).to.equal("my secret value");
+  });
+
+  it("Should extract all data[].country[].value items from test data.", () => {
+    expect(query("data[*].country[].value", subject)).to.deep.equal(["PH", "US", "UK", "HK", "CH"]);
   });
 });

@@ -493,7 +493,7 @@
         3
       ]
     },
-    "Concat-><string> <+> <Term>": {
+    "Concat-><string> <+> Term": {
       "type": "string",
       "code": "binary",
       "params": [
