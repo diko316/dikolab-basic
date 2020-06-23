@@ -745,10 +745,10 @@
 
     "Assign->Path <=> Assignable": {
       "type": 2,
-      "code": "unsetpathvalue",
+      "code": "setpathvalue",
       "params": [
         1,
-        2
+        3
       ]
     },
 
@@ -1006,19 +1006,19 @@
 
     "numberkeylist": {
       "return": [
-        "[3, true, null]"
+        "[3, true, false]"
       ]
     },
 
     "stictnumberkeylist": {
       "return": [
-        "[3, true, null]"
+        "[3, true, true]"
       ]
     },
 
     "stringkeylist": {
       "return": [
-        "[3, false, null]"
+        "[3, false, true]"
       ]
     },
 
