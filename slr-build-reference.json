@@ -816,14 +816,14 @@
 
     "Query->Stmt <$>": {
       "type": "mixed",
-      "code": "return",
+      "code": "finale",
       "params": [
         1
       ]
     },
     "Query->Def <;> Stmt <$>": {
       "type": "mixed",
-      "code": "fullreturn",
+      "code": "finalewithvars",
       "params": [
         1,
         3
@@ -1403,18 +1403,22 @@
       ]
     },
 
-    "return": {
+    "finale": {
+      "symbols": 1,
       "body": [
-        "$0",
-        "return ", 0, ";"
-      ]
-    },
-    "fullreturn": {
-      "body": [
-        "$0",
         "$1",
-        "return ", 1, ";"
-      ]
+        "var ", 0, " = ", 1, ";"
+      ],
+      "return": [0]
+    },
+    "finalewithvars": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = ", 2, ";"
+      ],
+      "return": [0]
     }
   }
 }

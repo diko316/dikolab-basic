@@ -554,7 +554,18 @@ export function build(subject) {
   }
 
   // insert code body
-  code[codeLength++] = stack[0].code;
+  child = stack[0];
+  code[codeLength++] = child.code;
+
+  // add code destructor and return last code
+  ref = child.ref;
+  symbols.splice(symbols.indexOf(ref), 1);
+
+  if (symbols.length) {
+    code[codeLength++] = `${symbols.join(" = ")} = null;`;
+  }
+
+  code[codeLength++] = `return ${ref};`;
 
   return [
     codeParams.join(", "),
