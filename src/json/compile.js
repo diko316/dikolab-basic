@@ -9,7 +9,19 @@ import HELPER from "./helper";
 
 import { build } from "./build";
 
-export function compile(subject) {
+/**
+ * @typedef {function} exec
+ * @param {*} data - The data to run JSON Query.
+ * @returns {*} The result of JSON Query.
+ */
+
+/**
+ * Generates compiled JSON Query function for query re-use.
+ *
+ * @param {string} query - JSON Query string.
+ * @returns {exec} JSON Query function
+ */
+export function compile(query) {
   const emptyFunction = EMPTY_FUNCTION;
   let result = null;
 
@@ -17,11 +29,11 @@ export function compile(subject) {
     return result(data, HELPER);
   }
 
-  if (typeof subject !== TYPE_STRING) {
+  if (typeof query !== TYPE_STRING) {
     return emptyFunction;
   }
 
-  result = build(subject);
+  result = build(query);
   // console.log("param ", result[0]);
   // console.log("result ", result[1]);
   if (!result) {

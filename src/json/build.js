@@ -9,7 +9,7 @@ import {
 
 import { quoteEscapify } from "../string/format";
 
-import BUILD_REFERENCE from "./build-reference.json";
+import * as BUILD_REFERENCE from "./build-reference.json";
 
 const TEMPLATES = BUILD_REFERENCE.template;
 const BUILD_ACCEPT_RPN = 1;
@@ -310,6 +310,23 @@ function createArguments(settings, symbolCount, params, children, prime) {
   return args;
 }
 
+/**
+ * @ignore
+ * @protected
+ * @typedef {Array} BuildResult
+ * @property {string} 0 - String representation of function parameters.
+ * @property {string} 1 - The optimized Javascript JIT code block.
+ */
+
+/**
+ * Builds optimized Javascript JIT code based from JSON Query code in [subject] parameter.
+ *
+ * @ignore
+ * @protected
+ * @param {string} subject - JSON Query code.
+ * @returns {BuildResult|null} Generated JIT code or null if tokenize, parse,
+ *                              and generate code encounters error.
+ */
 export function build(subject) {
   const buildReference = BUILD_REFERENCE;
   const templates = TEMPLATES;

@@ -54,6 +54,7 @@ export default [
       output: {
         dir: `esm`,
         format: "esm",
+        preserveModules: true,
         sourcemap: true
       }
     },
@@ -79,6 +80,8 @@ export default [
       output: {
         dir: `cjs`,
         format: "cjs",
+        exports: "named",
+        preserveModules: true,
         sourcemap: true
       }
     },

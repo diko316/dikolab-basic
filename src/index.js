@@ -52,6 +52,7 @@ export {
 } from "./array";
 
 export {
+  updateMaxCompiled,
   compile,
   query
 } from "./json";
