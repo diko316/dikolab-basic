@@ -7,7 +7,7 @@ import {
   EMPTY_STRING
 } from "../native/constants";
 
-import { quoteEscapify } from "../string/format";
+import { quoteEscape } from "../string/format";
 
 import * as BUILD_REFERENCE from "./build-reference.json";
 
@@ -219,7 +219,7 @@ function createArguments(settings, symbolCount, params, children, prime) {
 
     // string-quote value
     if (definition.quote) {
-      ref = `"${quoteEscapify(ref)}"`;
+      ref = `"${quoteEscape(ref)}"`;
     }
 
     pc = 0;
@@ -537,7 +537,7 @@ export function build(subject) {
     codeRef = null;
     params = {
       0: symbol,
-      1: `"${quoteEscapify(ref)}"`
+      1: `"${quoteEscape(ref)}"`
     };
 
     if (!symbol) {

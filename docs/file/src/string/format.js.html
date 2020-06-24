@@ -59,6 +59,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contains">contains</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-repeat">repeat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimEnd">trimEnd</a></span></span></li>
@@ -224,7 +225,14 @@ function quoteReplace(all) {
   }
   return all;
 }
-export function quoteEscapify(subject) {
+
+/**
+ * Escapes characters to make it safe to enclose it in a double quote.
+ *
+ * @param {string} subject String to apply double quote escape.
+ * @returns {string} Escaped string.
+ */
+export function quoteEscape(subject) {
   if (typeof subject !== TYPE_STRING) {
     throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);
   }

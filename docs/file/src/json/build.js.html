@@ -59,6 +59,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contains">contains</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-repeat">repeat</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimEnd">trimEnd</a></span></span></li>
@@ -86,7 +87,7 @@ import {
   EMPTY_STRING
 } from &quot;../native/constants&quot;;
 
-import { quoteEscapify } from &quot;../string/format&quot;;
+import { quoteEscape } from &quot;../string/format&quot;;
 
 import * as BUILD_REFERENCE from &quot;./build-reference.json&quot;;
 
@@ -298,7 +299,7 @@ function createArguments(settings, symbolCount, params, children, prime) {
 
     // string-quote value
     if (definition.quote) {
-      ref = `&quot;${quoteEscapify(ref)}&quot;`;
+      ref = `&quot;${quoteEscape(ref)}&quot;`;
     }
 
     pc = 0;
@@ -616,7 +617,7 @@ export function build(subject) {
     codeRef = null;
     params = {
       0: symbol,
-      1: `&quot;${quoteEscapify(ref)}&quot;`
+      1: `&quot;${quoteEscape(ref)}&quot;`
     };
 
     if (!symbol) {

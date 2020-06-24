@@ -6,5 +6,6 @@ export {
   repeat,
   trim,
   trimStart,
-  trimEnd
+  trimEnd,
+  quoteEscape
 } from "./format";

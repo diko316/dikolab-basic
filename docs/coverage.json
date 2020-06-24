@@ -1,7 +1,7 @@
 {
-  "coverage": "38.2%",
+  "coverage": "38.67%",
   "expectCount": 212,
-  "actualCount": 81,
+  "actualCount": 82,
   "files": {
     "src/array/contants.js": {
       "expectCount": 1,
@@ -272,10 +272,9 @@
     },
     "src/string/format.js": {
       "expectCount": 8,
-      "actualCount": 6,
+      "actualCount": 7,
       "undocumentLines": [
-        141,
-        148
+        141
       ]
     },
     "src/string/type.js": {

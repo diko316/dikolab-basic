@@ -24,7 +24,8 @@ export {
   repeat,
   trim,
   trimStart,
-  trimEnd
+  trimEnd,
+  quoteEscape
 } from "./string";
 
 export {
