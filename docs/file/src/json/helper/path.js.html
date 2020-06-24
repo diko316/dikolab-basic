@@ -33,10 +33,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-IteratableObject">IteratableObject</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json-helper">json/helper</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-access">access</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPath">JsonHelperAccessPath</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathFill">JsonHelperAccessPathFill</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathType">JsonHelperAccessPathType</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json">json</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-compile">compile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-query">query</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateMaxCompiled">updateMaxCompiled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-exec">exec</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
@@ -135,12 +135,16 @@ const TYPE_ALL = 3;
  * 3 -  all source keys. treats access path data as
  *      {boolean} flag for strict or not strict enumerate source properties/keys
  *
+ * @ignore
+ * @protected
  * @typedef {(1|2|3)} JsonHelperAccessPathType
  */
 
 /**
  * Acess Path Struct
  *
+ * @ignore
+ * @protected
  * @typedef {Array} JsonHelperAccessPath
  * @property {JsonHelperAccessPathType} 0 - Access type to use.
  * @property {boolean}                  1 - true if numeric keys, or false if not.
@@ -156,6 +160,8 @@ const TYPE_ALL = 3;
  * - false if intent is to delete key/property.
  * - undefined or leave out if intent is to fetch/select properties/keys.
  *
+ * @ignore
+ * @protected
  * @typedef {boolean|undefined} JsonHelperAccessPathFill
  */
 
@@ -163,6 +169,8 @@ const TYPE_ALL = 3;
  * Get and Set {subject} properties based from accessPath.
  * Update/Populate {subject} property/key values based from accessPath.
  *
+ * @ignore
+ * @protected
  * @param {*} subject - The target object to process
  * @param {JsonHelperAccessPath[]} accessPath - Access path to traverse properties/keys
  * @param {JsonHelperAccessPathFill} [fill] - Required if intent is to set or unset properties/keys

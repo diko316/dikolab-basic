@@ -3,8 +3,8 @@ import { tokenize } from "./tokenizer";
 
 import { reportParseError } from "./error-reporting";
 
-import PARSER_STATES from "./parse-states.json";
-import PARSER_REFERENCE from "./parse-reference.json";
+import * as PARSER_STATES from "./parse-states.json";
+import * as PARSER_REFERENCE from "./parse-reference.json";
 
 const ACTION_TOKENIZE = 1;
 const ACTION_REDUCE = 2;
@@ -26,6 +26,37 @@ function initialize() {
 
 initialize();
 
+/**
+ * RPN (Reverse Polish Notation) struct.
+ *
+ * @ignore
+ * @protected
+ * @typedef {object} RpnItem
+ * @property {string} ruleId - Terminal token name or production name if non-terminal.
+ * @property {string|null} value - The raw token from tokenize process. null for reduced non-terminal.
+ * @property {number} reduce - The total number of rpn to merge. zero if terminal or token.
+ * @property {number} from - The start character index of code parsed.
+ * @property {number} to - The end character index of code parsed.
+ * @property {number} lineFrom - The start line number of code parsed.
+ * @property {number} lineTo - The end line number of code parsed.
+ */
+
+/**
+ * List of RPN (Reverse Polish Notation) items.
+ *
+ * @ignore
+ * @protected
+ * @typedef {RpnItem[]} Rpn
+ */
+
+/**
+ * Parse JSON Query code and returns list of reverse polish notation (RPN) list.
+ *
+ * @ignore
+ * @protected
+ * @param {string} subject - The code to parse.
+ * @returns {Rpn|null} - RPN list as abstract tree. Returns null if parse failed.
+ */
 export function parse(subject) {
   const tokenizeAction = ACTION_TOKENIZE;
   const reduceAction = ACTION_REDUCE;
@@ -146,7 +177,6 @@ export function parse(subject) {
 
       // add to rpn
       rpn[rpnIndex++] = {
-        lexeme: token,
         ruleId: token,
         reduce: 0,
         from,
@@ -199,7 +229,6 @@ export function parse(subject) {
         // reduce successfull
         // add to rpn
         rpn[rpnIndex++] = {
-          lexeme: rule,
           ruleId: end[3],
           reduce: total,
           from: rpnFrom.from,

@@ -6,12 +6,6 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
-    "@dikotech/basic/src/json/helper/path.js~access",
-    "function/index.html#static-function-access",
-    "<span>access</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/helper/path.js</span>",
-    "function"
-  ],
-  [
     "@dikotech/basic/src/native/type.js~array",
     "function/index.html#static-function-array",
     "<span>array</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
@@ -45,6 +39,12 @@ window.esdocSearchIndex = [
     "@dikotech/basic/src/unicode/format.js~codepoints2utf",
     "function/index.html#static-function-codepoints2Utf",
     "<span>codepoints2Utf</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/format.js</span>",
+    "function"
+  ],
+  [
+    "@dikotech/basic/src/json/compile.js~compile",
+    "function/index.html#static-function-compile",
+    "<span>compile</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/compile.js</span>",
     "function"
   ],
   [
@@ -144,6 +144,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "@dikotech/basic/src/json/query.js~query",
+    "function/index.html#static-function-query",
+    "<span>query</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/query.js</span>",
+    "function"
+  ],
+  [
     "@dikotech/basic/src/native/type.js~regexp",
     "function/index.html#static-function-regexp",
     "<span>regexp</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
@@ -225,6 +231,12 @@ window.esdocSearchIndex = [
     "@dikotech/basic/src/unicode/format.js~unicodify",
     "function/index.html#static-function-unicodify",
     "<span>unicodify</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/format.js</span>",
+    "function"
+  ],
+  [
+    "@dikotech/basic/src/json/query.js~updatemaxcompiled",
+    "function/index.html#static-function-updateMaxCompiled",
+    "<span>updateMaxCompiled</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/query.js</span>",
     "function"
   ],
   [
@@ -564,6 +576,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/compile.js~exec",
+    "typedef/index.html#static-typedef-exec",
+    "src/json/compile.js~exec",
+    "typedef"
+  ],
+  [
     "src/json/constants.js",
     "file/src/json/constants.js.html",
     "src/json/constants.js",
@@ -586,24 +604,6 @@ window.esdocSearchIndex = [
     "file/src/json/helper/path.js.html",
     "src/json/helper/path.js",
     "file"
-  ],
-  [
-    "src/json/helper/path.js~jsonhelperaccesspath",
-    "typedef/index.html#static-typedef-JsonHelperAccessPath",
-    "src/json/helper/path.js~JsonHelperAccessPath",
-    "typedef"
-  ],
-  [
-    "src/json/helper/path.js~jsonhelperaccesspathfill",
-    "typedef/index.html#static-typedef-JsonHelperAccessPathFill",
-    "src/json/helper/path.js~JsonHelperAccessPathFill",
-    "typedef"
-  ],
-  [
-    "src/json/helper/path.js~jsonhelperaccesspathtype",
-    "typedef/index.html#static-typedef-JsonHelperAccessPathType",
-    "src/json/helper/path.js~JsonHelperAccessPathType",
-    "typedef"
   ],
   [
     "src/json/index.js",

@@ -31,6 +31,8 @@ export const BOOLEAN_TRUE = "true";
 export const BOOLEAN_FALSE = "false";
 
 /**
+ * Empty Function widely used.
+ *
  * @ignore
  */
 export function EMPTY_FUNCTION() {

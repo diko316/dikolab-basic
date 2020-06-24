@@ -15,12 +15,12 @@ function serializeRpn(rpn) {
   for (c = 0, length = rpn.length; length--; c++) {
     item = rpn[c];
     if (item.reduce === 0) {
-      content[c] = item.lexeme;
+      content[c] = item.ruleId;
       continue;
     }
     content[c] = (
       [
-        item.lexeme,
+        item.ruleId,
         "|",
         item.reduce
       ]

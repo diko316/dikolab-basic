@@ -33,10 +33,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-IteratableObject">IteratableObject</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json-helper">json/helper</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-access">access</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPath">JsonHelperAccessPath</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathFill">JsonHelperAccessPathFill</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-JsonHelperAccessPathType">JsonHelperAccessPathType</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json">json</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-compile">compile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-query">query</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateMaxCompiled">updateMaxCompiled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-exec">exec</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
@@ -88,7 +88,19 @@ import HELPER from &quot;./helper&quot;;
 
 import { build } from &quot;./build&quot;;
 
-export function compile(subject) {
+/**
+ * @typedef {function} exec
+ * @param {*} data - The data to run JSON Query.
+ * @returns {*} The result of JSON Query.
+ */
+
+/**
+ * Generates compiled JSON Query function for query re-use.
+ *
+ * @param {string} query - JSON Query string.
+ * @returns {exec} JSON Query function
+ */
+export function compile(query) {
   const emptyFunction = EMPTY_FUNCTION;
   let result = null;
 
@@ -96,11 +108,11 @@ export function compile(subject) {
     return result(data, HELPER);
   }
 
-  if (typeof subject !== TYPE_STRING) {
+  if (typeof query !== TYPE_STRING) {
     return emptyFunction;
   }
 
-  result = build(subject);
+  result = build(query);
   // console.log(&quot;param &quot;, result[0]);
   // console.log(&quot;result &quot;, result[1]);
   if (!result) {

@@ -3,5 +3,6 @@ export {
 } from "./compile";
 
 export {
+  updateMaxCompiled,
   query
 } from "./query";

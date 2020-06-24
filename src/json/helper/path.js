@@ -56,12 +56,16 @@ const TYPE_ALL = 3;
  * 3 -  all source keys. treats access path data as
  *      {boolean} flag for strict or not strict enumerate source properties/keys
  *
+ * @ignore
+ * @protected
  * @typedef {(1|2|3)} JsonHelperAccessPathType
  */
 
 /**
  * Acess Path Struct
  *
+ * @ignore
+ * @protected
  * @typedef {Array} JsonHelperAccessPath
  * @property {JsonHelperAccessPathType} 0 - Access type to use.
  * @property {boolean}                  1 - true if numeric keys, or false if not.
@@ -77,6 +81,8 @@ const TYPE_ALL = 3;
  * - false if intent is to delete key/property.
  * - undefined or leave out if intent is to fetch/select properties/keys.
  *
+ * @ignore
+ * @protected
  * @typedef {boolean|undefined} JsonHelperAccessPathFill
  */
 
@@ -84,6 +90,8 @@ const TYPE_ALL = 3;
  * Get and Set {subject} properties based from accessPath.
  * Update/Populate {subject} property/key values based from accessPath.
  *
+ * @ignore
+ * @protected
  * @param {*} subject - The target object to process
  * @param {JsonHelperAccessPath[]} accessPath - Access path to traverse properties/keys
  * @param {JsonHelperAccessPathFill} [fill] - Required if intent is to set or unset properties/keys

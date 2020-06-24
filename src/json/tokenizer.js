@@ -16,7 +16,7 @@ import {
   QUOTE_ESCAPE_REGEXP
 } from "./constants";
 
-import STATES from "./tokenizer-states.json";
+import * as STATES from "./tokenizer-states.json";
 
 function replaceQuote(all) {
   switch (all) {
@@ -26,6 +26,26 @@ function replaceQuote(all) {
   return all;
 }
 
+/**
+ * @ignore
+ * @protected
+ * @typedef {Array} TokenizeResult
+ * @property {string} 0 - token name
+ * @property {string} 1 - tokenized string value
+ * @property {number} 2 - next start index to use when calling tokenize(input, startIndex) again.
+ * @property {number} 3 - line characters found.
+ */
+
+/**
+ * Tokenize Json Query string [input] starting from [startIndex].
+ *
+ * @ignore
+ * @protected
+ * @param {string} input - The whole code string to tokenize.
+ * @param {number} startIndex - The character index for the tokenizer to start processing.
+ * @returns {TokenizeResult|null} Tokenizer result and next start index to use when successfull
+ *                                or null otherwise.
+ */
 export function tokenize(input, startIndex) {
   const emptyString = EMPTY_STRING;
   const doubleQuote = DOUBLE_QUOTE;
