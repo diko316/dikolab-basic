@@ -145,7 +145,14 @@ function quoteReplace(all) {
   }
   return all;
 }
-export function quoteEscapify(subject) {
+
+/**
+ * Escapes characters to make it safe to enclose it in a double quote.
+ *
+ * @param {string} subject String to apply double quote escape.
+ * @returns {string} Escaped string.
+ */
+export function quoteEscape(subject) {
   if (typeof subject !== TYPE_STRING) {
     throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);
   }

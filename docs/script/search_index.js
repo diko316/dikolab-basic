@@ -150,6 +150,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "@dikotech/basic/src/string/format.js~quoteescape",
+    "function/index.html#static-function-quoteEscape",
+    "<span>quoteEscape</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "function"
+  ],
+  [
     "@dikotech/basic/src/native/type.js~regexp",
     "function/index.html#static-function-regexp",
     "<span>regexp</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
