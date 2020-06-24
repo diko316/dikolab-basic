@@ -1,260 +1,260 @@
 window.esdocSearchIndex = [
   [
-    "@dikotech/basic/src/unicode/utf.js~utf",
+    "@dikolab/basic/src/unicode/utf.js~utf",
     "class/src/unicode/Utf.js~Utf.html",
-    "<span>Utf</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/Utf.js</span>",
+    "<span>Utf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/Utf.js</span>",
     "class"
   ],
   [
-    "@dikotech/basic/src/native/type.js~array",
+    "@dikolab/basic/src/native/type.js~array",
     "function/index.html#static-function-array",
-    "<span>array</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>array</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/object/properties.js~assign",
+    "@dikolab/basic/src/object/properties.js~assign",
     "function/index.html#static-function-assign",
-    "<span>assign</span> <span class=\"search-result-import-path\">@dikotech/basic/src/object/properties.js</span>",
+    "<span>assign</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/properties.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~bigint",
+    "@dikolab/basic/src/native/type.js~bigint",
     "function/index.html#static-function-bigint",
-    "<span>bigint</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>bigint</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~boolean",
+    "@dikolab/basic/src/native/type.js~boolean",
     "function/index.html#static-function-boolean",
-    "<span>boolean</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>boolean</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/camelize.js~camelize",
+    "@dikolab/basic/src/string/camelize.js~camelize",
     "function/index.html#static-function-camelize",
-    "<span>camelize</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/camelize.js</span>",
+    "<span>camelize</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/camelize.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/service.js~codepoint2string",
+    "@dikolab/basic/src/unicode/service.js~codepoint2string",
     "function/index.html#static-function-codePoint2string",
-    "<span>codePoint2string</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/service.js</span>",
+    "<span>codePoint2string</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/format.js~codepoints2utf",
+    "@dikolab/basic/src/unicode/format.js~codepoints2utf",
     "function/index.html#static-function-codepoints2Utf",
-    "<span>codepoints2Utf</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/format.js</span>",
+    "<span>codepoints2Utf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/format.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/json/compile.js~compile",
+    "@dikolab/basic/src/json/compile.js~compile",
     "function/index.html#static-function-compile",
-    "<span>compile</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/compile.js</span>",
+    "<span>compile</span> <span class=\"search-result-import-path\">@dikolab/basic/src/json/compile.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/object/validate.js~contains",
+    "@dikolab/basic/src/object/validate.js~contains",
     "function/index.html#static-function-contains",
-    "<span>contains</span> <span class=\"search-result-import-path\">@dikotech/basic/src/object/validate.js</span>",
+    "<span>contains</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/validate.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~date",
+    "@dikolab/basic/src/native/type.js~date",
     "function/index.html#static-function-date",
-    "<span>date</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>date</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/lifecycle/destructor.js~destructor",
+    "@dikolab/basic/src/lifecycle/destructor.js~destructor",
     "function/index.html#static-function-destructor",
-    "<span>destructor</span> <span class=\"search-result-import-path\">@dikotech/basic/src/lifecycle/destructor.js</span>",
+    "<span>destructor</span> <span class=\"search-result-import-path\">@dikolab/basic/src/lifecycle/destructor.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/object/properties.js~each",
+    "@dikolab/basic/src/object/properties.js~each",
     "function/index.html#static-function-each",
-    "<span>each</span> <span class=\"search-result-import-path\">@dikotech/basic/src/object/properties.js</span>",
+    "<span>each</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/properties.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/service.js~eachunicode",
+    "@dikolab/basic/src/unicode/service.js~eachunicode",
     "function/index.html#static-function-eachUnicode",
-    "<span>eachUnicode</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/service.js</span>",
+    "<span>eachUnicode</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~iteratable",
+    "@dikolab/basic/src/native/type.js~iteratable",
     "function/index.html#static-function-iteratable",
-    "<span>iteratable</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>iteratable</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/array/service.js~listpadend",
+    "@dikolab/basic/src/array/service.js~listpadend",
     "function/index.html#static-function-listPadEnd",
-    "<span>listPadEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/array/service.js</span>",
+    "<span>listPadEnd</span> <span class=\"search-result-import-path\">@dikolab/basic/src/array/service.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/array/service.js~listpadstart",
+    "@dikolab/basic/src/array/service.js~listpadstart",
     "function/index.html#static-function-listPadStart",
-    "<span>listPadStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/array/service.js</span>",
+    "<span>listPadStart</span> <span class=\"search-result-import-path\">@dikolab/basic/src/array/service.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~method",
+    "@dikolab/basic/src/native/type.js~method",
     "function/index.html#static-function-method",
-    "<span>method</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>method</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~number",
+    "@dikolab/basic/src/native/type.js~number",
     "function/index.html#static-function-number",
-    "<span>number</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>number</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/number/format.js~numberify",
+    "@dikolab/basic/src/number/format.js~numberify",
     "function/index.html#static-function-numberify",
-    "<span>numberify</span> <span class=\"search-result-import-path\">@dikotech/basic/src/number/format.js</span>",
+    "<span>numberify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/number/format.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~numeric",
+    "@dikolab/basic/src/native/type.js~numeric",
     "function/index.html#static-function-numeric",
-    "<span>numeric</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>numeric</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~object",
+    "@dikolab/basic/src/native/type.js~object",
     "function/index.html#static-function-object",
-    "<span>object</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>object</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/pad-end.js~padend",
+    "@dikolab/basic/src/string/pad-end.js~padend",
     "function/index.html#static-function-padEnd",
-    "<span>padEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/pad-end.js</span>",
+    "<span>padEnd</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/pad-end.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/pad-start.js~padstart",
+    "@dikolab/basic/src/string/pad-start.js~padstart",
     "function/index.html#static-function-padStart",
-    "<span>padStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/pad-start.js</span>",
+    "<span>padStart</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/pad-start.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~promise",
+    "@dikolab/basic/src/native/type.js~promise",
     "function/index.html#static-function-promise",
-    "<span>promise</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>promise</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/json/query.js~query",
+    "@dikolab/basic/src/json/query.js~query",
     "function/index.html#static-function-query",
-    "<span>query</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/query.js</span>",
+    "<span>query</span> <span class=\"search-result-import-path\">@dikolab/basic/src/json/query.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/quote-escape.js~quoteescape",
+    "@dikolab/basic/src/string/quote-escape.js~quoteescape",
     "function/index.html#static-function-quoteEscape",
-    "<span>quoteEscape</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/quote-escape.js</span>",
+    "<span>quoteEscape</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/quote-escape.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~regexp",
+    "@dikolab/basic/src/native/type.js~regexp",
     "function/index.html#static-function-regexp",
-    "<span>regexp</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>regexp</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/repeat.js~repeat",
+    "@dikolab/basic/src/string/repeat.js~repeat",
     "function/index.html#static-function-repeat",
-    "<span>repeat</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/repeat.js</span>",
+    "<span>repeat</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/repeat.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~scalar",
+    "@dikolab/basic/src/native/type.js~scalar",
     "function/index.html#static-function-scalar",
-    "<span>scalar</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>scalar</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~signature",
+    "@dikolab/basic/src/native/type.js~signature",
     "function/index.html#static-function-signature",
-    "<span>signature</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>signature</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/service.js~string2codepoints",
+    "@dikolab/basic/src/unicode/service.js~string2codepoints",
     "function/index.html#static-function-string2codePoints",
-    "<span>string2codePoints</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/service.js</span>",
+    "<span>string2codePoints</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/service.js~string2unicodes",
+    "@dikolab/basic/src/unicode/service.js~string2unicodes",
     "function/index.html#static-function-string2unicodes",
-    "<span>string2unicodes</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/service.js</span>",
+    "<span>string2unicodes</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~string",
+    "@dikolab/basic/src/native/type.js~string",
     "function/index.html#static-function-string",
-    "<span>string</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>string</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/stringify.js~stringify",
+    "@dikolab/basic/src/string/stringify.js~stringify",
     "function/index.html#static-function-stringify",
-    "<span>stringify</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/stringify.js</span>",
+    "<span>stringify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/stringify.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/native/type.js~symbol",
+    "@dikolab/basic/src/native/type.js~symbol",
     "function/index.html#static-function-symbol",
-    "<span>symbol</span> <span class=\"search-result-import-path\">@dikotech/basic/src/native/type.js</span>",
+    "<span>symbol</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/trim.js~trim",
+    "@dikolab/basic/src/string/trim.js~trim",
     "function/index.html#static-function-trim",
-    "<span>trim</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/trim.js</span>",
+    "<span>trim</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/trim.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/trim-end.js~trimend",
+    "@dikolab/basic/src/string/trim-end.js~trimend",
     "function/index.html#static-function-trimEnd",
-    "<span>trimEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/trim-end.js</span>",
+    "<span>trimEnd</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/trim-end.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/trim-start.js~trimstart",
+    "@dikolab/basic/src/string/trim-start.js~trimstart",
     "function/index.html#static-function-trimStart",
-    "<span>trimStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/trim-start.js</span>",
+    "<span>trimStart</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/trim-start.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/uncamelize.js~uncamelize",
+    "@dikolab/basic/src/string/uncamelize.js~uncamelize",
     "function/index.html#static-function-uncamelize",
-    "<span>uncamelize</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/uncamelize.js</span>",
+    "<span>uncamelize</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/uncamelize.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/format.js~unicodecount",
+    "@dikolab/basic/src/unicode/format.js~unicodecount",
     "function/index.html#static-function-unicodeCount",
-    "<span>unicodeCount</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/format.js</span>",
+    "<span>unicodeCount</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/format.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/unicode/format.js~unicodify",
+    "@dikolab/basic/src/unicode/format.js~unicodify",
     "function/index.html#static-function-unicodify",
-    "<span>unicodify</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/format.js</span>",
+    "<span>unicodify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/format.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/json/query.js~updatemaxcompiled",
+    "@dikolab/basic/src/json/query.js~updatemaxcompiled",
     "function/index.html#static-function-updateMaxCompiled",
-    "<span>updateMaxCompiled</span> <span class=\"search-result-import-path\">@dikotech/basic/src/json/query.js</span>",
+    "<span>updateMaxCompiled</span> <span class=\"search-result-import-path\">@dikolab/basic/src/json/query.js</span>",
     "function"
   ],
   [

@@ -1,6 +1,7 @@
 FROM node:12.16.1-alpine3.10
 
 ENV APP_CWD=/opt/app
+ENV NODE_OPTIONS=--enable-source-maps
 
 COPY bin/* $APP_CWD/setup/
 COPY package.json $APP_CWD/cache/package.json

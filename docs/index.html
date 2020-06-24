@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="./">
-  <title data-ice="title">Manual | @dikotech/basic</title>
+  <title data-ice="title">Manual | @dikolab/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikotech/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
+<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikolab/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
 <body class="layout-container manual-root manual-index" data-ice="rootContainer">
 
 <header>
@@ -32,6 +32,8 @@
     <ul class="manual-toc">
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/README.html"><a href="manual/README.html" data-ice="link">@dikotech/basic</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#introduction" data-ice="link">Introduction</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/README.html"><a href="manual/README.html#usage" data-ice="link">Usage</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -68,7 +70,61 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="github-markdown">
-  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikotech-basic">@dikotech/basic</h1></div>
+  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikotech-basic">@dikotech/basic</h1><h2 id="introduction">Introduction</h2><p>Tired of reinventing the wheel for new Javascript project.
+I just want to lazily run the code below to create no Javascript Object.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
+import * as package from &quot;./package.json&quot;;
+
+export const packageInfo = query(
+  `
+  package from ?;
+
+  dependencies from getKeys(@package.dependencies);
+
+  // I want to get my package information
+  {
+    name: @package.name,
+    version: @package.version,
+
+    deps: @dependencies
+  }
+  `,
+  {
+    0: package,
+    getKeys: Object.keys
+  }
+);
+</code>
+</code></pre>
+<h3 id="usage">Usage</h3><p>Install using NPM</p>
+<pre><code class="lang-sh"><code class="source-code prettyprint">
+npm install --save @dikolab/basic
+</code>
+</code></pre>
+<p>May import functions using ES6 module import.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">
+import {
+  object,
+  contains
+} from &quot;@dikolab/basic&quot;;
+
+export function hasProperty(param, name) {
+  return object(param) &amp;&amp; contains(param, name);
+}
+</code>
+</code></pre>
+<p>Or, CommonJS import.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">
+const basic = require(&quot;@dikolab/basic&quot;);
+
+function hasProperty(param, name) {
+  return basic.object(param) &amp;&amp; basic.contains(param, name);
+}
+
+exports.hasProperty = hasProperty;
+</code>
+</code></pre>
+</div>
 
   
 
@@ -76,7 +132,53 @@
     
   <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>@dikotech/basic</h1></div>
+        <div data-ice="card"><h1>@dikotech/basic</h1><h2>Introduction</h2><p>Tired of reinventing the wheel for new Javascript project.
+I just want to lazily run the code below to create no Javascript Object.</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
+import * as package from &quot;./package.json&quot;;
+
+export const packageInfo = query(
+  `
+  package from ?;
+
+  dependencies from getKeys(@package.dependencies);
+
+  // I want to get my package information
+  {
+    name: @package.name,
+    version: @package.version,
+
+    deps: @dependencies
+  }
+  `,
+  {
+    0: package,
+    getKeys: Object.keys
+  }
+);
+</code>
+</code></pre><h3>Usage</h3><p>Install using NPM</p><pre><code class="lang-sh"><code class="source-code prettyprint">
+npm install --save @dikolab/basic
+</code>
+</code></pre><p>May import functions using ES6 module import.</p><pre><code class="lang-js"><code class="source-code prettyprint">
+import {
+  object,
+  contains
+} from &quot;@dikolab/basic&quot;;
+
+export function hasProperty(param, name) {
+  return object(param) &amp;&amp; contains(param, name);
+}
+</code>
+</code></pre><p>Or, CommonJS import.</p><pre><code class="lang-js"><code class="source-code prettyprint">
+const basic = require(&quot;@dikolab/basic&quot;);
+
+function hasProperty(param, name) {
+  return basic.object(param) &amp;&amp; basic.contains(param, name);
+}
+
+exports.hasProperty = hasProperty;
+</code>
+</code></pre></div>
         <a data-ice="link" href="manual/README.html"></a>
       </div>
     </div>

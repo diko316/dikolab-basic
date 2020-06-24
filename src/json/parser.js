@@ -29,7 +29,6 @@ initialize();
 /**
  * RPN (Reverse Polish Notation) struct.
  *
- * @ignore
  * @protected
  * @typedef {object} RpnItem
  * @property {string} ruleId - Terminal token name or production name if non-terminal.
@@ -44,7 +43,6 @@ initialize();
 /**
  * List of RPN (Reverse Polish Notation) items.
  *
- * @ignore
  * @protected
  * @typedef {RpnItem[]} Rpn
  */
@@ -52,7 +50,6 @@ initialize();
 /**
  * Parse JSON Query code and returns list of reverse polish notation (RPN) list.
  *
- * @ignore
  * @protected
  * @param {string} subject - The code to parse.
  * @returns {Rpn|null} - RPN list as abstract tree. Returns null if parse failed.
