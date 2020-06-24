@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/string/format.js | @dikotech/basic</title>
+  <title data-ice="title">src/string/stringify.js | @dikotech/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -57,14 +57,16 @@
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#object">object</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assign">assign</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contains">contains</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-repeat">repeat</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringify">stringify</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimEnd">trimEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimStart">trimStart</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringify">stringify</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/Utf.js~Utf.html">Utf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codepoints2Utf">codepoints2Utf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
@@ -77,167 +79,55 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/string/format.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">src/string/stringify.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+  TYPE_NUMBER,
   TYPE_STRING,
+  TYPE_BOOLEAN,
+  TYPE_SYMBOL,
+
+  BOOLEAN_TRUE,
+  BOOLEAN_FALSE,
   EMPTY_STRING
 } from &quot;../native/constants&quot;;
 
-import { numberify } from &quot;../number/format&quot;;
+import {
+  MATH_RANDOM,
+  MATH_ROUND
+} from &quot;../native/math&quot;;
 
 import {
-  STRING_TRIM_LEFT_REGEXP,
-  STRING_TRIM_RIGHT_REGEXP,
-  TRIM_ERROR_NOT_STRING,
-  ESCAPED_SINGLE_QUOTE,
-  SINGLE_QUOTE,
-  ESCAPED_DOUBLE_QUOTE,
-  DOUBLE_QUOTE_ESCAPE,
-  DOUBLE_QUOTE,
-  DOUBLE_QUOTE_ESCAPE_ERROR,
-  DEFAULT_PADSTRING
-} from &quot;./constants&quot;;
-
-import {
-  stringify
-} from &quot;./type&quot;;
-
-import {
-  listPadStart,
-  listPadEnd
-} from &quot;../array/service&quot;;
+  STRING
+} from &quot;../native/string&quot;;
 
 /**
- * Returns repeated string &quot;subject&quot; in &quot;count&quot; number of times.
+ * Convert Any value to string. Or return &quot;defaultValue&quot; parameter.
  *
- * @param {string} subject any data convertible to string.
- * @param {number} count number of times to repeat.
- * @returns {string} Returns empty string if unable to repeat.
+ * @category String
+ * @param {*} subject data to convert to string.
+ * @param {*} [defaultValue=&quot;&quot;] fallback value to return if conversion fails.
+ * @returns {string|*} returns defaultValue if unable to convert to string.
  */
-export function repeat(subject, count) {
-  const empty = EMPTY_STRING;
-  const value = stringify(subject, empty);
-  let length = numberify(count, 0);
-  let list = null;
-
-  if (!value || length &lt; 1) {
-    return value;
-  }
-
-  list = [];
-  length++;
-
-  for (let c = 0; length--; c++) {
-    list[c] = value;
-  }
-
-  return list.join(empty);
-}
-
-/**
- * Creates a padded string with another string (multiple times, if needed)
- * until the resulting string reaches the given length.
- * The padding is applied from the start of the string.
- *
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}
- * @param {string} subject The string to pad.
- * @param {number} length The length of the resulting string once it has been padded.
- * @param {string} padString The string to pad the current string with.
- * @returns {string} string of the specified length with the pad string applied from the start.
- */
-export function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {
-  return listPadStart(
-    stringify(subject),
-    length,
-    padString
-  ).join(EMPTY_STRING);
-}
-
-/**
- * Creates a padded string with another string (multiple times, if needed)
- * until the resulting string reaches the given length.
- * The padding is applied from the end of the string.
- *
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}
- * @param {string} subject The string to pad.
- * @param {number} length The length of the resulting stringe once it has been padded.
- * @param {string} padString The string to pad the current string with.
- * @returns {string} string of the specified length with the pad string applied from the end.
- */
-export function padEnd(subject, length = 0, padString = DEFAULT_PADSTRING) {
-  return listPadEnd(
-    stringify(subject),
-    length,
-    padString
-  ).join(EMPTY_STRING);
-}
-
-/**
- * Removes starting and ending white spaces.
- *
- * @param {string} subject The string to trim.
- * @returns {string} Whitespace trimmed string.
- */
-export function trim(subject) {
+export function stringify(subject, defaultValue = EMPTY_STRING) {
   const empty = EMPTY_STRING;
 
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(TRIM_ERROR_NOT_STRING);
+  switch (typeof subject) {
+  case TYPE_BOOLEAN: return subject ? BOOLEAN_TRUE : BOOLEAN_FALSE;
+  case TYPE_NUMBER:
+    return isFinite(subject) ? empty + subject : defaultValue;
+
+  case TYPE_STRING: return subject;
+  case TYPE_SYMBOL:
+    return [
+      STRING(subject),
+      &quot;[&quot;,
+      (new Date()).getTime().toString(16),
+      MATH_ROUND(MATH_RANDOM() * 1000).toString(16),
+      &quot;]&quot;
+    ].join(empty);
   }
 
-  return subject &amp;&amp; subject
-    .replace(STRING_TRIM_LEFT_REGEXP, empty)
-    .replace(STRING_TRIM_RIGHT_REGEXP, empty);
-}
-
-/**
- * Removes starting white spaces.
- *
- * @param {string} subject The string to trim.
- * @returns {string} Whitespace trimmed string.
- */
-export function trimStart(subject) {
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(TRIM_ERROR_NOT_STRING);
-  }
-
-  return subject &amp;&amp; subject.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING);
-}
-
-/**
- * Removes ending whitespace.
- *
- * @param {string} subject The string to trim.
- * @returns {string} Whitespace trimmed string.
- */
-export function trimEnd(subject) {
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(TRIM_ERROR_NOT_STRING);
-  }
-
-  return subject &amp;&amp; subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);
-}
-
-function quoteReplace(all) {
-  switch (all) {
-  case ESCAPED_SINGLE_QUOTE: return SINGLE_QUOTE;
-  case DOUBLE_QUOTE: return ESCAPED_DOUBLE_QUOTE;
-  }
-  return all;
-}
-
-/**
- * Escapes characters to make it safe to enclose it in a double quote.
- *
- * @param {string} subject String to apply double quote escape.
- * @returns {string} Escaped string.
- */
-export function quoteEscape(subject) {
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);
-  }
-
-  return subject &amp;&amp; subject.replace(DOUBLE_QUOTE_ESCAPE, quoteReplace);
+  return defaultValue;
 }
 </code></pre>
 

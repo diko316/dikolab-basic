@@ -8,7 +8,7 @@ import {
   STRING_FROM_CHARCODE
 } from "../native/string";
 
-import { stringify } from "../string/type";
+import { stringify } from "../string/stringify";
 
 import {
   UNICODE_CODEPOINT_MATCH_REGEXP

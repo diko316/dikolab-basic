@@ -30,6 +30,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "@dikotech/basic/src/string/camelize.js~camelize",
+    "function/index.html#static-function-camelize",
+    "<span>camelize</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/camelize.js</span>",
+    "function"
+  ],
+  [
     "@dikotech/basic/src/unicode/service.js~codepoint2string",
     "function/index.html#static-function-codePoint2string",
     "<span>codePoint2string</span> <span class=\"search-result-import-path\">@dikotech/basic/src/unicode/service.js</span>",
@@ -126,15 +132,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~padend",
+    "@dikotech/basic/src/string/pad-end.js~padend",
     "function/index.html#static-function-padEnd",
-    "<span>padEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>padEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/pad-end.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~padstart",
+    "@dikotech/basic/src/string/pad-start.js~padstart",
     "function/index.html#static-function-padStart",
-    "<span>padStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>padStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/pad-start.js</span>",
     "function"
   ],
   [
@@ -150,9 +156,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~quoteescape",
+    "@dikotech/basic/src/string/quote-escape.js~quoteescape",
     "function/index.html#static-function-quoteEscape",
-    "<span>quoteEscape</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>quoteEscape</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/quote-escape.js</span>",
     "function"
   ],
   [
@@ -162,9 +168,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~repeat",
+    "@dikotech/basic/src/string/repeat.js~repeat",
     "function/index.html#static-function-repeat",
-    "<span>repeat</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>repeat</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/repeat.js</span>",
     "function"
   ],
   [
@@ -198,9 +204,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikotech/basic/src/string/type.js~stringify",
+    "@dikotech/basic/src/string/stringify.js~stringify",
     "function/index.html#static-function-stringify",
-    "<span>stringify</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/type.js</span>",
+    "<span>stringify</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/stringify.js</span>",
     "function"
   ],
   [
@@ -210,21 +216,27 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~trim",
+    "@dikotech/basic/src/string/trim.js~trim",
     "function/index.html#static-function-trim",
-    "<span>trim</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>trim</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/trim.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~trimend",
+    "@dikotech/basic/src/string/trim-end.js~trimend",
     "function/index.html#static-function-trimEnd",
-    "<span>trimEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>trimEnd</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/trim-end.js</span>",
     "function"
   ],
   [
-    "@dikotech/basic/src/string/format.js~trimstart",
+    "@dikotech/basic/src/string/trim-start.js~trimstart",
     "function/index.html#static-function-trimStart",
-    "<span>trimStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/format.js</span>",
+    "<span>trimStart</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/trim-start.js</span>",
+    "function"
+  ],
+  [
+    "@dikotech/basic/src/string/uncamelize.js~uncamelize",
+    "function/index.html#static-function-uncamelize",
+    "<span>uncamelize</span> <span class=\"search-result-import-path\">@dikotech/basic/src/string/uncamelize.js</span>",
     "function"
   ],
   [
@@ -744,15 +756,15 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/string/constants.js",
-    "file/src/string/constants.js.html",
-    "src/string/constants.js",
+    "src/string/camelize.js",
+    "file/src/string/camelize.js.html",
+    "src/string/camelize.js",
     "file"
   ],
   [
-    "src/string/format.js",
-    "file/src/string/format.js.html",
-    "src/string/format.js",
+    "src/string/constants.js",
+    "file/src/string/constants.js.html",
+    "src/string/constants.js",
     "file"
   ],
   [
@@ -762,9 +774,57 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/string/type.js",
-    "file/src/string/type.js.html",
-    "src/string/type.js",
+    "src/string/pad-end.js",
+    "file/src/string/pad-end.js.html",
+    "src/string/pad-end.js",
+    "file"
+  ],
+  [
+    "src/string/pad-start.js",
+    "file/src/string/pad-start.js.html",
+    "src/string/pad-start.js",
+    "file"
+  ],
+  [
+    "src/string/quote-escape.js",
+    "file/src/string/quote-escape.js.html",
+    "src/string/quote-escape.js",
+    "file"
+  ],
+  [
+    "src/string/repeat.js",
+    "file/src/string/repeat.js.html",
+    "src/string/repeat.js",
+    "file"
+  ],
+  [
+    "src/string/stringify.js",
+    "file/src/string/stringify.js.html",
+    "src/string/stringify.js",
+    "file"
+  ],
+  [
+    "src/string/trim-end.js",
+    "file/src/string/trim-end.js.html",
+    "src/string/trim-end.js",
+    "file"
+  ],
+  [
+    "src/string/trim-start.js",
+    "file/src/string/trim-start.js.html",
+    "src/string/trim-start.js",
+    "file"
+  ],
+  [
+    "src/string/trim.js",
+    "file/src/string/trim.js.html",
+    "src/string/trim.js",
+    "file"
+  ],
+  [
+    "src/string/uncamelize.js",
+    "file/src/string/uncamelize.js.html",
+    "src/string/uncamelize.js",
     "file"
   ],
   [

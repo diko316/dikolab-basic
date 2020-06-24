@@ -1,7 +1,7 @@
 {
-  "coverage": "38.67%",
-  "expectCount": 212,
-  "actualCount": 82,
+  "coverage": "39.25%",
+  "expectCount": 214,
+  "actualCount": 84,
   "files": {
     "src/array/contants.js": {
       "expectCount": 1,
@@ -253,6 +253,11 @@
       "actualCount": 1,
       "undocumentLines": []
     },
+    "src/string/camelize.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
     "src/string/constants.js": {
       "expectCount": 11,
       "actualCount": 0,
@@ -270,14 +275,49 @@
         21
       ]
     },
-    "src/string/format.js": {
-      "expectCount": 8,
-      "actualCount": 7,
+    "src/string/pad-end.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/pad-start.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/quote-escape.js": {
+      "expectCount": 2,
+      "actualCount": 1,
       "undocumentLines": [
-        141
+        12
       ]
     },
-    "src/string/type.js": {
+    "src/string/repeat.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/stringify.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/trim-end.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/trim-start.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/trim.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/uncamelize.js": {
       "expectCount": 1,
       "actualCount": 1,
       "undocumentLines": []
