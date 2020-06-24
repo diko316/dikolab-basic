@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="./">
-  <title data-ice="title">Manual | @dikotech/basic</title>
+  <title data-ice="title">Manual | @dikolab/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
   <script src="script/manual.js"></script>
-<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikotech/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
+<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikolab/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
 <body class="layout-container manual-root manual-index" data-ice="rootContainer">
 
 <header>
@@ -31,7 +31,13 @@
 <div data-ice="manual">
     <ul class="manual-toc">
       
-    <li data-ice="manualNav" class="indent-h1" data-link="manual/README.html"><a href="manual/README.html" data-ice="link">@dikotech/basic</a></li>
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/README.html"><a href="manual/README.html" data-ice="link">@dikolab/basic</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#motivation" data-ice="link">Motivation</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#contributors" data-ice="link">Contributors</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#backers" data-ice="link">Backers</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#sponsors" data-ice="link">Sponsors</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#i-just-enjoy-my-hobby" data-ice="link">I just enjoy my hobby</a></li>
 </ul>
   </div>
 <div data-ice="manual">
@@ -39,7 +45,7 @@
       
     <li data-ice="manualNav" class="indent-h1" data-link="manual/query.html"><a href="manual/query.html" data-ice="link">JSON Query</a></li>
 <li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#usage" data-ice="link">Usage</a></li>
-<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#importing--code-query--code--function-from--dikotech-basic" data-ice="link">Importing query function from @dikotech/basic</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#importing--code-query--code--function-from--dikolab-basic" data-ice="link">Importing query function from @dikolab/basic</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#simple-query" data-ice="link">Simple Query</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#select-extract-json-data" data-ice="link">Select/Extract JSON data</a></li>
 <li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-extract-data" data-ice="link">Simple Extract data</a></li>
@@ -68,7 +74,65 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="github-markdown">
-  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikotech-basic">@dikotech/basic</h1></div>
+  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikolab-basic">@dikolab/basic</h1><h2 id="motivation">Motivation</h2><p>Tired of reinventing the wheel in every new Javascript project.</p>
+<p>I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
+import * as package from &quot;./package.json&quot;;
+
+export const packageInfo = query(
+  `
+  package from ?;
+
+  dependencies from getKeys(@package.dependencies);
+
+  // I want to get my package information
+  {
+    name: @package.name,
+    version: @package.version,
+
+    deps: @dependencies
+  }
+  `,
+  {
+    0: package,
+    getKeys: Object.keys
+  }
+);
+</code>
+</code></pre>
+<h2 id="usage">Usage</h2><p>Install using NPM</p>
+<pre><code class="lang-sh"><code class="source-code prettyprint">
+npm install --save @dikolab/basic
+</code>
+</code></pre>
+<p>May import functions using ES6 module import.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">
+import {
+  object,
+  contains
+} from &quot;@dikolab/basic&quot;;
+
+export function hasProperty(param, name) {
+  return object(param) &amp;&amp; contains(param, name);
+}
+</code>
+</code></pre>
+<p>Or, CommonJS import.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">
+const basic = require(&quot;@dikolab/basic&quot;);
+
+function hasProperty(param, name) {
+  return basic.object(param) &amp;&amp; basic.contains(param, name);
+}
+
+exports.hasProperty = hasProperty;
+</code>
+</code></pre>
+<h2 id="contributors">Contributors</h2><p>None.</p>
+<h2 id="backers">Backers</h2><p>None.</p>
+<h2 id="sponsors">Sponsors</h2><p>None.</p>
+<h2 id="i-just-enjoy-my-hobby">I just enjoy my hobby</h2><p>Stay tune for more <a href="https://dikoconsunji.com/javascript/dikolab-basic">documentation</a> and functionality.</p>
+</div>
 
   
 
@@ -76,14 +140,59 @@
     
   <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>@dikotech/basic</h1></div>
+        <div data-ice="card"><h1>@dikolab/basic</h1><h2>Motivation</h2><p>Tired of reinventing the wheel in every new Javascript project.</p><p>I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
+import * as package from &quot;./package.json&quot;;
+
+export const packageInfo = query(
+  `
+  package from ?;
+
+  dependencies from getKeys(@package.dependencies);
+
+  // I want to get my package information
+  {
+    name: @package.name,
+    version: @package.version,
+
+    deps: @dependencies
+  }
+  `,
+  {
+    0: package,
+    getKeys: Object.keys
+  }
+);
+</code>
+</code></pre><h2>Usage</h2><p>Install using NPM</p><pre><code class="lang-sh"><code class="source-code prettyprint">
+npm install --save @dikolab/basic
+</code>
+</code></pre><p>May import functions using ES6 module import.</p><pre><code class="lang-js"><code class="source-code prettyprint">
+import {
+  object,
+  contains
+} from &quot;@dikolab/basic&quot;;
+
+export function hasProperty(param, name) {
+  return object(param) &amp;&amp; contains(param, name);
+}
+</code>
+</code></pre><p>Or, CommonJS import.</p><pre><code class="lang-js"><code class="source-code prettyprint">
+const basic = require(&quot;@dikolab/basic&quot;);
+
+function hasProperty(param, name) {
+  return basic.object(param) &amp;&amp; basic.contains(param, name);
+}
+
+exports.hasProperty = hasProperty;
+</code>
+</code></pre><h2>Contributors</h2><p>None.</p><h2>Backers</h2><p>None.</p><h2>Sponsors</h2><p>None.</p><h2>I just enjoy my hobby</h2><p>Stay tune for more <a href="https://dikoconsunji.com/javascript/dikolab-basic">documentation</a> and functionality.</p></div>
         <a data-ice="link" href="manual/README.html"></a>
       </div>
     </div>
 <div class="manual-card-wrap" data-ice="cards">
       <div class="manual-card">
-        <div data-ice="card"><h1>JSON Query</h1><h2>Usage</h2><h3>Importing <code>query</code> function from @dikotech/basic</h3><p>CommonJS</p><pre><code class="lang-js"><code class="source-code prettyprint">const query = require(&quot;@dikotech/basic&quot;).query;</code>
-</code></pre><p>ECMAScript module</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikotech/basic&quot;;</code>
+        <div data-ice="card"><h1>JSON Query</h1><h2>Usage</h2><h3>Importing <code>query</code> function from @dikolab/basic</h3><p>CommonJS</p><pre><code class="lang-js"><code class="source-code prettyprint">const query = require(&quot;@dikolab/basic&quot;).query;</code>
+</code></pre><p>ECMAScript module</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;</code>
 </code></pre><h3>Simple Query</h3><pre><code class="lang-js"><code class="source-code prettyprint">// returns 9
 query(
   &quot;(1 + 2) * 3&quot;

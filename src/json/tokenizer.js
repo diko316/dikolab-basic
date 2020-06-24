@@ -27,7 +27,6 @@ function replaceQuote(all) {
 }
 
 /**
- * @ignore
  * @protected
  * @typedef {Array} TokenizeResult
  * @property {string} 0 - token name
@@ -39,7 +38,6 @@ function replaceQuote(all) {
 /**
  * Tokenize Json Query string [input] starting from [startIndex].
  *
- * @ignore
  * @protected
  * @param {string} input - The whole code string to tokenize.
  * @param {number} startIndex - The character index for the tokenizer to start processing.

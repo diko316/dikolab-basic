@@ -311,7 +311,6 @@ function createArguments(settings, symbolCount, params, children, prime) {
 }
 
 /**
- * @ignore
  * @protected
  * @typedef {Array} BuildResult
  * @property {string} 0 - String representation of function parameters.
@@ -321,7 +320,6 @@ function createArguments(settings, symbolCount, params, children, prime) {
 /**
  * Builds optimized Javascript JIT code based from JSON Query code in [subject] parameter.
  *
- * @ignore
  * @protected
  * @param {string} subject - JSON Query code.
  * @returns {BuildResult|null} Generated JIT code or null if tokenize, parse,

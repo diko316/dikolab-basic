@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 471,
+  "end": 474,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 471,
+    "end": 474,
     "loc": {
       "start": {
         "line": 1,
@@ -113,9 +113,9 @@
           "trailingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
+              "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @protected\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
               "start": 31,
-              "end": 413,
+              "end": 416,
               "loc": {
                 "start": {
                   "line": 3,
@@ -133,9 +133,9 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
+            "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @protected\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
             "start": 31,
-            "end": 413,
+            "end": 416,
             "loc": {
               "start": {
                 "line": 3,
@@ -151,8 +151,8 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 414,
-        "end": 470,
+        "start": 417,
+        "end": 473,
         "loc": {
           "start": {
             "line": 16,
@@ -167,8 +167,8 @@
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 421,
-          "end": 470,
+          "start": 424,
+          "end": 473,
           "loc": {
             "start": {
               "line": 16,
@@ -182,8 +182,8 @@
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 427,
-              "end": 469,
+              "start": 430,
+              "end": 472,
               "loc": {
                 "start": {
                   "line": 16,
@@ -196,8 +196,8 @@
               },
               "id": {
                 "type": "Identifier",
-                "start": 427,
-                "end": 447,
+                "start": 430,
+                "end": 450,
                 "loc": {
                   "start": {
                     "line": 16,
@@ -214,8 +214,8 @@
               },
               "init": {
                 "type": "MemberExpression",
-                "start": 450,
-                "end": 469,
+                "start": 453,
+                "end": 472,
                 "loc": {
                   "start": {
                     "line": 16,
@@ -228,8 +228,8 @@
                 },
                 "object": {
                   "type": "Identifier",
-                  "start": 450,
-                  "end": 456,
+                  "start": 453,
+                  "end": 459,
                   "loc": {
                     "start": {
                       "line": 16,
@@ -245,8 +245,8 @@
                 },
                 "property": {
                   "type": "Identifier",
-                  "start": 457,
-                  "end": 469,
+                  "start": 460,
+                  "end": 472,
                   "loc": {
                     "start": {
                       "line": 16,
@@ -269,9 +269,9 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
+              "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @protected\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
               "start": 31,
-              "end": 413,
+              "end": 416,
               "loc": {
                 "start": {
                   "line": 3,
@@ -289,9 +289,9 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
+            "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @protected\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
             "start": 31,
-            "end": 413,
+            "end": 416,
             "loc": {
               "start": {
                 "line": 3,
@@ -311,9 +311,9 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
+      "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @protected\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
       "start": 31,
-      "end": 413,
+      "end": 416,
       "loc": {
         "start": {
           "line": 3,
@@ -490,9 +490,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @ignore\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
+      "value": "*\n * Localized native String.fromCharCode(num1, [...numN]).\n * For more info, check out\n * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode MDN}\n * documentation\n *\n * @function\n * @constant\n * @protected\n * @param {number} num1 utf-8 character code\n * @param {...number} [numN] utf-8 character code\n * @returns {string}\n ",
       "start": 31,
-      "end": 413,
+      "end": 416,
       "loc": {
         "start": {
           "line": 3,
@@ -519,8 +519,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 414,
-      "end": 420,
+      "start": 417,
+      "end": 423,
       "loc": {
         "start": {
           "line": 16,
@@ -547,8 +547,8 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 421,
-      "end": 426,
+      "start": 424,
+      "end": 429,
       "loc": {
         "start": {
           "line": 16,
@@ -573,8 +573,8 @@
         "binop": null
       },
       "value": "STRING_FROM_CHARCODE",
-      "start": 427,
-      "end": 447,
+      "start": 430,
+      "end": 450,
       "loc": {
         "start": {
           "line": 16,
@@ -600,8 +600,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 448,
-      "end": 449,
+      "start": 451,
+      "end": 452,
       "loc": {
         "start": {
           "line": 16,
@@ -626,8 +626,8 @@
         "binop": null
       },
       "value": "STRING",
-      "start": 450,
-      "end": 456,
+      "start": 453,
+      "end": 459,
       "loc": {
         "start": {
           "line": 16,
@@ -652,8 +652,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 456,
-      "end": 457,
+      "start": 459,
+      "end": 460,
       "loc": {
         "start": {
           "line": 16,
@@ -678,8 +678,8 @@
         "binop": null
       },
       "value": "fromCharCode",
-      "start": 457,
-      "end": 469,
+      "start": 460,
+      "end": 472,
       "loc": {
         "start": {
           "line": 16,
@@ -704,8 +704,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 469,
-      "end": 470,
+      "start": 472,
+      "end": 473,
       "loc": {
         "start": {
           "line": 16,
@@ -730,8 +730,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 471,
-      "end": 471,
+      "start": 474,
+      "end": 474,
       "loc": {
         "start": {
           "line": 17,

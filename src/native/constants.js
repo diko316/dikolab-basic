@@ -33,7 +33,7 @@ export const BOOLEAN_FALSE = "false";
 /**
  * Empty Function widely used.
  *
- * @ignore
+ * @protected
  */
 export function EMPTY_FUNCTION() {
 }

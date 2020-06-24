@@ -8,7 +8,7 @@ export const STRING = String;
  *
  * @function
  * @constant
- * @ignore
+ * @protected
  * @param {number} num1 utf-8 character code
  * @param {...number} [numN] utf-8 character code
  * @returns {string}

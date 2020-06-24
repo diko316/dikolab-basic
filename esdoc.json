@@ -17,9 +17,7 @@
       },
       "accessor": {
         "access": [
-          "public",
-          "protected",
-          "private"
+          "public"
         ],
         "autoPrivate": true
       },

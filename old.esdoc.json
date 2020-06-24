@@ -34,7 +34,7 @@
       },
       "brand": {
         "logo": "./logo.png",
-        "title": "@dikotech/basic",
+        "title": "@dikolab/basic",
         "description": "Basic helpers",
         "repository": "https://github.com/diko316/dikotech-basic",
         "site": "http://my-library.org",

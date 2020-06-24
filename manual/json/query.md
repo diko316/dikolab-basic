@@ -2,18 +2,18 @@
 
 ## Usage
 
-### Importing `query` function from @dikotech/basic
+### Importing `query` function from @dikolab/basic
 
 CommonJS
 
 ```js
-const query = require("@dikotech/basic").query;
+const query = require("@dikolab/basic").query;
 ```
 
 ECMAScript module
 
 ```js
-import { query } from "@dikotech/basic";
+import { query } from "@dikolab/basic";
 ```
 ### Simple Query
 
