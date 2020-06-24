@@ -27,7 +27,7 @@ export default [
       output: {
         file: `umd/${MODULE_NAME}.js`,
         format: "umd",
-        name: "basic",
+        name: "diko$basic",
         esModule: false,
         sourcemap: true
       }
