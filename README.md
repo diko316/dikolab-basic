@@ -1,9 +1,10 @@
-# @dikotech/basic
+# @dikolab/basic
 
-## Introduction
+## Motivation
 
-Tired of reinventing the wheel for new Javascript project.
-I just want to lazily run the code below to create no Javascript Object.
+Tired of reinventing the wheel in every new Javascript project.
+
+I'm feeling lazy and just want to create a Javascript Object using the code below.
 
 ```js
 import { query } from "@dikolab/basic";
@@ -31,7 +32,7 @@ export const packageInfo = query(
 
 ```
 
-### Usage
+## Usage
 
 Install using NPM
 
@@ -70,3 +71,19 @@ exports.hasProperty = hasProperty;
 
 ```
 
+## Contributors
+
+None.
+
+
+## Backers
+
+None.
+
+## Sponsors
+
+None.
+
+## I just enjoy my hobby
+
+Stay tune for more [documentation](https://dikoconsunji.com/javascript/dikolab-basic) and functionality.

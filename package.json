@@ -44,16 +44,18 @@
   },
   "keywords": [
     "NodeJS",
+    "Javascript",
     "core",
     "basic",
-    "Javascript"
+    "dikolab",
+    "Tech Slave"
   ],
   "author": "Diko Tech Slave",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/diko316/dikotech-basic/issues"
   },
-  "homepage": "https://github.com/diko316/dikotech-basic#readme",
+  "homepage": "https://www.dikoconsunji.com/javascript/dikolab-basic",
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
     "@rollup/plugin-commonjs": "^13.0.0",
