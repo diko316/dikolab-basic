@@ -7,7 +7,7 @@ import {
   EMPTY_STRING
 } from "../native/constants";
 
-import { quoteEscape } from "../string/format";
+import { quoteEscape } from "../string/quote-escape";
 
 import * as BUILD_REFERENCE from "./build-reference.json";
 

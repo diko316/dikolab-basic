@@ -44,7 +44,7 @@ import {
   DEFAULT_PADSTRING
 } from "../string/constants";
 
-import { stringify } from "../string/type";
+import { stringify } from "../string/stringify";
 
 import {
   INVALID_REPEAT_COUNT_ERROR

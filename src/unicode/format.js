@@ -1,6 +1,4 @@
-import {
-  stringify
-} from "../string/type";
+import { stringify } from "../string/stringify";
 
 import { array } from "../native/type";
 

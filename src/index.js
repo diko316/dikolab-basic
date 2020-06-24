@@ -25,7 +25,11 @@ export {
   trim,
   trimStart,
   trimEnd,
-  quoteEscape
+  padStart,
+  padEnd,
+  quoteEscape,
+  camelize,
+  uncamelize
 } from "./string";
 
 export {
