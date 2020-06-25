@@ -49,6 +49,23 @@ describe("query(subject, querycode)", () => {
     }
   );
 
+  // it.only("try", () => {
+  //   const result = query(
+  //     `
+  //     me.data[] | filter ~ country[].value : /[a-z]+/
+  //     `,
+  //     {
+  //       me: subject,
+  //       filterparam: "filterparam",
+  //       filter: function (pathvalue, values) {
+  //         console.log("found json path value", pathvalue);
+  //         console.log("   parameter: ", values);
+  //       }
+  //     }
+  //   );
+  //   console.log("result: ", result);
+  // });
+
   it("Should be able to do math equations and return results.", () => {
     expect(query("10% * 100", subject)).to.equal(10);
     expect(query("1 + 2 * 3 / 4 - data[0].id", subject)).to.equal(1.5);
@@ -93,6 +110,46 @@ describe("query(subject, querycode)", () => {
     subject.filter = removeCountriesFilter;
 
     expect(query("data[].country[].value | filter: [\"US\", \"UK\"]", subject)).to.deep.equal(["PH", "HK", "CH"]);
+  });
+
+
+  it("Should be able to run custom filter using pipe | expression with changed context.", () => {
+    let result = null;
+
+    function filterOneItem(item, countries, match) {
+      // return false if countries do not contain "match"
+      return !!countries && countries.indexOf(match) !== -1;
+    }
+
+    result = query(
+        "subject.data[] | filter: country[].value, @.filterParameter",
+        {
+          subject: subject,
+          filterParameter: "CH",
+          filter: filterOneItem
+        }
+      )
+    expect(result.length).to.equal(1);
+    expect(result[0].id).to.equal(2);
+  });
+
+  it("Should be able to run custom filter using pipe | expression with json sub query.", () => {
+    let result = null;
+
+    function matchCountry(country, match) {
+      // return false if country do not contain "match"
+      return country === match;
+    }
+
+    result = query(
+      "subject.data[] | ~ country[].value match: @.filterParameter", {
+        subject: subject,
+        filterParameter: "CH",
+        match: matchCountry
+      }
+    )
+    expect(result.length).to.equal(1);
+    expect(result[0].id).to.equal(2);
   });
 
   it("Should extract all data[].country[].value items from test data.", () => {

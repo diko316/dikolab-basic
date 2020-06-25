@@ -70,6 +70,7 @@ export default [
       "commonjs",
       JSON_OPTIONS,
       "strip",
+      "buble",
       CLEANUP_OPTIONS
     ]
   ),

@@ -24,7 +24,7 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-<a style="position:relative; top:3px;" href="https://github.com/diko316/dikotech-basic"><img width="20px" src="./image/github.png"></a></header>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikolab-basic"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div class="manual-toc-root">
   
@@ -50,6 +50,7 @@
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#select-extract-json-data" data-ice="link">Select/Extract JSON data</a></li>
 <li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-extract-data" data-ice="link">Simple Extract data</a></li>
 <li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#extract-and-compose" data-ice="link">Extract and Compose</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#extract-and-filter" data-ice="link">Extract and Filter</a></li>
 <li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#manipulate-json-data" data-ice="link">Manipulate JSON data</a></li>
 <li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#set-value" data-ice="link">Set value</a></li>
 <li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#unset-value" data-ice="link">Unset value</a></li>
@@ -73,16 +74,18 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-dikolab-basic">@dikolab/basic</h1><h2 id="motivation">Motivation</h2><p>Tired of reinventing the wheel in every new Javascript project.</p>
-<p>I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-dikolab-basic">@dikolab/basic</h1><h2 id="motivation">Motivation</h2><p>So tired of reinventing the wheel every time there&apos;s new Javascript project.</p>
+<p>And now, I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
 <pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
 import * as package from &quot;./package.json&quot;;
 
 export const packageInfo = query(
   `
+  /* define @package */
   package from ?;
 
-  dependencies from getKeys(@package.dependencies);
+  /* define @package */
+  dependencies from keys(@package.dependencies);
 
   // I want to get my package information
   {
@@ -92,10 +95,9 @@ export const packageInfo = query(
     deps: @dependencies
   }
   `,
-  {
-    0: package,
-    getKeys: Object.keys
-  }
+  [
+    package
+  ]
 );
 </code>
 </code></pre>

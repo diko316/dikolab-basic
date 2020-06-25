@@ -54,7 +54,10 @@ query(
     },
     {
       "id": 2,
-      "name": "name2"
+      "name": "name2",
+      "language": [
+        "es"
+      ]
     }
   ]
 }
@@ -101,6 +104,24 @@ query(
   `,
   object
 );
+```
+
+#### Extract and Filter
+
+```js
+// returns [{ id: 2,...}] since data.id === 1 has no "es" language
+query(
+  `
+  data[] | ~ .language is: "es"
+
+  // alternatively, you can use other built-in filter:
+  //
+  // language among: "es"
+  //   or  
+  // language in: ["es"]
+  `
+);
+
 ```
 
 ### Manipulate JSON data
@@ -360,6 +381,7 @@ Mixed | **`ident()`**<br>**`ident(expression[, ...expression])`** | `func(., .ro
 Result Type | Operator | Example | Description
 --- | --- | --- | ---
 Array | **`expression`** &#124; **`ident`**<br>**`expression`** &#124; **`ident : expression[, ...expression]`** | `.` &#124; ` myfilter: ?` | Calls custom filter from `root` object property.
+Array | **`expression`** &#124; **`~`** **`JsonPath...`** **`ident`**<br>**`expression`** &#124; **`~`** **`JsonPath...`** **`ident : expression[, ...expression]`** | `.data[]` &#124; `~ country[].value in: ["US", "AL"]` | Granular filtering based from subsequent Json Queries.<br>Like function and filters, they can be custom made as `root` object property.
 
 
 ### Arithmetic

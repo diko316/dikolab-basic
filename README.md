@@ -2,9 +2,9 @@
 
 ## Motivation
 
-Tired of reinventing the wheel in every new Javascript project.
+So tired of reinventing the wheel every time there's new Javascript project.
 
-I'm feeling lazy and just want to create a Javascript Object using the code below.
+And now, I'm feeling lazy and just want to create a Javascript Object using the code below.
 
 ```js
 import { query } from "@dikolab/basic";
@@ -12,9 +12,11 @@ import * as package from "./package.json";
 
 export const packageInfo = query(
   `
+  /* define @package */
   package from ?;
 
-  dependencies from getKeys(@package.dependencies);
+  /* define @package */
+  dependencies from keys(@package.dependencies);
 
   // I want to get my package information
   {
@@ -24,10 +26,9 @@ export const packageInfo = query(
     deps: @dependencies
   }
   `,
-  {
-    0: package,
-    getKeys: Object.keys
-  }
+  [
+    package
+  ]
 );
 
 ```

@@ -7,6 +7,7 @@
       ".": "dot",
       ",": "comma",
       "@": "reference",
+      "~": "tilde",
       "[": "bracket1",
       "]": "bracket2",
       "(": "parenth1",
@@ -49,6 +50,7 @@
       ".": false,
       ",": false,
       "@": false,
+      "~": false,
       "[": false,
       "]": false,
       "(": false,
@@ -80,6 +82,7 @@
       ".": "range"
     },
     "reference": {},
+    "tilde": {},
 
     "comma": {},
     "dquote": {
@@ -173,7 +176,7 @@
     },
     "regexsgim": {},
     "scomment1": {
-      ":*": "scomment2",
+      ":*": "scomment1",
       "\n": "scomment2"
     },
     "scomment2": {},
@@ -301,11 +304,12 @@
     "colon": ":",
     "semicolon": ";",
     "reference": "@",
+    "tilde": "~",
     "assign": "=",
     "slash": "/",
     "star": "*",
-    "scomment2": "//",
-    "mcomment3": "/*",
+    "scomment2": "scomment",
+    "mcomment3": "mcomment",
     "plus": "+",
     "minus": "-",
     "modulo": "%",

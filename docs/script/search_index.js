@@ -612,9 +612,81 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/helper/filter-among.js",
+    "file/src/json/helper/filter-among.js.html",
+    "src/json/helper/filter-among.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-between.js",
+    "file/src/json/helper/filter-between.js.html",
+    "src/json/helper/filter-between.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-falsy.js",
+    "file/src/json/helper/filter-falsy.js.html",
+    "src/json/helper/filter-falsy.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-in.js",
+    "file/src/json/helper/filter-in.js.html",
+    "src/json/helper/filter-in.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-is.js",
+    "file/src/json/helper/filter-is.js.html",
+    "src/json/helper/filter-is.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-like.js",
+    "file/src/json/helper/filter-like.js.html",
+    "src/json/helper/filter-like.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-not.js",
+    "file/src/json/helper/filter-not.js.html",
+    "src/json/helper/filter-not.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-out.js",
+    "file/src/json/helper/filter-out.js.html",
+    "src/json/helper/filter-out.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-outside.js",
+    "file/src/json/helper/filter-outside.js.html",
+    "src/json/helper/filter-outside.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-truthy.js",
+    "file/src/json/helper/filter-truthy.js.html",
+    "src/json/helper/filter-truthy.js",
+    "file"
+  ],
+  [
+    "src/json/helper/filter-unlike.js",
+    "file/src/json/helper/filter-unlike.js.html",
+    "src/json/helper/filter-unlike.js",
+    "file"
+  ],
+  [
     "src/json/helper/index.js",
     "file/src/json/helper/index.js.html",
     "src/json/helper/index.js",
+    "file"
+  ],
+  [
+    "src/json/helper/keys.js",
+    "file/src/json/helper/keys.js.html",
+    "src/json/helper/keys.js",
     "file"
   ],
   [
