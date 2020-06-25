@@ -14,6 +14,7 @@ export const TYPE_OBJECT = "object";
 
 export const TYPE_SYMBOL = "symbol";
 
+export const STRING_SIGNATURE = "[object String]";
 export const BIGINT_SIGNATURE = "[object BigInt]";
 export const SYMBOL_SIGNATURE = "[object Symbol]";
 export const OBJECT_SIGNATURE = "[object Object]";

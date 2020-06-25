@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../../">
-  <title data-ice="title">src/json/helper/index.js | @dikolab/basic</title>
+  <title data-ice="title">src/json/helper/filter-is.js | @dikolab/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -79,59 +79,11 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/json/helper/index.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { access } from &quot;./path&quot;;
-import { keys } from &quot;./keys&quot;;
-
-import { filterTruthy } from &quot;./filter-truthy&quot;;
-import { filterFalsy } from &quot;./filter-falsy&quot;;
-
-import { filterIs } from &quot;./filter-is&quot;;
-import { filterAmong } from &quot;./filter-among&quot;;
-import { filterIn } from &quot;./filter-in&quot;;
-import { filterLike } from &quot;./filter-like&quot;;
-import { filterBetween } from &quot;./filter-between&quot;;
-
-import { filterNot } from &quot;./filter-not&quot;;
-import { filterOutside } from &quot;./filter-outside&quot;;
-import { filterOut } from &quot;./filter-out&quot;;
-import { filterUnlike } from &quot;./filter-unlike&quot;;
-
-// built-in filters
-// &quot;subject.data[] | ~ country[].value truthy&quot;;
-// &quot;subject.data[] | ~ country[].value falsy&quot;;
-
-// positive
-// &quot;subject.data[] | ~ country[].value is: &apos;US&apos;&quot;;
-// &quot;subject.data[] | ~ country[].value among: &apos;CH&apos;, &apos;AL&apos;&quot;;
-// &quot;subject.data[] | ~ country[].value in: [&apos;CH&apos;, &apos;AL&apos;]&quot;;
-// &quot;subject.data[] | ~ country[].value like: /ab[a-z0-24]+a/&quot;;
-// &quot;subject.data[] | ~ country[].value between: 1, 10&quot;;
-
-// negative
-// &quot;subject.data[] | ~ country[].value not: &apos;US&apos;&quot;;
-// &quot;subject.data[] | ~ country[].value outside: &apos;CH&apos;, &apos;AL&apos;&quot;;
-// &quot;subject.data[] | ~ country[].value out: [&apos;CH&apos;, &apos;AL&apos;]&quot;;
-// &quot;subject.data[] | ~ country[].value unlike: /ab[a-z0-24]+a/&quot;;
-
-export default {
-  access,
-  keys,
-
-  truthy: filterTruthy,
-  falsy: filterFalsy,
-
-  is: filterIs,
-  in: filterIn,
-  among: filterAmong,
-  like: filterLike,
-  between: filterBetween,
-
-  not: filterNot,
-  outside: filterOutside,
-  out: filterOut,
-  unlike: filterUnlike
-};
+<div class="content" data-ice="content"><h1 data-ice="title">src/json/helper/filter-is.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+export function filterIs(item, match) {
+  return item === match;
+}
 </code></pre>
 
 </div>

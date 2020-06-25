@@ -568,6 +568,9 @@
     "Compound->Object": {
       "code": 0
     },
+    "Compound-><regex>": {
+      "code": 0
+    },
     "Compound-><null>": {
       "code": 0
     },
@@ -763,6 +766,43 @@
           "cast": "list"
         },
         5
+      ]
+    },
+    "Filter->Filter <|> <~> Path <ident>": {
+      "type": "list",
+      "code": "contextfilter",
+      "params": [
+        {
+          "child": 5,
+          "as": "function"
+        },
+        {
+          "child": 1,
+          "cast": "list"
+        },
+        {
+          "child": 4,
+          "getter": true
+        }
+      ]
+    },
+    "Filter->Filter <|> <~> Path <ident> <:> Values": {
+      "type": "list",
+      "code": "contextfilterwithparams",
+      "params": [
+        {
+          "child": 5,
+          "as": "function"
+        },
+        {
+          "child": 1,
+          "cast": "list"
+        },
+        {
+          "child": 4,
+          "getter": true
+        },
+        7
       ]
     },
 
@@ -1353,6 +1393,147 @@
 
           "context = ", 3,";\n",
         "}"
+      ],
+      "return": [0]
+    },
+
+    "contextfilter": {
+      "symbols": 9,
+      "desc": [
+        "0 - symbol found list/return",
+        "1 - symbol context",
+        "2 - symbol found length",
+        "3 - symbol main counter",
+        "4 - symbol main length",
+        "5 - symbol main item",
+        "6 - symbol jsonpath counter",
+        "7 - symbol jsonpath length",
+        "8 - symbol jsonpath items",
+
+        "9 - function",
+        "10 - main values",
+        "11 - jsonpath values"
+      ],
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$9",
+        "$10",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ",", 5, ",", 6, ",", 7, ",", 8, ";\n",
+        
+        "//----------  start \n",
+        "//  -- expecting function: ", 9,"\n",
+        "//  -- expecting main values: ", 10, "\n",
+        "//  -- expecting jsonpath values: ", 11, "\n",
+
+        "if (typeof ", 9, " === \"function\") {\n",
+          2, " = ", 3, " = 0;\n",
+          4, " = ", 10, ".length;\n",
+          1, " = context;\n",
+
+          "l", 3, ":",
+
+          "for (; ", 4, "--; ", 3, "++) {\n",
+            5, " = ", 10, "[", 3, "];\n",
+
+            "context = ", 5, ";\n",
+
+            "$11",
+
+            8, " = Object.prototype.toString.call(", 11, ") === \"[object Array]\"\n",
+              " ? ", 11, " : [", 11, "];\n",
+
+            7, " = ", 8, ".length;\n",
+            6, " = 0;\n",
+
+            "for (;", 7, "--; ", 6, "++) {\n",
+              "if (", 9, ".call(root, ", 8, "[", 6,"])) !== false) {",
+                0, "[", 2, "++] = ", 5,";\n",
+                "continue l", 3, ";\n",
+              "}",
+            "}\n",
+          "}\n",
+
+          "context = ", 1, ";\n",
+        "}\n",
+        "//----------  end \n"
+      ],
+      "return": [0]
+    },
+
+    "contextfilterwithparams": {
+      "symbols": 9,
+      "desc": [
+        "0 - symbol found list/return",
+        "1 - symbol context",
+        "2 - symbol found length",
+        "3 - symbol main counter",
+        "4 - symbol main length",
+        "5 - symbol main item",
+        "6 - symbol jsonpath counter",
+        "7 - symbol jsonpath length",
+        "8 - symbol jsonpath items",
+
+        "9 - function",
+        "10 - main values",
+        "11 - jsonpath values",
+        "12 - function params"
+      ],
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$9",
+        "$10",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ",", 5, ",", 6, ",", 7, ",", 8, ";\n",
+        
+        "//----------  start \n",
+        "//  -- expecting function: ", 9,"\n",
+        "//  -- expecting main values: ", 10, "\n",
+        "//  -- expecting jsonpath values: ", 11, "\n",
+        "//  -- expecting function params: ", 12, "\n",
+
+        "if (typeof ", 9, " === \"function\") {\n",
+          2, " = ", 3, " = 0;\n",
+          4, " = ", 10, ".length;\n",
+          1, " = context;\n",
+
+          "l", 3, ":",
+
+          "for (; ", 4, "--; ", 3, "++) {\n",
+            5, " = ", 10, "[", 3, "];\n",
+
+            "context = ", 5, ";\n",
+
+            "$11",
+            "$12",
+
+            8, " = Object.prototype.toString.call(", 11, ") === \"[object Array]\"\n",
+              " ? ", 11, " : [", 11, "];\n",
+
+            7, " = ", 8, ".length;\n",
+            6, " = 0;\n",
+
+            "for (;", 7, "--; ", 6, "++) {\n",
+              "if (", 9, ".apply(root, [", 8, "[", 6,"]].concat(", 12, ")) !== false) {",
+                0, "[", 2, "++] = ", 5,";\n",
+                "continue l", 3, ";\n",
+              "}",
+            "}\n",
+          "}\n",
+
+          "context = ", 1, ";\n",
+        "}\n",
+        "//----------  end \n"
       ],
       "return": [0]
     },

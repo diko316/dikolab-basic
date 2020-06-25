@@ -36,6 +36,9 @@
     ],
 
     "Filter": [
+      ["Filter", "|", "~", "Path", "ident"],
+      ["Filter", "|", "~", "Path", "ident", ":", "Values"],
+
       ["Filter", "|", "ident", ":", "Values"],
       ["Filter", "|", "ident"],
       ["Ternary"],

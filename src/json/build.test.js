@@ -36,7 +36,10 @@ describe("build()", () => {
   //   show = true;
   //   // tryBuild("name");
   //   // tryBuild("1 | buang");
-  //   tryBuild("data[] | filter: country[].value");
+  //   // tryBuild("data[] | filter: country[].value");
+  //   // tryBuild("me.data[] | ~ country[].value filter: filterparam");
+  //   // tryBuild("me.data[] | ~ country[].value filter");
+  //   // tryBuild("me.data[] | ~ country[].value filter: /regex/");
   // });
 
   it("Should build native query!.", () => {

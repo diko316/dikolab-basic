@@ -52,10 +52,16 @@ describe("query(subject, querycode)", () => {
   // it.only("try", () => {
   //   const result = query(
   //     `
-  //     // test
-  //     keys(.)
+  //     me.data[] | filter ~ country[].value : /[a-z]+/
   //     `,
-  //     subject
+  //     {
+  //       me: subject,
+  //       filterparam: "filterparam",
+  //       filter: function (pathvalue, values) {
+  //         console.log("found json path value", pathvalue);
+  //         console.log("   parameter: ", values);
+  //       }
+  //     }
   //   );
   //   console.log("result: ", result);
   // });
@@ -107,18 +113,44 @@ describe("query(subject, querycode)", () => {
   });
 
 
-  // it.only("Should be able to run custom filter using pipe | expression with changed context.", () => {
-  //   function removeDataFilter (item, values) {
-  //     // return false if country to remove is the current item
-  //     // return removedCountries.indexOf(item) === -1;
+  it("Should be able to run custom filter using pipe | expression with changed context.", () => {
+    let result = null;
 
-  //     console.log(item, " country values: ", values);
-  //   }
+    function filterOneItem(item, countries, match) {
+      // return false if countries do not contain "match"
+      return !!countries && countries.indexOf(match) !== -1;
+    }
 
-  //   subject.filter = removeDataFilter;
+    result = query(
+        "subject.data[] | filter: country[].value, @.filterParameter",
+        {
+          subject: subject,
+          filterParameter: "CH",
+          filter: filterOneItem
+        }
+      )
+    expect(result.length).to.equal(1);
+    expect(result[0].id).to.equal(2);
+  });
 
-  //   query("data[] | filter: country[].value, [\"US\", \"UK\"]", subject);
-  // });
+  it("Should be able to run custom filter using pipe | expression with json sub query.", () => {
+    let result = null;
+
+    function matchCountry(country, match) {
+      // return false if country do not contain "match"
+      return country === match;
+    }
+
+    result = query(
+      "subject.data[] | ~ country[].value match: @.filterParameter", {
+        subject: subject,
+        filterParameter: "CH",
+        match: matchCountry
+      }
+    )
+    expect(result.length).to.equal(1);
+    expect(result[0].id).to.equal(2);
+  });
 
   it("Should extract all data[].country[].value items from test data.", () => {
     expect(query("data[*].country[].value", subject)).to.deep.equal(["PH", "US", "UK", "HK", "CH"]);

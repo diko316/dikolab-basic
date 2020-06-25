@@ -6,6 +6,7 @@
       ["Scalar"],
       ["Boolean"],
       ["!", "Compound"],
+      ["regex"],
       ["null"]
     ],
     "Object": [
