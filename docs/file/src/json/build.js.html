@@ -24,7 +24,7 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-<a style="position:relative; top:3px;" href="https://github.com/diko316/dikotech-basic"><img width="20px" src="./image/github.png"></a></header>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikolab-basic"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div>
   <ul>
@@ -600,6 +600,7 @@ export function build(subject) {
 
       code[codeLength++] = codeRef[1];
     }
+
     // set params
     if (codeParamIndex.indexOf(ref) !== -1) {
       codeParams[codeParamsLength++] = ref;
@@ -657,12 +658,18 @@ export function build(subject) {
   // add code destructor and return last code
   ref = child.ref;
   symbols.splice(symbols.indexOf(ref), 1);
+  if (codeParams.indexOf(&quot;root&quot;) !== -1) {
+    symbols.splice(0, 0, &quot;context&quot;);
+  }
 
   if (symbols.length) {
     code[codeLength++] = `${symbols.join(&quot; = &quot;)} = null;`;
   }
 
   code[codeLength++] = `return ${ref};`;
+
+  // console.log(&quot;params! &quot;, codeParams);
+  // console.log(&quot;built! &quot;, code.join(&quot;\n&quot;));
 
   return [
     codeParams.join(&quot;, &quot;),

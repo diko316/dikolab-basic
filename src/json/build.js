@@ -518,6 +518,7 @@ export function build(subject) {
 
       code[codeLength++] = codeRef[1];
     }
+
     // set params
     if (codeParamIndex.indexOf(ref) !== -1) {
       codeParams[codeParamsLength++] = ref;
@@ -575,12 +576,18 @@ export function build(subject) {
   // add code destructor and return last code
   ref = child.ref;
   symbols.splice(symbols.indexOf(ref), 1);
+  if (codeParams.indexOf("root") !== -1) {
+    symbols.splice(0, 0, "context");
+  }
 
   if (symbols.length) {
     code[codeLength++] = `${symbols.join(" = ")} = null;`;
   }
 
   code[codeLength++] = `return ${ref};`;
+
+  // console.log("params! ", codeParams);
+  // console.log("built! ", code.join("\n"));
 
   return [
     codeParams.join(", "),

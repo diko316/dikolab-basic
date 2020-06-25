@@ -49,6 +49,17 @@ describe("query(subject, querycode)", () => {
     }
   );
 
+  // it.only("try", () => {
+  //   const result = query(
+  //     `
+  //     // test
+  //     keys(.)
+  //     `,
+  //     subject
+  //   );
+  //   console.log("result: ", result);
+  // });
+
   it("Should be able to do math equations and return results.", () => {
     expect(query("10% * 100", subject)).to.equal(10);
     expect(query("1 + 2 * 3 / 4 - data[0].id", subject)).to.equal(1.5);
@@ -94,6 +105,20 @@ describe("query(subject, querycode)", () => {
 
     expect(query("data[].country[].value | filter: [\"US\", \"UK\"]", subject)).to.deep.equal(["PH", "HK", "CH"]);
   });
+
+
+  // it.only("Should be able to run custom filter using pipe | expression with changed context.", () => {
+  //   function removeDataFilter (item, values) {
+  //     // return false if country to remove is the current item
+  //     // return removedCountries.indexOf(item) === -1;
+
+  //     console.log(item, " country values: ", values);
+  //   }
+
+  //   subject.filter = removeDataFilter;
+
+  //   query("data[] | filter: country[].value, [\"US\", \"UK\"]", subject);
+  // });
 
   it("Should extract all data[].country[].value items from test data.", () => {
     expect(query("data[*].country[].value", subject)).to.deep.equal(["PH", "US", "UK", "HK", "CH"]);

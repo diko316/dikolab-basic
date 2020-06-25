@@ -618,6 +618,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/json/helper/keys.js",
+    "file/src/json/helper/keys.js.html",
+    "src/json/helper/keys.js",
+    "file"
+  ],
+  [
     "src/json/helper/path.js",
     "file/src/json/helper/path.js.html",
     "src/json/helper/path.js",

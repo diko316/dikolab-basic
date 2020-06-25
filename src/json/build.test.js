@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { build } from "./build";
 
 const F = Function;
-const show = false;
+let show = false;
 
 function tryBuild(code) {
   const result = build(code);
@@ -12,7 +12,11 @@ function tryBuild(code) {
     try {
       func = new F(result[0], result[1]);
       if (show) {
-        console.log(result);
+        console.log(
+          "function query(", result[0], "){\n",
+          result[1],
+          "\n}\n"
+        );
       }
     }
     catch (error) {
@@ -28,6 +32,13 @@ function tryBuild(code) {
 }
 
 describe("build()", () => {
+  // it.only("try", () => {
+  //   show = true;
+  //   // tryBuild("name");
+  //   // tryBuild("1 | buang");
+  //   tryBuild("data[] | filter: country[].value");
+  // });
+
   it("Should build native query!.", () => {
     expect(tryBuild("-1")).to.not.equal(null);
     expect(tryBuild("10%")).to.not.equal(null);

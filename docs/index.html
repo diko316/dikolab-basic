@@ -24,7 +24,7 @@
   </span>
     <ul class="search-result"></ul>
   </div>
-<a style="position:relative; top:3px;" href="https://github.com/diko316/dikotech-basic"><img width="20px" src="./image/github.png"></a></header>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikolab-basic"><img width="20px" src="./image/github.png"></a></header>
 
 <nav class="navigation" data-ice="nav"><div class="manual-toc-root">
   
@@ -83,7 +83,7 @@ export const packageInfo = query(
   `
   package from ?;
 
-  dependencies from getKeys(@package.dependencies);
+  dependencies from keys(@package.dependencies);
 
   // I want to get my package information
   {
@@ -93,10 +93,9 @@ export const packageInfo = query(
     deps: @dependencies
   }
   `,
-  {
-    0: package,
-    getKeys: Object.keys
-  }
+  [
+    package
+  ]
 );
 </code>
 </code></pre>
@@ -147,7 +146,7 @@ export const packageInfo = query(
   `
   package from ?;
 
-  dependencies from getKeys(@package.dependencies);
+  dependencies from keys(@package.dependencies);
 
   // I want to get my package information
   {
@@ -157,10 +156,9 @@ export const packageInfo = query(
     deps: @dependencies
   }
   `,
-  {
-    0: package,
-    getKeys: Object.keys
-  }
+  [
+    package
+  ]
 );
 </code>
 </code></pre><h2>Usage</h2><p>Install using NPM</p><pre><code class="lang-sh"><code class="source-code prettyprint">

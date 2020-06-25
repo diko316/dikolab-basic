@@ -14,7 +14,7 @@ export const packageInfo = query(
   `
   package from ?;
 
-  dependencies from getKeys(@package.dependencies);
+  dependencies from keys(@package.dependencies);
 
   // I want to get my package information
   {
@@ -24,10 +24,9 @@ export const packageInfo = query(
     deps: @dependencies
   }
   `,
-  {
-    0: package,
-    getKeys: Object.keys
-  }
+  [
+    package
+  ]
 );
 
 ```
