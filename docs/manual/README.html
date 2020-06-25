@@ -74,15 +74,17 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-dikolab-basic">@dikolab/basic</h1><h2 id="motivation">Motivation</h2><p>Tired of reinventing the wheel in every new Javascript project.</p>
-<p>I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-dikolab-basic">@dikolab/basic</h1><h2 id="motivation">Motivation</h2><p>So tired of reinventing the wheel every time there&apos;s new Javascript project.</p>
+<p>And now, I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
 <pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
 import * as package from &quot;./package.json&quot;;
 
 export const packageInfo = query(
   `
+  /* define @package */
   package from ?;
 
+  /* define @package */
   dependencies from keys(@package.dependencies);
 
   // I want to get my package information
