@@ -13,6 +13,9 @@
         0
       ]
     },
+    "undefined": {
+      "type": "undefined"
+    },
     "null": {
       "type": "null"
     },
@@ -569,6 +572,9 @@
       "code": 0
     },
     "Compound-><regex>": {
+      "code": 0
+    },
+    "Compound-><undefined>": {
       "code": 0
     },
     "Compound-><null>": {
