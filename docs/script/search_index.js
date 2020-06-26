@@ -1,32 +1,32 @@
 window.esdocSearchIndex = [
   [
-    "@dikolab/basic/src/unicode/utf.js~utf",
-    "class/src/unicode/Utf.js~Utf.html",
-    "<span>Utf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/Utf.js</span>",
+    "@dikolab/basic/src/unicode/utf.class.js~utf",
+    "class/src/unicode/utf.class.js~Utf.html",
+    "<span>Utf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/utf.class.js</span>",
     "class"
   ],
   [
-    "@dikolab/basic/src/native/type.js~array",
+    "@dikolab/basic/src/native/array.js~array",
     "function/index.html#static-function-array",
-    "<span>array</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>array</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/array.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/object/properties.js~assign",
+    "@dikolab/basic/src/object/assign.js~assign",
     "function/index.html#static-function-assign",
-    "<span>assign</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/properties.js</span>",
+    "<span>assign</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/assign.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~bigint",
+    "@dikolab/basic/src/native/bigint.js~bigint",
     "function/index.html#static-function-bigint",
-    "<span>bigint</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>bigint</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/bigint.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~boolean",
+    "@dikolab/basic/src/native/boolean.js~boolean",
     "function/index.html#static-function-boolean",
-    "<span>boolean</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>boolean</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/boolean.js</span>",
     "function"
   ],
   [
@@ -36,15 +36,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/service.js~codepoint2string",
-    "function/index.html#static-function-codePoint2string",
-    "<span>codePoint2string</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
+    "@dikolab/basic/src/unicode/code-point-to-string.js~codepointtostring",
+    "function/index.html#static-function-codePointToString",
+    "<span>codePointToString</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/code-point-to-string.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/format.js~codepoints2utf",
-    "function/index.html#static-function-codepoints2Utf",
-    "<span>codepoints2Utf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/format.js</span>",
+    "@dikolab/basic/src/unicode/code-points-to-utf.js~codepointstoutf",
+    "function/index.html#static-function-codePointsToUtf",
+    "<span>codePointsToUtf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/code-points-to-utf.js</span>",
     "function"
   ],
   [
@@ -54,15 +54,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/object/validate.js~contains",
+    "@dikolab/basic/src/object/contains.js~contains",
     "function/index.html#static-function-contains",
-    "<span>contains</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/validate.js</span>",
+    "<span>contains</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/contains.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~date",
+    "@dikolab/basic/src/native/date.js~date",
     "function/index.html#static-function-date",
-    "<span>date</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>date</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/date.js</span>",
     "function"
   ],
   [
@@ -72,63 +72,63 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/object/properties.js~each",
+    "@dikolab/basic/src/object/each.js~each",
     "function/index.html#static-function-each",
-    "<span>each</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/properties.js</span>",
+    "<span>each</span> <span class=\"search-result-import-path\">@dikolab/basic/src/object/each.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/service.js~eachunicode",
+    "@dikolab/basic/src/unicode/each-unicode.js~eachunicode",
     "function/index.html#static-function-eachUnicode",
-    "<span>eachUnicode</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
+    "<span>eachUnicode</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/each-unicode.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~iteratable",
+    "@dikolab/basic/src/native/iteratable.js~iteratable",
     "function/index.html#static-function-iteratable",
-    "<span>iteratable</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>iteratable</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/iteratable.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/array/service.js~listpadend",
+    "@dikolab/basic/src/array/list-pad-end.js~listpadend",
     "function/index.html#static-function-listPadEnd",
-    "<span>listPadEnd</span> <span class=\"search-result-import-path\">@dikolab/basic/src/array/service.js</span>",
+    "<span>listPadEnd</span> <span class=\"search-result-import-path\">@dikolab/basic/src/array/list-pad-end.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/array/service.js~listpadstart",
+    "@dikolab/basic/src/array/list-pad-start.js~listpadstart",
     "function/index.html#static-function-listPadStart",
-    "<span>listPadStart</span> <span class=\"search-result-import-path\">@dikolab/basic/src/array/service.js</span>",
+    "<span>listPadStart</span> <span class=\"search-result-import-path\">@dikolab/basic/src/array/list-pad-start.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~method",
+    "@dikolab/basic/src/native/method.js~method",
     "function/index.html#static-function-method",
-    "<span>method</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>method</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/method.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~number",
+    "@dikolab/basic/src/native/number.js~number",
     "function/index.html#static-function-number",
-    "<span>number</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>number</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/number.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/number/format.js~numberify",
+    "@dikolab/basic/src/number/numberify.js~numberify",
     "function/index.html#static-function-numberify",
-    "<span>numberify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/number/format.js</span>",
+    "<span>numberify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/number/numberify.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~numeric",
+    "@dikolab/basic/src/native/numeric.js~numeric",
     "function/index.html#static-function-numeric",
-    "<span>numeric</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>numeric</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/numeric.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~object",
+    "@dikolab/basic/src/native/object.js~object",
     "function/index.html#static-function-object",
-    "<span>object</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>object</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/object.js</span>",
     "function"
   ],
   [
@@ -144,9 +144,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~promise",
+    "@dikolab/basic/src/native/promise.js~promise",
     "function/index.html#static-function-promise",
-    "<span>promise</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>promise</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/promise.js</span>",
     "function"
   ],
   [
@@ -162,9 +162,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~regexp",
+    "@dikolab/basic/src/native/regexp.js~regexp",
     "function/index.html#static-function-regexp",
-    "<span>regexp</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>regexp</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/regexp.js</span>",
     "function"
   ],
   [
@@ -174,33 +174,33 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~scalar",
+    "@dikolab/basic/src/native/scalar.js~scalar",
     "function/index.html#static-function-scalar",
-    "<span>scalar</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>scalar</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/scalar.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~signature",
+    "@dikolab/basic/src/native/signature.js~signature",
     "function/index.html#static-function-signature",
-    "<span>signature</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>signature</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/signature.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/service.js~string2codepoints",
-    "function/index.html#static-function-string2codePoints",
-    "<span>string2codePoints</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
-    "function"
-  ],
-  [
-    "@dikolab/basic/src/unicode/service.js~string2unicodes",
-    "function/index.html#static-function-string2unicodes",
-    "<span>string2unicodes</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/service.js</span>",
-    "function"
-  ],
-  [
-    "@dikolab/basic/src/native/type.js~string",
+    "@dikolab/basic/src/native/string.js~string",
     "function/index.html#static-function-string",
-    "<span>string</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>string</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/string.js</span>",
+    "function"
+  ],
+  [
+    "@dikolab/basic/src/unicode/string-to-code-points.js~stringtocodepoints",
+    "function/index.html#static-function-stringToCodePoints",
+    "<span>stringToCodePoints</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/string-to-code-points.js</span>",
+    "function"
+  ],
+  [
+    "@dikolab/basic/src/unicode/string-to-unicodes.js~stringtounicodes",
+    "function/index.html#static-function-stringToUnicodes",
+    "<span>stringToUnicodes</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/string-to-unicodes.js</span>",
     "function"
   ],
   [
@@ -210,9 +210,9 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/native/type.js~symbol",
+    "@dikolab/basic/src/native/symbol.js~symbol",
     "function/index.html#static-function-symbol",
-    "<span>symbol</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/type.js</span>",
+    "<span>symbol</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/symbol.js</span>",
     "function"
   ],
   [
@@ -240,15 +240,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/format.js~unicodecount",
+    "@dikolab/basic/src/unicode/unicode-count.js~unicodecount",
     "function/index.html#static-function-unicodeCount",
-    "<span>unicodeCount</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/format.js</span>",
+    "<span>unicodeCount</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/unicode-count.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/format.js~unicodify",
+    "@dikolab/basic/src/unicode/unicodify.js~unicodify",
     "function/index.html#static-function-unicodify",
-    "<span>unicodify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/format.js</span>",
+    "<span>unicodify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/unicodify.js</span>",
     "function"
   ],
   [
@@ -552,28 +552,28 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/array/service.js",
-    "file/src/array/service.js.html",
-    "src/array/service.js",
+    "src/array/list-pad-end.js",
+    "file/src/array/list-pad-end.js.html",
+    "src/array/list-pad-end.js",
     "file"
   ],
   [
-    "src/array/service.js~iteratable",
+    "src/array/list-pad-start.js",
+    "file/src/array/list-pad-start.js.html",
+    "src/array/list-pad-start.js",
+    "file"
+  ],
+  [
+    "src/array/pad-info.js",
+    "file/src/array/pad-info.js.html",
+    "src/array/pad-info.js",
+    "file"
+  ],
+  [
+    "src/array/pad-info.js~iteratable",
     "typedef/index.html#static-typedef-Iteratable",
-    "src/array/service.js~Iteratable",
+    "src/array/pad-info.js~Iteratable",
     "typedef"
-  ],
-  [
-    "src/array/service.js~iteratableobject",
-    "typedef/index.html#static-typedef-IteratableObject",
-    "src/array/service.js~IteratableObject",
-    "typedef"
-  ],
-  [
-    "src/array/type.js",
-    "file/src/array/type.js.html",
-    "src/array/type.js",
-    "file"
   ],
   [
     "src/index.js",
@@ -738,9 +738,27 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/native/bigint.js",
+    "file/src/native/bigint.js.html",
+    "src/native/bigint.js",
+    "file"
+  ],
+  [
+    "src/native/boolean.js",
+    "file/src/native/boolean.js.html",
+    "src/native/boolean.js",
+    "file"
+  ],
+  [
     "src/native/constants.js",
     "file/src/native/constants.js.html",
     "src/native/constants.js",
+    "file"
+  ],
+  [
+    "src/native/date.js",
+    "file/src/native/date.js.html",
+    "src/native/date.js",
     "file"
   ],
   [
@@ -756,9 +774,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/native/iteratable.js",
+    "file/src/native/iteratable.js.html",
+    "src/native/iteratable.js",
+    "file"
+  ],
+  [
     "src/native/math.js",
     "file/src/native/math.js.html",
     "src/native/math.js",
+    "file"
+  ],
+  [
+    "src/native/method.js",
+    "file/src/native/method.js.html",
+    "src/native/method.js",
     "file"
   ],
   [
@@ -768,9 +798,21 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/native/numeric.js",
+    "file/src/native/numeric.js.html",
+    "src/native/numeric.js",
+    "file"
+  ],
+  [
     "src/native/object.js",
     "file/src/native/object.js.html",
     "src/native/object.js",
+    "file"
+  ],
+  [
+    "src/native/promise.js",
+    "file/src/native/promise.js.html",
+    "src/native/promise.js",
     "file"
   ],
   [
@@ -780,21 +822,27 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/native/scalar.js",
+    "file/src/native/scalar.js.html",
+    "src/native/scalar.js",
+    "file"
+  ],
+  [
+    "src/native/signature.js",
+    "file/src/native/signature.js.html",
+    "src/native/signature.js",
+    "file"
+  ],
+  [
     "src/native/string.js",
     "file/src/native/string.js.html",
     "src/native/string.js",
     "file"
   ],
   [
-    "src/native/type.js",
-    "file/src/native/type.js.html",
-    "src/native/type.js",
-    "file"
-  ],
-  [
-    "src/number/format.js",
-    "file/src/number/format.js.html",
-    "src/number/format.js",
+    "src/native/symbol.js",
+    "file/src/native/symbol.js.html",
+    "src/native/symbol.js",
     "file"
   ],
   [
@@ -804,27 +852,45 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/number/numberify.js",
+    "file/src/number/numberify.js.html",
+    "src/number/numberify.js",
+    "file"
+  ],
+  [
+    "src/object/assign.js",
+    "file/src/object/assign.js.html",
+    "src/object/assign.js",
+    "file"
+  ],
+  [
     "src/object/constants.js",
     "file/src/object/constants.js.html",
     "src/object/constants.js",
     "file"
   ],
   [
+    "src/object/contains.js",
+    "file/src/object/contains.js.html",
+    "src/object/contains.js",
+    "file"
+  ],
+  [
+    "src/object/each.js",
+    "file/src/object/each.js.html",
+    "src/object/each.js",
+    "file"
+  ],
+  [
+    "src/object/each.js~eachobjectpropertycallback",
+    "typedef/index.html#static-typedef-eachObjectPropertyCallback",
+    "src/object/each.js~eachObjectPropertyCallback",
+    "typedef"
+  ],
+  [
     "src/object/index.js",
     "file/src/object/index.js.html",
     "src/object/index.js",
-    "file"
-  ],
-  [
-    "src/object/properties.js",
-    "file/src/object/properties.js.html",
-    "src/object/properties.js",
-    "file"
-  ],
-  [
-    "src/object/validate.js",
-    "file/src/object/validate.js.html",
-    "src/object/validate.js",
     "file"
   ],
   [
@@ -900,190 +966,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/unicode/utf.js",
-    "file/src/unicode/Utf.js.html",
-    "src/unicode/Utf.js",
+    "src/unicode/code-point-to-string.js",
+    "file/src/unicode/code-point-to-string.js.html",
+    "src/unicode/code-point-to-string.js",
     "file"
   ],
   [
-    "src/unicode/utf.js~utf#charat",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-charAt",
-    "src/unicode/Utf.js~Utf#charAt",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#clone",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-clone",
-    "src/unicode/Utf.js~Utf#clone",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#codepointat",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-codePointAt",
-    "src/unicode/Utf.js~Utf#codePointAt",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#concat",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-concat",
-    "src/unicode/Utf.js~Utf#concat",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#constructor",
-    "class/src/unicode/Utf.js~Utf.html#instance-constructor-constructor",
-    "src/unicode/Utf.js~Utf#constructor",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#includes",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-includes",
-    "src/unicode/Utf.js~Utf#includes",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#indexof",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-indexOf",
-    "src/unicode/Utf.js~Utf#indexOf",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#lastindexof",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-lastIndexOf",
-    "src/unicode/Utf.js~Utf#lastIndexOf",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#localecompare",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-localeCompare",
-    "src/unicode/Utf.js~Utf#localeCompare",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#match",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-match",
-    "src/unicode/Utf.js~Utf#match",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#padend",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-padEnd",
-    "src/unicode/Utf.js~Utf#padEnd",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#padstart",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-padStart",
-    "src/unicode/Utf.js~Utf#padStart",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#repeat",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-repeat",
-    "src/unicode/Utf.js~Utf#repeat",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#replace",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-replace",
-    "src/unicode/Utf.js~Utf#replace",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#search",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-search",
-    "src/unicode/Utf.js~Utf#search",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#slice",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-slice",
-    "src/unicode/Utf.js~Utf#slice",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#split",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-split",
-    "src/unicode/Utf.js~Utf#split",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#substring",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-substring",
-    "src/unicode/Utf.js~Utf#substring",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#toarray",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toArray",
-    "src/unicode/Utf.js~Utf#toArray",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#tojson",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toJSON",
-    "src/unicode/Utf.js~Utf#toJSON",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#tolocalelowercase",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toLocaleLowerCase",
-    "src/unicode/Utf.js~Utf#toLocaleLowerCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#tolocaleuppercase",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toLocaleUpperCase",
-    "src/unicode/Utf.js~Utf#toLocaleUpperCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#tolowercase",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toLowerCase",
-    "src/unicode/Utf.js~Utf#toLowerCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#topoints",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toPoints",
-    "src/unicode/Utf.js~Utf#toPoints",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#tostring",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toString",
-    "src/unicode/Utf.js~Utf#toString",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#touppercase",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-toUpperCase",
-    "src/unicode/Utf.js~Utf#toUpperCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#trim",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-trim",
-    "src/unicode/Utf.js~Utf#trim",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#trimend",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-trimEnd",
-    "src/unicode/Utf.js~Utf#trimEnd",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#trimstart",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-trimStart",
-    "src/unicode/Utf.js~Utf#trimStart",
-    "method"
-  ],
-  [
-    "src/unicode/utf.js~utf#valueof",
-    "class/src/unicode/Utf.js~Utf.html#instance-method-valueOf",
-    "src/unicode/Utf.js~Utf#valueOf",
-    "method"
+    "src/unicode/code-points-to-utf.js",
+    "file/src/unicode/code-points-to-utf.js.html",
+    "src/unicode/code-points-to-utf.js",
+    "file"
   ],
   [
     "src/unicode/constants.js",
@@ -1092,10 +984,16 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/unicode/format.js",
-    "file/src/unicode/format.js.html",
-    "src/unicode/format.js",
+    "src/unicode/each-unicode.js",
+    "file/src/unicode/each-unicode.js.html",
+    "src/unicode/each-unicode.js",
     "file"
+  ],
+  [
+    "src/unicode/each-unicode.js~eachcodepointcallback",
+    "typedef/index.html#static-typedef-eachCodePointCallback",
+    "src/unicode/each-unicode.js~eachCodePointCallback",
+    "typedef"
   ],
   [
     "src/unicode/index.js",
@@ -1104,9 +1002,219 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
-    "src/unicode/service.js",
-    "file/src/unicode/service.js.html",
-    "src/unicode/service.js",
+    "src/unicode/string-to-code-points.js",
+    "file/src/unicode/string-to-code-points.js.html",
+    "src/unicode/string-to-code-points.js",
     "file"
+  ],
+  [
+    "src/unicode/string-to-unicodes.js",
+    "file/src/unicode/string-to-unicodes.js.html",
+    "src/unicode/string-to-unicodes.js",
+    "file"
+  ],
+  [
+    "src/unicode/unicode-count.js",
+    "file/src/unicode/unicode-count.js.html",
+    "src/unicode/unicode-count.js",
+    "file"
+  ],
+  [
+    "src/unicode/unicodify.js",
+    "file/src/unicode/unicodify.js.html",
+    "src/unicode/unicodify.js",
+    "file"
+  ],
+  [
+    "src/unicode/utf.class.js",
+    "file/src/unicode/utf.class.js.html",
+    "src/unicode/utf.class.js",
+    "file"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#charat",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-charAt",
+    "src/unicode/utf.class.js~Utf#charAt",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#clone",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-clone",
+    "src/unicode/utf.class.js~Utf#clone",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#codepointat",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-codePointAt",
+    "src/unicode/utf.class.js~Utf#codePointAt",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#concat",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-concat",
+    "src/unicode/utf.class.js~Utf#concat",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#constructor",
+    "class/src/unicode/utf.class.js~Utf.html#instance-constructor-constructor",
+    "src/unicode/utf.class.js~Utf#constructor",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#includes",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-includes",
+    "src/unicode/utf.class.js~Utf#includes",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#indexof",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-indexOf",
+    "src/unicode/utf.class.js~Utf#indexOf",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#lastindexof",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-lastIndexOf",
+    "src/unicode/utf.class.js~Utf#lastIndexOf",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#localecompare",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-localeCompare",
+    "src/unicode/utf.class.js~Utf#localeCompare",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#match",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-match",
+    "src/unicode/utf.class.js~Utf#match",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#padend",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-padEnd",
+    "src/unicode/utf.class.js~Utf#padEnd",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#padstart",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-padStart",
+    "src/unicode/utf.class.js~Utf#padStart",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#repeat",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-repeat",
+    "src/unicode/utf.class.js~Utf#repeat",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#replace",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-replace",
+    "src/unicode/utf.class.js~Utf#replace",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#search",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-search",
+    "src/unicode/utf.class.js~Utf#search",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#slice",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-slice",
+    "src/unicode/utf.class.js~Utf#slice",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#split",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-split",
+    "src/unicode/utf.class.js~Utf#split",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#substring",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-substring",
+    "src/unicode/utf.class.js~Utf#substring",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#toarray",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toArray",
+    "src/unicode/utf.class.js~Utf#toArray",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#tojson",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toJSON",
+    "src/unicode/utf.class.js~Utf#toJSON",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#tolocalelowercase",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toLocaleLowerCase",
+    "src/unicode/utf.class.js~Utf#toLocaleLowerCase",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#tolocaleuppercase",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toLocaleUpperCase",
+    "src/unicode/utf.class.js~Utf#toLocaleUpperCase",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#tolowercase",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toLowerCase",
+    "src/unicode/utf.class.js~Utf#toLowerCase",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#topoints",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toPoints",
+    "src/unicode/utf.class.js~Utf#toPoints",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#tostring",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toString",
+    "src/unicode/utf.class.js~Utf#toString",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#touppercase",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-toUpperCase",
+    "src/unicode/utf.class.js~Utf#toUpperCase",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#trim",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-trim",
+    "src/unicode/utf.class.js~Utf#trim",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#trimend",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-trimEnd",
+    "src/unicode/utf.class.js~Utf#trimEnd",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#trimstart",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-trimStart",
+    "src/unicode/utf.class.js~Utf#trimStart",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~utf#valueof",
+    "class/src/unicode/utf.class.js~Utf.html#instance-method-valueOf",
+    "src/unicode/utf.class.js~Utf#valueOf",
+    "method"
+  ],
+  [
+    "src/unicode/utf.class.js~stringreplacecallback",
+    "typedef/index.html#static-typedef-stringReplaceCallback",
+    "src/unicode/utf.class.js~stringReplaceCallback",
+    "typedef"
   ]
 ]

@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/unicode/utf.class.js | @dikolab/basic</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikolab/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikolab-basic"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#array">array</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadEnd">listPadEnd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-listPadStart">listPadStart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-Iteratable">Iteratable</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#json">json</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-compile">compile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-query">query</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-updateMaxCompiled">updateMaxCompiled</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-exec">exec</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#lifecycle">lifecycle</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-destructor">destructor</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#native">native</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-array">array</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-bigint">bigint</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-boolean">boolean</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-date">date</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-iteratable">iteratable</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-method">method</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-number">number</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-numeric">numeric</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-object">object</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-promise">promise</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-regexp">regexp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-scalar">scalar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-signature">signature</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-string">string</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-symbol">symbol</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#number">number</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-numberify">numberify</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#object">object</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-assign">assign</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-contains">contains</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-repeat">repeat</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringify">stringify</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimEnd">trimEnd</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimStart">trimStart</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointsToUtf">codePointsToUtf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodify">unicodify</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/unicode/utf.class.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+  TYPE_NUMBER,
+  TYPE_UNDEFINED,
+  TYPE_FUNCTION,
+  EMPTY_STRING,
+  NOT_NUMBER,
+  TYPE_STRING
+} from &quot;../native/constants&quot;;
+
+import { OBJECT_DEFINE_PROPERTY } from &quot;../native/object&quot;;
+
+import {
+  IS_FINITE
+} from &quot;../native/number&quot;;
+
+import {
+  MATH_MAX,
+  MATH_MIN,
+  MATH_FLOOR
+} from &quot;../native/math&quot;;
+
+import {
+  ARRAY_PUSH,
+  ARRAY_SLICE
+} from &quot;../native/array&quot;;
+
+import {
+  REGEXP,
+  regexp
+} from &quot;../native/regexp&quot;;
+
+import { listPadStart } from &quot;../array/list-pad-start&quot;;
+import { listPadEnd } from &quot;../array/list-pad-end&quot;;
+
+import {
+  STRING_TRIM_REGEXP,
+  STRING_TRIM_LEFT_REGEXP,
+  STRING_TRIM_RIGHT_REGEXP,
+  DEFAULT_PADSTRING
+} from &quot;../string/constants&quot;;
+
+import { stringify } from &quot;../string/stringify&quot;;
+
+import {
+  INVALID_REPEAT_COUNT_ERROR
+} from &quot;./constants&quot;;
+
+import { eachUnicode } from &quot;./each-unicode&quot;;
+
+import { stringToCodePoints } from &quot;./string-to-code-points&quot;;
+
+import { stringToUnicodes } from &quot;./string-to-unicodes&quot;;
+
+/**
+ * String.prototype.replace() callback.
+ *
+ * @typedef {function} stringReplaceCallback
+ * @param {string} matched string matched by replace() pattern.
+ * @param {...string} captures string match captures in pattern.
+ * @param {number} offset the zero-based index position of the current match.
+ * @param {string} subject the string calling replace(pattern, callback).
+ */
+
+/**
+ * Utf Class for unicode representation of String.
+ */
+export class Utf {
+  /**
+   * Creates Utf instance based from string or Utf16 (cloning).
+   *
+   * @param {string|Utf} subject The string to create from.
+   */
+  constructor(subject) {
+    const empty = EMPTY_STRING;
+    const defineProperty = OBJECT_DEFINE_PROPERTY;
+    let points = [];
+    let text = null;
+    let length = 0;
+
+    // create clone
+    if (subject instanceof Utf) {
+      text = subject.text;
+      length = subject.length;
+
+      if (text !== empty) {
+        ARRAY_PUSH.apply(this, subject);
+        points = subject.points.slice(0);
+      }
+    }
+    else {
+      text = stringify(subject);
+      length = eachUnicode(
+        subject,
+        (codePoint, char, index) =&gt; {
+          this[index] = char;
+          points[index] = codePoint;
+        }
+      );
+    }
+
+    /**
+     * @property {number} length
+     */
+    defineProperty(
+      this,
+      &quot;length&quot;,
+      {
+        writable: false,
+        enumerable: false,
+        configurable: true,
+        value: length
+      }
+    );
+
+    /**
+     * @property {number[]} points
+     */
+    defineProperty(
+      this,
+      &quot;points&quot;,
+      {
+        writable: false,
+        enumerable: false,
+        configurable: true,
+        value: points
+      }
+    );
+
+    /**
+     * @property {string} text
+     */
+    defineProperty(
+      this,
+      &quot;text&quot;,
+      {
+        writable: false,
+        enumerable: false,
+        configurable: true,
+        value: text
+      }
+    );
+  }
+
+  /**
+   * Extracts Unicode code point at givent [index] position.
+   *
+   * @param {number} index The character position to extract Unicode code point.
+   * @returns {number} The extracted Unicode code point.
+   */
+  codePointAt(index) {
+    if (typeof index === TYPE_NUMBER &amp;&amp; index &gt; -1 &amp;&amp; index &lt; this.length) {
+      return this.points[index];
+    }
+
+    return NOT_NUMBER;
+  }
+
+  /**
+   * Extracts string at given [index] position.
+   * Please note that length of string is possibly greater than 1 characters.
+   *
+   * @param {number} index The character position to extract.
+   * @returns {string} The extracted string
+   */
+  charAt(index) {
+    if (typeof index === TYPE_NUMBER &amp;&amp; index &gt; -1 &amp;&amp; index &lt; this.length) {
+      return this[index];
+    }
+
+    return EMPTY_STRING;
+  }
+
+  /**
+   * Creates new Utf instance with only extracted section of the string.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/slice}
+   * @param {*} begin The zero-based index at which to begin extraction. If negative, it is treated as str.length + beginIndex.
+   * @param {*} end The zero-based index before which to end extraction. The character at this index will not be included.
+   * @returns {Utf} Utf instance with containing extracted string.
+   */
+  slice(begin, end) {
+    const min = MATH_MIN;
+    const max = MATH_MAX;
+    const empty = EMPTY_STRING;
+    const length = this.length;
+
+    let start = min(begin, length) || 0;
+    let limit = typeof end === TYPE_UNDEFINED ? length : min(end, length) || 0;
+
+    if (start &lt; 0) {
+      start = max(length + start, 0);
+    }
+
+    if (limit &lt; 0) {
+      limit = max(length + limit, 0);
+    }
+
+    if (start &gt;= limit) {
+      return new Utf(empty);
+    }
+
+    return new Utf(
+      ARRAY_SLICE.call(this, start, limit).join(empty)
+    );
+  }
+
+  /**
+   * Creates Utf instance containing part of string between [begin] and [end].
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring}
+   * @param {number} begin The index of the first Unicode character to include in the returned substring.
+   * @param {number} [end] The index of the first Unicode character to exclude from the returned substring.
+   * @returns {Utf} Utf instance containing extracted string.
+   */
+  substring(begin, end = undefined) {
+    const min = MATH_MIN;
+    const max = MATH_MAX;
+    const empty = EMPTY_STRING;
+    const length = this.length;
+
+    let start = min(max(begin, 0) || 0, length);
+    let limit = typeof end === TYPE_UNDEFINED ? length : min(max(end, 0) || 0, length);
+
+    if (start === limit) {
+      return new Utf(empty);
+    }
+
+    // swap
+    if (start &gt; limit) {
+      start -= limit;
+      limit += start;
+      start = limit - start;
+    }
+
+    return new Utf(
+      ARRAY_SLICE.call(this, start, limit).join(empty)
+    );
+  }
+
+  /**
+   * Creates Utf instance by concatenating Utf instances or strings.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/concat}
+   * @param {...(string|Utf)} subject strings or Ut16 instances to concatentate.
+   * @returns {Utf} Utf instance containing concatenated strings and Utf16s
+   */
+  concat(...subject) {
+    const toString = stringify;
+    const Me = Utf;
+    const empty = EMPTY_STRING;
+    const strings = [];
+    let c = 0;
+
+    for (let length = subject.length; length--; c++) {
+      const value = subject[c];
+
+      strings[c] = value instanceof Me ? value.text : toString(value);
+    }
+
+    return new Me(
+      c ? strings.join(empty) : empty
+    );
+  }
+
+  /**
+   * Retrieves zero-based index position that first matches the FIRST occurence
+   * of [searchValue] in Utf instance starting from zero or [fromIndex] if specified.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf}
+   * @param {string|Utf} searchValue The string or Utf instance to search.
+   * @param {number} [fromIndex=0] The index to start the search.
+   * @returns {number} Returns the zero-based index. Or, -1 if not found.
+   */
+  indexOf(searchValue, fromIndex = 0) {
+    const subject = this.points;
+    const searchPoints = searchValue instanceof Utf ? searchValue.points
+      : stringToCodePoints(
+        stringify(searchValue, EMPTY_STRING)
+      );
+    const searchLength = searchPoints.length;
+    const subjectLength = subject.length;
+    let anchor = fromIndex;
+    let length = subjectLength;
+    let slength = 0;
+
+    if (!subjectLength ||
+      searchLength &gt; subjectLength ||
+      typeof anchor !== TYPE_NUMBER ||
+      !IS_FINITE(anchor)
+    ) {
+      return -1;
+    }
+
+    // empty string rules from MDN
+    if (!searchLength) {
+      return MATH_MAX(0, MATH_MIN(anchor, subjectLength));
+    }
+    // more than length
+    else if (anchor &gt;= subjectLength) {
+      return -1;
+    }
+    // finalize iteration anchor
+    else if (anchor &lt; 0) {
+      anchor = 0;
+    }
+    else if (anchor &gt; 0) {
+      length = subjectLength - anchor;
+    }
+
+    /* eslint no-labels: 0 */
+    mainLoop: for (; length--; anchor++) {
+      if (anchor + searchLength - 1 &gt; subjectLength) {
+        return -1;
+      }
+
+      slength = searchLength;
+      for (; slength--;) {
+        if (searchPoints[slength] !== subject[anchor + slength]) {
+          continue mainLoop;
+        }
+      }
+
+      // found!
+      return anchor;
+    }
+
+    return -1;
+  }
+
+  /**
+   * Retrieves zero-based index position that first matches the LAST occurence
+   * of [searchValue] in Utf instance starting from zero or [fromIndex] if specified.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/lastIndexOf}
+   * @param {string|Utf} searchValue The string or Utf instance to search.
+   * @param {number} [fromIndex] The index to start the search.
+   * @returns {number} Returns the zero-based index. Or, -1 if not found.
+   */
+  lastIndexOf(searchValue, fromIndex = null) {
+    const min = MATH_MIN;
+    const subject = this.points;
+    const searchPoints = searchValue instanceof Utf ? searchValue.points
+      : stringToCodePoints(
+        stringify(searchValue, EMPTY_STRING)
+      );
+    const searchLength = searchPoints.length;
+    const subjectLength = subject.length;
+    let anchor = fromIndex === null ? subjectLength : fromIndex;
+    let length = 0;
+
+    if (!subjectLength ||
+      searchLength &gt; subjectLength ||
+      typeof anchor !== TYPE_NUMBER ||
+      !IS_FINITE(anchor)
+    ) {
+      return -1;
+    }
+
+    anchor = MATH_MAX(0, min(anchor, subjectLength));
+    if (!searchLength) {
+      return anchor;
+    }
+
+    anchor = min(anchor, subjectLength - searchLength);
+    if (anchor &lt; 0) {
+      return -1;
+    }
+
+    /* eslint no-labels: 0 */
+    mainLoop: for (; anchor + 1; anchor--) {
+      length = searchLength;
+      for (; length--;) {
+        if (searchPoints[length] !== subject[anchor + length]) {
+          continue mainLoop;
+        }
+      }
+      return anchor;
+    }
+
+    return -1;
+  }
+
+  /**
+   * Searches the Utf string with given RegExp [pattern] and
+   * returns the zero-based index position of the first occurence.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search}
+   * @param {RegExp} pattern The RegExp pattern to match.
+   * @returns {number} Returns zero-based index if found. Returns -1 otherwise.
+   */
+  search(pattern) {
+    const matches = this.text.match(REGEXP(pattern));
+
+    // correct the index
+    if (!matches) {
+      return -1;
+    }
+
+    return this.indexOf(matches[0]);
+  }
+
+  /**
+   * Determines if Utf or string [keyword] is found in this instance.
+   *
+   * @see {@link http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode}
+   * @param {string|Utf} keyword The search keyword to match.
+   * @param {number} position The zero-based index position to start the search.
+   * @returns {boolean} Returns true if match is found. Returns false otherwise.
+   */
+  includes(keyword, position) {
+    return this.indexOf(keyword, position) !== -1;
+  }
+
+  /**
+   * The method returns a number indicating whether a reference string comes before or after
+   * or is the same as the given string in sort order.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare}
+   * @param {string|Utf} compareString The string or Utf16 against which the referring Utf is compared.
+   * @param {string} [locales] A string with a BCP 47 language tag, or an array of such strings.
+   * @param {object} [options] An object with some or all of the following properties:
+   * @param {string} [options.localeMatcher=&quot;best fit&quot;] Possible values: &quot;lookup&quot; or &quot;best fit&quot;
+   * @param {string} [options.usage=&quot;sort&quot;] Possible values: &quot;sort&quot; and &quot;search&quot;
+   * @param {string} [options.sensitivity=&quot;variant&quot;] Possible values: &quot;variant&quot;, &quot;case&quot;, &quot;accent&quot;, and &quot;base&quot;
+   * @param {boolean} [options.ignorePunctuation=false] Should ignore punctation or not.
+   * @param {boolean} [options.numeric=false] Whether numeric collation should be used, such that &quot;1&quot; &lt; &quot;2&quot; &lt; &quot;10&quot;.
+   * @param {string} [options.caseFirst=&quot;false&quot;] Whether upper case or lower case should sort first.
+   *                    Possible values are &quot;upper&quot;, &quot;lower&quot;, or &quot;false&quot; (use the locale&apos;s default).
+   * @returns {number} Returns negative number if Utf occurs before [compareString].
+   *                    Returns positive number if Utf occurs after [compareString].
+   *                    Returns zero (0) if equivalent.
+   */
+  localeCompare(compareString, locales, options) {
+    const subject = compareString instanceof Utf ? compareString.text : compareString;
+    const length = arguments.length;
+    const string = this.text;
+
+    return length &lt; 2 ? string.localeCompare(subject)
+      : length &lt; 3 ? string.localeCompare(subject, locales)
+        : string.localeCompare(subject, locales, options);
+  }
+
+  /**
+   * Retrieves the result of matching a string against a regular expression.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match}
+   * @param {RegExp} pattern A regular expression object.
+   * @returns {Utf[]|null} Returns Array of Utf matches. Or, null of not matches.
+   */
+  match(pattern) {
+    const Me = Utf;
+    const found = this.text.match(pattern);
+    let c = 0;
+    let length = 0;
+
+    if (found) {
+      for (; length--; c++) {
+        found[c] = new Me(found[c]);
+      }
+    }
+
+    return found;
+  }
+
+  /**
+   * Creates a padded Utf instance with another string (multiple times, if needed)
+   * until the resulting string reaches the given length.
+   * The padding is applied from the start of the current Utf instance.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padStart}
+   * @param {number} targetLength The length of the resulting Utf instance once it has been padded.
+   * @param {string|Utf} padString The string to pad the current Utf instance with.
+   * @returns {Utf} Utf instance of the specified length with the pad string applied from the start.
+   */
+  padStart(targetLength, padString = DEFAULT_PADSTRING) {
+    const empty = EMPTY_STRING;
+    const pad = padString instanceof Utf ? padString
+      : stringToUnicodes(
+        stringify(padString, empty)
+      );
+    const result = listPadStart(this, targetLength, pad);
+
+    return new Utf(
+      result.join(empty)
+    );
+  }
+
+  /**
+   * Creates a padded Utf instance with another string (multiple times, if needed)
+   * until the resulting string reaches the given length.
+   * The padding is applied from the end of the Utf instance.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd}
+   * @param {number} targetLength The length of the resulting Utf instance once it has been padded.
+   * @param {string|Utf} padString The string to pad the current Utf instance with.
+   * @returns {Utf} Utf instance of the specified length with the pad string applied from the start.
+   */
+  padEnd(targetLength, padString = DEFAULT_PADSTRING) {
+    const empty = EMPTY_STRING;
+    const pad = padString instanceof Utf ? padString
+      : stringToUnicodes(
+        stringify(padString, empty)
+      );
+    const result = listPadEnd(this, targetLength, pad);
+
+    return new Utf(
+      result.join(empty)
+    );
+  }
+
+  /**
+   * Creates Utf instance with repeated unicode text.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/repeat}
+   * @param {number} count Number of repeats.
+   * @returns {Utf} Returns instance with repeated text.
+   */
+  repeat(count) {
+    const string = this.text;
+    let result = null;
+    let c = 0;
+    let length = 0;
+
+    if (typeof count !== TYPE_NUMBER || !IS_FINITE(count) || count &lt; 0) {
+      throw new RangeError(INVALID_REPEAT_COUNT_ERROR);
+    }
+
+    length = MATH_FLOOR(count);
+    result = [];
+    for (; length--; c++) {
+      result[c] = string;
+    }
+
+    return new Utf(
+      result.join(EMPTY_STRING)
+    );
+  }
+
+  /**
+   * Safely splits unicode characters into list of Utf instances using a [separator] pattern.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split}
+   * @param {string|RegExp|Utf} separator Separator pattern used for splitting.
+   * @param {number} [limit] Limit number of splits.
+   * @returns {Utf[]} Collection of Utf instances.
+   */
+  split(separator, limit) {
+    const Me = Utf;
+    const me = this;
+    const empty = EMPTY_STRING;
+    const subjectLength = me.length;
+    const isRegex = regexp(separator);
+    const isUtfInstance = separator instanceof Me;
+    let limiter = typeof limit === TYPE_NUMBER &amp;&amp; IS_FINITE(limit) &amp;&amp; limit &gt; -1
+      ? limit
+      : limit === null
+        ? 0
+        : undefined;
+    let stringSeparator = isUtfInstance
+      ? separator.text
+      : isRegex || typeof separator === TYPE_STRING
+        ? separator
+        : stringify(separator);
+    // safely return split version
+    let result = null;
+    let resultLength = 0;
+    let buffer = null;
+    let bufferLength = 0;
+    let separatorLength = 0;
+    let slength = 0;
+    let c = 0;
+    let length = 0;
+    let matchPointer = 0;
+    let isLast = false;
+    let pos = null;
+
+    // usual split
+    if (isRegex || stringSeparator === empty) {
+      result = isRegex
+        ? me.text.split(stringSeparator, limiter)
+        : ARRAY_SLICE.call(
+          me,
+          0,
+          limiter
+        );
+      length = result.length;
+      // replace
+      for (; length--; c++) {
+        result[c] = new Me(result[c]);
+      }
+      return result;
+    }
+
+    // manual split
+    length = subjectLength;
+
+    stringSeparator = isUtfInstance ? separator : stringToUnicodes(separator);
+    separatorLength = stringSeparator.length;
+
+    // replace
+    buffer = [];
+    result = [];
+    if (typeof limiter === TYPE_UNDEFINED) {
+      limiter = subjectLength;
+    }
+    mainLoop: for (; length--; c++) {
+      isLast = length === 0;
+
+      // check if separator matches
+      slength = separatorLength;
+      matchPointer = 0;
+
+      for (; slength--; matchPointer++) {
+        pos = c + matchPointer;
+        // failed!
+        if (pos &gt;= subjectLength ||
+          stringSeparator[matchPointer] !== me[pos]
+        ) {
+          buffer[bufferLength++] = me[c];
+          if (!isLast) {
+            continue mainLoop;
+          }
+        }
+      }
+
+      // generate result from buffer
+      result[resultLength++] = new Me(
+        bufferLength ? buffer.join(empty) : empty
+      );
+
+      // stop!
+      if (resultLength === limiter) {
+        break mainLoop;
+      }
+      // reset buffer
+      else if (!isLast) {
+        buffer = [];
+        bufferLength = 0;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Creates new Utf instance with replacing unicode characters with [replacement] using [pattern].
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace}
+   * @param {string|Utf|RegExp} pattern The pattern to match for replacement.
+   * @param {string|Utf|stringReplaceCallback} replacement function callback or string replacement.
+   * @returns {Utf} Utf instance with replaced unicode characters.
+   */
+  replace(pattern, replacement) {
+    const Me = Utf;
+
+    return new Me(
+      this.text.replace(
+        pattern instanceof Me
+          ? pattern.text
+          : regexp(pattern)
+            ? pattern
+            : stringify(pattern),
+        replacement instanceof Me
+          ? replacement.text
+          : typeof replacement === TYPE_FUNCTION
+            ? replacement
+            : stringify(replacement)
+      )
+    );
+  }
+
+  /**
+   * Removes whitespace characters prefix and suffix.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim}
+   * @returns {Utf} new Utf instance with whitespaces removed.
+   */
+  trim() {
+    return new Utf(
+      this.text.replace(STRING_TRIM_REGEXP, EMPTY_STRING)
+    );
+  }
+
+  /**
+   * Removes whitespace characters prefix.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimStart}
+   * @returns {Utf} new Utf instance with whitespaces removed.
+   */
+  trimStart() {
+    return new Utf(
+      this.text.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING)
+    );
+  }
+
+  /**
+   * Removes whitespace characters suffix.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trimEnd}
+   * @returns {Utf} new Utf instance with whitespaces removed.
+   */
+  trimEnd() {
+    return new Utf(
+      this.text.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING)
+    );
+  }
+
+  /**
+   * Clones Utf instance.
+   *
+   * @returns {Utf} cloned Utf instance.
+   */
+  clone() {
+    return new Utf(this);
+  }
+
+  /**
+   * Generates list of Utf code points.
+   *
+   * @returns {number[]} List of Unicode code points.
+   */
+  toPoints() {
+    return this.points.slice(0);
+  }
+
+  /**
+   * Creates Utf instance with string converted to upper-case.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase}
+   * @returns {Utf} Utf instance with upper-case string.
+   */
+  toUpperCase() {
+    return new Utf(
+      this.text.toUpperCase()
+    );
+  }
+
+  /**
+   * Creates Utf instance with string converted to upper-case according to any locale-specific case mappings.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase}
+   * @param {string|string[]} [locale] The locale/s to be used to convert to upper case according to any locale-specific case mappings.
+   * @returns {Utf} Utf Instance with upper-case string.
+   */
+  toLocaleUpperCase(locale) {
+    return new Utf(
+      this.text.toLocaleUpperCase(locale)
+    );
+  }
+
+  /**
+   * Creates Utf instance with string converted to lower-case.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase}
+   * @returns {Utf} Utf instance with lower-case string.
+   */
+  toLowerCase() {
+    return new Utf(
+      this.text.toLowerCase()
+    );
+  }
+
+  /**
+   * Creates Utf instance with string converted to lower-case according to any locale-specific case mappings.
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase}
+   * @param {string|string[]} [locale] The locale/s to be used to convert to upper case according to any locale-specific case mappings.
+   * @returns {Utf} Utf instance with lower-case string.
+   */
+  toLocaleLowerCase(locale) {
+    return new Utf(
+      this.text.toLocaleLowerCase(locale)
+    );
+  }
+
+  /**
+   * Returns the JSON representation.
+   *
+   * @returns {string} JSON representation of Utf instance.
+   */
+  toJSON() {
+    return this.text;
+  }
+
+  /**
+   * Returns the Array representation of Utf instance.
+   *
+   * @returns {string[]} Array representation.
+   */
+  toArray() {
+    return ARRAY_SLICE.call(this, 0);
+  }
+
+  /**
+   * Returns the String representation of Uft instance.
+   *
+   * @returns {string} String representation of Utf intance.
+   */
+  toString() {
+    return this.text;
+  }
+
+  /**
+   * Returns the primitive value of this instance which is a string.
+   *
+   * @returns {string} String primitive value.
+   */
+  valueOf() {
+    return this.text;
+  }
+}
+
+export const EMPTY_UNICODE = new Utf(EMPTY_STRING);
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,15 +1,19 @@
 export {
   string,
+
   number,
-  boolean,
   numeric,
   bigint,
+
   symbol,
+  boolean,
   scalar,
+
   date,
   regexp,
   object,
   array,
+  iteratable,
   method,
   promise,
   signature
@@ -36,13 +40,12 @@ export {
   Utf,
 
   eachUnicode,
-  string2unicodes,
-  string2codePoints,
-  codePoint2string,
-
+  stringToUnicodes,
+  stringToCodePoints,
   unicodify,
   unicodeCount,
-  codepoints2Utf
+  codePointToString,
+  codePointsToUtf
 } from "./unicode";
 
 export {

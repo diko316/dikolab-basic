@@ -1,28 +1,28 @@
 {
   "type": "File",
   "start": 0,
-  "end": 58,
+  "end": 95,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 5,
+      "line": 4,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 58,
+    "end": 95,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 5,
+        "line": 4,
         "column": 0
       }
     },
@@ -31,45 +31,45 @@
       {
         "type": "ExportNamedDeclaration",
         "start": 0,
-        "end": 57,
+        "end": 48,
         "loc": {
           "start": {
             "line": 1,
             "column": 0
           },
           "end": {
-            "line": 4,
-            "column": 19
+            "line": 1,
+            "column": 48
           }
         },
         "declaration": null,
         "specifiers": [
           {
             "type": "ExportSpecifier",
-            "start": 11,
-            "end": 23,
+            "start": 9,
+            "end": 21,
             "loc": {
               "start": {
-                "line": 2,
-                "column": 2
+                "line": 1,
+                "column": 9
               },
               "end": {
-                "line": 2,
-                "column": 14
+                "line": 1,
+                "column": 21
               }
             },
             "local": {
               "type": "Identifier",
-              "start": 11,
-              "end": 23,
+              "start": 9,
+              "end": 21,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 2
+                  "line": 1,
+                  "column": 9
                 },
                 "end": {
-                  "line": 2,
-                  "column": 14
+                  "line": 1,
+                  "column": 21
                 },
                 "identifierName": "listPadStart"
               },
@@ -77,48 +77,86 @@
             },
             "exported": {
               "type": "Identifier",
-              "start": 11,
-              "end": 23,
+              "start": 9,
+              "end": 21,
               "loc": {
                 "start": {
-                  "line": 2,
-                  "column": 2
+                  "line": 1,
+                  "column": 9
                 },
                 "end": {
-                  "line": 2,
-                  "column": 14
+                  "line": 1,
+                  "column": 21
                 },
                 "identifierName": "listPadStart"
               },
               "name": "listPadStart"
             }
+          }
+        ],
+        "source": {
+          "type": "StringLiteral",
+          "start": 29,
+          "end": 47,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 29
+            },
+            "end": {
+              "line": 1,
+              "column": 47
+            }
           },
+          "extra": {
+            "rawValue": "./list-pad-start",
+            "raw": "\"./list-pad-start\""
+          },
+          "value": "./list-pad-start"
+        }
+      },
+      {
+        "type": "ExportNamedDeclaration",
+        "start": 50,
+        "end": 94,
+        "loc": {
+          "start": {
+            "line": 3,
+            "column": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 44
+          }
+        },
+        "declaration": null,
+        "specifiers": [
           {
             "type": "ExportSpecifier",
-            "start": 27,
-            "end": 37,
+            "start": 59,
+            "end": 69,
             "loc": {
               "start": {
                 "line": 3,
-                "column": 2
+                "column": 9
               },
               "end": {
                 "line": 3,
-                "column": 12
+                "column": 19
               }
             },
             "local": {
               "type": "Identifier",
-              "start": 27,
-              "end": 37,
+              "start": 59,
+              "end": 69,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 2
+                  "column": 9
                 },
                 "end": {
                   "line": 3,
-                  "column": 12
+                  "column": 19
                 },
                 "identifierName": "listPadEnd"
               },
@@ -126,16 +164,16 @@
             },
             "exported": {
               "type": "Identifier",
-              "start": 27,
-              "end": 37,
+              "start": 59,
+              "end": 69,
               "loc": {
                 "start": {
                   "line": 3,
-                  "column": 2
+                  "column": 9
                 },
                 "end": {
                   "line": 3,
-                  "column": 12
+                  "column": 19
                 },
                 "identifierName": "listPadEnd"
               },
@@ -145,23 +183,23 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 45,
-          "end": 56,
+          "start": 77,
+          "end": 93,
           "loc": {
             "start": {
-              "line": 4,
-              "column": 7
+              "line": 3,
+              "column": 27
             },
             "end": {
-              "line": 4,
-              "column": 18
+              "line": 3,
+              "column": 43
             }
           },
           "extra": {
-            "rawValue": "./service",
-            "raw": "\"./service\""
+            "rawValue": "./list-pad-end",
+            "raw": "\"./list-pad-end\""
           },
-          "value": "./service"
+          "value": "./list-pad-end"
         }
       }
     ],
@@ -235,68 +273,16 @@
         "binop": null
       },
       "value": "listPadStart",
-      "start": 11,
-      "end": 23,
+      "start": 9,
+      "end": 21,
       "loc": {
         "start": {
-          "line": 2,
-          "column": 2
+          "line": 1,
+          "column": 9
         },
         "end": {
-          "line": 2,
-          "column": 14
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ",",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 23,
-      "end": 24,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 14
-        },
-        "end": {
-          "line": 2,
-          "column": 15
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "listPadEnd",
-      "start": 27,
-      "end": 37,
-      "loc": {
-        "start": {
-          "line": 3,
-          "column": 2
-        },
-        "end": {
-          "line": 3,
-          "column": 12
+          "line": 1,
+          "column": 21
         }
       }
     },
@@ -312,16 +298,16 @@
         "postfix": false,
         "binop": null
       },
-      "start": 38,
-      "end": 39,
+      "start": 22,
+      "end": 23,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 0
+          "line": 1,
+          "column": 22
         },
         "end": {
-          "line": 4,
-          "column": 1
+          "line": 1,
+          "column": 23
         }
       }
     },
@@ -338,16 +324,16 @@
         "binop": null
       },
       "value": "from",
-      "start": 40,
-      "end": 44,
+      "start": 24,
+      "end": 28,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 2
+          "line": 1,
+          "column": 24
         },
         "end": {
-          "line": 4,
-          "column": 6
+          "line": 1,
+          "column": 28
         }
       }
     },
@@ -364,17 +350,17 @@
         "binop": null,
         "updateContext": null
       },
-      "value": "./service",
-      "start": 45,
-      "end": 56,
+      "value": "./list-pad-start",
+      "start": 29,
+      "end": 47,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 7
+          "line": 1,
+          "column": 29
         },
         "end": {
-          "line": 4,
-          "column": 18
+          "line": 1,
+          "column": 47
         }
       }
     },
@@ -391,16 +377,199 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 56,
-      "end": 57,
+      "start": 47,
+      "end": 48,
       "loc": {
         "start": {
-          "line": 4,
-          "column": 18
+          "line": 1,
+          "column": 47
         },
         "end": {
-          "line": 4,
+          "line": 1,
+          "column": 48
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "export",
+        "keyword": "export",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "export",
+      "start": 50,
+      "end": 56,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 0
+        },
+        "end": {
+          "line": 3,
+          "column": 6
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "{",
+        "beforeExpr": true,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 57,
+      "end": 58,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 7
+        },
+        "end": {
+          "line": 3,
+          "column": 8
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "listPadEnd",
+      "start": 59,
+      "end": 69,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 9
+        },
+        "end": {
+          "line": 3,
           "column": 19
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "}",
+        "beforeExpr": false,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "start": 70,
+      "end": 71,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 20
+        },
+        "end": {
+          "line": 3,
+          "column": 21
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "name",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null
+      },
+      "value": "from",
+      "start": 72,
+      "end": 76,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 22
+        },
+        "end": {
+          "line": 3,
+          "column": 26
+        }
+      }
+    },
+    {
+      "type": {
+        "label": "string",
+        "beforeExpr": false,
+        "startsExpr": true,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "value": "./list-pad-end",
+      "start": 77,
+      "end": 93,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 27
+        },
+        "end": {
+          "line": 3,
+          "column": 43
+        }
+      }
+    },
+    {
+      "type": {
+        "label": ";",
+        "beforeExpr": true,
+        "startsExpr": false,
+        "rightAssociative": false,
+        "isLoop": false,
+        "isAssign": false,
+        "prefix": false,
+        "postfix": false,
+        "binop": null,
+        "updateContext": null
+      },
+      "start": 93,
+      "end": 94,
+      "loc": {
+        "start": {
+          "line": 3,
+          "column": 43
+        },
+        "end": {
+          "line": 3,
+          "column": 44
         }
       }
     },
@@ -417,15 +586,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 58,
-      "end": 58,
+      "start": 95,
+      "end": 95,
       "loc": {
         "start": {
-          "line": 5,
+          "line": 4,
           "column": 0
         },
         "end": {
-          "line": 5,
+          "line": 4,
           "column": 0
         }
       }

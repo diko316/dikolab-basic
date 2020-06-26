@@ -4,7 +4,7 @@ import { DEFAULT_PADSTRING } from "./constants";
 
 import { stringify } from "./stringify";
 
-import { listPadStart } from "../array/service";
+import { listPadStart } from "../array/list-pad-start";
 
 /**
  * Creates a padded string with another string (multiple times, if needed)

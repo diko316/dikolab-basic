@@ -1,3 +1,1 @@
-export {
-  numberify
-} from "./format";
+export { numberify } from "./numberify";
