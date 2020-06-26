@@ -155,109 +155,51 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-a-href--https---www-dikoconsunji-com-javascript-dikolab-basic---dikolab-basic--a-"><a href="https://www.dikoconsunji.com/javascript/dikolab-basic">@dikolab/basic</a></h1><h2 id="motivation">Motivation</h2><p>So tired of reinventing the wheel every time there&apos;s new Javascript project.</p>
-<p>And now, I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
-import * as package from &quot;./package.json&quot;;
-
-export const packageInfo = query(
-  `
-  /* define @package */
-  package from ?;
-
-  /* define @dependencies */
-  dependencies from keys(@package.dependencies);
-
-  // I want to get my package information
-  {
-    name: @package.name,
-    version: @package.version,
-
-    deps: @dependencies
-  }
-  `,
-  [
-    package
-  ]
-);
-</code>
-</code></pre>
-<h2 id="installation">Installation</h2><p>Install using NPM.</p>
-<pre><code class="lang-sh"><code class="source-code prettyprint">npm install --save @dikolab/basic
-</code>
-</code></pre>
-<p>Or, directly use the package via CDN <a href="https://www.dikoconsunji.com/cdn/js/dikolab/basic/latest/basic.js">repo</a>
-by embedding the code below in your HTML.</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">
-&lt;!-- using latest version --&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.dikoconsunji.com/cdn/js/dikolab/basic/latest/basic.js&quot;&gt;&lt;/script&gt;
-
-
-&lt;!-- using specific version --&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.dikoconsunji.com/cdn/js/dikolab/basic/0.0.2/basic.js&quot;&gt;&lt;/script&gt;
-
-</code>
-</code></pre>
-<h2 id="usage">Usage</h2><h3 id="cdn">CDN</h3><p>If using CDN, the utility functions are accessible via <strong><code>diko$basic</code></strong> global variable.</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">
-&lt;script type=&quot;text/javascript&quot;&gt;
-  // sample employees
-  var employees = [
-    {
-      id: 1,
-      name: &quot;diko&quot;
-    },
-    {
-      id: 2,
-      name: &quot;server generated&quot;
-    }
-  ];
-
-  // show employee names
-  console.log(
-    diko$basic.query(&quot;.[].name&quot;, employees)
-  );
-&lt;/script&gt;
-
-</code>
-</code></pre>
-<hr>
-<h3 id="commonjs">CommonJS</h3><p>NPM or YARN installed package may <code>require()</code> the module directly the CommonJS way.</p>
-<p>Use this method for vanilla NodeJS or Browserify transpiled project.</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">
-const basic = require(&quot;@dikolab/basic&quot;);
-
-function hasProperty(param, name) {
-  return basic.object(param) &amp;&amp; basic.contains(param, name);
-}
-
-exports.hasProperty = hasProperty;
-
-</code>
-</code></pre>
-<hr>
-<h3 id="es-module">ES Module</h3><p>Rollup, Webpack/Babel, TypeScript, Babel, and etc transpiled project
-may use ES6 module <code>import</code> directly if supported.</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">
-import {
-  object,
-  contains
-} from &quot;@dikolab/basic&quot;;
-
-export function hasProperty(param, name) {
-  return object(param) &amp;&amp; contains(param, name);
-}
-
-</code>
-</code></pre>
-<hr>
-<h3 id="further-reading">Further Reading</h3><p>Main documentation can be found in <a href="https://www.dikoconsunji.com/javascript/dikolab-basic">https://www.dikoconsunji.com/javascript/dikolab-basic</a>.</p>
-<p>Detailed API documentation is located in <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html">https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html</a></p>
-<p>What&apos;s new and version release is located in <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/manual/whats-new.html">https://www.dikoconsunji.com/javascript/dikolab-basic/manual/whats-new.html</a></p>
-<h2 id="contributors">Contributors</h2><p>None.</p>
-<h2 id="backers">Backers</h2><p>None.</p>
-<h2 id="sponsors">Sponsors</h2><p>None.</p>
-<h2 id="i-just-enjoy-my-hobby">I just enjoy my hobby</h2><p>Stay tune for more <a href="https://www.dikoconsunji.com/javascript/dikolab-basic">documentation</a> and functionality.</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="unicode">Unicode</h1><h2 id="overview">Overview</h2><p>This module also provides a handful support for treating Strings as UTF-8 allowing UTF-8 aware String manipulation and formatting via
+<a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html#unicode">service functions</a> or
+<a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html">UTF 8 class</a>.</p>
+<p>API documentation cheatsheet is found in the following:</p>
+<ol>
+<li><a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html#unicode">service functions</a>.</li>
+<li><a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html">UTF 8 class</a></li>
+</ol>
+<h2 id="counting-and-traverse">Counting and Traverse</h2><p><strong><em> <a href>eachUnicode(subject: string, callback: eachCodePointCallback): number</a> </em></strong></p>
+<p><strong><em> <a href>unicodeCount(subject: string | Utf): number</a> </em></strong></p>
+<h2 id="type-juggle">Type Juggle</h2><h3 id="to-string-s-and-numbers">To String/s and Numbers</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-codePointToString">codePointToString(codes: ...number[]): string</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-stringToCodePoints">stringToCodePoints(subject: string): number[]</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-stringToUnicodes">stringToUnicodes(subject: string): string[]</a> </em></strong></p>
+<h3 id="to-utf-class">To Utf Class</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-codePointsToUtf">codePointsToUtf(codes: number[]): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-unicodify">unicodify(subject: *, defaultValue: *): Utf | *</a> </em></strong></p>
+<h2 id="utf-class">Utf Class</h2><h3 id="constructor">Constructor</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-constructor-constructor">constructor(subject: string | Utf)</a> </em></strong></p>
+<h3 id="instance-stats-and-handling">Instance stats and handling</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-clone">clone(): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-localeCompare">localeCompare(compareString: string | Utf, locales: string, options: object): number</a> </em></strong></p>
+<h3 id="character-code-point-word-search">Character/Code Point/Word Search</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-charAt">charAt(index: number): string</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-codePointAt">codePointAt(index: number): number</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-includes">includes(keyword: string | Utf, position: number): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-indexOf">indexOf(searchValue: string | Utf, fromIndex: number): number</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-lastIndexOf">lastIndexOf(searchValue: string | Utf, fromIndex: number): number</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-match">match(pattern: RegExp): Utf[] | null</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-search">search(pattern: RegExp): number</a> </em></strong></p>
+<h3 id="string-manipulation">String Manipulation</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-concat">concat(subject: ...(string|Utf)): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-padEnd">padEnd(targetLength: number, padString: string | Utf): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-padStart">padStart(targetLength: number, padString: string | Utf): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-repeat">repeat(count: number): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-replace">replace(pattern: string | Utf | RegExp, replacement: string | Utf | stringReplaceCallback): Utf</a> </em></strong></p>
+<p><strong><em> [slice(begin: </em>, end: <em>): Utf](<a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-slice">https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-slice</a>) </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-split">split(separator: string | RegExp | Utf, limit: number): Utf[]</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-substring">substring(begin: number, end: number): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-trim">trim(): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-trimEnd">trimEnd(): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-trimStart">trimStart(): Utf</a> </em></strong></p>
+<h3 id="type-juggle">Type Juggle</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toArray">toArray(): string[]</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toJSON">toJSON(): string</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toLocaleLowerCase">toLocaleLowerCase(locale: string | string[]): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toLocaleUpperCase">toLocaleUpperCase(locale: string | string[]): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toLowerCase">toLowerCase(): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toPoints">toPoints(): number[]</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toString">toString(): string</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-toUpperCase">toUpperCase(): Utf</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/class/src/unicode/utf.class.js~Utf.html#instance-method-valueOf">valueOf(): string</a> </em></strong></p>
 </div>
 </div>
 

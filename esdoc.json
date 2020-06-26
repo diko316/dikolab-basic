@@ -2,6 +2,7 @@
   "source": "./src",
   "destination": "./docs",
   "includes": ["\\.js$"],
+  "package": "./package.json",
   "excludes": [
     "\\.config\\.js$",
     "\\.test\\.js$"
@@ -36,7 +37,14 @@
         "asset": "./manual",
         "files": [
           "./README.md",
-          "./manual/json/query.md"
+          "./manual/utilities.md",
+          "./manual/number.md",
+          "./manual/string.md",
+          "./manual/unicode.md",
+          "./manual/object.md",
+          "./manual/array.md",
+          "./manual/json-query-language.md",
+          "./manual/whats-new.md"
         ]
       }
     }

@@ -8,4 +8,5 @@ cd ${ROOT_DIR}
 [ -d ${ROOT_DIR}/docs ] || make build
 
 # upload docs
-aws s3 sync docs "s3://diko-dev-portfolio/javascript/dikolab-basic"
+aws s3 sync docs "s3://diko-dev-portfolio/javascript/old-docs/dikolab-basic/${PACKAGE_VERSION}" --delete
+aws s3 sync docs "s3://diko-dev-portfolio/javascript/dikolab-basic" --delete

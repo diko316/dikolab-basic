@@ -155,109 +155,30 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="-a-href--https---www-dikoconsunji-com-javascript-dikolab-basic---dikolab-basic--a-"><a href="https://www.dikoconsunji.com/javascript/dikolab-basic">@dikolab/basic</a></h1><h2 id="motivation">Motivation</h2><p>So tired of reinventing the wheel every time there&apos;s new Javascript project.</p>
-<p>And now, I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
-import * as package from &quot;./package.json&quot;;
-
-export const packageInfo = query(
-  `
-  /* define @package */
-  package from ?;
-
-  /* define @dependencies */
-  dependencies from keys(@package.dependencies);
-
-  // I want to get my package information
-  {
-    name: @package.name,
-    version: @package.version,
-
-    deps: @dependencies
-  }
-  `,
-  [
-    package
-  ]
-);
-</code>
-</code></pre>
-<h2 id="installation">Installation</h2><p>Install using NPM.</p>
-<pre><code class="lang-sh"><code class="source-code prettyprint">npm install --save @dikolab/basic
-</code>
-</code></pre>
-<p>Or, directly use the package via CDN <a href="https://www.dikoconsunji.com/cdn/js/dikolab/basic/latest/basic.js">repo</a>
-by embedding the code below in your HTML.</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">
-&lt;!-- using latest version --&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.dikoconsunji.com/cdn/js/dikolab/basic/latest/basic.js&quot;&gt;&lt;/script&gt;
-
-
-&lt;!-- using specific version --&gt;
-&lt;script type=&quot;text/javascript&quot; src=&quot;https://www.dikoconsunji.com/cdn/js/dikolab/basic/0.0.2/basic.js&quot;&gt;&lt;/script&gt;
-
-</code>
-</code></pre>
-<h2 id="usage">Usage</h2><h3 id="cdn">CDN</h3><p>If using CDN, the utility functions are accessible via <strong><code>diko$basic</code></strong> global variable.</p>
-<pre><code class="lang-html"><code class="source-code prettyprint">
-&lt;script type=&quot;text/javascript&quot;&gt;
-  // sample employees
-  var employees = [
-    {
-      id: 1,
-      name: &quot;diko&quot;
-    },
-    {
-      id: 2,
-      name: &quot;server generated&quot;
-    }
-  ];
-
-  // show employee names
-  console.log(
-    diko$basic.query(&quot;.[].name&quot;, employees)
-  );
-&lt;/script&gt;
-
-</code>
-</code></pre>
-<hr>
-<h3 id="commonjs">CommonJS</h3><p>NPM or YARN installed package may <code>require()</code> the module directly the CommonJS way.</p>
-<p>Use this method for vanilla NodeJS or Browserify transpiled project.</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">
-const basic = require(&quot;@dikolab/basic&quot;);
-
-function hasProperty(param, name) {
-  return basic.object(param) &amp;&amp; basic.contains(param, name);
-}
-
-exports.hasProperty = hasProperty;
-
-</code>
-</code></pre>
-<hr>
-<h3 id="es-module">ES Module</h3><p>Rollup, Webpack/Babel, TypeScript, Babel, and etc transpiled project
-may use ES6 module <code>import</code> directly if supported.</p>
-<pre><code class="lang-js"><code class="source-code prettyprint">
-import {
-  object,
-  contains
-} from &quot;@dikolab/basic&quot;;
-
-export function hasProperty(param, name) {
-  return object(param) &amp;&amp; contains(param, name);
-}
-
-</code>
-</code></pre>
-<hr>
-<h3 id="further-reading">Further Reading</h3><p>Main documentation can be found in <a href="https://www.dikoconsunji.com/javascript/dikolab-basic">https://www.dikoconsunji.com/javascript/dikolab-basic</a>.</p>
-<p>Detailed API documentation is located in <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html">https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html</a></p>
-<p>What&apos;s new and version release is located in <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/manual/whats-new.html">https://www.dikoconsunji.com/javascript/dikolab-basic/manual/whats-new.html</a></p>
-<h2 id="contributors">Contributors</h2><p>None.</p>
-<h2 id="backers">Backers</h2><p>None.</p>
-<h2 id="sponsors">Sponsors</h2><p>None.</p>
-<h2 id="i-just-enjoy-my-hobby">I just enjoy my hobby</h2><p>Stay tune for more <a href="https://www.dikoconsunji.com/javascript/dikolab-basic">documentation</a> and functionality.</p>
+<div class="content" data-ice="content"><div class="github-markdown" data-ice="content"><h1 id="utilities">Utilities</h1><h2 id="overview">Overview</h2><p>The package supports basic utility functions that:</p>
+<ol>
+<li><a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html#native">Detects Javascript Data types</a>.</li>
+<li><a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html#lifecycle">Register destructors from lifecycle module</a>.</li>
+</ol>
+<p>Please check the <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/identifiers.html#native">API documentation</a> for more details.</p>
+<h2 id="type-checkers">Type Checkers</h2><p>This module is useful for type checking and verifying type signatures.</p>
+<h3 id="scalar">Scalar</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-string">string(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-number">number(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-numeric">numeric(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-boolean">boolean(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-bigint">bigint(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-symbol">symbol(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-regexp">regexp(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-scalar">scalar(subject: *): boolean</a> </em></strong></p>
+<h3 id="native-object">Native Object</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-object">object(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-method">method(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-array">array(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-iteratable">iteratable(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-date">date(subject: *): boolean</a> </em></strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-promise">promise(subject: *): boolean</a> </em></strong></p>
+<h3 id="data-signature">Data signature</h3><p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-signature">signature(subject: *): boolean</a> </em></strong></p>
+<h2 id="lifecycle">Lifecycle</h2><p><strong>Destructor is also compatible with browser Javascript engines.</strong></p>
+<p><strong><em> <a href="https://www.dikoconsunji.com/javascript/dikolab-basic/function/index.html#static-function-destructor">destructor(callback: function)</a> </em></strong></p>
 </div>
 </div>
 
