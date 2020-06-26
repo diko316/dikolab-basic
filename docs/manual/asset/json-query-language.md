@@ -1,4 +1,4 @@
-# JSON Query
+# JSON Query Language
 
 ## Usage
 
@@ -429,7 +429,7 @@ Mixed | ***condition*** **`?`** ***expression1*** **`:`** ***expression2*** | `.
 
 Result Type | Operator | Example | Description
 --- | --- | --- | ---
-Mixed | **`=`** | data[0].value **`=`** "value" | Assigns **"value"** to **data[0].value** expression. <br>Take note that if zero "0" don't exist, zero index will be created with empty object.
+Mixed | **`=`** | data[0].value **`=`** "value" | Assigns **"value"** to **data[0].value** expression. <br>Take note that if zero "0" don't exist, an empty object will be created and assigned to that property/index for you.
 
 ### Json Path
 
