@@ -393,19 +393,19 @@ export function parse(subject) {
   }
 
   // console.log(&quot;partial &quot;, JSON.stringify(rpn, null, 3));
-  if (erroneous &amp;&amp; rpn.length) {
-    console.log(
-      &quot;last partial rpn: &quot;,
-      JSON.stringify(
-        rpn.slice(
-          Math.max(rpn.length - 5, 0),
-          rpn.length
-        ),
-        null,
-        3
-      )
-    );
-  }
+  // if (erroneous &amp;&amp; rpn.length) {
+  //   console.log(
+  //     &quot;last partial rpn: &quot;,
+  //     JSON.stringify(
+  //       rpn.slice(
+  //         Math.max(rpn.length - 5, 0),
+  //         rpn.length
+  //       ),
+  //       null,
+  //       3
+  //     )
+  //   );
+  // }
 
   return erroneous ? null : rpn;
 }
