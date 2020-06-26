@@ -4,6 +4,22 @@ import applyPlugin from "./rollup/apply-plugin";
 const ENTRY_FILE = "src/index.js";
 const MODULE_NAME = settings.name.replace(/@[^/]+\//, "");
 
+const JSON_OPTIONS = {
+  name: "json",
+  options: {
+    compact: true,
+    preferConst: true
+  }
+};
+
+const CLEANUP_OPTIONS = {
+  name: "cleanup",
+  options: {
+    comments: "none",
+    sourcemap: true
+  }
+};
+
 export default [
   applyPlugin(
     {
@@ -11,7 +27,7 @@ export default [
       output: {
         file: `umd/${MODULE_NAME}.js`,
         format: "umd",
-        name: "basic",
+        name: "diko$basic",
         esModule: false,
         sourcemap: true
       }
@@ -26,6 +42,8 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      JSON_OPTIONS,
+      "strip",
       "buble",
       "terser"
     ]
@@ -36,6 +54,7 @@ export default [
       output: {
         dir: `esm`,
         format: "esm",
+        preserveModules: true,
         sourcemap: true
       }
     },
@@ -49,7 +68,10 @@ export default [
       },
       "node-resolve",
       "commonjs",
-      "buble"
+      JSON_OPTIONS,
+      "strip",
+      "buble",
+      CLEANUP_OPTIONS
     ]
   ),
   applyPlugin(
@@ -58,6 +80,8 @@ export default [
       output: {
         dir: `cjs`,
         format: "cjs",
+        exports: "named",
+        preserveModules: true,
         sourcemap: true
       }
     },
@@ -71,7 +95,10 @@ export default [
       },
       "node-resolve",
       "commonjs",
-      "buble"
+      JSON_OPTIONS,
+      "strip",
+      "buble",
+      CLEANUP_OPTIONS
     ]
   ),
   applyPlugin(
@@ -93,7 +120,10 @@ export default [
       },
       "node-resolve",
       "commonjs",
-      "buble"
+      JSON_OPTIONS,
+      "strip",
+      "buble",
+      CLEANUP_OPTIONS
     ]
   )
 ];

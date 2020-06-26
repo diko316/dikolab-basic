@@ -1,0 +1,25 @@
+{
+  "grammar": {
+    "Concat": [
+      ["Concat", "+", "Term"],
+      ["Concat", "+", "string"],
+      ["string", "+", "Term"],
+      ["Term", "+", "string"]
+    ],
+    "Term": [
+      ["Term", "+", "Factor"],
+      ["Term", "-", "Factor"],
+      ["Factor"]
+    ],
+    "Factor": [
+      ["Factor", "*", "Operand"],
+      ["Factor", "/", "Operand"],
+      ["Factor", "%", "Operand"],
+      ["Operand"]
+    ],
+    "Operand": [
+      ["Signed"],
+      ["Variant"]
+    ]
+  }
+}

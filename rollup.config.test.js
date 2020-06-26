@@ -3,9 +3,13 @@ import applyPlugin from "./rollup/apply-plugin";
 export default [
   applyPlugin(
     {
+      external: [
+        "chai",
+        "unexpected"
+      ],
       input: "src/**/*.test.js",
       output: {
-        file: `test/mocha-feed.js`,
+        file: "test/mocha-feed.js",
         format: "cjs",
         sourcemap: true,
         globals: {
@@ -26,6 +30,7 @@ export default [
       },
       "node-resolve",
       "commonjs",
+      "json",
       "buble"
     ]
   )

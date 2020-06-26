@@ -1,9 +1,12 @@
-import { isFunction } from "../object";
+import { TYPE_FUNCTION } from "../native/constants";
 
 const DESTRUCTORS = [];
 let INITIALIZED = false;
 let DESTROYED = false;
 
+/**
+ * @private
+ */
 function onDestroy() {
   let list = null;
 
@@ -24,15 +27,24 @@ function onDestroy() {
   }
 }
 
+/**
+ * @private
+ */
 function onBrowserDestroy() {
   window.removeEventListener("beforeunload", onDestroy);
   window.removeEventListener("unload", onDestroy);
 }
 
+/**
+ * @private
+ */
 function onProcessDestroy() {
   process.removeListener("beforeExit", onDestroy);
 }
 
+/**
+ * @private
+ */
 function initialize() {
   const list = DESTRUCTORS;
 
@@ -52,10 +64,15 @@ function initialize() {
   }
 }
 
+/**
+ * Registers a destructor handler. Very useful for NodeJS and browser.
+ *
+ * @param {Function} callback Function to call when app shutsdown or browser document is unloaded.
+ */
 export function destructor(callback) {
   const list = DESTRUCTORS;
 
-  if (isFunction(callback)) {
+  if (typeof callback === TYPE_FUNCTION) {
     initialize();
     list[list.length] = callback;
   }

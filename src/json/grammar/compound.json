@@ -1,0 +1,59 @@
+{
+  "grammar": {
+    "Compound": [
+      ["Object"],
+      ["Array"],
+      ["Scalar"],
+      ["Boolean"],
+      ["!", "Compound"],
+      ["regex"],
+      ["undefined"],
+      ["null"]
+    ],
+    "Object": [
+      ["{", "}"],
+      ["{", "Props", "}"]
+    ],
+    "Props": [
+      ["Props", ",", "Name", ":", "Assignable"],
+      ["Name", ":", "Assignable"]
+    ],
+    "Name": [
+      ["ident"],
+      ["string"],
+      ["integer"],
+      ["Mixed"]
+    ],
+    "Array": [
+      ["[", "]"],
+      ["[", "Values", "]"]
+    ],
+    "Values": [
+      ["Values", ",", "Assignable"],
+      ["Assignable"]
+    ],
+    "Call": [
+      ["ident", "(", ")"],
+      ["ident", "(", "Values", ")"]
+    ],
+    "Variant": [
+      ["."],
+      ["Path"],
+      ["Mixed"]
+    ],
+    "Mixed": [
+      ["Call"],
+      ["Ref"],
+      ["RefNum"],
+      ["(", "Assignable", ")"]
+    ],
+    "Ref": [
+      ["@"],
+      ["@", "ident"]
+    ],
+    "RefNum": [
+      ["?"],
+      ["@", "integer"]
+    ]
+  }
+}

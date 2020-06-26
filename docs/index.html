@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="./">
+  <title data-ice="title">Manual | @dikolab/basic</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="Basic Javascript helpers"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="@dikolab/basic"><meta property="twitter:description" content="Basic Javascript helpers"></head>
+<body class="layout-container manual-root manual-index" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/diko316/dikolab-basic"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div class="manual-toc-root">
+  
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/README.html"><a href="manual/README.html" data-ice="link">@dikolab/basic</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#motivation" data-ice="link">Motivation</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#contributors" data-ice="link">Contributors</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#backers" data-ice="link">Backers</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#sponsors" data-ice="link">Sponsors</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/README.html"><a href="manual/README.html#i-just-enjoy-my-hobby" data-ice="link">I just enjoy my hobby</a></li>
+</ul>
+  </div>
+<div data-ice="manual">
+    <ul class="manual-toc">
+      
+    <li data-ice="manualNav" class="indent-h1" data-link="manual/query.html"><a href="manual/query.html" data-ice="link">JSON Query</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#usage" data-ice="link">Usage</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#importing--code-query--code--function-from--dikolab-basic" data-ice="link">Importing query function from @dikolab/basic</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#simple-query" data-ice="link">Simple Query</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#select-extract-json-data" data-ice="link">Select/Extract JSON data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#simple-extract-data" data-ice="link">Simple Extract data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#extract-and-compose" data-ice="link">Extract and Compose</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#extract-and-filter" data-ice="link">Extract and Filter</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#manipulate-json-data" data-ice="link">Manipulate JSON data</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#set-value" data-ice="link">Set value</a></li>
+<li data-ice="manualNav" class="indent-h4" data-link="manual/query.html"><a href="manual/query.html#unset-value" data-ice="link">Unset value</a></li>
+<li data-ice="manualNav" class="indent-h2" data-link="manual/query.html"><a href="manual/query.html#query-language" data-ice="link">Query Language</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#lexical-structure" data-ice="link">Lexical Structure</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#references" data-ice="link">References</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#scalar-and-literals" data-ice="link">Scalar and Literals</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#array-list" data-ice="link">Array/List</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#object" data-ice="link">Object</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#variables" data-ice="link">Variables</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#function-call" data-ice="link">Function Call</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#filters" data-ice="link">Filters</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#arithmetic" data-ice="link">Arithmetic</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#conditional" data-ice="link">Conditional</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#logical-operators" data-ice="link">Logical Operators</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#ternary-condition-operator" data-ice="link">Ternary Condition Operator</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#assignment" data-ice="link">Assignment</a></li>
+<li data-ice="manualNav" class="indent-h3" data-link="manual/query.html"><a href="manual/query.html#json-path" data-ice="link">Json Path</a></li>
+</ul>
+  </div>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div class="github-markdown">
+  <div class="manual-user-index" data-ice="manualUserIndex"><h1 id="-dikolab-basic">@dikolab/basic</h1><h2 id="motivation">Motivation</h2><p>So tired of reinventing the wheel every time there&apos;s new Javascript project.</p>
+<p>And now, I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
+import * as package from &quot;./package.json&quot;;
+
+export const packageInfo = query(
+  `
+  /* define @package */
+  package from ?;
+
+  /* define @package */
+  dependencies from keys(@package.dependencies);
+
+  // I want to get my package information
+  {
+    name: @package.name,
+    version: @package.version,
+
+    deps: @dependencies
+  }
+  `,
+  [
+    package
+  ]
+);
+</code>
+</code></pre>
+<h2 id="usage">Usage</h2><p>Install using NPM</p>
+<pre><code class="lang-sh"><code class="source-code prettyprint">
+npm install --save @dikolab/basic
+</code>
+</code></pre>
+<p>May import functions using ES6 module import.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">
+import {
+  object,
+  contains
+} from &quot;@dikolab/basic&quot;;
+
+export function hasProperty(param, name) {
+  return object(param) &amp;&amp; contains(param, name);
+}
+</code>
+</code></pre>
+<p>Or, CommonJS import.</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">
+const basic = require(&quot;@dikolab/basic&quot;);
+
+function hasProperty(param, name) {
+  return basic.object(param) &amp;&amp; basic.contains(param, name);
+}
+
+exports.hasProperty = hasProperty;
+</code>
+</code></pre>
+<h2 id="contributors">Contributors</h2><p>None.</p>
+<h2 id="backers">Backers</h2><p>None.</p>
+<h2 id="sponsors">Sponsors</h2><p>None.</p>
+<h2 id="i-just-enjoy-my-hobby">I just enjoy my hobby</h2><p>Stay tune for more <a href="https://dikoconsunji.com/javascript/dikolab-basic">documentation</a> and functionality.</p>
+</div>
+
+  
+
+  <div class="manual-cards">
+    
+  <div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>@dikolab/basic</h1><h2>Motivation</h2><p>So tired of reinventing the wheel every time there&apos;s new Javascript project.</p><p>And now, I&apos;m feeling lazy and just want to create a Javascript Object using the code below.</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;
+import * as package from &quot;./package.json&quot;;
+
+export const packageInfo = query(
+  `
+  /* define @package */
+  package from ?;
+
+  /* define @package */
+  dependencies from keys(@package.dependencies);
+
+  // I want to get my package information
+  {
+    name: @package.name,
+    version: @package.version,
+
+    deps: @dependencies
+  }
+  `,
+  [
+    package
+  ]
+);
+</code>
+</code></pre><h2>Usage</h2><p>Install using NPM</p><pre><code class="lang-sh"><code class="source-code prettyprint">
+npm install --save @dikolab/basic
+</code>
+</code></pre><p>May import functions using ES6 module import.</p><pre><code class="lang-js"><code class="source-code prettyprint">
+import {
+  object,
+  contains
+} from &quot;@dikolab/basic&quot;;
+
+export function hasProperty(param, name) {
+  return object(param) &amp;&amp; contains(param, name);
+}
+</code>
+</code></pre><p>Or, CommonJS import.</p><pre><code class="lang-js"><code class="source-code prettyprint">
+const basic = require(&quot;@dikolab/basic&quot;);
+
+function hasProperty(param, name) {
+  return basic.object(param) &amp;&amp; basic.contains(param, name);
+}
+
+exports.hasProperty = hasProperty;
+</code>
+</code></pre><h2>Contributors</h2><p>None.</p><h2>Backers</h2><p>None.</p><h2>Sponsors</h2><p>None.</p><h2>I just enjoy my hobby</h2><p>Stay tune for more <a href="https://dikoconsunji.com/javascript/dikolab-basic">documentation</a> and functionality.</p></div>
+        <a data-ice="link" href="manual/README.html"></a>
+      </div>
+    </div>
+<div class="manual-card-wrap" data-ice="cards">
+      <div class="manual-card">
+        <div data-ice="card"><h1>JSON Query</h1><h2>Usage</h2><h3>Importing <code>query</code> function from @dikolab/basic</h3><p>CommonJS</p><pre><code class="lang-js"><code class="source-code prettyprint">const query = require(&quot;@dikolab/basic&quot;).query;</code>
+</code></pre><p>ECMAScript module</p><pre><code class="lang-js"><code class="source-code prettyprint">import { query } from &quot;@dikolab/basic&quot;;</code>
+</code></pre><h3>Simple Query</h3><pre><code class="lang-js"><code class="source-code prettyprint">// returns 9
+query(
+  &quot;(1 + 2) * 3&quot;
+);
+
+// returns false
+query(
+  &quot;5 &gt; 6&quot;
+);
+
+// returns true
+query(
+  &quot;5 &lt;= 6&quot;
+);</code>
+</code></pre><h3>Select/Extract JSON data</h3><p><strong>With sample JSON</strong></p><pre><code class="lang-json"><code class="source-code prettyprint">{
+  &quot;message&quot;: &quot;Ok&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;name1&quot;,
+      &quot;language&quot;: [
+        &quot;en&quot;,
+        &quot;fr&quot;,
+        1,
+        &quot;de&quot;
+      ]
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;name2&quot;,
+      &quot;language&quot;: [
+        &quot;es&quot;
+      ]
+    }
+  ]
+}</code>
+</code></pre><h4>Simple Extract data</h4><pre><code class="lang-js"><code class="source-code prettyprint">// returns 1
+query(
+  &quot;data[0].id&quot;,
+  object
+);</code>
+</code></pre><h4>Extract and Compose</h4><p><strong>Composing array/list</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">// returns [ &quot;en&quot;, &quot;fr&quot;, &quot;de&quot; ]
+query(
+  `
+  [
+    data[0].language[0],
+    data[0].language[1],
+    data[0].language[3]
+  ]
+  `,
+  object
+);</code>
+</code></pre><p><strong>Composing object</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">//  returns { &quot;found&quot;: 1, &quot;nextName&quot;: &quot;name1&quot; }
+query(
+  `
+  {
+    found: data[0].id,
+    nextName: data[1].name
+  }
+  `,
+  object
+);</code>
+</code></pre><h4>Extract and Filter</h4><pre><code class="lang-js"><code class="source-code prettyprint">// returns [{ id: 2,...}] since data.id === 1 has no &quot;es&quot; language
+query(
+  `
+  data[] | ~ .language is: &quot;es&quot;
+
+  // alternatively, you can use other built-in filter:
+  //
+  // language among: &quot;es&quot;
+  //   or  
+  // language in: [&quot;es&quot;]
+  `
+);
+</code>
+</code></pre><h3>Manipulate JSON data</h3><p><strong>With sample JSON</strong></p><pre><code class="lang-json"><code class="source-code prettyprint">{
+  &quot;message&quot;: &quot;Ok&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;name&quot;: &quot;name1&quot;,
+      &quot;language&quot;: [
+        &quot;en&quot;,
+        &quot;fr&quot;
+      ]
+    },
+    {
+      &quot;id&quot;: 2,
+      &quot;name&quot;: &quot;name2&quot;
+    }
+  ]
+}</code>
+</code></pre><h4>Set value</h4><p><strong>Simple set value</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
+// then, returns 42
+query(
+  &quot;data[0].id = 42&quot;,
+  object
+);</code>
+</code></pre><p><strong>Multiple set value</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
+// data[1] will now contain { id: 2, name: &quot;updated name&quot;, language: [&quot;en&quot;]}
+// then, returns [42, &quot;updated name&quot;, &quot;en&quot; ]
+query(
+  `
+  [
+    .3.data[0].id = ?,
+    @3.data[1].name = ?,
+    .[3].data[1].language[] = ?
+  ]
+  `,
+  [
+    42,
+    &quot;updated name&quot;,
+    &quot;en&quot;,
+    object
+  ]
+);
+
+// data[0] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;, &quot;fr&quot;]}
+// data[1] will now contain { id: 2, name: &quot;updated name&quot;, language: [&quot;en&quot;]}
+// then, returns { &quot;updatedId&quot;: 42, &quot;updatedName&quot;: &quot;updated name&quot;, &quot;updatedLanguage&quot;: &quot;en&quot; }
+query(
+  `
+  {
+    updatedId: @3.data[0].id = ?,
+    updatedName: @3.data[1].name = ?,
+    updatedLanguage: @3.data[1].language[] = ?
+  }
+  `,
+  [
+    42,
+    &quot;updated name&quot;,
+    &quot;en&quot;,
+    object
+  ]
+);
+
+// creates new item in &quot;data&quot; array indexed by &quot;2&quot;.
+// data[2] will now contain { id: 42, name: &quot;name1&quot;, language: [&quot;en&quot;]}
+// then, returns { &quot;updatedId&quot;: 42, &quot;updatedName&quot;: &quot;updated name&quot;, &quot;updatedLanguage&quot;: &quot;en&quot; }
+query(
+  `
+  {
+    updatedId: .3.data[2].id = ?,
+    updatedName: .[3].data[2].name = ?,
+    updatedLanguage: @3.data[2].language[] = ?
+  }
+  `,
+  [
+    42,
+    &quot;updated name&quot;,
+    &quot;en&quot;,
+    object
+  ]
+);</code>
+</code></pre><h4>Unset value</h4><p><strong>Simple remove property</strong></p><pre><code class="lang-js"><code class="source-code prettyprint">
+// removes &quot;message&quot; property.
+// returns true if successfully deleted &quot;message&quot; property.
+query(
+  &quot;delete message&quot;,
+  object
+);
+
+
+**Multiple remove property**
+
+// removes &quot;message&quot; property.
+//  then, removes &quot;name&quot; property in data[0].
+//  then, removes &quot;language&quot; property in data[0].
+//  then, pops &quot;0&quot; index in data[0].language array.
+// returns true if last delete expression is successful.
+query(
+  `
+    delete message,
+          data[0].name,
+          data[0].language,
+          data[0];
+  `,
+  object
+);</code>
+</code></pre><h2>Query Language</h2><p>Supported Lexical Structures.</p><h3>Lexical Structure</h3><pre><code><code class="source-code prettyprint">#####################################
+# Reference declarations (optional)
+#####################################
+
+[`identifier` from `expression`;]
+  ...
+  [`identifier` from `expression`;]
+
+
+#####################################
+# Main expression (required)
+#####################################
+
+# return result of `expression`
+`expression`
+
+  # or, multiple expression separated by `;`
+  |
+    `expression`;
+
+      [
+        ... `expression`;
+        [`expression`]
+      ]
+
+  # the last expression
+  #   1. may or may not omit `;`
+  #   2. and will be returned as query result.
+
+
+</code>
+</code></pre><h3>References</h3><p><strong>Using references</strong></p><pre><code><code class="source-code prettyprint">// reference declaration
+
+myReference from @1.data[1].value;
+firstElement from .[1].data[0];
+customValue from ?;
+
+// using reference with @
+{
+  count: @myReference.length,
+  first: @firstElement,
+  value: @customValue
+}</code>
+</code></pre><h3>Scalar and Literals</h3><p>Scalars are literally declared as seen in the examples.</p><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Integer</td>
+<td><code>10</code><br><br><code>-2</code><br><br><code>+500</code></td>
+<td>Whole number.</td>
+</tr>
+<tr>
+<td>Float</td>
+<td><code>.5</code><br><br><code>1.5</code><br><br><code>-0.1</code></td>
+<td>Number with precision</td>
+</tr>
+<tr>
+<td>Percent</td>
+<td><code>-1%</code><br><br><code>210%</code></td>
+<td>Float multiplied by .01</td>
+</tr>
+<tr>
+<td>String</td>
+<td><code>&quot;double quote&quot;</code><br><br><code>&apos;single quote&apos;</code><br><br><code>&apos;\n escaped next line&apos;</code></td>
+<td>Enclosed in double quote and single quote</td>
+</tr>
+</tbody>
+</table><h3>Array/List</h3><p>Lists are internally Javascript Array instance.</p><p>It can be composed by enclosing items with brackets <code>[]</code> like: <code>[1, 2, &quot;last item&quot;]</code>.</p><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Array</td>
+<td><code>[1,2,3]</code><br><br><code>[</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>&quot;diko&quot;,</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>3,</code><br>&#xA0;&#xA0;&#xA0;&#xA0;<code>@myValue</code><br><code>]</code></td>
+<td>Zero-based indexed list of values where first item index is 0, and nth for next consecutive items.</td>
+</tr>
+</tbody>
+</table><h3>Object</h3><p>Objects are internal Javascript Object instance.</p><p>It can be composed by enclosing properties with braces <code>{}</code>.</p><p>Properties are named with <code>identifiers</code> followed by colon <code>:</code>, then an <code>expression</code> representing value of the property.</p><pre><code class="lang-js"><code class="source-code prettyprint">{
+  first: 1,
+  seconds: 2,
+  last: &quot;last item&quot;
+}</code>
+</code></pre><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Object</td>
+<td>{ first: 1, seconds: 2 , third: 3 }<br><br>{<br>&#xA0;&#xA0;&#xA0;&#xA0;name: &quot;diko&quot;,<br>&#xA0;&#xA0;&#xA0;&#xA0;&quot;count&quot;: 3,<br>&#xA0;&#xA0;&#xA0;&#xA0;value: @myValue<br>}</td>
+<td>Struct data containing properties defined using <strong>:</strong> operator and <strong>identifier</strong> as property name.</td>
+</tr>
+</tbody>
+</table><h3>Variables</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mixed</td>
+<td><strong><code>.</code></strong></td>
+<td><code>myFunction(.); .property = 1; .</code></td>
+<td>Contains <code>targetObject</code> as <code>root</code> object which is passed when calling <code>query(myquery, targetObject)</code> function.</td>
+</tr>
+<tr>
+<td>Mixed</td>
+<td><strong><code>?</code></strong></td>
+<td>data[<strong>?</strong>]<br><br>data[0].id = <strong>?</strong></td>
+<td>Question mark <strong>?</strong> contains any value defined outside the query.<br>Value in <strong>?</strong> contains value listed in <strong>targetobject</strong> Array argument when calling <code>query(myquery,</code><strong>targetobject</strong><code>)</code> function in order they appear in the query code.<br><br>For example, the first question mark will contain <strong>&quot;my value&quot;</strong> string if function is executed like this <code>query(&quot;.[1].data = ?&quot;, [</code><strong>&quot;my value&quot;</strong><code>, object])</code></td>
+</tr>
+<tr>
+<td>Mixed</td>
+<td><strong><code>@</code></strong><br><br><strong><code>@reference</code></strong><br><br><strong><code>@number</code></strong></td>
+<td>myReference <em>from</em> data[1];<br>value <em>from</em> <strong>@myReference</strong>.value;<br>another <em>from</em> ?;<br><br>{<br>&#xA0;&#xA0;&#xA0;&#xA0;name: <strong>@myReference</strong>.name,<br>&#xA0;&#xA0;&#xA0;&#xA0;value: 1 + <strong>@value</strong>,<br>&#xA0;&#xA0;&#xA0;&#xA0;scope: <strong>@</strong>,<br>&#xA0;&#xA0;&#xA0;&#xA0;custom: <strong>@1</strong><br>}</td>
+<td>Uses value referenced from <strong>from</strong> declaration. <br><br><strong>@</strong> can also be used to reference root object if not followed by identifier.<br><br><strong>@</strong> can represent <strong>?</strong> variable when it&apos;s followed by numeric identifier such as <strong>@1</strong>, or <strong>@3</strong>.</td>
+</tr>
+</tbody>
+</table><h3>Function Call</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mixed</td>
+<td><strong><code>ident()</code></strong><br><strong><code>ident(expression[, ...expression])</code></strong></td>
+<td><code>func(., .rows[])</code></td>
+<td>Calls custom function from <code>root</code> object property.</td>
+</tr>
+</tbody>
+</table><h3>Filters</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Array</td>
+<td><strong><code>expression</code></strong> | <strong><code>ident</code></strong><br><strong><code>expression</code></strong> | <strong><code>ident : expression[, ...expression]</code></strong></td>
+<td><code>.</code> | <code>myfilter: ?</code></td>
+<td>Calls custom filter from <code>root</code> object property.</td>
+</tr>
+<tr>
+<td>Array</td>
+<td><strong><code>expression</code></strong> | <strong><code>~</code></strong> <strong><code>JsonPath...</code></strong> <strong><code>ident</code></strong><br><strong><code>expression</code></strong> | <strong><code>~</code></strong> <strong><code>JsonPath...</code></strong> <strong><code>ident : expression[, ...expression]</code></strong></td>
+<td><code>.data[]</code> | <code>~ country[].value in: [&quot;US&quot;, &quot;AL&quot;]</code></td>
+<td>Granular filtering based from subsequent Json Queries.<br>Like function and filters, they can be custom made as <code>root</code> object property.</td>
+</tr>
+</tbody>
+</table><h3>Arithmetic</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Number or,<br>String</td>
+<td><strong><code>+</code></strong></td>
+<td>1 <strong><code>+</code></strong> 2</td>
+<td>Addition.<br>But, result may be a <strong>concatenated string</strong> if one or all of the operands is a <strong>string</strong>.</td>
+</tr>
+<tr>
+<td>Number</td>
+<td><strong><code>-</code></strong></td>
+<td>1 <strong><code>-</code></strong> 2</td>
+<td>Subtraction.</td>
+</tr>
+<tr>
+<td>Number</td>
+<td><strong><code>*</code></strong></td>
+<td>1 <strong><code>*</code></strong> 2</td>
+<td>Multiplication.</td>
+</tr>
+<tr>
+<td>Number</td>
+<td><strong><code>/</code></strong></td>
+<td>1 <strong><code>/</code></strong> 2</td>
+<td>Division.</td>
+</tr>
+<tr>
+<td>Number</td>
+<td><strong><code>%</code></strong></td>
+<td>1 <strong><code>%</code></strong> 2</td>
+<td>Modulo Division. Resturns remainder of division operation</td>
+</tr>
+</tbody>
+</table><h3>Conditional</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boolean</td>
+<td><strong><code>==</code></strong></td>
+<td>1 <strong><code>==</code></strong> 2</td>
+<td>Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>===</code></strong></td>
+<td>1 <strong><code>===</code></strong> 2</td>
+<td>Strict Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>!=</code></strong></td>
+<td>1 <strong><code>!=</code></strong> 2</td>
+<td>Not Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>!==</code></strong></td>
+<td>1 <strong><code>!==</code></strong> 2</td>
+<td>Strict Not Equal.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>&gt;</code></strong></td>
+<td>1 <strong><code>&gt;</code></strong> 2</td>
+<td>Greater than.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>&gt;=</code></strong></td>
+<td>1 <strong><code>&gt;=</code></strong> 2</td>
+<td>Greater than or equal to.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>&lt;</code></strong></td>
+<td>1 <strong><code>&lt;</code></strong> 2</td>
+<td>Lesser than.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>&lt;=</code></strong></td>
+<td>1 <strong><code>&lt;=</code></strong> 2</td>
+<td>Lesser than or equal to.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong><code>=~</code></strong></td>
+<td>name <strong><code>=~</code></strong> /^diko/<br><br>name <strong><code>=~</code></strong> &quot;diko&quot;</td>
+<td>String pattern search.</td>
+</tr>
+</tbody>
+</table><h3>Logical Operators</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boolean</td>
+<td><strong><code>&amp;&amp;</code></strong></td>
+<td>1 <strong><code>&amp;&amp;</code></strong> 2</td>
+<td>Logical And.</td>
+</tr>
+<tr>
+<td>Boolean</td>
+<td><strong>||</strong></td>
+<td>name <strong>||</strong> ?</td>
+<td>Logical Or.</td>
+</tr>
+</tbody>
+</table><h3>Ternary Condition Operator</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mixed</td>
+<td><strong><em>condition</em></strong> <strong><code>?</code></strong> <strong><em>expression1</em></strong> <strong><code>:</code></strong> <strong><em>expression2</em></strong></td>
+<td><code>.data.id === 3</code> <br> <strong><code>?</code></strong> <code>rows[0..5]</code> <br><strong><code>:</code></strong> <code>rows[0, 6..10]</code></td>
+<td>Ternary condition where expression after <code>?</code> is returned if condition is truthy. Returns expression after <code>:</code> if condition is falsy.</td>
+</tr>
+</tbody>
+</table><h3>Assignment</h3><table>
+<thead>
+<tr>
+<th>Result Type</th>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mixed</td>
+<td><strong><code>=</code></strong></td>
+<td>data[0].value <strong><code>=</code></strong> &quot;value&quot;</td>
+<td>Assigns <strong>&quot;value&quot;</strong> to <strong>data[0].value</strong> expression. <br>Take note that if zero &quot;0&quot; don&apos;t exist, zero index will be created with empty object.</td>
+</tr>
+</tbody>
+</table><h3>Json Path</h3><table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>.key</code></strong><br><strong><code>key</code></strong></td>
+<td><strong><code>@.name</code></strong><br><strong><code>.1</code></strong><br><strong><code>id</code></strong><br><strong><code>.&quot;mydata&quot;</code></strong></td>
+<td>Selects a value based on object property or array index defined by <code>key</code>.</td>
+</tr>
+<tr>
+<td><strong><code>.*</code></strong></td>
+<td><strong><code>.*</code></strong></td>
+<td>Selects all object properties or array items.</td>
+</tr>
+<tr>
+<td><strong><code>[]</code></strong><br><strong><code>[*]</code></strong></td>
+<td><strong><code>.[*]</code></strong><br><strong><code>rows[]</code></strong></td>
+<td>Selects all object properties or array items.<br><br><strong>Setter query</strong> that ends with this operator will append an item to context array. (e.g. <code>rows[]={id: 2}</code> appends <code>{id:2}</code> to <code>rows</code> array.)</td>
+</tr>
+<tr>
+<td><strong><code>[key]</code></strong></td>
+<td><strong><code>.[data]</code></strong><br><strong><code>@[&quot;id&quot;]</code></strong><br><strong><code>.rows[?]</code></strong></td>
+<td>Selects a value based on object property or array index defined by <code>key</code>. also an alternative to <code>.key</code> operator.</td>
+</tr>
+<tr>
+<td><strong><code>[key, range, ...]</code></strong></td>
+<td><strong><code>?[name, id, 0..10]</code></strong><br><strong><code>.[0,2,4..9]</code></strong></td>
+<td>Selects matching object properties or array index defined by multiple combination of <code>key</code>, and <code>range</code>.<br><br><strong>Range</strong> is expressed in <strong><code>[start index] .. [end index]</code></strong> that may be useful for slicing arrays.</td>
+</tr>
+</tbody>
+</table></div>
+        <a data-ice="link" href="manual/query.html"></a>
+      </div>
+    </div>
+</div>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

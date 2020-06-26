@@ -1,0 +1,7 @@
+{
+  "ignoreTokens": [
+    "whitespace",
+    "scomment",
+    "mcomment"
+  ]
+}

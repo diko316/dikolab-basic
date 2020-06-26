@@ -1,0 +1,25 @@
+{
+  "root": "S`",
+  "grammar": {
+    "S`": [
+      ["Term"]
+    ],
+    "Term": [
+      ["Term", "-", "Factor"],
+      ["Term", "+", "Factor"],
+      ["Factor"]
+    ],
+    "Factor": [
+      ["Factor", "*", "Numeric"],
+      ["Factor", "/", "Numeric"],
+      ["Numeric"]
+    ],
+    "Numeric": [
+      ["(", "Expression", ")"],
+      ["Number"]
+    ],
+    "Number": [
+      ["number"]
+    ]
+  }
+}

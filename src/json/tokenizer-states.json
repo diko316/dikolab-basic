@@ -1,0 +1,351 @@
+{
+  "startState": "initial",
+  "endToken": "$",
+  "state": {
+    "initial": {
+      ":*": "ident",
+      ".": "dot",
+      ",": "comma",
+      "@": "reference",
+      "~": "tilde",
+      "[": "bracket1",
+      "]": "bracket2",
+      "(": "parenth1",
+      ")": "parenth2",
+      "{": "brace1",
+      "}": "brace2",
+      "\"": "dquote",
+      "'": "squote",
+      "?": "question",
+      ":": "colon",
+      ";": "semicolon",
+      "=": "assign",
+      "/": "slash",
+      "*": "star",
+      "+": "plus",
+      "-": "minus",
+      "%": "modulo",
+      "!": "exclamation",
+      ">": "gt",
+      "<": "lt",
+      "&": "andbit",
+      "|": "pipe",
+      "0": "whole",
+      "1": "whole",
+      "2": "whole",
+      "3": "whole",
+      "4": "whole",
+      "5": "whole",
+      "6": "whole",
+      "7": "whole",
+      "8": "whole",
+      "9": "whole",
+      " ": "whitespace",
+      "\r": "whitespace",
+      "\n": "whitespace",
+      "\t": "whitespace"
+    },
+    "ident": {
+      ":*": "ident",
+      ".": false,
+      ",": false,
+      "@": false,
+      "~": false,
+      "[": false,
+      "]": false,
+      "(": false,
+      ")": false,
+      "{": false,
+      "}": false,
+      "\"": false,
+      "'": false,
+      "?": false,
+      ":": false,
+      ";": false,
+      "=": false,
+      "/": false,
+      "*": false,
+      "+": false,
+      "-": false,
+      "%": false,
+      "!": false,
+      ">": false,
+      "<": false,
+      "&": false,
+      "|": false,
+      " ": false,
+      "\r": false,
+      "\n": false,
+      "\t": false
+    },
+    "dot": {
+      ".": "range"
+    },
+    "reference": {},
+    "tilde": {},
+
+    "comma": {},
+    "dquote": {
+      ":*": "dquote",
+      "\\": "dqEscape",
+      "\"": "string"
+    },
+    "dqEscape": {
+      ":*": "dquote"
+    },
+    "squote": {
+      ":*": "squote",
+      "\\": "sqEscape",
+      "'": "string"
+    },
+    "sqEscape": {
+      ":*": "squote"
+    },
+    "slash": {
+      ":*": "pattern",
+      "\\": "patternEscape",
+      "/": "scomment1",
+      "*": "mcomment1"
+    },
+    "modulo": {},
+    "star": {},
+    "pattern": {
+      ":*": "pattern",
+      "\\": "patternEscape",
+      "/": "regex"
+    },
+    "patternEscape": {
+      ":*": "pattern"
+    },
+    "regex": {
+      "g": "regexg",
+      "i": "regexi",
+      "m": "regexm",
+      "s": "regexs"
+    },
+    "regexg": {
+      "i": "regexgi",
+      "m": "regexgm",
+      "s": "regexgs"
+    },
+    "regexgi": {
+      "m": "regexgim",
+      "s": "regexgis"
+    },
+    "regexgim": {
+      "s": "regexgis"
+    },
+    "regexgis": {},
+    "regexi": {
+      "g": "regexig",
+      "m": "regexim",
+      "s": "regexis"
+    },
+    "regexig": {
+      "m": "regexigm",
+      "s": "regexigs"
+    },
+    "regexigm": {
+      "s": "regexgigs"
+    },
+    "regexgigs": {},
+    "regexm": {
+      "g": "regexmg",
+      "i": "regexmi",
+      "s": "regexms"
+    },
+    "regexmg": {
+      "i": "regexmgi",
+      "s": "regexmgs"
+    },
+    "regexmgi": {
+      "s": "regexmgis"
+    },
+    "regexmgis": {},
+    "regexs": {
+      "g": "regexsg",
+      "i": "regexsi",
+      "m": "regexsm"
+    },
+    "regexsg": {
+      "i": "regexsgi",
+      "m": "regexsms"
+    },
+    "regexsgi": {
+      "m": "regexsgim"
+    },
+    "regexsgim": {},
+    "scomment1": {
+      ":*": "scomment1",
+      "\n": "scomment2"
+    },
+    "scomment2": {},
+    "mcomment1": {
+      ":*": "mcomment1",
+      "*": "mcomment2"
+    },
+    "mcomment2": {
+      ":*": "mcomment1",
+      "/": "mcomment3"
+    },
+    "mcomment3": {},
+    "range": {},
+    "bracket1": {},
+    "bracket2": {},
+    "parenth1": {},
+    "parenth2": {},
+    "brace1": {},
+    "brace2": {},
+    "string": {},
+    "question": {},
+    "colon": {},
+    "semicolon": {},
+    "assign": {
+      "=": "equal",
+      "~": "match"
+    },
+    "equal": {
+      "=": "strictEqual"
+    },
+    "match": {},
+    "exclamation": {
+      "=": "not"
+    },
+    "not": {
+      "=": "strictNotEqual"
+    },
+    "strictNotEqual": {},
+    "strictEqual": {},
+    "gt": {
+      "=": "gte"
+    },
+    "gte": {},
+    "lt": {
+      "=": "lte"
+    },
+    "lte": {},
+    "andbit": {
+      "&": "and"
+    },
+    "and": {},
+    "pipe": {
+      "|": "or"
+    },
+    "or": {},
+    "plus": {},
+    "minus": {},
+    "whole": {
+      "0": "whole",
+      "1": "whole",
+      "2": "whole",
+      "3": "whole",
+      "4": "whole",
+      "5": "whole",
+      "6": "whole",
+      "7": "whole",
+      "8": "whole",
+      "9": "whole",
+      ".": "floatDot",
+      "%": "percent"
+    },
+    "floatDot": {
+      "0": "float",
+      "1": "float",
+      "2": "float",
+      "3": "float",
+      "4": "float",
+      "5": "float",
+      "6": "float",
+      "7": "float",
+      "8": "float",
+      "9": "float"
+    },
+    "float": {
+      "0": "float",
+      "1": "float",
+      "2": "float",
+      "3": "float",
+      "4": "float",
+      "5": "float",
+      "6": "float",
+      "7": "float",
+      "8": "float",
+      "9": "float",
+      "%": "percent"
+    },
+    "percent": {},
+    "whitespace": {
+      " ": "whitespace",
+      "\r": "whitespace",
+      "\n": "whitespace",
+      "\t": "whitespace"
+    }
+  },
+  "keywords": [
+    "from",
+    "delete",
+    "undefined",
+    "null",
+    "true",
+    "false"
+  ],
+  "ends": {
+    "ident": "ident",
+    "bracket1": "[",
+    "bracket2": "]",
+    "parenth1": "(",
+    "parenth2": ")",
+    "brace1": "{",
+    "brace2": "}",
+    "dot": ".",
+    "comma": ",",
+    "range": "..",
+    "string": "string",
+    "question": "?",
+    "colon": ":",
+    "semicolon": ";",
+    "reference": "@",
+    "tilde": "~",
+    "assign": "=",
+    "slash": "/",
+    "star": "*",
+    "scomment2": "scomment",
+    "mcomment3": "mcomment",
+    "plus": "+",
+    "minus": "-",
+    "modulo": "%",
+    "match": "=~",
+    "equal": "==",
+    "strictEqual": "===",
+    "not": "!=",
+    "strictNotEqual": "!==",
+    "gt": ">",
+    "gte": ">=",
+    "lt": "<",
+    "lte": "<=",
+    "and": "&&",
+    "or": "||",
+    "pipe": "|",
+    "whole": "integer",
+    "float": "float",
+    "whitespace": "whitespace",
+    "percent": "percent",
+    "regex": "regex",
+    "regexg": "regex",
+    "regexgi": "regex",
+    "regexgim": "regex",
+    "regexgis": "regex",
+    "regexi": "regex",
+    "regexig": "regex",
+    "regexigm": "regex",
+    "regexgigs": "regex",
+    "regexm": "regex",
+    "regexmg": "regex",
+    "regexmgi": "regex",
+    "regexmgis": "regex",
+    "regexs": "regex",
+    "regexsg": "regex",
+    "regexsgi": "regex",
+    "regexsgim": "regex"
+  }
+}

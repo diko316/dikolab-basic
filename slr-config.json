@@ -1,0 +1,11 @@
+{
+  "sources": [
+    "src/json/grammar/main.json",
+    "src/json/grammar/scalar.json",
+    "src/json/grammar/math.json",
+    "src/json/grammar/conditional.json",
+    "src/json/grammar/compound.json",
+    "src/json/grammar/path.json"
+  ],
+  "target": "src/json/parse-states.json"
+}

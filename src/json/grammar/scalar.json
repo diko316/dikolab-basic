@@ -1,0 +1,26 @@
+{
+  "grammar": {
+    "Scalar": [
+      ["Concat"],
+      ["Term"],
+      ["string"]
+    ],
+
+    "Boolean": [
+      ["true"],
+      ["false"]
+    ],
+
+    "Signed": [
+      ["+", "Number"],
+      ["-", "Number"],
+      ["Number"]
+    ],
+
+    "Number": [
+      ["integer"],
+      ["float"],
+      ["percent"]
+    ]
+  }
+}

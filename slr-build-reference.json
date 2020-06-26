@@ -1,0 +1,1729 @@
+{
+  "reference": {
+    "integer": {
+      "type": "number"
+    },
+    "float": {
+      "type": "number"
+    },
+    "percent": {
+      "type": "number",
+      "code": "percent",
+      "params": [
+        0
+      ]
+    },
+    "undefined": {
+      "type": "undefined"
+    },
+    "null": {
+      "type": "null"
+    },
+    "true": {
+      "type": "boolean"
+    },
+    "false": {
+      "type": "boolean"
+    },
+    "string": {
+      "type": "string"
+    },
+
+    "Number-><integer>": {
+      "code": 0
+    },
+    "Number-><float>": {
+      "code": 0
+    },
+    "Number-><percent>": {
+      "code": 0
+    },
+
+    "Signed->Number": {
+      "code": 0
+    },
+    "Signed-><+> Number": {
+      "code": 1
+    },
+    "Signed-><-> Number": {
+      "type": 1,
+      "code": "negative",
+      "params": [2]
+    },
+
+    "Scalar->Concat": {
+      "code": 0
+    },
+    "Scalar->Term": {
+      "code": 0
+    },
+    "Scalar-><string>": {
+      "code": 0
+    },
+
+    "Values->Assignable": {
+      "type": "list",
+      "code": "newlist",
+      "params": [1]
+    },
+    "Values->Values <,> Assignable": {
+      "type": "list",
+      "code": "addlist",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "Call-><ident> <(> <)>": {
+      "type": "mixed",
+      "code": "call",
+      "params": [
+        {
+          "child": 1,
+          "as": "function"
+        }
+      ]
+    },
+    "Call-><ident> <(> Values <)>": {
+      "type": "mixed",
+      "code": "callwithparams",
+      "params": [
+        {
+          "child": 1,
+          "as": "function"
+        },
+        3
+      ]
+    },
+
+    "Array-><[> <]>": {
+      "type": "list",
+      "code": "emptylist",
+      "params": [0]
+    },
+    "Array-><[> Values <]>": {
+      "code": 1
+    },
+
+    "Name-><ident>": {
+      "type": "string",
+      "code": "relay",
+      "params": [
+        {
+          "child": 1,
+          "quote": true
+        }
+      ]
+    },
+    "Name-><string>": {
+      "code": 0
+    },
+    "Name-><integer>": {
+      "code": 0
+    },
+    "Name-><Mixed>": {
+      "code": "relay",
+      "params": [
+        {
+          "child": 1,
+          "cast": "scalar"
+        }
+      ]
+    },
+
+    "Props->Name <:> Assignable": {
+      "type": "object",
+      "code": "newobject",
+      "params": [
+        1,
+        3
+      ]
+    },
+    "Props->Props <,> Name <:> Assignable": {
+      "type": "object",
+      "code": "addobject",
+      "params": [
+        1,
+        3,
+        5
+      ]
+    },
+
+    "Object-><{> <}>": {
+      "type": "object",
+      "code": "emptyobject",
+      "params": [0]
+    },
+    "Object-><{> Props <}>": {
+      "code": 1
+    },
+
+    "Ref-><@>": {
+      "code": "root",
+      "params": [0]
+    },
+    "Ref-><@> <ident>": {
+      "code": "relayref",
+      "params": [
+        {
+          "child": 2,
+          "as": "ref"
+        }
+      ]
+    },
+
+    "RefNum-><@> <integer>": {
+      "code": "relayref",
+      "params": [
+        {
+          "child": 2,
+          "as": "numref"
+        }
+      ]
+    },
+    "RefNum-><?>": {
+      "code": "relayref",
+      "params": [
+        {
+          "child": 1,
+          "as": "autoref"
+        }
+      ]
+    },
+
+    "Mixed->Call": {
+      "code": 0
+    },
+    "Mixed->Ref": {
+      "code": 0
+    },
+    "Mixed->RefNum": {
+      "code": 0
+    },
+    "Mixed-><(> Assignable <)>": {
+      "code": 1
+    },
+
+    "NumKey-><integer>": {
+      "code": 0
+    },
+    "NumKey->Mixed": {
+      "type": "number",
+      "code": "relay",
+      "params": [
+        {
+          "child": 0,
+          "cast": "number"
+        }
+      ]
+    },
+
+    "Key-><string>": {
+      "code": 0
+    },
+    "Key-><ident>": {
+      "type": "string",
+      "code": "relay",
+      "params": [
+        {
+          "child": 1,
+          "quote": true
+        }
+      ]
+    },
+    "Key->Mixed": {
+      "type": 0,
+      "code": "relay",
+      "params": [
+        {
+          "child": 1,
+          "cast": "scalar"
+        }
+      ]
+    },
+    "Key-><integer>": {
+      "code": 0
+    },
+
+    "RangeKey->Key": {
+      "code": 0
+    },
+    "RangeKey->Mixed <..> NumKey": {
+      "type": "number",
+      "code": "rangekey",
+      "params": [
+        {
+          "child": 1,
+          "cast": "number"
+        },
+        3
+      ]
+    },
+    "RangeKey-><integer> <..> NumKey": {
+      "type": "number",
+      "code": "rangekey",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "RangeKeys->RangeKey": {
+      "type": "keylist",
+      "code": "newkeylist",
+      "params": [
+        {
+          "child": 1,
+          "cast": "numerickeyflag"
+        },
+        {
+          "child": 1,
+          "cast": "pathkey"
+        }
+      ]
+    },
+    "RangeKeys->RangeKeys <,> RangeKey": {
+      "type": "keylist",
+      "code": "addkeylist",
+      "params": [
+        1,
+        {
+          "child": 3,
+          "cast": "numerickeyflag"
+        },
+        {
+          "child": 3,
+          "cast": "pathkey"
+        }
+      ]
+    },
+
+    "BraceAccess-><[> RangeKeys <]>": {
+      "code": 1
+    },
+    "BraceAccess-><[> <*> <]>": {
+      "type": "keylist",
+      "code": "strictnumberkeylist",
+      "params": [
+        0
+      ]
+    },
+    "BraceAccess-><[> <]>": {
+      "type": "keylist",
+      "code": "numberkeylist",
+      "params": [0]
+    },
+
+    "DotAccess-><.> Key": {
+      "type": "keylist",
+      "code": "newkeylist",
+      "params": [
+        {
+          "child": 2,
+          "cast": "numerickeyflag"
+        },
+        {
+          "child": 2,
+          "cast": "pathkey"
+        }
+      ]
+    },
+    "DotAccess-><.> <*>": {
+      "type": "keylist",
+      "code": "stringkeylist",
+      "params": [0]
+    },
+
+    "Access->DotAccess": {
+      "code": 0
+    },
+    "Access->BraceAccess": {
+      "code": 0
+    },
+
+    "Path-><ident>": {
+      "type": "path",
+      "code": "stringpath",
+      "params": [
+        {
+          "child": 0,
+          "cast": "context"
+        },
+        {
+          "child": 1,
+          "quote": true
+        }
+      ]
+    },
+    "Path->DotAccess": {
+      "type": "path",
+      "code": "keylistpath",
+      "params": [
+        {
+          "child": 0,
+          "cast": "context"
+        },
+        1
+      ]
+    },
+    "Path-><.> BraceAccess": {
+      "type": "path",
+      "code": "keylistpath",
+      "params": [
+        {
+          "child": 0,
+          "cast": "context"
+        },
+        2
+      ]
+    },
+    "Path->Mixed Access": {
+      "type": "path",
+      "code": "newpath",
+      "params": [
+        1,
+        2
+      ]
+    },
+    "Path->Path Access": {
+      "type": "path",
+      "code": "addpath",
+      "params": [
+        1,
+        2
+      ]
+    },
+
+    "Variant-><.>": {
+      "type": "mixed",
+      "code": "context",
+      "params": [
+        0
+      ]
+    },
+    "Variant->Mixed": {
+      "code": 0
+    },
+    "Variant->Path": {
+      "type": "mixed",
+      "code": "relay",
+      "params": [
+        {
+          "child": 1,
+          "getter": true
+        }
+      ]
+    },
+
+    "Operand->Signed": {
+      "code": 0
+    },
+    "Operand->Variant": {
+      "code": 0
+    },
+
+    "Factor->Operand": {
+      "code": 0
+    },
+    "Factor->Factor <%> Operand": {
+      "type": "number",
+      "code": "divbinary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "number"
+        }
+      ]
+    },
+    "Factor->Factor <*> Operand": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "number"
+        }
+      ]
+    },
+    "Factor->Factor </> Operand": {
+      "type": "number",
+      "code": "divbinary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "number"
+        }
+      ]
+    },
+
+    "Term->Factor": {
+      "code": 0
+    },
+    "Term->Term <+> Factor": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "number"
+        }
+      ]
+    },
+    "Term->Term <-> Factor": {
+      "type": "number",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "number"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "number"
+        }
+      ]
+    },
+
+    "Concat->Term <+> <string>": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "string"
+        },
+        2,
+        3
+      ]
+    },
+    "Concat-><string> <+> Term": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        {
+          "child": 3,
+          "cast": "string"
+        }
+      ]
+    },
+    "Concat-><Concat> <+> <string>": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        3
+      ]
+    },
+    "Concat-><Concat> <+> <Term>": {
+      "type": "string",
+      "code": "binary",
+      "params": [
+        1,
+        2,
+        {
+          "child": 3,
+          "cast": "string"
+        }
+      ]
+    },
+
+    "Boolean-><true>": {
+      "code": 0
+    },
+    "Boolean-><false>": {
+      "code": 0
+    },
+
+    "Compound->Boolean": {
+      "code": 0
+    },
+    "Compound->Scalar": {
+      "code": 0
+    },
+    "Compound->Array": {
+      "code": 0
+    },
+    "Compound->Object": {
+      "code": 0
+    },
+    "Compound-><regex>": {
+      "code": 0
+    },
+    "Compound-><undefined>": {
+      "code": 0
+    },
+    "Compound-><null>": {
+      "code": 0
+    },
+    "Compound-><!> Compound": {
+      "type": "boolean",
+      "code": "not",
+      "params": [2]
+    },
+    
+    "Compare->Scalar <>> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "scalar"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "scalar"
+        }
+      ]
+    },
+    "Compare->Scalar <>=> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "scalar"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "scalar"
+        }
+      ]
+    },
+    "Compare->Scalar <<> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "scalar"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "scalar"
+        }
+      ]
+    },
+    "Compare->Scalar <<=> Scalar": {
+      "type": "boolean",
+      "code": "binary",
+      "params": [
+        {
+          "child": 1,
+          "cast": "scalar"
+        },
+        2,
+        {
+          "child": 3,
+          "cast": "scalar"
+        }
+      ]
+    },
+    "Compare->Scalar <=~> <string>": {
+      "type": "boolean",
+      "code": "stringmatch",
+      "params": [
+        3,
+        {
+          "child": 1,
+          "cast": "string"
+        }
+      ]
+    },
+    "Compare->Scalar <=~> <regex>": {
+      "type": "boolean",
+      "code": "regexmatch",
+      "params": [
+        3,
+        {
+          "child": 1,
+          "cast": "string"
+        }
+      ]
+    },
+
+    "Compare->Compound <===> Compound": {
+      "type": "boolean",
+      "code": "equal",
+      "params": [
+        1,
+        3
+      ]
+    },
+    "Compare->Compound <==> Compound": {
+      "type": "boolean",
+      "code": "equal",
+      "params": [
+        1,
+        3
+      ]
+    },
+    "Compare->Compound <!==> Compound": {
+      "type": "boolean",
+      "code": "notequal",
+      "params": [
+        1,
+        3
+      ]
+    },
+    "Compare->Compound <!=> Compound": {
+      "type": "boolean",
+      "code": "notequal",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "Logical->Compound": {
+      "code": 0
+    },
+    "Logical->Compare": {
+      "code": 0
+    },
+
+    "Condition->Condition <&&> Logical": {
+      "type": "mixed",
+      "code": "and",
+      "params": [
+        1,
+        3
+      ]
+    },
+    "Condition->Condition <||> Logical": {
+      "type": "mixed",
+      "code": "or",
+      "params": [
+        1,
+        3
+      ]
+    },
+    "Condition->Logical": {
+      "code": 0
+    },
+
+    "Ternary->Condition <?> Assignable <:> Assignable": {
+      "type": "mixed",
+      "code": "condition",
+      "params": [
+        1,
+        3,
+        5
+      ]
+    },
+
+    "Filter->Ternary": {
+      "code": 0
+    },
+    "Filter->Condition": {
+      "code": 0
+    },
+    "Filter->Filter <|> <ident>": {
+      "type": "list",
+      "code": "filter",
+      "params": [
+        {
+          "child": 3,
+          "as": "function"
+        },
+        {
+          "child": 1,
+          "cast": "list"
+        }
+      ]
+    },
+    "Filter->Filter <|> <ident> <:> Values": {
+      "type": "list",
+      "code": "filterwithparams",
+      "params": [
+        {
+          "child": 3,
+          "as": "function"
+        },
+        {
+          "child": 1,
+          "cast": "list"
+        },
+        5
+      ]
+    },
+    "Filter->Filter <|> <~> Path <ident>": {
+      "type": "list",
+      "code": "contextfilter",
+      "params": [
+        {
+          "child": 5,
+          "as": "function"
+        },
+        {
+          "child": 1,
+          "cast": "list"
+        },
+        {
+          "child": 4,
+          "getter": true
+        }
+      ]
+    },
+    "Filter->Filter <|> <~> Path <ident> <:> Values": {
+      "type": "list",
+      "code": "contextfilterwithparams",
+      "params": [
+        {
+          "child": 5,
+          "as": "function"
+        },
+        {
+          "child": 1,
+          "cast": "list"
+        },
+        {
+          "child": 4,
+          "getter": true
+        },
+        7
+      ]
+    },
+
+    "Assignable->Filter": {
+      "code": 0
+    },
+    "Assignable->Assign": {
+      "code": 0
+    },
+
+    "Assign->Path <=> Assignable": {
+      "type": 2,
+      "code": "setpathvalue",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "UnsetPaths->Path": {
+      "type": "boolean",
+      "code": "unsetpathvalue",
+      "params": [
+        1
+      ]
+    },
+    "UnsetPaths->UnsetPaths <,> Path": {
+      "type": "boolean",
+      "code": "unsetnextpathvalue",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "Expr->Assignable": {
+      "code": 0
+    },
+    "Expr-><delete> UnsetPaths": {
+      "code": 1
+    },
+
+    "Var-><ident> <from> Assignable": {
+      "type": 2,
+      "code": "definenamedref",
+      "params": [
+        {
+          "child": 1,
+          "as": "setref"
+        },
+        3
+      ]
+    },
+
+    "Def->Var": {
+      "code": 0
+    },
+    "Def->Def <;> Var": {
+      "type": 2,
+      "code": "combo2",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "Stmt->Expr": {
+      "code": 0
+    },
+    "Stmt->Stmt <;>": {
+      "code": 0
+    },
+    "Stmt->Stmt <;> Expr": {
+      "type": 2,
+      "code": "combo2",
+      "params": [
+        1,
+        3
+      ]
+    },
+
+    "Query->Stmt <$>": {
+      "type": "mixed",
+      "code": "finale",
+      "params": [
+        1
+      ]
+    },
+    "Query->Def <;> Stmt <$>": {
+      "type": "mixed",
+      "code": "finalewithvars",
+      "params": [
+        1,
+        3
+      ]
+    }
+  },
+  "preprocess": {
+    "getter": {
+      "path": "getpathvalue"
+    }
+  },
+  "typecast": {
+    "number": {
+      "*": "numberify",
+      "number": "relay"
+    },
+    "string": {
+      "*": "stringify",
+      "string": "relay"
+    },
+    "boolean": {
+      "*": "booleanify",
+      "boolean": "relay"
+    },
+    "scalar": {
+      "*": "scalarify",
+      "string": "relay",
+      "number": "relay"
+    },
+    "pathkey": {
+      "*": "scalarify",
+      "string": "relay",
+      "number": "relay"
+    },
+    "numerickeyflag": {
+      "*": "isnumerickey",
+      "number": "true",
+      "string": "false"
+    },
+    "list": {
+      "*": "listify",
+      "list": "relay"
+    },
+    "context": {
+      "*": "context"
+    },
+    "root": {
+      "*": "root"
+    }
+  },
+  "template": {
+    "relay": {
+      "body": ["$0"],
+      "return": [0]
+    },
+    "relayref": {
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": ["$0"],
+      "return": [0]
+    },
+    "combo2": {
+      "body": [
+        "$0",
+        "$1"
+      ],
+      "return": [1]
+    },
+    "percent": {
+      "body": ["$0"],
+      "return": [
+        "(", 0, " * .01 || 0)"
+      ]
+    },
+    "negative": {
+      "body": ["$0"],
+      "return": [
+        "(0 - ", 0, ")"
+      ]
+    },
+
+    "root": {
+      "requires": [
+        "root"
+      ],
+      "return": ["root"]
+    },
+
+    "context": {
+      "requires": [
+        "root"
+      ],
+      "return": ["context"]
+    },
+
+    "true": {
+      "return": ["true"]
+    },
+
+    "false": {
+      "return": ["false"]
+    },
+
+    "isnumerickey": {
+      "return": ["typeof ", 0, " === \"number\""]
+    },
+
+    "numberify": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = 0;\n",
+        "switch (typeof ", 1, ") {\n",
+        "case \"string\":", 0, " = parseInt(", 1, ", 10) || 0; break;\n",
+        "case \"number\":", 0, " = ", 1, " || 0; break;\n",
+        "case \"boolean\":", 0, " = ", 1, " ? 1 : 0; break;\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "stringify": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = \"\";\n",
+        "switch (typeof ", 1, ") {\n",
+        "case \"string\":", 0, " = ", 1, "; break;\n",
+        "case \"boolean\":\n",
+        "case \"regex\":\n",
+        "case \"symbol\":\n",
+        "case \"number\":", 0, " = String(", 1, "); break;\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "booleanify": {
+      "body": [
+        "$0"
+      ],
+      "return": [
+        "!!(", 0, ")"
+      ]
+    },
+
+    "scalarify": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = 0;\n",
+        "switch (typeof ", 1, ") {\n",
+        "case \"number\":\n",
+          0, " = ", 1, " || 0;\n break;\n",
+        "case \"string\":\n",
+          0, " = ", 1, ";\nbreak;\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "listify": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = (Object.prototype.toString.call(", 1, ") === \"[object Array]\"\n",
+          " ? ", 1, " : [", 1, "])"
+      ],
+      "return": [0]
+    },
+
+    "rangekey": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = [", 1, ",", 2, "];"
+      ],
+      "return": [0]
+    },
+
+    "newkeylist": {
+      "symbols": 1,
+      "body": [
+        "$2",
+        "$1",
+        "var ", 0, " = [1, ", 1, ", [", 2, "]];"
+      ],
+      "return": [0]
+    },
+
+    "addkeylist": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$3",
+        1, "[0] = 2;\n",
+        1, "[1] = ", 1, "[1] && ", 2,";\n",
+        "var ", 0, " = ", 1, "[2];\n",
+        0, "[", 0, ".length] = ", 3, ";\n"
+      ],
+      "return": [1]
+    },
+
+    "numberkeylist": {
+      "return": [
+        "[3, true, false]"
+      ]
+    },
+
+    "strictnumberkeylist": {
+      "return": [
+        "[3, true, true]"
+      ]
+    },
+
+    "stringkeylist": {
+      "return": [
+        "[3, false, true]"
+      ]
+    },
+
+    "stringpath": {
+      "symbols": 1,
+      "requires": [
+        "root"
+      ],
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = [", 1, ", [[1, false, [", 2, "]]]];"
+      ],
+      "return": [
+        0
+      ]
+    },
+
+    "keylistpath": {
+      "symbols": 1,
+      "requires": [
+        "root"
+      ],
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = [", 1, ", [", 2, "]];"
+      ],
+      "return": [
+        0
+      ]
+    },
+
+    "newpath": {
+      "symbols": 1,
+      "requires": [
+        "root"
+      ],
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = [", 1, ", [", 2, "]];"
+      ],
+      "return": [
+        0
+      ]
+    },
+
+    "addpath": {
+      "symbols": 1,
+      "requires": [
+        "root"
+      ],
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = ", 1, "[1];\n",
+        0, "[", 0, ".length] = ", 2,";\n"
+      ],
+      "return": [
+        1
+      ]
+    },
+
+    "getpathvalue": {
+      "symbols": 1,
+      "requires": [
+        "root",
+        "util"
+      ],
+      "helper": [
+        "access"
+      ],
+      "body": [
+        "$1",
+        "// used getter\n",
+        "var ", 0, " = access(", 1, "[0], ", 1, "[1]);\n",
+        "// end getter"
+      ],
+      "return": [0]
+    },
+
+    "setpathvalue": {
+      "symbols": 1,
+      "requires": [
+        "util"
+      ],
+      "helper": [
+        "access"
+      ],
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = access(", 1, "[0], ", 1, "[1], true, ", 2, ");"
+      ],
+      "return": [0]
+    },
+
+    "unsetpathvalue": {
+      "symbols": 1,
+      "requires": [
+        "util"
+      ],
+      "helper": [
+        "access"
+      ],
+      "body": [
+        "$1",
+        "var ", 0, " = access(", 1, "[0], ", 1, "[1], null);"
+      ],
+      "return": [0]
+    },
+
+    "unsetnextpathvalue": {
+      "symbols": 1,
+      "requires": [
+        "util"
+      ],
+      "helper": [
+        "access"
+      ],
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = access(", 2, "[0], ", 2, "[1], null) && ", 1, ";"
+      ],
+      "return": [0]
+    },
+
+    "emptylist": {
+      "symbols": 1,
+      "body": [
+        "var ", 0, " = [];"
+      ],
+      "return": [0]
+    },
+    "newlist": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = [", 1, "];"
+      ],
+      "return": [0]
+    },
+    "addlist": {
+      "body": [
+        "$0",
+        "$1",
+        0, "[", 0, ".length] = ", 1, ";"
+      ],
+      "return": [0]
+    },
+
+    "emptyobject": {
+      "symbols": 1,
+      "body": [
+        "var ", 0, " = {};"
+      ],
+      "return": [0]
+    },
+    "newobject": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = {};\n",
+        "if (typeof ", 2, " !== \"undefined\") {\n",
+        0, "[", 1, "] = ", 2, ";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+    "addobject": {
+      "body": [
+        "$0",
+        "$1",
+        "$2",
+        "if (typeof ", 2, " !== \"undefined\") {\n",
+        0, "[", 1, "] = ", 2, ";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "call": {
+      "symbols": 1,
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "var ", 0, " = undefined;\n",
+        "if (typeof ", 1, " === \"function\") {\n",
+          "try {\n",
+            0, " = ", 1, ".call(root);\n",
+          "} catch (error) {}\n",
+        "}"
+      ],
+      "return": [0]
+    },
+    "callwithparams": {
+      "symbols": 1,
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$2",
+        "var ", 0, " = undefined;\n",
+        "if (typeof ", 1, " === \"function\") {\n",
+          "try {\n",
+            0, " = ", 1, ".apply(root, ", 2, ");\n",
+          "} catch (error) {}\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "filter": {
+      "symbols": 4,
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$4",
+        "$5",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ";\n",
+
+        "if (typeof ", 4, " === \"function\") {\n",
+          1, " = ", 2, " = 0;\n",
+          3, " = ", 5, ".length;\n",
+
+          "for (; ", 3, "--; ", 1, "++) {\n",
+            "try {\n",
+              "if (", 4, ".call(root, ", 5, "[", 1,"]) !== false) {\n",
+                0, "[", 2, "++] = ", 5, "[", 1, "];\n",
+              "}",
+            "} catch (error) {}\n",
+          "}",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "filterwithparams": {
+      "symbols": 5,
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$5",
+        "$6",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ";\n",
+
+        "if (typeof ", 5, " === \"function\") {\n",
+          1, " = ", 2, " = 0;\n",
+          4, " = ", 6, ".length;\n",
+
+          3, " = context;\n",
+
+          "for (; ", 4, "--; ", 1, "++) {\n",
+            "context = ", 6, "[", 1,"];\n",
+            "$7",
+
+            7, ".splice(0, 0, ", 6, "[", 1, "]);\n",
+
+            "try {\n",
+              "if (", 5, ".apply(root, ", 7, ") !== false) {\n",
+                0, "[", 2, "++] = ", 6, "[", 1, "];\n",
+              "}\n",
+            "} catch (error) {}\n",
+          "}\n",
+
+          "context = ", 3,";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "contextfilter": {
+      "symbols": 9,
+      "desc": [
+        "0 - symbol found list/return",
+        "1 - symbol context",
+        "2 - symbol found length",
+        "3 - symbol main counter",
+        "4 - symbol main length",
+        "5 - symbol main item",
+        "6 - symbol jsonpath counter",
+        "7 - symbol jsonpath length",
+        "8 - symbol jsonpath items",
+
+        "9 - function",
+        "10 - main values",
+        "11 - jsonpath values"
+      ],
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$9",
+        "$10",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ",", 5, ",", 6, ",", 7, ",", 8, ";\n",
+        
+        "//----------  start \n",
+        "//  -- expecting function: ", 9,"\n",
+        "//  -- expecting main values: ", 10, "\n",
+        "//  -- expecting jsonpath values: ", 11, "\n",
+
+        "if (typeof ", 9, " === \"function\") {\n",
+          2, " = ", 3, " = 0;\n",
+          4, " = ", 10, ".length;\n",
+          1, " = context;\n",
+
+          "l", 3, ":",
+
+          "for (; ", 4, "--; ", 3, "++) {\n",
+            5, " = ", 10, "[", 3, "];\n",
+
+            "context = ", 5, ";\n",
+
+            "$11",
+
+            8, " = Object.prototype.toString.call(", 11, ") === \"[object Array]\"\n",
+              " ? ", 11, " : [", 11, "];\n",
+
+            7, " = ", 8, ".length;\n",
+            6, " = 0;\n",
+
+            "for (;", 7, "--; ", 6, "++) {\n",
+              "try {\n",
+                "if (", 9, ".call(root, ", 8, "[", 6,"])) !== false) {",
+                  0, "[", 2, "++] = ", 5,";\n",
+                  "continue l", 3, ";\n",
+                "}",
+              "} catch (error) {}\n",
+            "}\n",
+          "}\n",
+
+          "context = ", 1, ";\n",
+        "}\n",
+        "//----------  end \n"
+      ],
+      "return": [0]
+    },
+
+    "contextfilterwithparams": {
+      "symbols": 9,
+      "desc": [
+        "0 - symbol found list/return",
+        "1 - symbol context",
+        "2 - symbol found length",
+        "3 - symbol main counter",
+        "4 - symbol main length",
+        "5 - symbol main item",
+        "6 - symbol jsonpath counter",
+        "7 - symbol jsonpath length",
+        "8 - symbol jsonpath items",
+
+        "9 - function",
+        "10 - main values",
+        "11 - jsonpath values",
+        "12 - function params"
+      ],
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$9",
+        "$10",
+
+        "var ", 0, " = [];\n",
+        "var ", 1, ",", 2, ",", 3, ",", 4, ",", 5, ",", 6, ",", 7, ",", 8, ";\n",
+        
+        "//----------  start \n",
+        "//  -- expecting function: ", 9,"\n",
+        "//  -- expecting main values: ", 10, "\n",
+        "//  -- expecting jsonpath values: ", 11, "\n",
+        "//  -- expecting function params: ", 12, "\n",
+
+        "if (typeof ", 9, " === \"function\") {\n",
+          2, " = ", 3, " = 0;\n",
+          4, " = ", 10, ".length;\n",
+          1, " = context;\n",
+
+          "l", 3, ":",
+
+          "for (; ", 4, "--; ", 3, "++) {\n",
+            5, " = ", 10, "[", 3, "];\n",
+
+            "context = ", 5, ";\n",
+
+            "$11",
+            "$12",
+
+            8, " = Object.prototype.toString.call(", 11, ") === \"[object Array]\"\n",
+              " ? ", 11, " : [", 11, "];\n",
+
+            7, " = ", 8, ".length;\n",
+            6, " = 0;\n",
+
+            "for (;", 7, "--; ", 6, "++) {\n",
+              "try {\n",
+                "if (", 9, ".apply(root, [", 8, "[", 6,"]].concat(", 12, ")) !== false) {",
+                  0, "[", 2, "++] = ", 5,";\n",
+                  "continue l", 3, ";\n",
+                "}",
+              "} catch (error) {}\n",
+            "}\n",
+          "}\n",
+
+          "context = ", 1, ";\n",
+        "}\n",
+        "//----------  end \n"
+      ],
+      "return": [0]
+    },
+
+    "binary": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$3",
+        "var ", 0, " = ", 1, " ", 2, " ", 3, ";"
+      ],
+      "return": [0]
+    },
+    "divbinary": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$3",
+        "var ", 0, " = ", 3, ";\n",
+        "if (", 0, ") {\n",
+          0, " = ", 1, " ", 2, " ", 3, ";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+    "equal": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = ", 1, " ===", 3, ";"
+      ],
+      "return": [0]
+    },
+    "notequal": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = ", 1, " !==", 3, ";"
+      ],
+      "return": [0]
+    },
+    "stringmatch": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = (", 2, ").indexOf(", 1, ") !== -1;"
+      ],
+      "return": [0]
+    },
+    "regexmatch": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = (", 1, ").test(", 2, ");"
+      ],
+      "return": [0]
+    },
+
+    "and": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = ", 1, ";\n",
+        "if (", 0, ") {\n",
+        "$2",
+        0, " = ", 2, ";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+    "or": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = ", 1, ";\n",
+        "if (!(", 0, ")) {\n",
+        "$2",
+        0, " = ", 2, ";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+    "not": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = !(", 1, ");"
+      ],
+      "return": [0]
+    },
+
+    "condition": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, ";\n",
+        "if (", 1, ") {\n",
+          "$2",
+          0, " = ", 2, ";\n",
+        "}\nelse {\n",
+          "$3",
+          0, " = ", 3, ";\n",
+        "}"
+      ],
+      "return": [0]
+    },
+
+    "requireroot": {
+      "body": [
+        "var context = root;"
+      ]
+    },
+    "requiredata": {
+      "body": [
+        "var isDataRoot = root !== null && typeof root === \"object\";"
+      ]
+    },
+
+    "definenamedref": {
+      "requires": [
+        "data",
+        "root",
+        "util"
+      ],
+      "body": [
+        "$1",
+        0, " = ", 1, ";"
+      ],
+      "return": [0]
+    },
+
+    "defineref": {
+      "requires": [
+        "root"
+      ],
+      "body": [
+        "var ", 0, " = isDataRoot && ", 1, " in root ? root[", 1, "] : ",
+        1, " in util\n? util[", 1, "] : undefined;"
+      ]
+    },
+    "defineutil": {
+      "body": [
+        "var ", 0, " = ", 1, " in util ? util[", 1, "] : undefined;"
+      ]
+    },
+    "definesymbols": {
+      "body": [
+        "var ", 0, ";"
+      ]
+    },
+
+    "finale": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "var ", 0, " = ", 1, ";"
+      ],
+      "return": [0]
+    },
+    "finalewithvars": {
+      "symbols": 1,
+      "body": [
+        "$1",
+        "$2",
+        "var ", 0, " = ", 2, ";"
+      ],
+      "return": [0]
+    }
+  }
+}
+

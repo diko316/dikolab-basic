@@ -1,3 +1,1 @@
-export {
-  numberify
-} from "./type-cast";
+export { numberify } from "./numberify";

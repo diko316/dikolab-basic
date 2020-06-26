@@ -1,20 +1,69 @@
 export {
-  isString,
-  isNumber,
-  isBoolean,
-  isNumeric,
-  isScalar,
-  isDate,
-  isRegExp,
-  isObject,
-  isArray,
-  isFunction,
-  isPromise
-} from "./object";
+  string,
+
+  number,
+  numeric,
+  bigint,
+
+  symbol,
+  boolean,
+  scalar,
+
+  date,
+  regexp,
+  object,
+  array,
+  iteratable,
+  method,
+  promise,
+  signature
+} from "./native";
 
 export {
   numberify
 } from "./number";
+
+export {
+  stringify,
+  repeat,
+  trim,
+  trimStart,
+  trimEnd,
+  padStart,
+  padEnd,
+  quoteEscape,
+  camelize,
+  uncamelize
+} from "./string";
+
+export {
+  Utf,
+
+  eachUnicode,
+  stringToUnicodes,
+  stringToCodePoints,
+  unicodify,
+  unicodeCount,
+  codePointToString,
+  codePointsToUtf
+} from "./unicode";
+
+export {
+  each,
+  assign,
+  contains
+} from "./object";
+
+export {
+  listPadStart,
+  listPadEnd
+} from "./array";
+
+export {
+  updateMaxCompiled,
+  compile,
+  query
+} from "./json";
 
 export {
   destructor

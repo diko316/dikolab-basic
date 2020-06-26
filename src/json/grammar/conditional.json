@@ -1,0 +1,31 @@
+{
+  "grammar": {
+    "Ternary": [
+      ["Condition", "?", "Assignable", ":", "Assignable"]
+    ],
+
+    "Condition": [
+      ["Condition", "&&", "Logical"],
+      ["Condition", "||", "Logical"],
+      ["Logical"]
+    ],
+
+    "Logical": [
+      ["Compound"],
+      ["Compare"]
+    ],
+
+    "Compare": [
+      ["Compound", "===", "Compound"],
+      ["Compound", "!==", "Compound"],
+      ["Compound", "==", "Compound"],
+      ["Compound", "!=", "Compound"],
+      ["Scalar", "=~", "string"],
+      ["Scalar", "=~", "regex"],
+      ["Scalar", ">", "Scalar"],
+      ["Scalar", ">=", "Scalar"],
+      ["Scalar", "<", "Scalar"],
+      ["Scalar", "<=", "Scalar"]
+    ]
+  }
+}
