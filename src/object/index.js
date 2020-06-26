@@ -1,14 +1,5 @@
-/**
- * Object Module
- *
- * @module object
- */
+export { contains } from "./contains";
 
-export {
-  each,
-  assign
-} from "./properties";
+export { each } from "./each";
 
-export {
-  contains
-} from "./validate";
+export { assign } from "./assign";

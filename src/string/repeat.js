@@ -1,6 +1,6 @@
 import { EMPTY_STRING } from "../native/constants";
 
-import { numberify } from "../number/format";
+import { numberify } from "../number/numberify";
 
 import { stringify } from "./stringify";
 

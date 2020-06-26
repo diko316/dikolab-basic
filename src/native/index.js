@@ -25,39 +25,47 @@ export {
 } from "./constants";
 
 export {
-  string,
-  number,
-  boolean,
-  numeric,
-  bigint,
-  symbol,
-  scalar,
-  date,
-  regexp,
-  object,
-  array,
-  method,
-  promise,
-  signature
-} from "./type";
-
-export {
   MATH_MIN,
   MATH_MAX
 } from "./math";
 
 export {
-  STRING_FROM_CHARCODE
+  STRING_FROM_CHARCODE,
+  string
 } from "./string";
+
+export { regexp } from "./regexp";
+
+export { symbol } from "./symbol";
+
+export { number } from "./number";
+export { numeric } from "./numeric";
+export { bigint } from "./bigint";
+
+export { boolean } from "./boolean";
+
+export { scalar } from "./scalar";
+
+export { date } from "./date";
+
+export { method } from "./method";
 
 export {
   OBJECT_DEFINE_PROPERTY,
-  OBJECT_TO_STRING
+  OBJECT_TO_STRING,
+  object
 } from "./object";
 
 export {
   ARRAY_JOIN,
   ARRAY_PUSH,
   ARRAY_SLICE,
-  ARRAY_SPLICE
+  ARRAY_SPLICE,
+  array
 } from "./array";
+
+export { promise } from "./promise";
+
+export { iteratable } from "./iteratable";
+
+export { signature } from "./signature";

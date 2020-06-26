@@ -1,3 +1,5 @@
+import { TYPE_STRING } from "./constants";
+
 export const STRING = String;
 
 /**
@@ -14,3 +16,13 @@ export const STRING = String;
  * @returns {string}
  */
 export const STRING_FROM_CHARCODE = STRING.fromCharCode;
+
+/**
+ * Returns true. if "subject" parameter is String.
+ *
+ * @param {*} subject value to test
+ * @returns {boolean} result
+ */
+export function string(subject) {
+  return typeof subject === TYPE_STRING;
+}

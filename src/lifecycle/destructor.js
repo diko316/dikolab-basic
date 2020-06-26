@@ -1,4 +1,4 @@
-import { method } from "../native";
+import { TYPE_FUNCTION } from "../native/constants";
 
 const DESTRUCTORS = [];
 let INITIALIZED = false;
@@ -72,7 +72,7 @@ function initialize() {
 export function destructor(callback) {
   const list = DESTRUCTORS;
 
-  if (method(callback)) {
+  if (typeof callback === TYPE_FUNCTION) {
     initialize();
     list[list.length] = callback;
   }
