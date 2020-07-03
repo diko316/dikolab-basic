@@ -4,6 +4,7 @@ import { string } from "./string";
 
 describe("string()", () => {
   it("should return true if parameter is string.", () => {
+    expect(string("")).to.be.equal(true);
     expect(string("string")).to.be.equal(true);
     expect(string(typeof 6)).to.be.equal(true);
   });
@@ -13,5 +14,7 @@ describe("string()", () => {
     expect(string(null)).to.be.equal(false);
     expect(string()).to.be.equal(false);
     expect(string(undefined)).to.be.equal(false);
+    expect(string(new String("buang"))).to.be.equal(false);
+    expect(string(Symbol("buang"))).to.be.equal(false);
   });
 });

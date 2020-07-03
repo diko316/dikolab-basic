@@ -1,6 +1,7 @@
 import { TYPE_NUMBER } from "./constants";
 
 export const IS_FINITE = isFinite;
+export const NUMERIC_REGEXP = /^[-+]?(\d*\.?\d+|\d+\.?\d*)(e[-+]?\d+)?$/;
 
 /**
  * Returns true. if "subject" parameter is Number.
