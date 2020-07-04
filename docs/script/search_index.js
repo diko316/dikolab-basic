@@ -36,15 +36,15 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/code-point-to-string.js~codepointtostring",
-    "function/index.html#static-function-codePointToString",
-    "<span>codePointToString</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/code-point-to-string.js</span>",
+    "@dikolab/basic/src/string/char-count.js~charcount",
+    "function/index.html#static-function-charCount",
+    "<span>charCount</span> <span class=\"search-result-import-path\">@dikolab/basic/src/string/char-count.js</span>",
     "function"
   ],
   [
-    "@dikolab/basic/src/unicode/code-points-to-utf.js~codepointstoutf",
-    "function/index.html#static-function-codePointsToUtf",
-    "<span>codePointsToUtf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/code-points-to-utf.js</span>",
+    "@dikolab/basic/src/unicode/code-point-to-string.js~codepointtostring",
+    "function/index.html#static-function-codePointToString",
+    "<span>codePointToString</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/code-point-to-string.js</span>",
     "function"
   ],
   [
@@ -243,12 +243,6 @@ window.esdocSearchIndex = [
     "@dikolab/basic/src/unicode/unicode-count.js~unicodecount",
     "function/index.html#static-function-unicodeCount",
     "<span>unicodeCount</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/unicode-count.js</span>",
-    "function"
-  ],
-  [
-    "@dikolab/basic/src/unicode/unicodify.js~unicodify",
-    "function/index.html#static-function-unicodify",
-    "<span>unicodify</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/unicodify.js</span>",
     "function"
   ],
   [
@@ -897,6 +891,12 @@ window.esdocSearchIndex = [
     "src/string/camelize.js",
     "file/src/string/camelize.js.html",
     "src/string/camelize.js",
+    "file"
+  ],
+  [
+    "src/string/char-count.js",
+    "file/src/string/char-count.js.html",
+    "src/string/char-count.js",
     "file"
   ],
   [

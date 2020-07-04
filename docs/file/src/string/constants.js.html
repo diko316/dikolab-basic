@@ -58,6 +58,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-charCount">charCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
@@ -69,12 +70,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointsToUtf">codePointsToUtf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodify">unicodify</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
@@ -88,8 +87,6 @@ export const STRING_TRIM_RIGHT_REGEXP = /[\s\uFEFF\xA0]+$/;
 
 export const STRING_TRIM_REGEXP = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 
-export const TRIM_ERROR_NOT_STRING = &quot;Unable to trim invalid string.&quot;;
-
 export const SINGLE_QUOTE = &quot;&apos;&quot;;
 
 export const ESCAPED_SINGLE_QUOTE = &quot;\\&apos;&quot;;
@@ -100,9 +97,9 @@ export const ESCAPED_DOUBLE_QUOTE = &quot;\\\&quot;&quot;;
 
 export const DOUBLE_QUOTE_ESCAPE = /\\&apos;|\\&quot;|&quot;/g;
 
-export const DOUBLE_QUOTE_ESCAPE_ERROR = &quot;Unable to escape invalid string.&quot;;
-
 export const DEFAULT_PADSTRING = &quot; &quot;;
+
+export const DEFAULT_CAMELIZE_FILLER = &quot;-&quot;;
 </code></pre>
 
 </div>

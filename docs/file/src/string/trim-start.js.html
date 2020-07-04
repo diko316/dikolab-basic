@@ -58,6 +58,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-charCount">charCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
@@ -69,12 +70,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointsToUtf">codePointsToUtf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodify">unicodify</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
@@ -84,13 +83,16 @@
 <div class="content" data-ice="content"><h1 data-ice="title">src/string/trim-start.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
   TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BIGINT,
   EMPTY_STRING
 } from &quot;../native/constants&quot;;
 
-import {
-  STRING_TRIM_LEFT_REGEXP,
-  TRIM_ERROR_NOT_STRING
-} from &quot;./constants&quot;;
+import { IS_FINITE } from &quot;../native/number&quot;;
+
+import { STRING } from &quot;../native/string&quot;;
+
+import { STRING_TRIM_LEFT_REGEXP } from &quot;./constants&quot;;
 
 /**
  * Removes starting white spaces.
@@ -99,11 +101,27 @@ import {
  * @returns {string} Whitespace trimmed string.
  */
 export function trimStart(subject) {
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(TRIM_ERROR_NOT_STRING);
+  const string = STRING;
+  const empty = EMPTY_STRING;
+
+  switch (typeof subject) {
+  case TYPE_BIGINT:
+    return string(subject);
+
+  case TYPE_NUMBER:
+    return IS_FINITE(subject) ? string(subject) : empty;
+
+  case TYPE_STRING:
+    if (subject) {
+      break;
+    }
+
+  // falls through
+  default:
+    return empty;
   }
 
-  return subject &amp;&amp; subject.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING);
+  return subject.replace(STRING_TRIM_LEFT_REGEXP, EMPTY_STRING);
 }
 </code></pre>
 

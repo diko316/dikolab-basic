@@ -1,6 +1,8 @@
 import { TYPE_NUMBER } from "./constants";
 
 export const IS_FINITE = isFinite;
+export const MAX_NUMBER = Number.MAX_VALUE;
+export const PARSE_INT = parseInt;
 export const NUMERIC_REGEXP = /^[-+]?(\d*\.?\d+|\d+\.?\d*)(e[-+]?\d+)?$/;
 
 /**

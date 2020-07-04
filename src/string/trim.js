@@ -1,12 +1,17 @@
 import {
   TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BIGINT,
   EMPTY_STRING
 } from "../native/constants";
 
+import { IS_FINITE } from "../native/number";
+
+import { STRING } from "../native/string";
+
 import {
   STRING_TRIM_LEFT_REGEXP,
-  STRING_TRIM_RIGHT_REGEXP,
-  TRIM_ERROR_NOT_STRING
+  STRING_TRIM_RIGHT_REGEXP
 } from "./constants";
 
 /**
@@ -16,13 +21,27 @@ import {
  * @returns {string} Whitespace trimmed string.
  */
 export function trim(subject) {
+  const string = STRING;
   const empty = EMPTY_STRING;
 
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(TRIM_ERROR_NOT_STRING);
+  switch (typeof subject) {
+  case TYPE_BIGINT:
+    return string(subject);
+
+  case TYPE_NUMBER:
+    return IS_FINITE(subject) ? string(subject) : empty;
+
+  case TYPE_STRING:
+    if (subject) {
+      break;
+    }
+
+  // falls through
+  default:
+    return empty;
   }
 
-  return subject && subject
+  return subject
     .replace(STRING_TRIM_LEFT_REGEXP, empty)
     .replace(STRING_TRIM_RIGHT_REGEXP, empty);
 }

@@ -58,6 +58,7 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#string">string</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-camelize">camelize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-charCount">charCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padEnd">padEnd</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-padStart">padStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-quoteEscape">quoteEscape</a></span></span></li>
@@ -69,12 +70,10 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointsToUtf">codePointsToUtf</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodify">unicodify</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
@@ -245,13 +244,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span><span class="code" data-ice="signature">(codes: <span><span>...number</span><span>[]</span></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-charCount">charCount</a></span></span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Creates string with given list of codePoints.</p>
+        <div data-ice="description"><p>UTF-safe Count number of characters in string.</p>
 </div>
       </div>
     </td>
@@ -274,13 +273,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-codePointsToUtf">codePointsToUtf</a></span></span><span class="code" data-ice="signature">(codes: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span><span>[]</span></span>): <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span><span class="code" data-ice="signature">(codes: <span><span>...number</span><span>[]</span></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Create Utf based on Array of code points parameter.</p>
+        <div data-ice="description"><p>Creates string with given list of codePoints.</p>
 </div>
       </div>
     </td>
@@ -1236,42 +1235,13 @@ until the resulting string reaches the given length.</p>
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
         </p>
       </div>
       <div>
         
         
         <div data-ice="description"><p>Safely counts number of Utf characters.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-unicodify">unicodify</a></span></span><span class="code" data-ice="signature">(subject: <span>*</span>, defaultValue: <span>*</span>): <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span> | <span>*</span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Convert Scalar value to Unicode.</p>
 </div>
       </div>
     </td>
@@ -1629,11 +1599,11 @@ until the resulting string reaches the given length.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/camelize.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/camelize.js.html#lineNumber24">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {camelize} from &apos;<span><a href="file/src/string/camelize.js.html#lineNumber17">@dikolab/basic/src/string/camelize.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {camelize} from &apos;<span><a href="file/src/string/camelize.js.html#lineNumber24">@dikolab/basic/src/string/camelize.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Converts snake case string to camel case.
@@ -1669,6 +1639,80 @@ Take note that this will also UTF-8 safe.</p>
         <tr>
           <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
           <td class="return-desc" data-ice="returnDescription"><p>camel-cased string.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="static-function-charCount">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">charCount</span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/src/string/char-count.js.html#lineNumber12">source</a></span></span>
+    </span>
+  </h3>
+
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {charCount} from &apos;<span><a href="file/src/string/char-count.js.html#lineNumber12">@dikolab/basic/src/string/char-count.js</a></span>&apos;</code></pre></div>
+  
+  
+  <div data-ice="description"><p>UTF-safe Count number of characters in string.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">subject</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>String to count.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The number of characters.</p>
 </td>
         </tr>
       </tbody>
@@ -1743,81 +1787,6 @@ Take note that this will also UTF-8 safe.</p>
         <tr>
           <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
           <td class="return-desc" data-ice="returnDescription"><p>the string created based from codePoints list.</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-codePointsToUtf">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">codePointsToUtf</span><span class="code" data-ice="signature">(codes: <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span><span>[]</span></span>): <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/unicode/code-points-to-utf.js.html#lineNumber14">source</a></span></span>
-    </span>
-  </h3>
-
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {codePointsToUtf} from &apos;<span><a href="file/src/unicode/code-points-to-utf.js.html#lineNumber14">@dikolab/basic/src/unicode/code-points-to-utf.js</a></span>&apos;</code></pre></div>
-  
-  
-  <div data-ice="description"><p>Create Utf based on Array of code points parameter.
-Error will be thrown if parameter is invalid.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">codes</td>
-      <td data-ice="type" class="code"><span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span><span>[]</span></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Array of code points.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>Utf instance.</p>
 </td>
         </tr>
       </tbody>
@@ -2634,11 +2603,11 @@ The padding is applied from the start of the Iteratable.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/native/number.js.html#lineNumber11">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/native/number.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {number} from &apos;<span><a href="file/src/native/number.js.html#lineNumber11">@dikolab/basic/src/native/number.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {number} from &apos;<span><a href="file/src/native/number.js.html#lineNumber14">@dikolab/basic/src/native/number.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns true. if &quot;subject&quot; parameter is Number.</p>
@@ -2708,11 +2677,11 @@ The padding is applied from the start of the Iteratable.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/number/numberify.js.html#lineNumber14">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/number/numberify.js.html#lineNumber21">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {numberify} from &apos;<span><a href="file/src/number/numberify.js.html#lineNumber14">@dikolab/basic/src/number/numberify.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {numberify} from &apos;<span><a href="file/src/number/numberify.js.html#lineNumber21">@dikolab/basic/src/number/numberify.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Convert any type &quot;subject&quot; parameter to number.</p>
@@ -2790,11 +2759,11 @@ The padding is applied from the start of the Iteratable.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/native/numeric.js.html#lineNumber15">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/native/numeric.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {numeric} from &apos;<span><a href="file/src/native/numeric.js.html#lineNumber15">@dikolab/basic/src/native/numeric.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {numeric} from &apos;<span><a href="file/src/native/numeric.js.html#lineNumber14">@dikolab/basic/src/native/numeric.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns true. if &quot;subject&quot; parameter is Numeric string, number, or bigint.</p>
@@ -2938,11 +2907,11 @@ The padding is applied from the start of the Iteratable.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/pad-end.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/pad-end.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padEnd} from &apos;<span><a href="file/src/string/pad-end.js.html#lineNumber20">@dikolab/basic/src/string/pad-end.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padEnd} from &apos;<span><a href="file/src/string/pad-end.js.html#lineNumber29">@dikolab/basic/src/string/pad-end.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Creates a padded string with another string (multiple times, if needed)
@@ -3028,11 +2997,11 @@ The padding is applied from the end of the string.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/pad-start.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/pad-start.js.html#lineNumber29">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padStart} from &apos;<span><a href="file/src/string/pad-start.js.html#lineNumber20">@dikolab/basic/src/string/pad-start.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padStart} from &apos;<span><a href="file/src/string/pad-start.js.html#lineNumber29">@dikolab/basic/src/string/pad-start.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Creates a padded string with another string (multiple times, if needed)
@@ -3273,11 +3242,11 @@ The padding is applied from the start of the string.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/quote-escape.js.html#lineNumber26">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/quote-escape.js.html#lineNumber34">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {quoteEscape} from &apos;<span><a href="file/src/string/quote-escape.js.html#lineNumber26">@dikolab/basic/src/string/quote-escape.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {quoteEscape} from &apos;<span><a href="file/src/string/quote-escape.js.html#lineNumber34">@dikolab/basic/src/string/quote-escape.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Escapes characters to make it safe to enclose it in a double quote.</p>
@@ -3421,11 +3390,11 @@ The padding is applied from the start of the string.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/repeat.js.html#lineNumber14">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/repeat.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {repeat} from &apos;<span><a href="file/src/string/repeat.js.html#lineNumber14">@dikolab/basic/src/string/repeat.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {repeat} from &apos;<span><a href="file/src/string/repeat.js.html#lineNumber19">@dikolab/basic/src/string/repeat.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns repeated string &quot;subject&quot; in &quot;count&quot; number of times.</p>
@@ -3874,11 +3843,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/stringify.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/stringify.js.html#lineNumber24">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {stringify} from &apos;<span><a href="file/src/string/stringify.js.html#lineNumber29">@dikolab/basic/src/string/stringify.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {stringify} from &apos;<span><a href="file/src/string/stringify.js.html#lineNumber24">@dikolab/basic/src/string/stringify.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Convert Any value to string. Or return &quot;defaultValue&quot; parameter.</p>
@@ -4030,11 +3999,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/trim.js.html#lineNumber18">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/trim.js.html#lineNumber23">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trim} from &apos;<span><a href="file/src/string/trim.js.html#lineNumber18">@dikolab/basic/src/string/trim.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trim} from &apos;<span><a href="file/src/string/trim.js.html#lineNumber23">@dikolab/basic/src/string/trim.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Removes starting and ending white spaces.</p>
@@ -4104,11 +4073,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/trim-end.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/trim-end.js.html#lineNumber20">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimEnd} from &apos;<span><a href="file/src/string/trim-end.js.html#lineNumber17">@dikolab/basic/src/string/trim-end.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimEnd} from &apos;<span><a href="file/src/string/trim-end.js.html#lineNumber20">@dikolab/basic/src/string/trim-end.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Removes ending whitespace.</p>
@@ -4178,11 +4147,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/trim-start.js.html#lineNumber17">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/trim-start.js.html#lineNumber20">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimStart} from &apos;<span><a href="file/src/string/trim-start.js.html#lineNumber17">@dikolab/basic/src/string/trim-start.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimStart} from &apos;<span><a href="file/src/string/trim-start.js.html#lineNumber20">@dikolab/basic/src/string/trim-start.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Removes starting white spaces.</p>
@@ -4252,11 +4221,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/uncamelize.js.html#lineNumber18">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/uncamelize.js.html#lineNumber27">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uncamelize} from &apos;<span><a href="file/src/string/uncamelize.js.html#lineNumber18">@dikolab/basic/src/string/uncamelize.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uncamelize} from &apos;<span><a href="file/src/string/uncamelize.js.html#lineNumber27">@dikolab/basic/src/string/uncamelize.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Converts camel case string to snake case.
@@ -4331,15 +4300,15 @@ Take note that this will also UTF-8 safe.</p>
     
     
     
-    <span class="code" data-ice="name">unicodeCount</span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
+    <span class="code" data-ice="name">unicodeCount</span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/unicode/unicode-count.js.html#lineNumber11">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/unicode/unicode-count.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {unicodeCount} from &apos;<span><a href="file/src/unicode/unicode-count.js.html#lineNumber11">@dikolab/basic/src/unicode/unicode-count.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {unicodeCount} from &apos;<span><a href="file/src/unicode/unicode-count.js.html#lineNumber19">@dikolab/basic/src/unicode/unicode-count.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Safely counts number of Utf characters.</p>
@@ -4357,7 +4326,7 @@ Take note that this will also UTF-8 safe.</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">subject</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>String or Utf to count.</p>
 </td>
@@ -4374,88 +4343,6 @@ Take note that this will also UTF-8 safe.</p>
         <tr>
           <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span></td>
           <td class="return-desc" data-ice="returnDescription"><p>returns number of resolved Utf characters. or zero (0)</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="static-function-unicodify">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">unicodify</span><span class="code" data-ice="signature">(subject: <span>*</span>, defaultValue: <span>*</span>): <span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span> | <span>*</span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/src/unicode/unicodify.js.html#lineNumber16">source</a></span></span>
-    </span>
-  </h3>
-
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {unicodify} from &apos;<span><a href="file/src/unicode/unicodify.js.html#lineNumber16">@dikolab/basic/src/unicode/unicodify.js</a></span>&apos;</code></pre></div>
-  
-  
-  <div data-ice="description"><p>Convert Scalar value to Unicode.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">subject</td>
-      <td data-ice="type" class="code"><span>*</span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>Scalar value to convert.</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">defaultValue</td>
-      <td data-ice="type" class="code"><span>*</span></td>
-      <td data-ice="appendix"><ul><li>optional</li>
-<li>default: Utf</li></ul></td>
-      <td data-ice="description"><p>optional defaultValue to return if failed.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span> | <span>*</span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>Unicode string when successful, or [defaultValue] parameter is returned if failed.</p>
 </td>
         </tr>
       </tbody>

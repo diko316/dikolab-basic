@@ -9,6 +9,7 @@ import {
 /**
  * Convert Scalar value to Unicode.
  *
+ * @protected
  * @param {*} subject Scalar value to convert.
  * @param {*} [defaultValue=Utf] optional defaultValue to return if failed.
  * @returns {Utf|*} Unicode string when successful, or [defaultValue] parameter is returned if failed.

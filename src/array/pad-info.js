@@ -37,6 +37,7 @@ export function padInfo(subject, pad, padList) {
   let main = subject;
   let totalPad = pad;
   let padItems = padList;
+
   if (!iteratable(subject)) {
     throw new TypeError(ARRAY_PAD_ERROR);
   }

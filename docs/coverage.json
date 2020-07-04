@@ -1,7 +1,7 @@
 {
-  "coverage": "37%",
-  "expectCount": 227,
-  "actualCount": 84,
+  "coverage": "36.95%",
+  "expectCount": 230,
+  "actualCount": 85,
   "files": {
     "src/array/contants.js": {
       "expectCount": 1,
@@ -309,10 +309,13 @@
       "undocumentLines": []
     },
     "src/native/number.js": {
-      "expectCount": 2,
+      "expectCount": 5,
       "actualCount": 1,
       "undocumentLines": [
-        3
+        3,
+        4,
+        5,
+        6
       ]
     },
     "src/native/numeric.js": {
@@ -403,8 +406,13 @@
       "actualCount": 1,
       "undocumentLines": []
     },
+    "src/string/char-count.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
     "src/string/constants.js": {
-      "expectCount": 11,
+      "expectCount": 10,
       "actualCount": 0,
       "undocumentLines": [
         1,
@@ -416,8 +424,7 @@
         13,
         15,
         17,
-        19,
-        21
+        19
       ]
     },
     "src/string/pad-end.js": {
@@ -434,7 +441,7 @@
       "expectCount": 2,
       "actualCount": 1,
       "undocumentLines": [
-        12
+        20
       ]
     },
     "src/string/repeat.js": {

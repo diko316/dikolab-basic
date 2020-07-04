@@ -1,9 +1,16 @@
 import {
   TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BIGINT,
   EMPTY_STRING
 } from "../native/constants";
 
-import { STRING_FROM_CHARCODE } from "../native/string";
+import { IS_FINITE } from "../native/number";
+
+import {
+  STRING,
+  STRING_FROM_CHARCODE
+} from "../native/string";
 
 import { words as WORD_INDEX } from "./utf-constants.json";
 
@@ -15,10 +22,12 @@ import { words as WORD_INDEX } from "./utf-constants.json";
  * @returns {string} camel-cased string.
  */
 export function camelize(subject) {
+  const string = STRING;
   const empty = EMPTY_STRING;
   const wordIndex = WORD_INDEX;
   const encode = STRING_FROM_CHARCODE;
 
+  let value = subject;
   let codes = null;
   let codeLength;
   let code;
@@ -27,7 +36,22 @@ export function camelize(subject) {
   let isWordBefore;
   let isWord;
 
-  if (!subject || typeof subject !== TYPE_STRING) {
+  switch (typeof subject) {
+  case TYPE_NUMBER:
+    return IS_FINITE(subject) ? string(subject) : empty;
+
+  case TYPE_BIGINT:
+    value = string(value);
+    break;
+
+  // falls through
+  case TYPE_STRING:
+    if (value) {
+      break;
+    }
+
+  // falls through
+  default:
     return empty;
   }
 
@@ -35,8 +59,8 @@ export function camelize(subject) {
   codeLength = 0;
   isWordBefore = true;
 
-  for (c = 0, length = subject.length; length--; c++) {
-    code = subject.charCodeAt(c);
+  for (c = 0, length = value.length; length--; c++) {
+    code = value.charCodeAt(c);
     isWord = code in wordIndex;
 
     if (isWord) {

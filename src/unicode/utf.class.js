@@ -54,6 +54,7 @@ import { stringToUnicodes } from "./string-to-unicodes";
 /**
  * String.prototype.replace() callback.
  *
+ * @protected
  * @typedef {function} stringReplaceCallback
  * @param {string} matched string matched by replace() pattern.
  * @param {...string} captures string match captures in pattern.
@@ -63,6 +64,8 @@ import { stringToUnicodes } from "./string-to-unicodes";
 
 /**
  * Utf Class for unicode representation of String.
+ *
+ * @protected
  */
 export class Utf {
   /**

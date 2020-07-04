@@ -1,13 +1,21 @@
-import { TYPE_STRING } from "../native/constants";
+import {
+  TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BIGINT,
+  EMPTY_STRING
+} from "../native/constants";
+
+import { IS_FINITE } from "../native/number";
 
 import {
   ESCAPED_SINGLE_QUOTE,
   SINGLE_QUOTE,
   ESCAPED_DOUBLE_QUOTE,
   DOUBLE_QUOTE_ESCAPE,
-  DOUBLE_QUOTE,
-  DOUBLE_QUOTE_ESCAPE_ERROR
+  DOUBLE_QUOTE
 } from "./constants";
+
+import { STRING } from "../native/string";
 
 function quoteReplace(all) {
   switch (all) {
@@ -24,9 +32,29 @@ function quoteReplace(all) {
  * @returns {string} Escaped string.
  */
 export function quoteEscape(subject) {
-  if (typeof subject !== TYPE_STRING) {
-    throw new TypeError(DOUBLE_QUOTE_ESCAPE_ERROR);
+  const empty = EMPTY_STRING;
+  let value = subject;
+
+  switch (typeof value) {
+  case TYPE_NUMBER:
+    if (!IS_FINITE(value)) {
+      return empty;
+    }
+
+  // falls through
+  case TYPE_BIGINT:
+    value = STRING(value);
+    break;
+
+  case TYPE_STRING:
+    if (value) {
+      break;
+    }
+
+  // falls through
+  default:
+    return empty;
   }
 
-  return subject && subject.replace(DOUBLE_QUOTE_ESCAPE, quoteReplace);
+  return value.replace(DOUBLE_QUOTE_ESCAPE, quoteReplace);
 }

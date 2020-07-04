@@ -37,15 +37,12 @@ export {
 } from "./string";
 
 export {
-  Utf,
-
+  // Utf,
   eachUnicode,
   stringToUnicodes,
   stringToCodePoints,
-  unicodify,
   unicodeCount,
-  codePointToString,
-  codePointsToUtf
+  codePointToString
 } from "./unicode";
 
 export {

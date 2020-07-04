@@ -1,8 +1,13 @@
-import { EMPTY_STRING } from "../native/constants";
+import {
+  EMPTY_STRING,
+  TYPE_STRING,
+  TYPE_BIGINT,
+  TYPE_NUMBER
+} from "../native/constants";
 
-import { numberify } from "../number/numberify";
+import { STRING } from "../native/string";
 
-import { stringify } from "./stringify";
+import { IS_FINITE } from "../native/number";
 
 /**
  * Returns repeated string "subject" in "count" number of times.
@@ -12,19 +17,49 @@ import { stringify } from "./stringify";
  * @returns {string} Returns empty string if unable to repeat.
  */
 export function repeat(subject, count) {
+  const finite = IS_FINITE;
+  const typeNumber = TYPE_NUMBER;
   const empty = EMPTY_STRING;
-  const value = stringify(subject, empty);
-  let length = numberify(count, 0);
+  let value = subject;
   let list = null;
+  let length;
 
-  if (!value || length < 1) {
+  switch (typeof value) {
+  case typeNumber:
+    if (!finite(value)) {
+      return empty;
+    }
+
+  // falls through
+  case TYPE_BIGINT:
+    value = STRING(value);
+    break;
+
+  case TYPE_STRING:
+    if (value) {
+      break;
+    }
+
+  // falls through
+  default:
+    return empty;
+  }
+
+  switch (typeof count) {
+  case typeNumber:
+    if (finite(count)) {
+      break;
+    }
+
+  // falls through
+  default:
     return value;
   }
 
-  list = [];
-  length++;
+  list = [value];
+  length = count;
 
-  for (let c = 0; length--; c++) {
+  for (let c = 1; length--; c++) {
     list[c] = value;
   }
 

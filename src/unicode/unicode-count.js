@@ -1,23 +1,29 @@
-import { stringify } from "../string/stringify";
+import {
+  TYPE_STRING,
+  TYPE_BIGINT,
+  TYPE_NUMBER
+} from "../native/constants";
+
+import { IS_FINITE } from "../native/number";
+
+import { STRING } from "../native/string";
+
 import { UNICODE_CODEPOINT_MATCH_REGEXP } from "./constants";
-import { Utf } from "./utf.class";
 
 /**
  * Safely counts number of Utf characters.
  *
- * @param {string|Utf} subject String or Utf to count.
+ * @param {string} subject String or Utf to count.
  * @returns {number} returns number of resolved Utf characters. or zero (0)
  */
 export function unicodeCount(subject) {
-  let string = null;
-
-  if (subject instanceof Utf) {
-    return subject.length;
-  }
-
-  string = stringify(subject);
-  if (string) {
-    return string.replace(UNICODE_CODEPOINT_MATCH_REGEXP, "-").length;
+  switch (typeof subject) {
+  case TYPE_NUMBER: return IS_FINITE(subject) ? STRING(subject).length : 0;
+  case TYPE_BIGINT: return STRING(subject).length;
+  case TYPE_STRING:
+    return subject
+      ? subject.replace(UNICODE_CODEPOINT_MATCH_REGEXP, "-").length
+      : 0;
   }
 
   return 0;
