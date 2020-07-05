@@ -9,7 +9,7 @@ export default [
       ],
       input: "src/**/*.test.js",
       output: {
-        file: "test/mocha-feed.js",
+        file: "dist/test/mocha-feed.js",
         format: "cjs",
         sourcemap: true,
         globals: {
@@ -25,7 +25,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "test/*"
+          targets: "dist/test/*"
         }
       },
       "node-resolve",

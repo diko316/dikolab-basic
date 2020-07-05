@@ -2,11 +2,11 @@
   "name": "@dikolab/basic",
   "version": "0.1.0",
   "description": "Basic Javascript helpers",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
     "test:rollup": "rollup --config rollup.config.test.js",
-    "test:mocha": "mocha test/mocha-feed.js",
+    "test:mocha": "mocha dist/test/mocha-feed.js",
     "pretest": "clear",
     "test": "run-s build:parser test:rollup test:mocha",
     "build:parser-states": "node lib/slr/generate-slr-states -o -c slr-config.json",
@@ -14,7 +14,7 @@
     "build:utf-helper": "node lib/utf/generate-helper src/string/utf-constants.json",
     "build:parser": "run-s build:parser-states build:compiler-reference build:utf-helper",
     "build:source": "rollup --config",
-    "build": "run-s build:parser build:source",
+    "build": "run-s clean:output build:parser build:source",
     "prepare": "run-s build",
     "lint": "eslint 'src/**/*.js'",
     "tdd": "nodemon --ignore 'src/json/parse-states.json' --ignore 'src/json/build-reference.json' --ignore 'src/string/utf-constants.json' --watch src --watch slr-build-reference.json --exec 'npm run test'",
@@ -28,15 +28,14 @@
     "predoc-dev": "npm run clean:doc",
     "doc-dev": "run-p doc-dev:build doc-dev:serve",
     "clean:doc": "del 'docs/*'",
-    "clean:test": "del test",
-    "clean:output": "del umd system cjs esm 'test'",
+    "clean:output": "del dist/umd dist/system dist/cjs dist/esm dist/test",
     "clean": "run-p clean:doc clean:output"
   },
   "files": [
-    "cjs/*",
-    "esm/*",
-    "umd/*",
-    "system/*"
+    "dist/cjs/*",
+    "dist/esm/*",
+    "dist/umd/*",
+    "dist/system/*"
   ],
   "repository": {
     "type": "git",

@@ -3,6 +3,7 @@ import applyPlugin from "./rollup/apply-plugin";
 
 const ENTRY_FILE = "src/index.js";
 const MODULE_NAME = settings.name.replace(/@[^/]+\//, "");
+const MODULE_PREFIX = "dist/";
 
 const JSON_OPTIONS = {
   name: "json",
@@ -25,7 +26,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        file: `umd/${MODULE_NAME}.js`,
+        file: `${MODULE_PREFIX}umd/${MODULE_NAME}.js`,
         format: "umd",
         name: "diko$basic",
         esModule: false,
@@ -37,7 +38,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "umd/*"
+          targets: `${MODULE_PREFIX}umd/*`
         }
       },
       "node-resolve",
@@ -52,7 +53,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        dir: `esm`,
+        dir: `${MODULE_PREFIX}esm`,
         format: "esm",
         preserveModules: true,
         sourcemap: true
@@ -63,7 +64,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "esm/*"
+          targets: `${MODULE_PREFIX}esm/*`
         }
       },
       "node-resolve",
@@ -78,7 +79,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        dir: `cjs`,
+        dir: `${MODULE_PREFIX}cjs`,
         format: "cjs",
         exports: "named",
         preserveModules: true,
@@ -90,7 +91,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "cjs/*"
+          targets: `${MODULE_PREFIX}cjs/*`
         }
       },
       "node-resolve",
@@ -105,7 +106,7 @@ export default [
     {
       input: ENTRY_FILE,
       output: {
-        dir: `system`,
+        dir: `${MODULE_PREFIX}system`,
         format: "system",
         sourcemap: true
       }
@@ -115,7 +116,7 @@ export default [
       {
         name: "delete",
         options: {
-          targets: "system/*"
+          targets: `${MODULE_PREFIX}system/*`
         }
       },
       "node-resolve",

@@ -15,7 +15,6 @@ case $1 in
   build)
     npm run lint && \
       npm run test && \
-      npm run 'clean:test' && \
       npm run build && \
       npm run doc && \
       chown -R $(stat -c '%u:%g' ${PROJECT_ROOT}) ${PROJECT_ROOT} || exit $?
