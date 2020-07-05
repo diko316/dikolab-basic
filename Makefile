@@ -28,6 +28,7 @@ image-cleanup: container-cleanup
 		docker rmi -f '$(DOCKER_IMAGE_NAME)' 2>/dev/null || echo ''
 
 image: image-cleanup
+	@rm -Rf node_modules
 	@docker build --force-rm -f Dockerfile -t '$(DOCKER_IMAGE_NAME)' .
 
 

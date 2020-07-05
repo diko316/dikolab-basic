@@ -6,12 +6,10 @@ npm install --dave-dev \
   @rollup/plugin-json \
   @rollup/plugin-multi-entry \
   @rollup/plugin-node-resolve \
-  better-docs \
   browser-sync \
   chai \
   clear-cli \
   del-cli \
-  documentation \
   esdoc \
   esdoc-standard-plugin \
   eslint \
