@@ -68,31 +68,22 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimStart">trimStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/string/trim-end.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-  TYPE_STRING,
-  TYPE_BIGINT,
-  TYPE_NUMBER,
-  EMPTY_STRING
-} from &quot;../native/constants&quot;;
-
-import { IS_FINITE } from &quot;../native/number&quot;;
-
-import { STRING } from &quot;../native/string&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { EMPTY_STRING } from &quot;../native/constants&quot;;
 
 import { STRING_TRIM_RIGHT_REGEXP } from &quot;./constants&quot;;
+
+import { stringifyScalar } from &quot;./stringify-scalar&quot;;
 
 /**
  * Removes ending whitespace.
@@ -101,27 +92,9 @@ import { STRING_TRIM_RIGHT_REGEXP } from &quot;./constants&quot;;
  * @returns {string} Whitespace trimmed string.
  */
 export function trimEnd(subject) {
-  const string = STRING;
-  const empty = EMPTY_STRING;
+  const value = stringifyScalar(subject);
 
-  switch (typeof subject) {
-  case TYPE_BIGINT:
-    return string(subject);
-
-  case TYPE_NUMBER:
-    return IS_FINITE(subject) ? string(subject) : empty;
-
-  case TYPE_STRING:
-    if (subject) {
-      break;
-    }
-
-  // falls through
-  default:
-    return empty;
-  }
-
-  return subject.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);
+  return value &amp;&amp; value.replace(STRING_TRIM_RIGHT_REGEXP, EMPTY_STRING);
 }
 </code></pre>
 

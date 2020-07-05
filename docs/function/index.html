@@ -68,14 +68,12 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimStart">trimStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
 </div>
 </nav>
@@ -418,7 +416,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>, callback: <span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+          <span class="code" data-ice="name"><span><a href="function/index.html#static-function-each">each</a></span></span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>, callback: <span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span>false</span></span>
         </p>
       </div>
       <div>
@@ -1370,11 +1368,11 @@ until the resulting string reaches the given length.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/object/assign.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/object/assign.js.html#lineNumber15">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {assign} from &apos;<span><a href="file/src/object/assign.js.html#lineNumber20">@dikolab/basic/src/object/assign.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {assign} from &apos;<span><a href="file/src/object/assign.js.html#lineNumber15">@dikolab/basic/src/object/assign.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Assign own properties of [source] to [subject].</p>
@@ -1599,11 +1597,11 @@ until the resulting string reaches the given length.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/camelize.js.html#lineNumber24">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/camelize.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {camelize} from &apos;<span><a href="file/src/string/camelize.js.html#lineNumber24">@dikolab/basic/src/string/camelize.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {camelize} from &apos;<span><a href="file/src/string/camelize.js.html#lineNumber14">@dikolab/basic/src/string/camelize.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Converts snake case string to camel case.
@@ -1674,11 +1672,11 @@ Take note that this will also UTF-8 safe.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/char-count.js.html#lineNumber12">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/char-count.js.html#lineNumber10">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {charCount} from &apos;<span><a href="file/src/string/char-count.js.html#lineNumber12">@dikolab/basic/src/string/char-count.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {charCount} from &apos;<span><a href="file/src/string/char-count.js.html#lineNumber10">@dikolab/basic/src/string/char-count.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>UTF-safe Count number of characters in string.</p>
@@ -1896,11 +1894,11 @@ Take note that this will also UTF-8 safe.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/object/contains.js.html#lineNumber13">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/object/contains.js.html#lineNumber17">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {contains} from &apos;<span><a href="file/src/object/contains.js.html#lineNumber13">@dikolab/basic/src/object/contains.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {contains} from &apos;<span><a href="file/src/object/contains.js.html#lineNumber17">@dikolab/basic/src/object/contains.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns true. if &quot;subject&quot; object contains property.</p>
@@ -2108,15 +2106,15 @@ Take note that this will also UTF-8 safe.</p>
     
     
     
-    <span class="code" data-ice="name">each</span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>, callback: <span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></span>
+    <span class="code" data-ice="name">each</span><span class="code" data-ice="signature">(subject: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span>, callback: <span><a href="typedef/index.html#static-typedef-eachObjectPropertyCallback">eachObjectPropertyCallback</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span>false</span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/object/each.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/object/each.js.html#lineNumber32">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {each} from &apos;<span><a href="file/src/object/each.js.html#lineNumber34">@dikolab/basic/src/object/each.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {each} from &apos;<span><a href="file/src/object/each.js.html#lineNumber32">@dikolab/basic/src/object/each.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Iterates object properties or iteratable items calling [callback].</p>
@@ -2134,7 +2132,7 @@ Take note that this will also UTF-8 safe.</p>
     
     <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">subject</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>object or iteratable to iterate.</p>
 </td>
@@ -2156,8 +2154,9 @@ Take note that this will also UTF-8 safe.</p>
     <table>
       <tbody>
         <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>last iteratable index or property name iterated.</p>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></span> | <span>false</span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>last iteratable index or property name iterated.
+                               Or, false if iteration is not successfull.</p>
 </td>
         </tr>
       </tbody>
@@ -2907,11 +2906,11 @@ The padding is applied from the start of the Iteratable.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/pad-end.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/pad-end.js.html#lineNumber22">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padEnd} from &apos;<span><a href="file/src/string/pad-end.js.html#lineNumber29">@dikolab/basic/src/string/pad-end.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padEnd} from &apos;<span><a href="file/src/string/pad-end.js.html#lineNumber22">@dikolab/basic/src/string/pad-end.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Creates a padded string with another string (multiple times, if needed)
@@ -2997,11 +2996,11 @@ The padding is applied from the end of the string.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/pad-start.js.html#lineNumber29">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/pad-start.js.html#lineNumber22">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padStart} from &apos;<span><a href="file/src/string/pad-start.js.html#lineNumber29">@dikolab/basic/src/string/pad-start.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {padStart} from &apos;<span><a href="file/src/string/pad-start.js.html#lineNumber22">@dikolab/basic/src/string/pad-start.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Creates a padded string with another string (multiple times, if needed)
@@ -3242,11 +3241,11 @@ The padding is applied from the start of the string.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/quote-escape.js.html#lineNumber34">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/quote-escape.js.html#lineNumber25">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {quoteEscape} from &apos;<span><a href="file/src/string/quote-escape.js.html#lineNumber34">@dikolab/basic/src/string/quote-escape.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {quoteEscape} from &apos;<span><a href="file/src/string/quote-escape.js.html#lineNumber25">@dikolab/basic/src/string/quote-escape.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Escapes characters to make it safe to enclose it in a double quote.</p>
@@ -3390,11 +3389,11 @@ The padding is applied from the start of the string.</p>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/repeat.js.html#lineNumber19">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/repeat.js.html#lineNumber18">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {repeat} from &apos;<span><a href="file/src/string/repeat.js.html#lineNumber19">@dikolab/basic/src/string/repeat.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {repeat} from &apos;<span><a href="file/src/string/repeat.js.html#lineNumber18">@dikolab/basic/src/string/repeat.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Returns repeated string &quot;subject&quot; in &quot;count&quot; number of times.</p>
@@ -3999,11 +3998,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/trim.js.html#lineNumber23">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/trim.js.html#lineNumber16">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trim} from &apos;<span><a href="file/src/string/trim.js.html#lineNumber23">@dikolab/basic/src/string/trim.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trim} from &apos;<span><a href="file/src/string/trim.js.html#lineNumber16">@dikolab/basic/src/string/trim.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Removes starting and ending white spaces.</p>
@@ -4073,11 +4072,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/trim-end.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/trim-end.js.html#lineNumber13">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimEnd} from &apos;<span><a href="file/src/string/trim-end.js.html#lineNumber20">@dikolab/basic/src/string/trim-end.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimEnd} from &apos;<span><a href="file/src/string/trim-end.js.html#lineNumber13">@dikolab/basic/src/string/trim-end.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Removes ending whitespace.</p>
@@ -4147,11 +4146,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/trim-start.js.html#lineNumber20">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/trim-start.js.html#lineNumber13">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimStart} from &apos;<span><a href="file/src/string/trim-start.js.html#lineNumber20">@dikolab/basic/src/string/trim-start.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {trimStart} from &apos;<span><a href="file/src/string/trim-start.js.html#lineNumber13">@dikolab/basic/src/string/trim-start.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Removes starting white spaces.</p>
@@ -4221,11 +4220,11 @@ The value is extracted by using the value from Object.prototype.toString.call(su
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/string/uncamelize.js.html#lineNumber27">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/string/uncamelize.js.html#lineNumber19">source</a></span></span>
     </span>
   </h3>
 
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uncamelize} from &apos;<span><a href="file/src/string/uncamelize.js.html#lineNumber27">@dikolab/basic/src/string/uncamelize.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import {uncamelize} from &apos;<span><a href="file/src/string/uncamelize.js.html#lineNumber19">@dikolab/basic/src/string/uncamelize.js</a></span>&apos;</code></pre></div>
   
   
   <div data-ice="description"><p>Converts camel case string to snake case.

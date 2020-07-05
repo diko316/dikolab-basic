@@ -1,13 +1,12 @@
 import {
   EMPTY_STRING,
-  TYPE_STRING,
   TYPE_BIGINT,
   TYPE_NUMBER
 } from "../native/constants";
 
-import { STRING } from "../native/string";
+import { PARSE_INT } from "../native/number";
 
-import { IS_FINITE } from "../native/number";
+import { stringifyScalar } from "./stringify-scalar";
 
 /**
  * Returns repeated string "subject" in "count" number of times.
@@ -17,37 +16,21 @@ import { IS_FINITE } from "../native/number";
  * @returns {string} Returns empty string if unable to repeat.
  */
 export function repeat(subject, count) {
-  const finite = IS_FINITE;
-  const typeNumber = TYPE_NUMBER;
-  const empty = EMPTY_STRING;
-  let value = subject;
+  const value = stringifyScalar(subject);
   let list = null;
-  let length;
+  let length = count;
 
-  switch (typeof value) {
-  case typeNumber:
-    if (!finite(value)) {
-      return empty;
-    }
-
-  // falls through
-  case TYPE_BIGINT:
-    value = STRING(value);
-    break;
-
-  case TYPE_STRING:
-    if (value) {
-      break;
-    }
-
-  // falls through
-  default:
-    return empty;
+  if (!value) {
+    return value;
   }
 
-  switch (typeof count) {
-  case typeNumber:
-    if (finite(count)) {
+  switch (typeof length) {
+  case TYPE_BIGINT:
+    length = PARSE_INT(length, 10);
+
+  // falls through
+  case TYPE_NUMBER:
+    if (length > 0) {
       break;
     }
 
@@ -57,11 +40,10 @@ export function repeat(subject, count) {
   }
 
   list = [value];
-  length = count;
 
   for (let c = 1; length--; c++) {
     list[c] = value;
   }
 
-  return list.join(empty);
+  return list.join(EMPTY_STRING);
 }

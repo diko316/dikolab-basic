@@ -1,11 +1,4 @@
-import {
-  EMPTY_STRING,
-  TYPE_NUMBER,
-  TYPE_BIGINT,
-  TYPE_STRING
-} from "../native/constants";
-
-import { IS_FINITE } from "../native/number";
+import { EMPTY_STRING } from "../native/constants";
 
 import { DEFAULT_PADSTRING } from "./constants";
 
@@ -13,7 +6,7 @@ import { listPadStart } from "../array/list-pad-start";
 
 import { stringToUnicodes } from "../unicode/string-to-unicodes";
 
-import { STRING } from "../native/string";
+import { stringifyScalar } from "./stringify-scalar";
 
 /**
  * Creates a padded string with another string (multiple times, if needed)
@@ -27,56 +20,17 @@ import { STRING } from "../native/string";
  * @returns {string} string of the specified length with the pad string applied from the start.
  */
 export function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {
-  const finite = IS_FINITE;
-  const typeNumber = TYPE_NUMBER;
-  const typeBigInt = TYPE_BIGINT;
-  const typeString = TYPE_STRING;
-  const string = STRING;
   const toUnicodes = stringToUnicodes;
-  const empty = EMPTY_STRING;
 
-  let value = subject;
-  let pad = padString;
+  let value = stringifyScalar(subject);
+  let pad = stringifyScalar(padString);
 
-  switch (typeof value) {
-  case typeNumber:
-    if (!finite(value)) {
-      return empty;
-    }
-
-  // falls through
-  case typeBigInt:
-    value = string(value);
-
-  // falls through
-  case typeString:
-    value = toUnicodes(value);
-    break;
-
-  default:
-    return empty;
+  if (!value) {
+    return value;
   }
 
-  if (pad !== DEFAULT_PADSTRING) {
-    switch (typeof pad) {
-    case typeNumber:
-      if (!finite(pad)) {
-        return value;
-      }
+  value = toUnicodes(value);
+  pad = toUnicodes(pad);
 
-    // falls through
-    case typeBigInt:
-      pad = STRING(pad);
-
-    // falls through
-    case typeString:
-      pad = toUnicodes(pad);
-      break;
-
-    default:
-      return value;
-    }
-  }
-
-  return listPadStart(value, length, pad).join(empty);
+  return listPadStart(value, length, pad).join(EMPTY_STRING);
 }

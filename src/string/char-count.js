@@ -1,6 +1,4 @@
-import { STRING } from "../native/string";
-import { IS_FINITE } from "../native/number";
-import { TYPE_NUMBER, TYPE_BIGINT, TYPE_STRING } from "../native/constants";
+import { stringifyScalar } from "./stringify-scalar";
 import { UNICODE_CODEPOINT_MATCH_REGEXP } from "../unicode/constants";
 
 /**
@@ -10,20 +8,9 @@ import { UNICODE_CODEPOINT_MATCH_REGEXP } from "../unicode/constants";
  * @returns {number} The number of characters.
  */
 export function charCount(subject) {
-  let value = subject;
+  const value = stringifyScalar(subject);
 
-  switch (typeof value) {
-  case TYPE_NUMBER:
-    if (!IS_FINITE(value)) {
-      return 0;
-    }
-  // falls through
-  case TYPE_BIGINT:
-    value = STRING(value);
-
-  // falls through
-  case TYPE_STRING:
-    return value.replace(UNICODE_CODEPOINT_MATCH_REGEXP, "_").length;
-  }
-  return 0;
+  return value
+    ? value.replace(UNICODE_CODEPOINT_MATCH_REGEXP, "_").length
+    : 0;
 }

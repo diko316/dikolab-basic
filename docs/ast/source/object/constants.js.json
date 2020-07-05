@@ -1,28 +1,28 @@
 {
   "type": "File",
   "start": 0,
-  "end": 533,
+  "end": 89,
   "loc": {
     "start": {
       "line": 1,
       "column": 0
     },
     "end": {
-      "line": 13,
+      "line": 4,
       "column": 0
     }
   },
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 533,
+    "end": 89,
     "loc": {
       "start": {
         "line": 1,
         "column": 0
       },
       "end": {
-        "line": 13,
+        "line": 4,
         "column": 0
       }
     },
@@ -30,371 +30,15 @@
     "body": [
       {
         "type": "ExportNamedDeclaration",
-        "start": 1,
-        "end": 102,
+        "start": 0,
+        "end": 47,
         "loc": {
           "start": {
-            "line": 2,
+            "line": 1,
             "column": 0
           },
           "end": {
-            "line": 2,
-            "column": 101
-          }
-        },
-        "specifiers": [],
-        "source": null,
-        "declaration": {
-          "type": "VariableDeclaration",
-          "start": 8,
-          "end": 102,
-          "loc": {
-            "start": {
-              "line": 2,
-              "column": 7
-            },
-            "end": {
-              "line": 2,
-              "column": 101
-            }
-          },
-          "declarations": [
-            {
-              "type": "VariableDeclarator",
-              "start": 14,
-              "end": 101,
-              "loc": {
-                "start": {
-                  "line": 2,
-                  "column": 13
-                },
-                "end": {
-                  "line": 2,
-                  "column": 100
-                }
-              },
-              "id": {
-                "type": "Identifier",
-                "start": 14,
-                "end": 40,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 39
-                  },
-                  "identifierName": "EACH_ERROR_INVALID_SUBJECT"
-                },
-                "name": "EACH_ERROR_INVALID_SUBJECT"
-              },
-              "init": {
-                "type": "StringLiteral",
-                "start": 43,
-                "end": 101,
-                "loc": {
-                  "start": {
-                    "line": 2,
-                    "column": 42
-                  },
-                  "end": {
-                    "line": 2,
-                    "column": 100
-                  }
-                },
-                "extra": {
-                  "rawValue": "Unable to each() iterate non-object [subject] parameter.",
-                  "raw": "\"Unable to each() iterate non-object [subject] parameter.\""
-                },
-                "value": "Unable to each() iterate non-object [subject] parameter."
-              }
-            }
-          ],
-          "kind": "const",
-          "leadingComments": [],
-          "trailingComments": []
-        }
-      },
-      {
-        "type": "ExportNamedDeclaration",
-        "start": 104,
-        "end": 216,
-        "loc": {
-          "start": {
-            "line": 4,
-            "column": 0
-          },
-          "end": {
-            "line": 4,
-            "column": 112
-          }
-        },
-        "specifiers": [],
-        "source": null,
-        "declaration": {
-          "type": "VariableDeclaration",
-          "start": 111,
-          "end": 216,
-          "loc": {
-            "start": {
-              "line": 4,
-              "column": 7
-            },
-            "end": {
-              "line": 4,
-              "column": 112
-            }
-          },
-          "declarations": [
-            {
-              "type": "VariableDeclarator",
-              "start": 117,
-              "end": 215,
-              "loc": {
-                "start": {
-                  "line": 4,
-                  "column": 13
-                },
-                "end": {
-                  "line": 4,
-                  "column": 111
-                }
-              },
-              "id": {
-                "type": "Identifier",
-                "start": 117,
-                "end": 144,
-                "loc": {
-                  "start": {
-                    "line": 4,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 40
-                  },
-                  "identifierName": "EACH_ERROR_INVALID_CALLBACK"
-                },
-                "name": "EACH_ERROR_INVALID_CALLBACK"
-              },
-              "init": {
-                "type": "StringLiteral",
-                "start": 147,
-                "end": 215,
-                "loc": {
-                  "start": {
-                    "line": 4,
-                    "column": 43
-                  },
-                  "end": {
-                    "line": 4,
-                    "column": 111
-                  }
-                },
-                "extra": {
-                  "rawValue": "Unable to each() iterate object with invalid [callback] parameter.",
-                  "raw": "\"Unable to each() iterate object with invalid [callback] parameter.\""
-                },
-                "value": "Unable to each() iterate object with invalid [callback] parameter."
-              }
-            }
-          ],
-          "kind": "const",
-          "leadingComments": [],
-          "trailingComments": []
-        }
-      },
-      {
-        "type": "ExportNamedDeclaration",
-        "start": 218,
-        "end": 329,
-        "loc": {
-          "start": {
-            "line": 6,
-            "column": 0
-          },
-          "end": {
-            "line": 6,
-            "column": 111
-          }
-        },
-        "specifiers": [],
-        "source": null,
-        "declaration": {
-          "type": "VariableDeclaration",
-          "start": 225,
-          "end": 329,
-          "loc": {
-            "start": {
-              "line": 6,
-              "column": 7
-            },
-            "end": {
-              "line": 6,
-              "column": 111
-            }
-          },
-          "declarations": [
-            {
-              "type": "VariableDeclarator",
-              "start": 231,
-              "end": 328,
-              "loc": {
-                "start": {
-                  "line": 6,
-                  "column": 13
-                },
-                "end": {
-                  "line": 6,
-                  "column": 110
-                }
-              },
-              "id": {
-                "type": "Identifier",
-                "start": 231,
-                "end": 259,
-                "loc": {
-                  "start": {
-                    "line": 6,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 41
-                  },
-                  "identifierName": "ASSIGN_ERROR_INVALID_SUBJECT"
-                },
-                "name": "ASSIGN_ERROR_INVALID_SUBJECT"
-              },
-              "init": {
-                "type": "StringLiteral",
-                "start": 262,
-                "end": 328,
-                "loc": {
-                  "start": {
-                    "line": 6,
-                    "column": 44
-                  },
-                  "end": {
-                    "line": 6,
-                    "column": 110
-                  }
-                },
-                "extra": {
-                  "rawValue": "Unable to assign() properties to non-object [subject] parameter.",
-                  "raw": "\"Unable to assign() properties to non-object [subject] parameter.\""
-                },
-                "value": "Unable to assign() properties to non-object [subject] parameter."
-              }
-            }
-          ],
-          "kind": "const",
-          "leadingComments": [],
-          "trailingComments": []
-        }
-      },
-      {
-        "type": "ExportNamedDeclaration",
-        "start": 331,
-        "end": 442,
-        "loc": {
-          "start": {
-            "line": 8,
-            "column": 0
-          },
-          "end": {
-            "line": 8,
-            "column": 111
-          }
-        },
-        "specifiers": [],
-        "source": null,
-        "declaration": {
-          "type": "VariableDeclaration",
-          "start": 338,
-          "end": 442,
-          "loc": {
-            "start": {
-              "line": 8,
-              "column": 7
-            },
-            "end": {
-              "line": 8,
-              "column": 111
-            }
-          },
-          "declarations": [
-            {
-              "type": "VariableDeclarator",
-              "start": 344,
-              "end": 441,
-              "loc": {
-                "start": {
-                  "line": 8,
-                  "column": 13
-                },
-                "end": {
-                  "line": 8,
-                  "column": 110
-                }
-              },
-              "id": {
-                "type": "Identifier",
-                "start": 344,
-                "end": 371,
-                "loc": {
-                  "start": {
-                    "line": 8,
-                    "column": 13
-                  },
-                  "end": {
-                    "line": 8,
-                    "column": 40
-                  },
-                  "identifierName": "ASSIGN_ERROR_INVALID_SOURCE"
-                },
-                "name": "ASSIGN_ERROR_INVALID_SOURCE"
-              },
-              "init": {
-                "type": "StringLiteral",
-                "start": 374,
-                "end": 441,
-                "loc": {
-                  "start": {
-                    "line": 8,
-                    "column": 43
-                  },
-                  "end": {
-                    "line": 8,
-                    "column": 110
-                  }
-                },
-                "extra": {
-                  "rawValue": "Unable to assign() properties from non-object [source] parameter.",
-                  "raw": "\"Unable to assign() properties from non-object [source] parameter.\""
-                },
-                "value": "Unable to assign() properties from non-object [source] parameter."
-              }
-            }
-          ],
-          "kind": "const",
-          "leadingComments": [],
-          "trailingComments": []
-        }
-      },
-      {
-        "type": "ExportNamedDeclaration",
-        "start": 444,
-        "end": 491,
-        "loc": {
-          "start": {
-            "line": 10,
-            "column": 0
-          },
-          "end": {
-            "line": 10,
+            "line": 1,
             "column": 47
           }
         },
@@ -402,44 +46,44 @@
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 451,
-          "end": 491,
+          "start": 7,
+          "end": 47,
           "loc": {
             "start": {
-              "line": 10,
+              "line": 1,
               "column": 7
             },
             "end": {
-              "line": 10,
+              "line": 1,
               "column": 47
             }
           },
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 457,
-              "end": 490,
+              "start": 13,
+              "end": 46,
               "loc": {
                 "start": {
-                  "line": 10,
+                  "line": 1,
                   "column": 13
                 },
                 "end": {
-                  "line": 10,
+                  "line": 1,
                   "column": 46
                 }
               },
               "id": {
                 "type": "Identifier",
-                "start": 457,
-                "end": 478,
+                "start": 13,
+                "end": 34,
                 "loc": {
                   "start": {
-                    "line": 10,
+                    "line": 1,
                     "column": 13
                   },
                   "end": {
-                    "line": 10,
+                    "line": 1,
                     "column": 34
                   },
                   "identifierName": "TOKENIZER_START_STATE"
@@ -448,15 +92,15 @@
               },
               "init": {
                 "type": "StringLiteral",
-                "start": 481,
-                "end": 490,
+                "start": 37,
+                "end": 46,
                 "loc": {
                   "start": {
-                    "line": 10,
+                    "line": 1,
                     "column": 37
                   },
                   "end": {
-                    "line": 10,
+                    "line": 1,
                     "column": 46
                   }
                 },
@@ -475,15 +119,15 @@
       },
       {
         "type": "ExportNamedDeclaration",
-        "start": 493,
-        "end": 532,
+        "start": 49,
+        "end": 88,
         "loc": {
           "start": {
-            "line": 12,
+            "line": 3,
             "column": 0
           },
           "end": {
-            "line": 12,
+            "line": 3,
             "column": 39
           }
         },
@@ -491,44 +135,44 @@
         "source": null,
         "declaration": {
           "type": "VariableDeclaration",
-          "start": 500,
-          "end": 532,
+          "start": 56,
+          "end": 88,
           "loc": {
             "start": {
-              "line": 12,
+              "line": 3,
               "column": 7
             },
             "end": {
-              "line": 12,
+              "line": 3,
               "column": 39
             }
           },
           "declarations": [
             {
               "type": "VariableDeclarator",
-              "start": 506,
-              "end": 531,
+              "start": 62,
+              "end": 87,
               "loc": {
                 "start": {
-                  "line": 12,
+                  "line": 3,
                   "column": 13
                 },
                 "end": {
-                  "line": 12,
+                  "line": 3,
                   "column": 38
                 }
               },
               "id": {
                 "type": "Identifier",
-                "start": 506,
-                "end": 524,
+                "start": 62,
+                "end": 80,
                 "loc": {
                   "start": {
-                    "line": 12,
+                    "line": 3,
                     "column": 13
                   },
                   "end": {
-                    "line": 12,
+                    "line": 3,
                     "column": 31
                   },
                   "identifierName": "TOKENIZER_WILDCARD"
@@ -537,15 +181,15 @@
               },
               "init": {
                 "type": "StringLiteral",
-                "start": 527,
-                "end": 531,
+                "start": 83,
+                "end": 87,
                 "loc": {
                   "start": {
-                    "line": 12,
+                    "line": 3,
                     "column": 34
                   },
                   "end": {
-                    "line": 12,
+                    "line": 3,
                     "column": 38
                   }
                 },
@@ -582,15 +226,15 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 1,
-      "end": 7,
+      "start": 0,
+      "end": 6,
       "loc": {
         "start": {
-          "line": 2,
+          "line": 1,
           "column": 0
         },
         "end": {
-          "line": 2,
+          "line": 1,
           "column": 6
         }
       }
@@ -610,663 +254,15 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 8,
-      "end": 13,
+      "start": 7,
+      "end": 12,
       "loc": {
         "start": {
-          "line": 2,
+          "line": 1,
           "column": 7
         },
         "end": {
-          "line": 2,
-          "column": 12
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "EACH_ERROR_INVALID_SUBJECT",
-      "start": 14,
-      "end": 40,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 13
-        },
-        "end": {
-          "line": 2,
-          "column": 39
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "=",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": true,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "=",
-      "start": 41,
-      "end": 42,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 40
-        },
-        "end": {
-          "line": 2,
-          "column": 41
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "string",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "Unable to each() iterate non-object [subject] parameter.",
-      "start": 43,
-      "end": 101,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 42
-        },
-        "end": {
-          "line": 2,
-          "column": 100
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ";",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 101,
-      "end": 102,
-      "loc": {
-        "start": {
-          "line": 2,
-          "column": 100
-        },
-        "end": {
-          "line": 2,
-          "column": 101
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "export",
-        "keyword": "export",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "export",
-      "start": 104,
-      "end": 110,
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 0
-        },
-        "end": {
-          "line": 4,
-          "column": 6
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "const",
-        "keyword": "const",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "const",
-      "start": 111,
-      "end": 116,
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 7
-        },
-        "end": {
-          "line": 4,
-          "column": 12
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "EACH_ERROR_INVALID_CALLBACK",
-      "start": 117,
-      "end": 144,
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 13
-        },
-        "end": {
-          "line": 4,
-          "column": 40
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "=",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": true,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "=",
-      "start": 145,
-      "end": 146,
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 41
-        },
-        "end": {
-          "line": 4,
-          "column": 42
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "string",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "Unable to each() iterate object with invalid [callback] parameter.",
-      "start": 147,
-      "end": 215,
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 43
-        },
-        "end": {
-          "line": 4,
-          "column": 111
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ";",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 215,
-      "end": 216,
-      "loc": {
-        "start": {
-          "line": 4,
-          "column": 111
-        },
-        "end": {
-          "line": 4,
-          "column": 112
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "export",
-        "keyword": "export",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "export",
-      "start": 218,
-      "end": 224,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 0
-        },
-        "end": {
-          "line": 6,
-          "column": 6
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "const",
-        "keyword": "const",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "const",
-      "start": 225,
-      "end": 230,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 7
-        },
-        "end": {
-          "line": 6,
-          "column": 12
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "ASSIGN_ERROR_INVALID_SUBJECT",
-      "start": 231,
-      "end": 259,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 13
-        },
-        "end": {
-          "line": 6,
-          "column": 41
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "=",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": true,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "=",
-      "start": 260,
-      "end": 261,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 42
-        },
-        "end": {
-          "line": 6,
-          "column": 43
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "string",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "Unable to assign() properties to non-object [subject] parameter.",
-      "start": 262,
-      "end": 328,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 44
-        },
-        "end": {
-          "line": 6,
-          "column": 110
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ";",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 328,
-      "end": 329,
-      "loc": {
-        "start": {
-          "line": 6,
-          "column": 110
-        },
-        "end": {
-          "line": 6,
-          "column": 111
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "export",
-        "keyword": "export",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "export",
-      "start": 331,
-      "end": 337,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 0
-        },
-        "end": {
-          "line": 8,
-          "column": 6
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "const",
-        "keyword": "const",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "const",
-      "start": 338,
-      "end": 343,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 7
-        },
-        "end": {
-          "line": 8,
-          "column": 12
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null
-      },
-      "value": "ASSIGN_ERROR_INVALID_SOURCE",
-      "start": 344,
-      "end": 371,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 13
-        },
-        "end": {
-          "line": 8,
-          "column": 40
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "=",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": true,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "=",
-      "start": 372,
-      "end": 373,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 41
-        },
-        "end": {
-          "line": 8,
-          "column": 42
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "string",
-        "beforeExpr": false,
-        "startsExpr": true,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "Unable to assign() properties from non-object [source] parameter.",
-      "start": 374,
-      "end": 441,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 43
-        },
-        "end": {
-          "line": 8,
-          "column": 110
-        }
-      }
-    },
-    {
-      "type": {
-        "label": ";",
-        "beforeExpr": true,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "start": 441,
-      "end": 442,
-      "loc": {
-        "start": {
-          "line": 8,
-          "column": 110
-        },
-        "end": {
-          "line": 8,
-          "column": 111
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "export",
-        "keyword": "export",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "export",
-      "start": 444,
-      "end": 450,
-      "loc": {
-        "start": {
-          "line": 10,
-          "column": 0
-        },
-        "end": {
-          "line": 10,
-          "column": 6
-        }
-      }
-    },
-    {
-      "type": {
-        "label": "const",
-        "keyword": "const",
-        "beforeExpr": false,
-        "startsExpr": false,
-        "rightAssociative": false,
-        "isLoop": false,
-        "isAssign": false,
-        "prefix": false,
-        "postfix": false,
-        "binop": null,
-        "updateContext": null
-      },
-      "value": "const",
-      "start": 451,
-      "end": 456,
-      "loc": {
-        "start": {
-          "line": 10,
-          "column": 7
-        },
-        "end": {
-          "line": 10,
+          "line": 1,
           "column": 12
         }
       }
@@ -1284,15 +280,15 @@
         "binop": null
       },
       "value": "TOKENIZER_START_STATE",
-      "start": 457,
-      "end": 478,
+      "start": 13,
+      "end": 34,
       "loc": {
         "start": {
-          "line": 10,
+          "line": 1,
           "column": 13
         },
         "end": {
-          "line": 10,
+          "line": 1,
           "column": 34
         }
       }
@@ -1311,15 +307,15 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 479,
-      "end": 480,
+      "start": 35,
+      "end": 36,
       "loc": {
         "start": {
-          "line": 10,
+          "line": 1,
           "column": 35
         },
         "end": {
-          "line": 10,
+          "line": 1,
           "column": 36
         }
       }
@@ -1338,15 +334,15 @@
         "updateContext": null
       },
       "value": "initial",
-      "start": 481,
-      "end": 490,
+      "start": 37,
+      "end": 46,
       "loc": {
         "start": {
-          "line": 10,
+          "line": 1,
           "column": 37
         },
         "end": {
-          "line": 10,
+          "line": 1,
           "column": 46
         }
       }
@@ -1364,15 +360,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 490,
-      "end": 491,
+      "start": 46,
+      "end": 47,
       "loc": {
         "start": {
-          "line": 10,
+          "line": 1,
           "column": 46
         },
         "end": {
-          "line": 10,
+          "line": 1,
           "column": 47
         }
       }
@@ -1392,15 +388,15 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 493,
-      "end": 499,
+      "start": 49,
+      "end": 55,
       "loc": {
         "start": {
-          "line": 12,
+          "line": 3,
           "column": 0
         },
         "end": {
-          "line": 12,
+          "line": 3,
           "column": 6
         }
       }
@@ -1420,15 +416,15 @@
         "updateContext": null
       },
       "value": "const",
-      "start": 500,
-      "end": 505,
+      "start": 56,
+      "end": 61,
       "loc": {
         "start": {
-          "line": 12,
+          "line": 3,
           "column": 7
         },
         "end": {
-          "line": 12,
+          "line": 3,
           "column": 12
         }
       }
@@ -1446,15 +442,15 @@
         "binop": null
       },
       "value": "TOKENIZER_WILDCARD",
-      "start": 506,
-      "end": 524,
+      "start": 62,
+      "end": 80,
       "loc": {
         "start": {
-          "line": 12,
+          "line": 3,
           "column": 13
         },
         "end": {
-          "line": 12,
+          "line": 3,
           "column": 31
         }
       }
@@ -1473,15 +469,15 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 525,
-      "end": 526,
+      "start": 81,
+      "end": 82,
       "loc": {
         "start": {
-          "line": 12,
+          "line": 3,
           "column": 32
         },
         "end": {
-          "line": 12,
+          "line": 3,
           "column": 33
         }
       }
@@ -1500,15 +496,15 @@
         "updateContext": null
       },
       "value": ":*",
-      "start": 527,
-      "end": 531,
+      "start": 83,
+      "end": 87,
       "loc": {
         "start": {
-          "line": 12,
+          "line": 3,
           "column": 34
         },
         "end": {
-          "line": 12,
+          "line": 3,
           "column": 38
         }
       }
@@ -1526,15 +522,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 531,
-      "end": 532,
+      "start": 87,
+      "end": 88,
       "loc": {
         "start": {
-          "line": 12,
+          "line": 3,
           "column": 38
         },
         "end": {
-          "line": 12,
+          "line": 3,
           "column": 39
         }
       }
@@ -1552,15 +548,15 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 533,
-      "end": 533,
+      "start": 89,
+      "end": 89,
       "loc": {
         "start": {
-          "line": 13,
+          "line": 4,
           "column": 0
         },
         "end": {
-          "line": 13,
+          "line": 4,
           "column": 0
         }
       }

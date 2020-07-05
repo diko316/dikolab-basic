@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">src/unicode/code-points-to-utf.js | @dikolab/basic</title>
+  <title data-ice="title">src/string/stringify-scalar.js | @dikolab/basic</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -68,41 +68,47 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimStart">trimStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">src/unicode/code-points-to-utf.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { array } from &quot;../native/array&quot;;
-import { CODE_POINTS_TO_UTF_ERROR } from &quot;./constants&quot;;
-import { Utf } from &quot;./utf.class&quot;;
+<div class="content" data-ice="content"><h1 data-ice="title">src/string/stringify-scalar.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+  TYPE_STRING,
+  TYPE_NUMBER,
+  TYPE_BIGINT,
+  EMPTY_STRING
+} from &quot;../native/constants&quot;;
 
-import { codePointToString } from &quot;./code-point-to-string&quot;;
+import { STRING } from &quot;../native/string&quot;;
+
+import { IS_FINITE } from &quot;../native/number&quot;;
 
 /**
- * Create Utf based on Array of code points parameter.
- * Error will be thrown if parameter is invalid.
+ * Convert number and bigint to string. Returns subject parameter if string.
+ * Or, returns empty string if subject parameter is doesn&apos;t match any of the
+ * above data type.
  *
- * @protected
- * @param {number[]} codes Array of code points.
- * @returns {Utf} Utf instance.
+ * @private
+ * @param {*} subject The data to type-cast
+ * @returns {string} converted to string
  */
-export function codePointsToUtf(codes) {
-  if (!array(codes)) {
-    throw new Error(CODE_POINTS_TO_UTF_ERROR);
+export function stringifyScalar(subject) {
+  const string = STRING;
+
+  switch (typeof subject) {
+  case TYPE_STRING: return subject;
+  case TYPE_BIGINT: return string(subject);
+  case TYPE_NUMBER: return IS_FINITE(subject) ? string(subject) : &quot;0&quot;;
   }
 
-  return new Utf(
-    codePointToString(...codes)
-  );
+  return EMPTY_STRING;
 }
 </code></pre>
 

@@ -1,20 +1,12 @@
-import {
-  TYPE_STRING,
-  TYPE_NUMBER,
-  TYPE_BIGINT,
-  EMPTY_STRING
-} from "../native/constants";
+import { EMPTY_STRING } from "../native/constants";
 
-import {
-  STRING,
-  STRING_FROM_CHARCODE
-} from "../native/string";
-
-import { IS_FINITE } from "../native/number";
+import { STRING_FROM_CHARCODE } from "../native/string";
 
 import { DEFAULT_CAMELIZE_FILLER } from "./constants";
 
 import { words as WORD_INDEX } from "./utf-constants.json";
+
+import { stringifyScalar } from "./stringify-scalar";
 
 /**
  * Converts camel case string to snake case.
@@ -24,19 +16,12 @@ import { words as WORD_INDEX } from "./utf-constants.json";
  * @param {string} [filler="-"] - Word boundary character to use.
  * @returns {string} snake-cased string.
  */
-export function uncamelize(subject, filler) {
-  const string = STRING;
-  const empty = EMPTY_STRING;
-  const finite = IS_FINITE;
-  const defaultFiller = DEFAULT_CAMELIZE_FILLER;
+export function uncamelize(subject, filler = DEFAULT_CAMELIZE_FILLER) {
+  const value = stringifyScalar(subject);
   const wordIndex = WORD_INDEX;
-  const typeString = TYPE_STRING;
-  const typeNumber = TYPE_NUMBER;
-  const typeBigInt = TYPE_BIGINT;
   const encode = STRING_FROM_CHARCODE;
 
-  let fillerValue = filler;
-  let value = subject;
+  let fillerValue = null;
   let chars = null;
   let charLength;
   let code;
@@ -46,47 +31,11 @@ export function uncamelize(subject, filler) {
   let isUppercased = false;
   let isWord;
 
-  switch (typeof value) {
-  case typeNumber:
-    return finite(value) ? string(value) : empty;
-
-  case typeBigInt:
-    value = string(value);
-    break;
-
-    // falls through
-  case typeString:
-    if (value) {
-      break;
-    }
-  // falls through
-  default:
-    return empty;
+  if (!value) {
+    return value;
   }
 
-  switch (typeof fillerValue) {
-  case typeNumber:
-    if (!finite(fillerValue)) {
-      fillerValue = defaultFiller;
-      break;
-    }
-
-  // falls through
-  case typeBigInt:
-    fillerValue = string(fillerValue);
-    break;
-
-    // falls through
-  case typeString:
-    if (fillerValue) {
-      break;
-    }
-
-  // falls through
-  default:
-    fillerValue = defaultFiller;
-  }
-
+  fillerValue = stringifyScalar(filler);
   chars = [];
   charLength = 0;
 
@@ -111,5 +60,5 @@ export function uncamelize(subject, filler) {
     isWordBefore = isWord;
   }
 
-  return chars.join(empty);
+  return chars.join(EMPTY_STRING);
 }

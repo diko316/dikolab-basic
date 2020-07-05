@@ -68,27 +68,18 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trimStart">trimStart</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-trim">trim</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-uncamelize">uncamelize</a></span></span></li>
-<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/unicode/utf.class.js~Utf.html">Utf</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#unicode">unicode</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-codePointToString">codePointToString</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-eachUnicode">eachUnicode</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToCodePoints">stringToCodePoints</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-stringToUnicodes">stringToUnicodes</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unicodeCount">unicodeCount</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-eachCodePointCallback">eachCodePointCallback</a></span></span></li>
-<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-stringReplaceCallback">stringReplaceCallback</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/string/pad-start.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
-  EMPTY_STRING,
-  TYPE_NUMBER,
-  TYPE_BIGINT,
-  TYPE_STRING
-} from &quot;../native/constants&quot;;
-
-import { IS_FINITE } from &quot;../native/number&quot;;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { EMPTY_STRING } from &quot;../native/constants&quot;;
 
 import { DEFAULT_PADSTRING } from &quot;./constants&quot;;
 
@@ -96,7 +87,7 @@ import { listPadStart } from &quot;../array/list-pad-start&quot;;
 
 import { stringToUnicodes } from &quot;../unicode/string-to-unicodes&quot;;
 
-import { STRING } from &quot;../native/string&quot;;
+import { stringifyScalar } from &quot;./stringify-scalar&quot;;
 
 /**
  * Creates a padded string with another string (multiple times, if needed)
@@ -110,58 +101,19 @@ import { STRING } from &quot;../native/string&quot;;
  * @returns {string} string of the specified length with the pad string applied from the start.
  */
 export function padStart(subject, length = 0, padString = DEFAULT_PADSTRING) {
-  const finite = IS_FINITE;
-  const typeNumber = TYPE_NUMBER;
-  const typeBigInt = TYPE_BIGINT;
-  const typeString = TYPE_STRING;
-  const string = STRING;
   const toUnicodes = stringToUnicodes;
-  const empty = EMPTY_STRING;
 
-  let value = subject;
-  let pad = padString;
+  let value = stringifyScalar(subject);
+  let pad = stringifyScalar(padString);
 
-  switch (typeof value) {
-  case typeNumber:
-    if (!finite(value)) {
-      return empty;
-    }
-
-  // falls through
-  case typeBigInt:
-    value = string(value);
-
-  // falls through
-  case typeString:
-    value = toUnicodes(value);
-    break;
-
-  default:
-    return empty;
+  if (!value) {
+    return value;
   }
 
-  if (pad !== DEFAULT_PADSTRING) {
-    switch (typeof pad) {
-    case typeNumber:
-      if (!finite(pad)) {
-        return value;
-      }
+  value = toUnicodes(value);
+  pad = toUnicodes(pad);
 
-    // falls through
-    case typeBigInt:
-      pad = STRING(pad);
-
-    // falls through
-    case typeString:
-      pad = toUnicodes(pad);
-      break;
-
-    default:
-      return value;
-    }
-  }
-
-  return listPadStart(value, length, pad).join(empty);
+  return listPadStart(value, length, pad).join(EMPTY_STRING);
 }
 </code></pre>
 

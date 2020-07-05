@@ -1,19 +1,16 @@
 import {
-  OBJECT_SIGNATURE,
-  ARRAY_SIGNATURE,
   TYPE_NUMBER,
-  TYPE_FUNCTION
+  TYPE_FUNCTION,
+  TYPE_OBJECT,
+  TYPE_STRING,
+  EMPTY_STRING
 } from "../native/constants";
 
-import {
-  OBJECT_KEYS,
-  OBJECT_TO_STRING
-} from "../native/object";
+import { OBJECT_KEYS } from "../native/object";
 
-import {
-  EACH_ERROR_INVALID_CALLBACK,
-  EACH_ERROR_INVALID_SUBJECT
-} from "./constants";
+import { ARRAY_SLICE } from "../native/array";
+
+import { IS_FINITE } from "../native/number";
 
 /**
  * Used for each(subject, callback) callback parameter.
@@ -27,48 +24,55 @@ import {
 /**
  * Iterates object properties or iteratable items calling [callback].
  *
- * @param {object|Array} subject object or iteratable to iterate.
+ * @param {object|string|Array} subject object or iteratable to iterate.
  * @param {eachObjectPropertyCallback} callback function to call on each iteration.
- * @returns {number|string} last iteratable index or property name iterated.
+ * @returns {number|string|false} last iteratable index or property name iterated.
+ *                                Or, false if iteration is not successfull.
  */
 export function each(subject, callback) {
+  let iteratable = subject;
   let c = 0;
-  let length = 0;
-  let key = null;
   let properties = null;
+  let key;
+  let length;
 
-  if (typeof callback !== TYPE_FUNCTION) {
-    throw new Error(EACH_ERROR_INVALID_CALLBACK);
+  if (typeof callback !== TYPE_FUNCTION || subject === null) {
+    return false;
   }
 
-  switch (OBJECT_TO_STRING.call(subject)) {
-  case OBJECT_SIGNATURE:
-    length = subject.length;
-    // iterate object
-    if (typeof length !== TYPE_NUMBER || length < 0 || !isFinite(length)) {
-      properties = OBJECT_KEYS(subject);
+  switch (typeof iteratable) {
+  case TYPE_STRING:
+    iteratable = ARRAY_SLICE.call(iteratable, 0);
 
+  // falls through
+  case TYPE_FUNCTION:
+  case TYPE_OBJECT:
+    length = iteratable.length;
+
+    // iterate indexes if iteratable
+    if (typeof length === TYPE_NUMBER && IS_FINITE(length) && length > -1) {
+      for (; length--; c++) {
+        if (callback(subject[c], c) === false) {
+          return c;
+        }
+      }
+
+      return -1;
+    }
+    // try iterate through keys
+    else {
+      properties = OBJECT_KEYS(subject);
+      length = properties.length;
       for (; length--; c++) {
         key = properties[c];
         if (callback(subject[key], key) === false) {
           return key;
         }
       }
+
+      return EMPTY_STRING;
     }
-    // at this point object is iteratable
-
-  // falls through
-  case ARRAY_SIGNATURE:
-    length = subject.length;
-    for (; length--; c++) {
-      if (callback(subject[c], c) === false) {
-        return c;
-      }
-    }
-
-    break;
-
-  default:
-    throw new Error(EACH_ERROR_INVALID_SUBJECT);
   }
+
+  return false;
 }

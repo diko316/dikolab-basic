@@ -5,11 +5,6 @@ import {
   OBJECT_TO_STRING
 } from "../native/object";
 
-import {
-  ASSIGN_ERROR_INVALID_SOURCE,
-  ASSIGN_ERROR_INVALID_SUBJECT
-} from "./constants";
-
 /**
  * Assign own properties of [source] to [subject].
  *
@@ -25,12 +20,9 @@ export function assign(subject, source) {
   let length = 0;
   let key = null;
 
-  if (toSignature.call(subject) !== objectSignature) {
-    throw new Error(ASSIGN_ERROR_INVALID_SUBJECT);
-  }
-
-  if (toSignature.call(source) !== objectSignature) {
-    throw new Error(ASSIGN_ERROR_INVALID_SOURCE);
+  if (subject === null || toSignature.call(subject) !== objectSignature ||
+    source === null || toSignature.call(source) !== objectSignature) {
+    return subject;
   }
 
   properties = OBJECT_KEYS(source);

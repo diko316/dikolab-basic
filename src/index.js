@@ -37,7 +37,6 @@ export {
 } from "./string";
 
 export {
-  // Utf,
   eachUnicode,
   stringToUnicodes,
   stringToCodePoints,

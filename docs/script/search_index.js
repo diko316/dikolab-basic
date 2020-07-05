@@ -1,11 +1,5 @@
 window.esdocSearchIndex = [
   [
-    "@dikolab/basic/src/unicode/utf.class.js~utf",
-    "class/src/unicode/utf.class.js~Utf.html",
-    "<span>Utf</span> <span class=\"search-result-import-path\">@dikolab/basic/src/unicode/utf.class.js</span>",
-    "class"
-  ],
-  [
     "@dikolab/basic/src/native/array.js~array",
     "function/index.html#static-function-array",
     "<span>array</span> <span class=\"search-result-import-path\">@dikolab/basic/src/native/array.js</span>",
@@ -936,6 +930,12 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/string/stringify-scalar.js",
+    "file/src/string/stringify-scalar.js.html",
+    "src/string/stringify-scalar.js",
+    "file"
+  ],
+  [
     "src/string/stringify.js",
     "file/src/string/stringify.js.html",
     "src/string/stringify.js",
@@ -969,12 +969,6 @@ window.esdocSearchIndex = [
     "src/unicode/code-point-to-string.js",
     "file/src/unicode/code-point-to-string.js.html",
     "src/unicode/code-point-to-string.js",
-    "file"
-  ],
-  [
-    "src/unicode/code-points-to-utf.js",
-    "file/src/unicode/code-points-to-utf.js.html",
-    "src/unicode/code-points-to-utf.js",
     "file"
   ],
   [
@@ -1018,203 +1012,5 @@ window.esdocSearchIndex = [
     "file/src/unicode/unicode-count.js.html",
     "src/unicode/unicode-count.js",
     "file"
-  ],
-  [
-    "src/unicode/unicodify.js",
-    "file/src/unicode/unicodify.js.html",
-    "src/unicode/unicodify.js",
-    "file"
-  ],
-  [
-    "src/unicode/utf.class.js",
-    "file/src/unicode/utf.class.js.html",
-    "src/unicode/utf.class.js",
-    "file"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#charat",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-charAt",
-    "src/unicode/utf.class.js~Utf#charAt",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#clone",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-clone",
-    "src/unicode/utf.class.js~Utf#clone",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#codepointat",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-codePointAt",
-    "src/unicode/utf.class.js~Utf#codePointAt",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#concat",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-concat",
-    "src/unicode/utf.class.js~Utf#concat",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#constructor",
-    "class/src/unicode/utf.class.js~Utf.html#instance-constructor-constructor",
-    "src/unicode/utf.class.js~Utf#constructor",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#includes",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-includes",
-    "src/unicode/utf.class.js~Utf#includes",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#indexof",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-indexOf",
-    "src/unicode/utf.class.js~Utf#indexOf",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#lastindexof",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-lastIndexOf",
-    "src/unicode/utf.class.js~Utf#lastIndexOf",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#localecompare",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-localeCompare",
-    "src/unicode/utf.class.js~Utf#localeCompare",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#match",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-match",
-    "src/unicode/utf.class.js~Utf#match",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#padend",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-padEnd",
-    "src/unicode/utf.class.js~Utf#padEnd",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#padstart",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-padStart",
-    "src/unicode/utf.class.js~Utf#padStart",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#repeat",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-repeat",
-    "src/unicode/utf.class.js~Utf#repeat",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#replace",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-replace",
-    "src/unicode/utf.class.js~Utf#replace",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#search",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-search",
-    "src/unicode/utf.class.js~Utf#search",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#slice",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-slice",
-    "src/unicode/utf.class.js~Utf#slice",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#split",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-split",
-    "src/unicode/utf.class.js~Utf#split",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#substring",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-substring",
-    "src/unicode/utf.class.js~Utf#substring",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#toarray",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toArray",
-    "src/unicode/utf.class.js~Utf#toArray",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#tojson",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toJSON",
-    "src/unicode/utf.class.js~Utf#toJSON",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#tolocalelowercase",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toLocaleLowerCase",
-    "src/unicode/utf.class.js~Utf#toLocaleLowerCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#tolocaleuppercase",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toLocaleUpperCase",
-    "src/unicode/utf.class.js~Utf#toLocaleUpperCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#tolowercase",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toLowerCase",
-    "src/unicode/utf.class.js~Utf#toLowerCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#topoints",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toPoints",
-    "src/unicode/utf.class.js~Utf#toPoints",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#tostring",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toString",
-    "src/unicode/utf.class.js~Utf#toString",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#touppercase",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-toUpperCase",
-    "src/unicode/utf.class.js~Utf#toUpperCase",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#trim",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-trim",
-    "src/unicode/utf.class.js~Utf#trim",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#trimend",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-trimEnd",
-    "src/unicode/utf.class.js~Utf#trimEnd",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#trimstart",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-trimStart",
-    "src/unicode/utf.class.js~Utf#trimStart",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~utf#valueof",
-    "class/src/unicode/utf.class.js~Utf.html#instance-method-valueOf",
-    "src/unicode/utf.class.js~Utf#valueOf",
-    "method"
-  ],
-  [
-    "src/unicode/utf.class.js~stringreplacecallback",
-    "typedef/index.html#static-typedef-stringReplaceCallback",
-    "src/unicode/utf.class.js~stringReplaceCallback",
-    "typedef"
   ]
 ]

@@ -1,7 +1,7 @@
 {
-  "coverage": "36.95%",
-  "expectCount": 230,
-  "actualCount": 85,
+  "coverage": "28.04%",
+  "expectCount": 189,
+  "actualCount": 53,
   "files": {
     "src/array/contants.js": {
       "expectCount": 1,
@@ -380,15 +380,11 @@
       "undocumentLines": []
     },
     "src/object/constants.js": {
-      "expectCount": 6,
+      "expectCount": 2,
       "actualCount": 0,
       "undocumentLines": [
-        2,
-        4,
-        6,
-        8,
-        10,
-        12
+        1,
+        3
       ]
     },
     "src/object/contains.js": {
@@ -441,10 +437,15 @@
       "expectCount": 2,
       "actualCount": 1,
       "undocumentLines": [
-        20
+        11
       ]
     },
     "src/string/repeat.js": {
+      "expectCount": 1,
+      "actualCount": 1,
+      "undocumentLines": []
+    },
+    "src/string/stringify-scalar.js": {
       "expectCount": 1,
       "actualCount": 1,
       "undocumentLines": []
@@ -479,19 +480,11 @@
       "actualCount": 1,
       "undocumentLines": []
     },
-    "src/unicode/code-points-to-utf.js": {
-      "expectCount": 1,
-      "actualCount": 1,
-      "undocumentLines": []
-    },
     "src/unicode/constants.js": {
-      "expectCount": 4,
+      "expectCount": 1,
       "actualCount": 0,
       "undocumentLines": [
-        1,
-        3,
-        5,
-        7
+        1
       ]
     },
     "src/unicode/each-unicode.js": {
@@ -513,19 +506,6 @@
       "expectCount": 1,
       "actualCount": 1,
       "undocumentLines": []
-    },
-    "src/unicode/unicodify.js": {
-      "expectCount": 1,
-      "actualCount": 1,
-      "undocumentLines": []
-    },
-    "src/unicode/utf.class.js": {
-      "expectCount": 33,
-      "actualCount": 31,
-      "undocumentLines": [
-        95,
-        813
-      ]
     }
   }
 }

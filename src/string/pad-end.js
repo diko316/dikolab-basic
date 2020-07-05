@@ -1,19 +1,12 @@
-import {
-  EMPTY_STRING,
-  TYPE_STRING,
-  TYPE_BIGINT,
-  TYPE_NUMBER
-} from "../native/constants";
-
-import { STRING } from "../native/string";
-
-import { IS_FINITE } from "../native/number";
+import { EMPTY_STRING } from "../native/constants";
 
 import { DEFAULT_PADSTRING } from "./constants";
 
 import { stringToUnicodes } from "../unicode/string-to-unicodes";
 
 import { listPadEnd } from "../array/list-pad-end";
+
+import { stringifyScalar } from "./stringify-scalar";
 
 /**
  * Creates a padded string with another string (multiple times, if needed)
@@ -27,55 +20,17 @@ import { listPadEnd } from "../array/list-pad-end";
  * @returns {string} string of the specified length with the pad string applied from the end.
  */
 export function padEnd(subject, length = 0, padString = DEFAULT_PADSTRING) {
-  const finite = IS_FINITE;
-  const typeNumber = TYPE_NUMBER;
-  const typeBigInt = TYPE_BIGINT;
-  const typeString = TYPE_STRING;
-  const string = STRING;
   const toUnicodes = stringToUnicodes;
-  const empty = EMPTY_STRING;
 
-  let value = subject;
-  let pad = padString;
+  let value = stringifyScalar(subject);
+  let pad = stringifyScalar(padString);
 
-  switch (typeof value) {
-  case typeNumber:
-    if (!finite(value)) {
-      return empty;
-    }
-
-  // falls through
-  case typeBigInt:
-    value = string(value);
-
-  // falls through
-  case typeString:
-    value = toUnicodes(value);
-    break;
-
-  default:
-    return empty;
+  if (!value) {
+    return value;
   }
 
-  if (pad !== DEFAULT_PADSTRING) {
-    switch (typeof pad) {
-    case typeNumber:
-      if (!finite(pad)) {
-        return value;
-      }
-    // falls through
-    case typeBigInt:
-      pad = STRING(pad);
+  value = toUnicodes(value);
+  pad = toUnicodes(pad);
 
-    // falls through
-    case typeString:
-      pad = toUnicodes(pad);
-      break;
-
-    default:
-      return value;
-    }
-  }
-
-  return listPadEnd(value, length, pad).join(empty);
+  return listPadEnd(value, length, pad).join(EMPTY_STRING);
 }
